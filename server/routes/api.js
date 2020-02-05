@@ -210,12 +210,15 @@ router.post('/login',  async (req, res) => {
        });
     }
     else{
+      console.log("my data" , result);
       // email did exist
       // so lets match password
       if(body.Password === result.Password){
         // great, allow this user access
         console.log('match');
-        res.send({message: 'Successfully Logged in'});
+      //  localStorage.removeItem;
+        //localStorage.setItem('ID', result.Email);
+        res.send({message: "Successfully logged in"});
       }
       else{
         console.log('password doesnot match');

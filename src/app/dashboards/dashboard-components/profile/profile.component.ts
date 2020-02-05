@@ -10,6 +10,7 @@ export class ProfileComponent {
   
   seller = [];
   buyer = [];
+  name: any;
 
   constructor(private userservice: UserService) {}
   
@@ -17,7 +18,9 @@ export class ProfileComponent {
     this.userservice.getallsellers().subscribe(
       resSellerData => {
         console.log("resSellerData", resSellerData);
+        //console.log("Sellersname", resSellerData.Name);
         this.seller = resSellerData;
+        console.log ("Sellers name", this.name);
       },
       err => {
         console.log("api error in all Seller", err);
@@ -26,8 +29,8 @@ export class ProfileComponent {
 
     this.userservice.getallbuyers().subscribe(
       resBuyerData => {
-        console.log("resSellerData", resBuyerData);
-        this.seller = resBuyerData;
+        console.log("resBuyerData", resBuyerData);
+        this.buyer = resBuyerData;
       },
       err => {
         console.log("api error in all Buyer", err);

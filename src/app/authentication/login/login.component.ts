@@ -28,10 +28,11 @@ export class LoginComponent {
     this.service.userLogin(loginData).subscribe(
       data => {
         console.log('got response from server', data);
-        //localStorage.setItem('token', 'mytoken');
-        // localStorage.setItem('name', loginData.email);
+        localStorage.setItem('token', 'mytoken');
+        localStorage.setItem('email', loginData.Email);
         //this.loading = false;
-         this.router.navigate(['/dashboard1']);
+
+         this.router.navigate(['dashboards/dashboard2']);
       },
       error => {
         this.clicked = false;

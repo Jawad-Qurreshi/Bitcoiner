@@ -55,6 +55,6 @@ export const Approutes: Routes = [
   },
   {
     path: "**",
-    redirectTo: "/dashboard/dashboard1"
+    redirectTo: "./starter/starter.module#StarterModule"
   }
 ];
