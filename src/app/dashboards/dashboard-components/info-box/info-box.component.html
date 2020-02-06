@@ -25,8 +25,8 @@
             <div class="card-body">
                 <div class="d-flex align-items-center">
                     <div class="m-r-10">
-                        <span>Referral Earnings</span>
-                        <h4>$769.08</h4>
+                        <span>Bitcoin Current Rate</span>
+                        <h4>{{tickerbit}}</h4>
                     </div>
                     <div class="ml-auto">
                         <div class="ml-auto" style="height: 56px; width: 100px">
@@ -46,11 +46,14 @@
             <div class="card-body">
                 <div class="d-flex align-items-center">
                     <div class="m-r-10">
-                        <span>Estimated Sales</span>
-                        <h4>5769</h4>
+                        <span>Ethereum current rate</span>
+                        <h4><table>{{tickereth}}</table></h4>
                     </div>
-                    <div class="ml-auto">
-                        <div id="foo" style="width: 100px; height: 55px"></div>
+                    <div class="ml-auto" style="height: 56px; width: 100px">
+                        <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels"
+                            [options]="barChartOptions" [colors]="barChartColors" [legend]="barChartLegend"
+                            [chartType]="barChartType">
+                        </canvas>
                     </div>
                 </div>
             </div>

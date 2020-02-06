@@ -5,10 +5,11 @@
             <div class="card-body">
                 <div class="m-t-30 text-center">
                     <img src="assets/images/users/5.jpg" class="rounded-circle" width="150" />
-                    <h4 class="card-title m-t-10" ></h4>
-                    <h6 class="card-subtitle">{{singleclient.Username}}</h6>
+                    <h4 class="card-title m-t-10" >{{singleclient.Username}}</h4>
+                   
                     <div class="row text-center justify-content-md-center">
-                        <div class="col-4">
+                        <button (click)="logout()" clas ="row" type="button" class="btn btn-success">Logout</button>
+                        <!-- <div class="col-4">
                             <a href="javascript:void(0)" class="link">
                                 <i class="icon-people m-r-10"></i>
                             </a>
@@ -17,7 +18,7 @@
                             <a href="javascript:void(0)" class="link">
                                 <i class="icon-picture m-r-10"></i>
                             </a>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
@@ -32,7 +33,7 @@
                 <h6>{{singleclient.Address}}</h6>
                 <small class="text-muted p-t-30 db">Social Profile</small>
                 <br/>
-                <button class="btn btn-circle btn-secondary">
+                <!-- <button class="btn btn-circle btn-secondary">
                     <i class="fab fa-facebook"></i>
                 </button>
                 <button class="btn btn-circle btn-secondary">
@@ -40,7 +41,7 @@
                 </button>
                 <button class="btn btn-circle btn-secondary">
                     <i class="fab fa-youtube"></i>
-                </button>
+                </button> -->
             </div>
         </div>
     </div>
@@ -52,21 +53,21 @@
                 <ngb-tab title="Buy">
                      <ng-template ngbTabContent>
                         <div class="card-body">''
-                            <app-buyer-table [buyer]="buyer"></app-buyer-table>
+                            <app-buyer-table [buyers]="buyers"></app-buyer-table>
                         </div>
                     </ng-template> 
                 </ngb-tab>
                 <ngb-tab title="Sell">
                     <ng-template ngbTabContent>
                         <div class="card-body">
-                            <app-seller-table [seller]="seller"></app-seller-table> 
+                            <app-seller-table [sellers]="sellers"></app-seller-table> 
                         </div>
                     </ng-template> 
                 </ngb-tab>
                 <ngb-tab title="My wallet">
                     <ng-template ngbTabContent>
                        <div class="card-body">
-                           
+                           <app-earnings [singleclient]="singleclient"></app-earnings>
                        </div>
                    </ng-template> 
                </ngb-tab>

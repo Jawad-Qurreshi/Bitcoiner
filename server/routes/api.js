@@ -9,11 +9,7 @@ const Request = require ('../models/requests');
 const ClientSeller = require ('../models/clientSeller');
 const ClientBuyer = require ('../models/clientBuyer');
 
-const binance = require('node-binance-api')().options({
-    APIKEY: 'https://api.binance.com/api/v3/ticker/price',
-    //APISECRET: '<secret>',
-    useServerTime: true // If you get timestamp errors, synchronize to server time at startup
-  });
+
 const db ="mongodb://localhost:27017/bitcoinerDB";
 mongoose.Promise = global.Promise;
 
@@ -34,18 +30,45 @@ router.get('/allclients', async (req, res) => {
 
   });
 
-router.get('/bitapi', function (req, res) {
-    console.log('get request of all BTC and ETH API');
+///////////////////////////////////BIT API/////////////////////////////////////
+const binance = require('node-binance-api')().options({
+  APIKEY: 'https://api.binance.com/api/v3/ticker/price',
+  //APISECRET: '<secret>',
+  useServerTime: true // If you get timestamp errors, synchronize to server time at startup
+});
+
+// router.get('/bitapi', function (req, res) {
+//   console.log('get request of all BTC and ETH API');
+//     binance.prices('BTCUSDT', (error, ticker) => {
+//       if(error){
+//         console.log('Error while retrieving eth api');
+//       }else{
+//         console.log("Price of BTC: $", ticker.BTCUSDT);
+//         console.log("Price of BTC: $", ticker.ETHUSDT);
+//         res.json(ticker);
+//       }
+//   });
+// });
+  router.get('/bitapi', function (req, res) {
+    //console.log('get request of current bit');
     binance.prices('BTCUSDT', (error, ticker) => {
-        console.log("Price of BTC: $", ticker.BTCUSDT);
-        res.send({
-            message: "Price of BTC: $" + ticker.BTCUSDT
-          });
+      //console.log("Price of BTC: $", ticker.BTCUSDT);
+      res.send({
+       ticker
       });
-      binance.prices('ETHUSDT', (error, ticker) => {
-        console.log("Price of ETH: $", ticker.ETHUSDT);
+    });
+  });
+
+  router.get('/ethapi', function (req, res) {
+    //console.log('get request of current eth');
+    binance.prices('ETHUSDT', (error, ticker) => {
+      //console.log("Price of ETH: $", ticker.ETHUSDT);
+        res.json({
+           ticker
+         });
       });
   });
+  
 ////////////////////////////Buyers////////////////////////////////
 router.get('/ShowAllBuyers', function (req, res) {
   //const allClients = await Client.find();

@@ -1,63 +1,82 @@
-import { Component, OnChanges, ViewChild } from "@angular/core";
+// import { Component, OnChanges, ViewChild } from "@angular/core";
 
-import { Input } from "@angular/core";
+// import { Input } from "@angular/core";
 
-declare var require: any;
-const data: any = require("./company.json");
+// declare var require: any;
+// const data: any = require("./company.json");
+
+// @Component({
+//   selector: "app-seller-table",
+//   templateUrl: "./seller-table.component.html",
+//   styleUrls: ["./seller-table.css"]
+// })
+// export class SellertableComponent implements OnChanges {
+//   editing = {};
+//   rows = [];
+//  // temp = [...data];
+
+//   loadingIndicator = true;
+//   reorderable = true;
+
+//   columns = [
+//     { prop: "Name" },
+//     { prop: "Type_of_currency",name:"Type of currency" },
+//     { prop: "Price" },
+//     { prop: "Change" }   
+//   ];
+  
+//   
+
+//   @ViewChild(SellertableComponent, { static: false }) table: SellertableComponent;
+//   constructor() {
+//     this.rows = data;
+//   //  this.temp = [...data];
+//     setTimeout(() => {
+//       this.loadingIndicator = false;
+//     }, 1500);
+//     console.log(" this.buyers", this.seller);
+//   }
+
+//   ngOnChanges() {
+//     console.log("onchanges called", this.seller);
+//     this.setTableData();
+//   }
+
+//   setTableData() {
+//     this.rows = this.seller;
+//   }
+  
+//   updateFilter(event) {
+//     const val = event.target.value.toLowerCase();
+
+//     // filter our data
+//     const temp = this.seller.filter(function(d) {
+//       return d.Name.toLowerCase().indexOf(val) !== -1 || !val;
+//     });
+
+//     // update the rows
+//     this.rows = temp;
+//     // Whenever the filter changes, always go back to the first page
+//     this.table = data;
+//     //this.setTableData();
+//   }
+// }
+
+
+import { Component, Input } from '@angular/core';
+import { UserService } from 'sdk/user.service';
 
 @Component({
   selector: "app-seller-table",
-  templateUrl: "./seller-table.component.html",
-  styleUrls: ["./seller-table.css"]
+  templateUrl: "./seller-table.component.html"
 })
-export class SellertableComponent implements OnChanges {
-  editing = {};
-  rows = [];
- // temp = [...data];
 
-  loadingIndicator = true;
-  reorderable = true;
-
-  columns = [
-    { prop: "Name" },
-    { prop: "Type_of_currency",name:"Type of currency" },
-    { prop: "Price" },
-    { prop: "Change" }   
-  ];
+export class SellertableComponent {
   
-  @Input() seller = [];
 
-  @ViewChild(SellertableComponent, { static: false }) table: SellertableComponent;
-  constructor() {
-    this.rows = data;
-  //  this.temp = [...data];
-    setTimeout(() => {
-      this.loadingIndicator = false;
-    }, 1500);
-    console.log(" this.buyers", this.seller);
-  }
+  constructor(private userservice: UserService) {}
 
-  ngOnChanges() {
-    console.log("onchanges called", this.seller);
-    this.setTableData();
-  }
+  @Input() sellers = [];
 
-  setTableData() {
-    this.rows = this.seller;
-  }
-  
-  updateFilter(event) {
-    const val = event.target.value.toLowerCase();
 
-    // filter our data
-    const temp = this.seller.filter(function(d) {
-      return d.Name.toLowerCase().indexOf(val) !== -1 || !val;
-    });
-
-    // update the rows
-    this.rows = temp;
-    // Whenever the filter changes, always go back to the first page
-    this.table = data;
-    //this.setTableData();
-  }
 }

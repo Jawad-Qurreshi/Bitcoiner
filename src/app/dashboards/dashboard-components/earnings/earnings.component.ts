@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 
@@ -8,6 +8,8 @@ import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 })
 export class EarningsComponent {
 
+  @Input() singleclient = [];
+  
   public config: PerfectScrollbarConfigInterface = {};
 
   constructor() { }

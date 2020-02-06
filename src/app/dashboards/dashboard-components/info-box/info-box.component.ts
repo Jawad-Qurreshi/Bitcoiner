@@ -1,69 +1,41 @@
-import { Component, AfterViewInit } from '@angular/core';
+import { Component, AfterViewInit, OnInit, OnChanges, Input } from '@angular/core';
 import * as c3 from 'c3';
+import { UserService } from "sdk/user.service";
 
 @Component({
   selector: 'app-info-box',
   templateUrl: './info-box.component.html',
   styleUrls: ['./info-box.component.css']
 })
-export class InfoBoxComponent implements AfterViewInit {
-  constructor() { }
+export class InfoBoxComponent implements OnInit,OnChanges,AfterViewInit {
+  constructor(private userservice: UserService) { }
 
-  public lineChartData: Array<any> = [
-    { data: [12, 19, 3, 5, 2, 3], label: 'Balance $' }
-  ];
-  public lineChartLabels: Array<any> = [
-    '2012',
-    '2013',
-    '2014',
-    '2015',
-    '2016',
-    '2017'
-  ];
-  public lineChartOptions: any = {
-    responsive: true,
-    elements: {
-      point: {
-        radius: 2
-      }
-    },
-    scales: {
-      xAxes: [
-        {
-          gridLines: {
-            display: false,
-            drawBorder: false
-          },
-          ticks: {
-            display: false
-          }
-        }
-      ],
-      yAxes: [
-        {
-          gridLines: {
-            display: false,
-            drawBorder: false
-          },
-          ticks: {
-            display: false
-          }
-        }
-      ]
-    }
-  };
-  public lineChartColors: Array<any> = [
-    {
-      backgroundColor: 'transparent',
-      borderColor: '#bbb790',
-      pointBackgroundColor: '#bbb790',
-      pointBorderColor: '#bbb790',
-      pointHoverBackgroundColor: '#bbb790',
-      pointHoverBorderColor: '#bbb790'
-    }
-  ];
-  public lineChartLegend = false;
-  public lineChartType = 'line';
+  tickerbit : [];
+  @Input() singleclient : [];
+  tickereth : [];
+  TotalWallet : number;
+  bitcurrent : number;
+  ethcurrent : number;
+  dollar : number;
+  walletBTC : number;
+  walletETH : number;
+  bit : Number;
+  eth : Number;
+  local : string;
+
+  
+  WalletCalc(ethcurrent:number , butcurrent:number){
+    this.local = localStorage.getItem('ID')
+    this.walletBTC = this.singleclient.find( ({ BTC }) => BTC);
+    console.log("ywh wala", this.walletBTC);
+    
+  }
+ 
+  
+  // function myFunction() {
+  //   document.getElementById("demo").innerHTML = ages.filter(checkAdult);
+  // }
+
 
   // bar chart
   public barChartData: Array<any> = [
@@ -108,6 +80,42 @@ export class InfoBoxComponent implements AfterViewInit {
   public barChartLegend = false;
   public barChartType = 'bar';
 
+  ngOnChanges(){
+
+    console.log("this.userdata", this.singleclient)
+  } 
+ 
+  ngOnInit() {
+     
+    this.userservice.gettheBIT().subscribe(
+      resBitData => {
+      console.log("resBitData", resBitData);
+      this.tickerbit = resBitData.ticker.BTCUSDT;
+      this.bitcurrent = resBitData.ticker.BTCUSDT;
+      //console.log("Price of BTC: $", this.bitcurrent);
+      //this.bit=this.tickerbit;
+      },
+      err => {
+        console.log("api error in single client", err);
+      }
+    );
+
+    this.userservice.gettheETH().subscribe(
+      resEthData => {
+      console.log("resEthData", resEthData);
+      this.tickereth = resEthData.ticker.ETHUSDT;
+      this.ethcurrent = resEthData.ticker.ETHUSDT;
+      console.log("Price of ETH: $", this.tickereth);
+      },
+      err => {
+        console.log("api error in single client", err);
+      }
+    );
+    
+    this.WalletCalc(this.ethcurrent, this.bitcurrent);
+   
+  }
+
   ngAfterViewInit() {
 
     const chart = c3.generate({
@@ -138,5 +146,9 @@ export class InfoBoxComponent implements AfterViewInit {
         pattern: ['#24d2b5']
       }
     });
+
+
   }
+
+ 
 }

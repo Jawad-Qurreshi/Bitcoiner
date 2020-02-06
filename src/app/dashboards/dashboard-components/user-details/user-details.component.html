@@ -9,36 +9,35 @@
                     <table class="table bg-white table-bordered nowrap display">
                         <thead>
                             <tr>
-                                <th> </th>
-                                <th>Name</th>
-                                <th>Type of currency</th>
+                               
+                                <th>Username</th>
+                                <th>Email</th>
                                 <th>Phone</th>
-                                <th>Role</th>
-                                <th>Age</th>
-                                <th>Joining date</th>
-                                <th>Action</th>
+                                <th>Address</th>
+                                <th>Status</th>
+                                <th>Type of request</th>
+                                <th>BTC</th>
+                                <th>ETH</th>
                             </tr>
                         </thead>
                         <tbody>
                         
-                            <tr>
-                                <td>
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="customControlValidation10" required>
-                                        <label class="custom-control-label" for="customControlValidation10"></label>
-                                    </div>
-                                </td>
-                                <td>
+                            <tr *ngFor="let request of requests">
+                                
+                                <!-- <td>
                                     <a href="javscript:void(0)">
                                         <img src="assets/images/users/1.jpg" alt="user" class="rounded-circle" width="30" /> Govinda jalan</a>
-                                </td>
-                                <td>govinda@gmail.com</td>
-                                <td>+345 456 789</td>
+                                </td> -->
+                                <td>{{ request.Username }}</td>
+                                <td>{{ request.Email }}</td>
+                                <td>{{ request.Phone }}</td>
+                                <td>{{ request.Address }}</td>
                                 <td>
-                                    <span class="label label-success">Accountant</span>
+                                    <span class="label label-success">{{ request.Status }}</span>
                                 </td>
-                                <td>18</td>
-                                <td>12-5-2017</td>
+                                <td>{{ request.TypeOfRequest }}</td>
+                                <td>{{ request.BTC }}</td>
+                                <td>{{ request.ETH }}</td>
 
                                 <td>
                                     <button type="button" class="btn btn-sm btn-icon btn-pure btn-outline delete-row-btn" data-toggle="tooltip" data-original-title="Delete">
@@ -46,31 +45,7 @@
                                     </button>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="customControlValidation11" required>
-                                        <label class="custom-control-label" for="customControlValidation11"></label>
-                                    </div>
-                                </td>
-                                <td>
-                                    <a href="javscript:void(0)">
-                                        <img src="assets/images/users/2.jpg" alt="user" class="rounded-circle" width="30" /> Sonu Nigam</a>
-                                </td>
-                                <td>sonu@gmail.com</td>
-                                <td>+456 456 789</td>
-                                <td>
-                                    <span class="label label-inverse">HR</span>
-                                </td>
-                                <td>36</td>
-                                <td>18-5-2009</td>
-
-                                <td>
-                                    <button type="button" class="btn btn-sm btn-icon btn-pure btn-outline delete-row-btn" data-toggle="tooltip" data-original-title="Delete">
-                                        <i class="ti-close" aria-hidden="true"></i>
-                                    </button>
-                                </td>
-                            </tr>
+                            
                         </tbody>
                     </table>
                 </div>

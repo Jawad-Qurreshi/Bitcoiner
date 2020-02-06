@@ -37,6 +37,18 @@ export class UserService {
     return this.http.get(url);
   }
 
+  public gettheBIT(): Observable<any> {
+    const url = ProjectConfig.getPath() + "/bitapi";
+    //return this.http.get(url, credentials);
+    return this.http.get(url);
+  }
+
+  public gettheETH(): Observable<any> {
+    const url = ProjectConfig.getPath() + "/ethapi";
+    //return this.http.get(url, credentials);
+    return this.http.get(url);
+  }
+  
   public gettheclient(id: String): Observable<any>{
     const url = ProjectConfig.getPath() + "/client/" + id;
     console.log('get the clients waly credentials:',id);
