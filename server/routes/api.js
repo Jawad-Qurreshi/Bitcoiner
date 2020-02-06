@@ -48,7 +48,6 @@ router.get('/bitapi', function (req, res) {
   });
 ////////////////////////////Buyers////////////////////////////////
 router.get('/ShowAllBuyers', function (req, res) {
-  console.log('get request of all Buyer');
   //const allClients = await Client.find();
   ClientBuyer.find({})
   .exec(function(err ,  ClientBuyer){
@@ -74,7 +73,6 @@ router.delete('/DeleteBuyer/:id',function(req,res){
 ////////////////////////////Sellers//////////////////////////////////
 
 router.get('/ShowAllSellers', function (req, res) {
-  console.log('get request of all Seller');
   //const allClients = await Client.find();
   ClientSeller.find({})
   .exec(function(err , ClientSeller){
@@ -123,7 +121,7 @@ router.delete('/DeleteSeller/:id',function(req,res){
 /////////////////////////All requests////////////////////////////////////////
 
 router.get('/ShowAllRequest', function (req, res) {
-  console.log('get request of all clients');
+  console.log('get request of all clients', req.body);
   //const allClients = await Client.find();
   Request.find({})
   .exec(function(err , requests){
@@ -146,7 +144,7 @@ router.delete('/DeleteRequest/:id',function(req,res){
   })
 })
 
-router.put('/client/:id',function(req,res){
+router.put('/request/:id',function(req,res){
   console.log('update a client');
   Request.findByIdAndUpdate(req.params.id,{
       $set: {username: req.body.username,
@@ -169,6 +167,9 @@ router.put('/client/:id',function(req,res){
   });
 })
   
+
+///////////////////////////login   Signup////////////////////////////////////
+
 router.post('/signup', function (req, res) {
   const body = req.body;
   console.log('req.body', body);
@@ -200,6 +201,7 @@ router.post('/signup', function (req, res) {
 
 router.post('/login',  async (req, res) => {
     const body = req.body;
+    var id;
     console.log('req.body', body);
     const Email = body.Email;
     const result = await Client.findOne({"Email":  Email});
@@ -210,15 +212,13 @@ router.post('/login',  async (req, res) => {
        });
     }
     else{
-      console.log("my data" , result);
-      // email did exist
-      // so lets match password
-      if(body.Password === result.Password){
+        // email did exist
+        id = result._id;
+        // so lets match password
+        if(body.Password === result.Password){
         // great, allow this user access
         console.log('match');
-      //  localStorage.removeItem;
-        //localStorage.setItem('ID', result.Email);
-        res.send({message: "Successfully logged in"});
+        res.json(id);
       }
       else{
         console.log('password doesnot match');
@@ -226,6 +226,8 @@ router.post('/login',  async (req, res) => {
       }
     }
   });
+
+
 ////////////////////////////////Clients///////////////////////////////////////////
 router.put('/client/:id',function(req,res){
   console.log('update a client');
@@ -269,17 +271,6 @@ router.get('/clients', function (req, res) {
       if(err){
           console.log('Error while retrieving clients');
       }else{
-        // const temp = [
-
-        //   {  "Username": 'Jawad Sahab',
-        //     "Email": "String",
-        //     "password": "String",
-        //     "Phone": "0333-42112414",
-        //     "DOB":Date.now(),
-        //     "Address": "my address"}
-        // ]
-        //   // res.send(temp);
-        //   res.json(temp);
         res.json(clients);
       }
   });
@@ -287,21 +278,34 @@ router.get('/clients', function (req, res) {
   // res.send(allClients);
 });
 
-router.get('/clients/:id', function (req, res) {
-  console.log('get request of single clients');
-  //const allClients = await Client.find();
-  Client.findById(req.params.id)
+router.get('/client/:id', function (req, res) { 
+  const userid = req.params.id;
+  Client.findById(userid)
   .exec(function(err , client){
       if(err){
-          console.log('Error while retrieving video');
+        console.log('Error while retrieving video');
       }else{
-          res.json(client);
+        res.json(client);
+      }
+  });
+});
+
+
+
+router.get('/singleclient/:id', function (req, res) {
+  console.log('get request of single clients');
+  Client.find({})
+  .exec(function(err , clients){
+      if(err){
+        console.log('Error while retrieving clients');
+      }else{
+        res.json(clients);
       }
   });
   // console.log('allClients', allClients);
-
   // res.send(allClients);
 });
+
 
 ///////////////////////////////////////////////////////////////////////////
 

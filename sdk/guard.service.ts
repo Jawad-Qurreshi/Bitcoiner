@@ -13,7 +13,8 @@ export class GuardService implements CanActivate {
     if (token) {
       return true;
     } else {
-      this.router.navigateByUrl('/login');
+      //this.router.navigateByUrl('../src/app/authentication/login');
+      this.router.navigate(['authentication/login']);
       this.presentAlertConfirm();
     }
   }

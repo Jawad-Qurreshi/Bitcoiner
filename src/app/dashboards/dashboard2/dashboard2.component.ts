@@ -1,26 +1,30 @@
 import { Component, AfterViewInit } from '@angular/core';
+import { UserService } from "sdk/user.service";
 
-//import { UserService } from "sdk/user.service";
 @Component({
   templateUrl: './dashboard2.component.html',
-  styleUrls: ['./dashboard2.component.css']
-  //providers: [UserService]
+  styleUrls: ['./dashboard2.component.css'],
+  providers: [UserService]
 })
 export class Dashboard2Component implements AfterViewInit {
- // seller = [];
+  
+  singleclient = [];
 
-  constructor() {}
+  constructor(private userservice: UserService) {}
 
-  // ngOnInit() {
-  //   this.userservice.getallclients().subscribe(
-  //     resSellerData => {
-  //       console.log("resSellerData", resSellerData);
-  //       this.seller = resSellerData;
-  //     },
-  //     err => {
-  //       console.log("api error in all Seller", err);
-  //     }
-  //   );
-  // }
+  ngOnInit() {
+    var id =localStorage.getItem('ID');
+    //console.log("id from localstorage", id);
+    this.userservice.gettheclient(id).subscribe(
+      resClientData => {
+       // console.log("resClientData", resClientData);
+        this.singleclient = resClientData;
+        //console.log('this is client after using id' , this.singleclient);
+      },
+      err => {
+        console.log("api error in single client", err);
+      }
+    );
+  }
   ngAfterViewInit() {}
 }

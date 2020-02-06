@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { GuardService } from "../../../sdk/guard.service"
 
 import { Dashboard1Component } from './dashboard1/dashboard1.component';
 import { Dashboard2Component } from './dashboard2/dashboard2.component';
@@ -28,7 +29,8 @@ export const DashboardRoutes: Routes = [
             { title: 'Dashboard', url: '/dashboard' },
             { title: 'Dashboard 2' }
           ]
-        }
+        },
+        //canActivate: [GuardService]
       },
       {
         path: 'dashboard3',

@@ -21,18 +21,20 @@ export class LoginComponent {
 
 
   login() {
+    var idd;
     this.clicked = true;
     try {
     const loginData = this.loginForm.value;
     console.log('loginData', loginData);
     this.service.userLogin(loginData).subscribe(
       data => {
+        // idd = data;
         console.log('got response from server', data);
         localStorage.setItem('token', 'mytoken');
-        localStorage.setItem('email', loginData.Email);
+        localStorage.setItem('ID', data);
         //this.loading = false;
 
-         this.router.navigate(['dashboards/dashboard2']);
+         this.router.navigate(['dashboard/dashboard2']);
       },
       error => {
         this.clicked = false;

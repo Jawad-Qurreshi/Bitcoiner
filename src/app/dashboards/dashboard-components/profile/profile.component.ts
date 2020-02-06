@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input, Output } from '@angular/core';
 import { UserService } from "sdk/user.service";
 
 @Component({
@@ -11,16 +11,33 @@ export class ProfileComponent {
   seller = [];
   buyer = [];
   name: any;
+  singleclient = [];
 
-  constructor(private userservice: UserService) {}
+  //@Input() singleclient = [];
+
+  constructor(private userservice: UserService) {
+    
+  }
   
   ngOnInit() {
+    
+    var id =localStorage.getItem('ID');
+    //console.log("id from localstorage", id);
+    this.userservice.gettheclient(id).subscribe(
+      resClientData => {
+      console.log("resClientData", resClientData);
+      this.singleclient = resClientData;
+      console.log('this is client after using id' , this.singleclient);
+      },
+      err => {
+        console.log("api error in single client", err);
+      }
+    );
+    //console.log("client in profile", this.singleclient);
+
     this.userservice.getallsellers().subscribe(
       resSellerData => {
-        console.log("resSellerData", resSellerData);
-        //console.log("Sellersname", resSellerData.Name);
         this.seller = resSellerData;
-        console.log ("Sellers name", this.name);
       },
       err => {
         console.log("api error in all Seller", err);
@@ -29,7 +46,6 @@ export class ProfileComponent {
 
     this.userservice.getallbuyers().subscribe(
       resBuyerData => {
-        console.log("resBuyerData", resBuyerData);
         this.buyer = resBuyerData;
       },
       err => {
