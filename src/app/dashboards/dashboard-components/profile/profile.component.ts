@@ -28,7 +28,7 @@ export class ProfileComponent implements OnInit,OnChanges{
 
   ngOnChanges(){
 
-    console.log("this.userdata", this.singleclient);
+    //console.log("this.userdata", this.singleclient);
   } 
 
 

@@ -16,7 +16,7 @@ export class Dashboard1Component implements OnInit {
   ngOnInit() {
     this.userservice.getallclients().subscribe(
       resClientData => {
-        console.log("resClientData", resClientData);
+        //console.log("resClientData", resClientData);
         this.clients = resClientData;
       },
       err => {
@@ -26,7 +26,7 @@ export class Dashboard1Component implements OnInit {
     
     this.userservice.getallrequests().subscribe(
       resallrequest => {
-        console.log("resallrequest", resallrequest);
+        //console.log("resallrequest", resallrequest);
         this.requests = resallrequest;
       },
       err => {

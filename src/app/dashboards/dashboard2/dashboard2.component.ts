@@ -28,7 +28,7 @@ export class Dashboard2Component implements AfterViewInit {
 
     this.userservice.getallrequests().subscribe(
       resallrequest => {
-        console.log("resallrequest", resallrequest);
+       // console.log("resallrequest", resallrequest);
         this.requests = resallrequest;
       },
       err => {

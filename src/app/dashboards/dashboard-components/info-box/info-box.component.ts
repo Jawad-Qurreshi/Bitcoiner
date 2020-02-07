@@ -10,33 +10,48 @@ import { UserService } from "sdk/user.service";
 export class InfoBoxComponent implements OnInit,OnChanges,AfterViewInit {
   constructor(private userservice: UserService) { }
 
-  tickerbit : [];
-  @Input() singleclient : [];
+  @Input() singleclient : any;
   tickereth : [];
+  tickerbit : [];
+
   TotalWallet : number;
-  bitcurrent : number;
-  ethcurrent : number;
-  dollar : number;
   walletBTC : number;
   walletETH : number;
+  walletDollers : number;
+  bitcurrent : number;
+  ethcurrent : number;
+  
+ 
   bit : Number;
   eth : Number;
-  local : string;
+  //local : string;
 
   
-  WalletCalc(ethcurrent:number , butcurrent:number){
-    this.local = localStorage.getItem('ID')
-    this.walletBTC = this.singleclient.find( ({ BTC }) => BTC);
-    console.log("ywh wala", this.walletBTC);
+  WalletCalc(ethcurrent:number , bitcurrent:number){
+    
+    
+    //this.local = localStorage.getItem('ID')
+    console.log("api error in single client", this.singleclient);
+    this.walletBTC = this.singleclient.BTC;
+    console.log("btc wala", this.TotalWallet);
+    this.walletETH = this.singleclient.ETH;
+    console.log("eth wala", this.TotalWallet);
+    this.walletDollers = this.singleclient.Dollars;
+    console.log("dollar wala", this.TotalWallet);
+
+    this.walletBTC = this.walletBTC * bitcurrent;
+    this.walletETH = this.walletETH * ethcurrent;
+
+    this.TotalWallet=this.walletBTC+this.walletETH+ this.walletDollers;
+    //this.walletBTC = this.walletBTC * this.bitcurrent;
+
+
+
+    console.log("ywh wala", this.TotalWallet);
     
   }
  
   
-  // function myFunction() {
-  //   document.getElementById("demo").innerHTML = ages.filter(checkAdult);
-  // }
-
-
   // bar chart
   public barChartData: Array<any> = [
     { data: [1.1, 1.4, 1.1, 0.9, 1.5, 1, 0.3], label: 'Cost' }
@@ -89,11 +104,9 @@ export class InfoBoxComponent implements OnInit,OnChanges,AfterViewInit {
      
     this.userservice.gettheBIT().subscribe(
       resBitData => {
-      console.log("resBitData", resBitData);
+      //console.log("resBitData", resBitData);
       this.tickerbit = resBitData.ticker.BTCUSDT;
       this.bitcurrent = resBitData.ticker.BTCUSDT;
-      //console.log("Price of BTC: $", this.bitcurrent);
-      //this.bit=this.tickerbit;
       },
       err => {
         console.log("api error in single client", err);
@@ -102,10 +115,10 @@ export class InfoBoxComponent implements OnInit,OnChanges,AfterViewInit {
 
     this.userservice.gettheETH().subscribe(
       resEthData => {
-      console.log("resEthData", resEthData);
+      //console.log("resEthData", resEthData);
       this.tickereth = resEthData.ticker.ETHUSDT;
       this.ethcurrent = resEthData.ticker.ETHUSDT;
-      console.log("Price of ETH: $", this.tickereth);
+      //console.log("Price of ETH: $", this.tickereth);
       },
       err => {
         console.log("api error in single client", err);

@@ -189,7 +189,6 @@ router.put('/request/:id',function(req,res){
       }
   });
 })
-  
 
 ///////////////////////////login   Signup////////////////////////////////////
 
@@ -248,8 +247,7 @@ router.post('/login',  async (req, res) => {
         res.status(401).send({message: 'Wrong email or Password'});
       }
     }
-  });
-
+});
 
 ////////////////////////////////Clients///////////////////////////////////////////
 router.put('/client/:id',function(req,res){
@@ -312,8 +310,6 @@ router.get('/client/:id', function (req, res) {
       }
   });
 });
-
-
 
 router.get('/singleclient/:id', function (req, res) {
   console.log('get request of single clients');

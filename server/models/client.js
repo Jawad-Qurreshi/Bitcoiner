@@ -14,6 +14,7 @@ const Client = new Schema({
         ETC:Intl,
         Dollars:Intl
     }
+    ClientRequest: [{type: mongoose.Schema.Types.ObjectId, ref: 'clientrequest'}],
    });
 
    module.exports = mongoose.model('client',Client,'clients');
