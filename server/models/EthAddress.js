@@ -6,4 +6,4 @@ const EthAddress = new Schema({
     address : String
 });
 
-module.export = mongoose.model('btcaddresses', EthAddress);
+module.export = mongoose.model('ethaddresses', EthAddress);

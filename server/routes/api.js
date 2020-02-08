@@ -9,8 +9,8 @@ const Request = require('../models/requests');
 const ClientSeller = require('../models/clientSeller');
 const ClientBuyer = require('../models/clientBuyer');
 const ClientRequest = require('../models/clientrequest_model');
-const EthAddress = require('../models/BtcAddress');
-const EthAddress = require('../models/BtcAddress');
+const EthAddress = require('../models/EthAddress');
+const BtcAddress = require('../models/BtcAddress');
 
 const db = "mongodb://localhost:27017/bitcoinerDB";
 mongoose.Promise = global.Promise;
@@ -261,8 +261,8 @@ router.post('/login', async (req, res) => {
 
 router.post('/ethaddress', async (req, res) =>{
   const body = req.body;
-  const address = body.address;
-  const result = await EthAddress.findOne({ "address": address });
+  const Address = body.address;
+  const result = await EthAddress.findOne({ "address": Address });
   if (!result) // this means result is null
   {
     var newAddress = new EthAddress();

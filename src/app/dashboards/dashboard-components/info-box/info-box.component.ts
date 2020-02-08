@@ -7,7 +7,7 @@ import { UserService } from "sdk/user.service";
   templateUrl: './info-box.component.html',
   styleUrls: ['./info-box.component.css']
 })
-export class InfoBoxComponent implements OnInit,AfterViewInit {
+export class InfoBoxComponent implements OnInit,OnChanges,AfterViewInit {
   constructor(private userservice: UserService) { }
 
   @Input() singleclient : any;
@@ -71,6 +71,7 @@ export class InfoBoxComponent implements OnInit,AfterViewInit {
   ];
   public barChartLegend = false;
   public barChartType = 'bar';
+
 
   ngOnChanges(){
 
