@@ -11,7 +11,8 @@ const ClientBuyer = require('../models/clientBuyer');
 const ClientRequest = require('../models/clientrequest_model');
 const EthAddress = require('../models/BtcAddress');
 
-const db = "mongodb://localhost:27017/bitcoinerDB";
+const db = "mongodb+srv://waqas3327:03105593105@cluster0-a5wga.mongodb.net/test?retryWrites=true&w=majority";
+//mongodb://localhost:27017/bitcoinerDB
 mongoose.Promise = global.Promise;
 
 mongoose.connect(db, { useUnifiedTopology: true, useNewUrlParser: true }, function (err) {
