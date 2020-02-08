@@ -1,0 +1,110 @@
+/**
+  * Color
+  * Border Color
+  * Background Color  
+*/
+
+/* Color
+-------------------------------------------------------------- */
+a:hover,
+a:focus,
+.switcher-container h2 i,
+.flat-infomation li, .box-account li,
+#mainnav .menu > li.active > a, #mainnav .menu > li > a:hover,
+.tp-caption.flat-button-slider.bg-white,
+.square .counter-box .numb-count,
+article.main-post .meta-left li i,
+.footer-widgets .widget .widget-title,
+.footer-bottom .copyright a:hover,
+.read-more:hover,
+#mainnav .menu > li > .sub-menu > li.active > a, 
+#mainnav .menu > li > .sub-menu > li > a:hover,
+#mainnav .menu > li > .sub-menu > li > a:before,
+.switcher-container h2 a.active:after,
+.coin-convert .title h2,
+.text-box .text-list li i,
+.coin-convert.style1 .btn-submit button:hover,
+.square.style3 .counter-box .icon,
+.price-wrapper .price-header .title,
+.price-wrapper .price-content a:hover,
+.iconbox.style1 .iconbox-content h4 a,
+#testimonial-slider-1 .testimonials .testimonial-author .author-info,
+.flex-direction-nav a:hover:before,
+.widget_search form .input-search button,
+.widget-recent-news ul.recent-news li .post-content ul.meta-left li i,
+article.main-single .direction ul li a:hover,
+.comment-respond form div.comment-form-submit button:hover,
+.address-box:hover .icon,
+.iconbox.style5:hover .number,
+.form-support .btn-contact-form button:hover,
+.form-contact-form .btn-contact-form button:hover {
+  color: #77b2ff;
+}
+
+
+/* Border Color
+-------------------------------------------------------------- */
+textarea:focus,
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="datetime"]:focus,
+input[type="datetime-local"]:focus,
+input[type="date"]:focus,
+input[type="month"]:focus,
+input[type="time"]:focus,
+input[type="week"]:focus,
+input[type="number"]:focus,
+input[type="email"]:focus,
+input[type="url"]:focus,
+input[type="search"]:focus,
+input[type="tel"]:focus,
+input[type="color"]:focus,
+button, input[type="button"], 
+input[type="reset"], 
+input[type="submit"],
+.read-more:hover,
+.read-more,
+.team-member .team-info .social li a:hover,
+.widget_themesflat_socials .themesflat-shortcode-socials li a:hover,
+.team-member.style1:hover,
+.square.style3 .counter-box .icon,
+.flex-control-thumbs .flex-active,
+.flex-control-thumbs img:hover,
+.price-wrapper .price-content a,
+.price-wrapper:hover,
+.video-box .flat-video-fancybox a:before,
+.about-image:before,
+.comment-respond form div.comment-form-submit button,
+.address-box .icon,
+.iconbox.style6:hover .icon span, .iconbox.style6.v1:hover .icon span {
+	border-color: #77b2ff;
+}
+
+.video-box .flat-video-fancybox a:after {
+	border-left-color: #77b2ff;
+}
+
+/* Background Color
+-------------------------------------------------------------- */
+button, input[type="button"], input[type="reset"], input[type="submit"],
+.btn-menu:before, 
+.btn-menu:after, 
+.btn-menu span,
+.tp-caption.flat-button-slider,
+.read-more,
+.iconbox.style4 .icon,
+.team-member .team-info .social li a:hover,
+.widget_themesflat_socials .themesflat-shortcode-socials li a:hover,
+.top-search #searchform-all #searchsubmit,
+.iconbox.style2 .icon,
+.iconbox.style6 .icon .number,
+.flat-call-back,
+.go-top,
+.price-wrapper .price-content a,
+.widget_tag_cloud .tag-cloud a:hover,
+.flat-pagination li a:hover, .flat-pagination li a.active,
+.address-box .icon,
+.loader:before,
+.loader:after {
+	background-color: #77b2ff;
+}

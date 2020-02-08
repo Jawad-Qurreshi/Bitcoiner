@@ -8,6 +8,10 @@ import { UserService } from "sdk/user.service";
 })
 export class ProfileComponent implements OnInit,OnChanges{
   
+  isVisible = false;
+is2ndVisible = false;
+  isOkLoading = false;
+
   sellers = [];
   buyers = [];
   name: any;
@@ -29,6 +33,27 @@ export class ProfileComponent implements OnInit,OnChanges{
   ngOnChanges(){
 
     //console.log("this.userdata", this.singleclient);
+  }
+  
+  showModal(): void {
+    this.isVisible = true;
+  }
+  showmModal(): void {
+    this.is2ndVisible = true;
+  }
+
+  handleOk(): void {
+    this.isOkLoading = true;
+    setTimeout(() => {
+      this.isVisible = false;
+      this.is2ndVisible = false;
+      this.isOkLoading = false;
+    }, 3000);
+  }
+
+  handleCancel(): void {
+    this.isVisible = false;
+    this.is2ndVisible = false;
   } 
 
 

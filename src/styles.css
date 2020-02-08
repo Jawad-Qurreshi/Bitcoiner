@@ -1,1 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~ng-zorro-antd/style/index.min.css"; /* Import basic styles */
+@import "~ng-zorro-antd/button/style/index.min.css"; /* Import styles of the component */
+@import "~bootstrap/dist/css/bootstrap.css";
+@import "revolution/css/layers.css";
+@import "revolution/css/settings.css";
+@import "stylesheet/style.css";
+@import "stylesheet/colors/color1.css";
+@import "stylesheet/responsive.css";

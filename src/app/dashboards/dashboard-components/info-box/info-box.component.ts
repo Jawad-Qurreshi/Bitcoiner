@@ -11,8 +11,7 @@ export class InfoBoxComponent implements OnInit,AfterViewInit {
   constructor(private userservice: UserService) { }
 
   @Input() singleclient : any;
-  tickereth : [];
-  tickerbit : [];
+
 
   TotalWallet : number;
   walletBTC : number;
@@ -90,7 +89,7 @@ export class InfoBoxComponent implements OnInit,AfterViewInit {
     this.calcwalletETH = this.walletETH * this.newethcurrent;
     
 
-    this.TotalWallet=this.walletBTC * this.walletETH * this.walletDollers;
+    this.TotalWallet=this.walletBTC + this.walletETH + this.walletDollers;
     console.log("ywh wala", this.TotalWallet);
   } 
  
@@ -99,7 +98,7 @@ export class InfoBoxComponent implements OnInit,AfterViewInit {
     this.userservice.gettheBIT().subscribe(
       resBitData => {
       //console.log("resBitData", resBitData);
-      this.tickerbit = resBitData.ticker.BTCUSDT;
+      
       this.bitcurrent = resBitData.ticker.BTCUSDT;
       },
       err => {
@@ -110,7 +109,7 @@ export class InfoBoxComponent implements OnInit,AfterViewInit {
     this.userservice.gettheETH().subscribe(
       resEthData => {
       //console.log("resEthData", resEthData);
-      this.tickereth = resEthData.ticker.ETHUSDT;
+     
       this.ethcurrent = resEthData.ticker.ETHUSDT;
       //console.log("Price of ETH: $", this.tickereth);
       },

@@ -35,9 +35,36 @@
                             "node_modules/@swimlane/ngx-datatable/release/themes/material.css",
                             "node_modules/@swimlane/ngx-datatable/release/assets/icons.css",
                             "src/assets/vendor/css-chart.css",
-                            "src/assets/scss/style.scss"
+                            "src/assets/scss/style.scss",
+                            "node_modules/ng-zorro-antd/ng-zorro-antd.min.css"
                         ],
-                        "scripts": []
+                        "scripts": [
+                            "javascript/jquery.min.js",
+                            "javascript/tether.min.js",
+                            "javascript/bootstrap.min.js",
+                            "javascript/jquery.flexslider-min.js" ,
+                            "javascript/owl.carousel.js" ,
+                            "javascript/jquery.easing.js" ,
+    
+                            "javascript/jquery-countTo.js" ,
+                             "javascript/jquery.cookie.js" ,
+                           "javascript/waypoints.min.js" ,
+                              "javascript/main.js" ,
+     "revolution/js/jquery.themepunch.tools.min.js" ,
+     "revolution/js/jquery.themepunch.revolution.min.js" ,
+     "revolution/js/slider_v1.js" ,
+
+   
+     "revolution/js/extensions/revolution.extension.actions.min.js" ,
+     "revolution/js/extensions/revolution.extension.carousel.min.js" ,
+     "revolution/js/extensions/revolution.extension.kenburn.min.js" ,
+     "revolution/js/extensions/revolution.extension.layeranimation.min.js" ,
+     "revolution/js/extensions/revolution.extension.migration.min.js" ,
+     "revolution/js/extensions/revolution.extension.navigation.min.js" ,
+     "revolution/js/extensions/revolution.extension.parallax.min.js" ,
+     "revolution/js/extensions/revolution.extension.slideanims.min.js" ,
+     "revolution/js/extensions/revolution.extension.video.min.js"
+                        ]
                     },
                     "configurations": {
                         "production": {

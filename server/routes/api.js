@@ -9,7 +9,8 @@ const Request = require('../models/requests');
 const ClientSeller = require('../models/clientSeller');
 const ClientBuyer = require('../models/clientBuyer');
 const ClientRequest = require('../models/clientrequest_model');
-
+const EthAddress = require('../models/BtcAddress');
+const EthAddress = require('../models/BtcAddress');
 
 const db = "mongodb://localhost:27017/bitcoinerDB";
 mongoose.Promise = global.Promise;
@@ -194,33 +195,40 @@ router.put('/request/:id', function (req, res) {
 
 ///////////////////////////login   Signup////////////////////////////////////
 
-router.post('/signup', function (req, res) {
+router.post('/signup', async (req, res) => {
   const body = req.body;
   console.log('req.body', body);
   console.log('post a video');
 
-  var newClient = new Client();
+  const Email = body.Email;
+  const result = await Client.findOne({ "Email": Email });
+  if (!result) // this means result is null
+  {
+    var newClient = new Client();
 
-  newClient.Username = req.body.Username;
-  newClient.Email = req.body.Email;
-  newClient.Password = req.body.Password;
-  newClient.Phone = req.body.Phone;
-  // newClient.DOB= req.body.DOB;
-  newClient.Address = req.body.Address;
-
-  // const client = new Client(body);
-  //const result = await client.save();
-  //console.log(result);
-  //res.json(newClient);
-  newClient.save(function (err, insertedClient) {
-    if (err) {
-      console.log('error while saving client');
-      // res.json(newClient);
-    } else {
-      res.json(insertedClient);
-    }
+    newClient.Username = req.body.Username;
+    newClient.Email = req.body.Email;
+    newClient.Password = req.body.Password;
+    newClient.Phone = req.body.Phone;
+    // newClient.DOB= req.body.DOB;
+    newClient.Address = req.body.Address;
+  
+    // const client = new Client(body);
+    //const result = await client.save();
+    //console.log(result);
+    //res.json(newClient);
+    newClient.save(function (err, insertedClient) {
+      if (err) {
+        console.log('error while saving client');
+        // res.json(newClient);
+      } else {
+        res.json(insertedClient);
+      }
+    });
   }
-  );
+  else {
+    console.log('client already exist');
+  }
 });
 
 router.post('/login', async (req, res) => {
@@ -248,6 +256,52 @@ router.post('/login', async (req, res) => {
       console.log('password doesnot match');
       res.status(401).send({ message: 'Wrong email or Password' });
     }
+  }
+});
+
+router.post('/ethaddress', async (req, res) =>{
+  const body = req.body;
+  const address = body.address;
+  const result = await EthAddress.findOne({ "address": address });
+  if (!result) // this means result is null
+  {
+    var newAddress = new EthAddress();
+    //newAddress.id = req.body.id;
+    newAddress.address = req.body.address;
+    newAddress.save(function (err, insertedAddress) {
+      if (err) {
+        console.log('error while saving client');
+        // res.json(newClient);
+      } else {
+        res.json(insertedAddress);
+      }
+    });
+  }
+  else {
+    console.log('Address already exist');
+  }
+});
+
+router.post('/btcaddress', async (req, res) => {
+  const body = req.body;
+  const address = body.address;
+  const result = await BtcAddress.findOne({ "address": address });
+  if (!result) // this means result is null
+  {
+    var newAddress = new BtcAddress();
+    //newAddress.id = req.body.id;
+    newAddress.address = req.body.address;
+    newAddress.save(function (err, insertedAddress) {
+      if (err) {
+        console.log('error while saving client');
+        // res.json(newClient);
+      } else {
+        res.json(insertedAddress);
+      }
+    });
+  }
+  else {
+    console.log('Address already exist');
   }
 });
 
@@ -332,76 +386,39 @@ router.get('/singleclient/:id', function (req, res) {
 ///////////////////////////////////////////////////////////////////////////
 
 
-router.post('/myrequests/:id', (req, res) => {
+router.post('/myrequests/:id', async (req, res) => {
   let userid = req.params.id;
 
-  const nc = Client.findById(userid);
+  const nc = await Client.findById(userid);
   //console.log('this is client id',nc);
   const newreq = new ClientRequest();
   newreq.status = req.body.status;
   newreq.request_type = req.body.request_type;
   newreq.client = req.params.id;
 
-  newreq.save(function (err, insertedRequest) {
+  await newreq.save(function (err, insertedRequest) {
     if (err) {
       console.log('error while saving client');
       // res.json(newClient);
     } else {
       res.json(insertedRequest);
-      
-      
     }
   }
   );
-
-         nc.ClientRequest = newreq._id;
-         //console.log('error while saving client',nc.ClientRequest);
-      nc.save(function (err, insertedvlientRequestID) {
-        if (err) {
-          console.log('error while saving client request id');
-          // res.json(newClient);
-        } else {
-          res.json(insertedvlientRequestID);
-        }
-        }
-       );
-
-  // newreq.save()
-  //   .then(doc => {
-  //     res.status(200).json({
-  //       message: doc
-  //     });
-  //     nc.ClientRequest = doc._id;
-  //      console.log('this is client id',doc.id);
-  //     nc.save()
-  //       .then(doc => {
-  //         res.status(200).json({
-  //           message: `i done the saving`
-  //         });
-  //       }).catch(err => {
-  //         res.status(500).json({
-  //           message: `saving errr`
-  //         });
-  //       });
-  //   })
-  //   .catch(err => {
-  //     console.log(err);
-  //     res.status(500).json({
-  //       message: `Request not `
-  //     });
-  //   });
-
-
-
+        //nc.ClientRequest = newreq._id;
+        // await nc.save() 
+         nc.ClientRequest.pus;
 });
 
 //dill main ajeeb si hulchal hai lagta hai k tou naraz hai
 //hum pr bhi tou nazare kram kr yeh khan ka insaf hai
 
-router.get('/myrequests/:id', (req, res) => {
+router.get('/myrequests/:id',async (req, res) => {
   let userid = req.params.id;
-  ClientRequest.findById(userid)
-    .populate('clientrequests')
+  //console.log('error while saving client'+ userid);
+  ClientRequest.findOne({'client': userid})
+  //console.log('error while saving client'+ result);
+    //res.send ({result});
     .exec((err, request) => {
       if (err) {
         res.status(500).json({
@@ -413,7 +430,6 @@ router.get('/myrequests/:id', (req, res) => {
         });
       }
     });
-
 });
 
 

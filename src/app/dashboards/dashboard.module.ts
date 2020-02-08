@@ -12,6 +12,11 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { CalendarModule, CalendarDateFormatter } from 'angular-calendar';
 
+import { registerLocaleData } from '@angular/common';
+import en from '@angular/common/locales/en';
+import { NgZorroAntdModule, NZ_I18N, en_US } from 'ng-zorro-antd';
+registerLocaleData(en);
+
 import { DashboardRoutes } from './dashboard.routing';
 import { Dashboard1Component } from './dashboard1/dashboard1.component';
 import { Dashboard2Component } from './dashboard2/dashboard2.component';
@@ -60,7 +65,11 @@ import { NavigationComponent } from './dashboard-components/header-navigation/na
     PerfectScrollbarModule,
     CalendarModule.forRoot(),
     NgxChartsModule,
-    NgxDatatableModule
+    NgxDatatableModule,
+    NgZorroAntdModule,
+  ],
+  providers   : [
+    { provide: NZ_I18N, useValue: en_US }
   ],
   declarations: [
     Dashboard1Component,
