@@ -403,7 +403,7 @@ router.delete('/client/:id', function (req, res) {
 })
 
 router.get('/clients', function (req, res) {
-  console.log('get request of all clients');
+ // console.log('get request of all clients');
   //const allClients = await Client.find();
   Client.find({})
     .exec(function (err, clients) {
@@ -430,7 +430,7 @@ router.get('/client/:id', function (req, res) {
 });
 
 router.get('/singleclient/:id', function (req, res) {
-  console.log('get request of single clients');
+ // console.log('get request of single clients');
   Client.find({})
     .exec(function (err, clients) {
       if (err) {

@@ -5,10 +5,10 @@
             <div class="card-body">
                 <div class="m-t-30 text-center">
                     <img src="assets/images/users/5.jpg" class="rounded-circle" width="150" />
-                    <h4 class="card-title m-t-10" >{{singleclient.Username}}</h4>
-                   
+                    <h4 class="card-title m-t-10">{{singleclient.Username}}</h4>
+
                     <div class="row text-center justify-content-md-center">
-                        <button (click)="logout()" clas ="row" type="button" class="btn btn-success">Logout</button>
+                        <button (click)="logout()" clas="row" type="button" class="btn btn-success">Logout</button>
                         <!-- <div class="col-4">
                             <a href="javascript:void(0)" class="link">
                                 <i class="icon-people m-r-10"></i>
@@ -23,7 +23,8 @@
                 </div>
             </div>
             <div>
-                <hr> </div>
+                <hr>
+            </div>
             <div class="card-body">
                 <small class="text-muted">Email address </small>
                 <h6>{{singleclient.Email}}</h6>
@@ -32,7 +33,7 @@
                 <small class="text-muted p-t-30 db">Address</small>
                 <h6>{{singleclient.Address}}</h6>
                 <small class="text-muted p-t-30 db">Social Profile</small>
-                <br/>
+                <br />
                 <!-- <button class="btn btn-circle btn-secondary">
                     <i class="fab fa-facebook"></i>
                 </button>
@@ -51,160 +52,169 @@
         <div class="card">
             <ngb-tabset type="pills" class="custom-pills">
                 <ngb-tab title="Buy">
-                     <ng-template ngbTabContent>
+                    <ng-template ngbTabContent>
                         <div class="card-body">''
                             <app-buyer-table [buyers]="buyers"></app-buyer-table>
                         </div>
-                    </ng-template> 
+                    </ng-template>
                 </ngb-tab>
                 <ngb-tab title="Sell">
                     <ng-template ngbTabContent>
                         <div class="card-body">
-                            <app-seller-table [sellers]="sellers"></app-seller-table> 
+                            <app-seller-table [sellers]="sellers"></app-seller-table>
                         </div>
-                    </ng-template> 
+                    </ng-template>
                 </ngb-tab>
                 <ngb-tab title="My wallet">
                     <ng-template ngbTabContent>
-                       <div class="card-body">
-                        <button type="button" (click)="showModal()" class="btn btn-rounded btn-primary">Send</button>
-                        <button type="button" (click)="showmModal()" class="btn btn-rounded btn-primary">Recieve</button>
-                          
-                        <app-earnings [singleclient]="singleclient"></app-earnings>
-                       </div>
-                   </ng-template> 
-               </ngb-tab>
+                        <div class="card-body">
+                            <button type="button" (click)="showModal()"
+                                class="btn btn-rounded btn-primary">Send</button>
+                            <button type="button" (click)="showmModal()"
+                                class="btn btn-rounded btn-primary">Recieve</button>
+
+                            <app-earnings [singleclient]="singleclient"></app-earnings>
+                        </div>
+                    </ng-template>
+                </ngb-tab>
 
                 <ngb-tab title="Post Trade">
-                    <!-- <ng-template ngbTabContent>
-                        <div class="card-body">
-                            <form class="form-horizontal form-material">
-                                <div class="form-group">
-                                    <label class="col-md-12">Full Name</label>
-                                    <div class="col-md-12">
-                                        <input type="text" placeholder="Johnathan Doe" class="form-control form-control-line">
+                    <ng-template ngbTabContent>
+                        <div class="col-sm-12 col-md-12 col-lg-12">
+                            <div class="card">
+                                <div class="card-body">
+
+                                    <form class="m-t-30">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" id="nametext1" placeholder="Name"
+                                                disabled>
+                                        </div>
+                                    </form>
+                                    <br>
+                                    <h6>I want to:</h6>
+                                    <div class="form-check form-check-inline">
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" class="custom-control-input"
+                                                id="customControlValidation2" name="radio-stacked">
+                                            <label class="custom-control-label"
+                                                for="customControlValidation2">Buy</label>
+                                        </div>
                                     </div>
+                                    <div class="form-check form-check-inline">
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" class="custom-control-input"
+                                                id="customControlValidation3" name="radio-stacked">
+                                            <label class="custom-control-label"
+                                                for="customControlValidation3">Sell</label>
+                                        </div>
+                                    </div><br><br>
+                                    <form>
+                                        <div class="form-group m-b-30">
+                                            <label class="mr-sm-2" for="inlineFormCustomSelect">Select the type of
+                                                currency</label>
+                                            <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                                                <option selected>Choose...</option>
+                                                <option value="1">Bitcoin</option>
+                                                <option value="2">Ethereum</option>
+                                            </select>
+                                        </div>
+                                    </form>
+                                    <br>
+                                    <h6>Please enter the price</h6>
+                                    <form class="m-t-20">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" id="nametext"
+                                                aria-describedby="name" placeholder="Price">
+                                            <small id="name" class="form-text text-muted">Price should be in dollars
+                                                because i will be calculated according to the current price of
+                                                BTC/ETH</small>
+                                        </div>
+                                    </form>
+                                    <br>
+                                    <form class="m-t-30">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" id="nametext1" placeholder="Change"
+                                                disabled>
+                                        </div>
+                                    </form>
+
+
                                 </div>
-                                <div class="form-group">
-                                    <label for="example-email" class="col-md-12">Email</label>
-                                    <div class="col-md-12">
-                                        <input type="email" placeholder="johnathan@admin.com" class="form-control form-control-line" name="example-email" id="example-email">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-md-12">Password</label>
-                                    <div class="col-md-12">
-                                        <input type="password" value="password" class="form-control form-control-line">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-md-12">Phone No</label>
-                                    <div class="col-md-12">
-                                        <input type="text" placeholder="123 456 7890" class="form-control form-control-line">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-md-12">Message</label>
-                                    <div class="col-md-12">
-                                        <textarea rows="5" class="form-control form-control-line"></textarea>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-12">Select Country</label>
-                                    <div class="col-sm-12">
-                                        <select class="form-control form-control-line">
-                                            <option>London</option>
-                                            <option>India</option>
-                                            <option>Usa</option>
-                                            <option>Canada</option>
-                                            <option>Thailand</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        <button class="btn btn-success">Update Profile</button>
-                                    </div>
-                                </div>
-                            </form>
+                            </div>
                         </div>
-                    </ng-template> -->
+                    </ng-template>
                 </ngb-tab>
             </ngb-tabset>
         </div>
     </div>
     <!-- Column -->
 </div>
-<nz-modal
-      [(nzVisible)]="isVisible"
-      nzTitle="Send Bitcoins"
-      (nzOnCancel)="handleCancel()"
-      (nzOnOk)="handleOk()"
-      [nzOkLoading]="isOkLoading">
-      <div class="row">
-          <div class="col-sm-12 col-md-12 col-lg-12">
-              <div class="card">
-                  <div class="card-body">
-                      <form class="m-t-30">
-                          <div class="form-group m-b-30">
-                              <h4 class= "card-title">Select Currency</h4>
-                              <select class="form-control" id="exampleFormControlSelect1">
-                                  <option>Bitcoin</option>
-                                  <option>Ethereum</option>
-                              </select><br>
-                              <h4 class="card-title">To</h4>
-                             <input type="text" class="form-control" id="nametext" aria-describedby="name" placeholder="paste destination here"><br>
-                             <h4 class= "card-title">Amount</h4>
-                             <div class="input-group mb-3">
-                                <input type="text" class="form-control" placeholder="0.00" aria-describedby="basic-addon1">
+<nz-modal [(nzVisible)]="isVisible" nzTitle="Send Bitcoins" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()"
+    [nzOkLoading]="isOkLoading">
+    <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <form class="m-t-30">
+                        <div class="form-group m-b-30">
+                            <h4 class="card-title">Select Currency</h4>
+                            <select class="form-control" id="exampleFormControlSelect1">
+                                <option>Bitcoin</option>
+                                <option>Ethereum</option>
+                            </select><br>
+                            <h4 class="card-title">To</h4>
+                            <input type="text" class="form-control" id="nametext" aria-describedby="name"
+                                placeholder="paste destination here"><br>
+                            <h4 class="card-title">Amount</h4>
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" placeholder="0.00"
+                                    aria-describedby="basic-addon1">
                                 <div class="input-group-append">
                                     <span class="input-group-text">BTC</span>
                                 </div>
-                                <input type="text" class="form-control" placeholder="$0.00" aria-describedby="basic-addon1">
+                                <input type="text" class="form-control" placeholder="$0.00"
+                                    aria-describedby="basic-addon1">
                                 <div class="input-group-append">
                                     <span class="input-group-text">USD</span>
                                 </div>
                             </div>
                             <h4 class="card-title">Description</h4>
-                             <div class="m-t-20">
-                              <textarea class="form-control" rows="3" placeholder="Text Here..."></textarea>
-                             </div>
-                          </div>
-                      </form>
-                  </div>
-              </div>
-          </div>
-      </div>    
-</nz-modal>
-<nz-modal
-[(nzVisible)]="is2ndVisible"
-nzTitle="Recieve Bitcoins"
-(nzOnCancel)="handleCancel()"
-(nzOnOk)="handleOk()"
-[nzOkLoading]="isOkLoading">
-<div class="row">
-    <div class="col-sm-12 col-md-12 col-lg-12">
-        <div class="card">
-            <div class="card-body">
-                <form class="m-t-30">
-                    <div class="form-group m-b-30">
-                        <h4 class= "card-title">Select Currency:</h4>
-                        <select class="form-control" id="exampleFormControlSelect1">
-                            <option>Bitcoin</option>
-                            <option>Ethereum</option>
-                        </select><br><br>
-                        <h4 class= "card-title">Address:</h4>
-                       <div class="input-group mb-3">
-                          <input type="text" class="form-control" placeholder="wallet address" aria-describedby="basic-addon1">
-                          <div class="input-group-append">
-                              <span class="input-group-text">Wallet</span>
-                          </div>
-                      </div>
-                      <small id="textHelp" class="form-text text-muted">Copy this wallet address</small>
-                    </div>
-                </form>
+                            <div class="m-t-20">
+                                <textarea class="form-control" rows="3" placeholder="Text Here..."></textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
+</nz-modal>
+<nz-modal [(nzVisible)]="is2ndVisible" nzTitle="Recieve Bitcoins" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()"
+    [nzOkLoading]="isOkLoading">
+    <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <form class="m-t-30">
+                        <div class="form-group m-b-30">
+                            <h4 class="card-title">Select Currency:</h4>
+                            <select class="form-control" id="exampleFormControlSelect1">
+                                <option>Bitcoin</option>
+                                <option>Ethereum</option>
+                            </select><br><br>
+                            <h4 class="card-title">Address:</h4>
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" placeholder="wallet address"
+                                    aria-describedby="basic-addon1">
+                                <div class="input-group-append">
+                                    <span class="input-group-text">Wallet</span>
+                                </div>
+                            </div>
+                            <small id="textHelp" class="form-text text-muted">Copy this wallet address</small>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </nz-modal>
