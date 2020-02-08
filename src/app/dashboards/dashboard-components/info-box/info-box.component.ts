@@ -7,7 +7,7 @@ import { UserService } from "sdk/user.service";
   templateUrl: './info-box.component.html',
   styleUrls: ['./info-box.component.css']
 })
-export class InfoBoxComponent implements OnInit,OnChanges,AfterViewInit {
+export class InfoBoxComponent implements OnInit,AfterViewInit {
   constructor(private userservice: UserService) { }
 
   @Input() singleclient : any;
@@ -18,38 +18,16 @@ export class InfoBoxComponent implements OnInit,OnChanges,AfterViewInit {
   walletBTC : number;
   walletETH : number;
   walletDollers : number;
+  newbitcurrent : number;
+  newethcurrent : number;
   bitcurrent : number;
   ethcurrent : number;
-  
- 
+  calcwalletBTC : number;
+  calcwalletETH : number;
   bit : Number;
   eth : Number;
   //local : string;
 
-  
-  WalletCalc(ethcurrent:number , bitcurrent:number){
-    
-    
-    //this.local = localStorage.getItem('ID')
-    console.log("api error in single client", this.singleclient);
-    this.walletBTC = this.singleclient.BTC;
-    console.log("btc wala", this.TotalWallet);
-    this.walletETH = this.singleclient.ETH;
-    console.log("eth wala", this.TotalWallet);
-    this.walletDollers = this.singleclient.Dollars;
-    console.log("dollar wala", this.TotalWallet);
-
-    this.walletBTC = this.walletBTC * bitcurrent;
-    this.walletETH = this.walletETH * ethcurrent;
-
-    this.TotalWallet=this.walletBTC+this.walletETH+ this.walletDollers;
-    //this.walletBTC = this.walletBTC * this.bitcurrent;
-
-
-
-    console.log("ywh wala", this.TotalWallet);
-    
-  }
  
   
   // bar chart
@@ -98,6 +76,22 @@ export class InfoBoxComponent implements OnInit,OnChanges,AfterViewInit {
   ngOnChanges(){
 
     console.log("this.userdata", this.singleclient)
+   
+    this.walletBTC= +this.singleclient.BTC
+    this.walletETH = +this.singleclient.ETH;
+    this.walletDollers = +this.singleclient.Dollars;
+    
+
+    this.newethcurrent = +this.ethcurrent;
+    this.newbitcurrent = +this.bitcurrent;
+    
+
+    this.calcwalletBTC = this.walletBTC * this.newbitcurrent;
+    this.calcwalletETH = this.walletETH * this.newethcurrent;
+    
+
+    this.TotalWallet=this.walletBTC * this.walletETH * this.walletDollers;
+    console.log("ywh wala", this.TotalWallet);
   } 
  
   ngOnInit() {
@@ -125,10 +119,19 @@ export class InfoBoxComponent implements OnInit,OnChanges,AfterViewInit {
       }
     );
     
-    this.WalletCalc(this.ethcurrent, this.bitcurrent);
+    
    
   }
 
+   
+  // WalletCalc(ethcurrent:number , bitcurrent:number){
+    
+    
+  //   //this.local = localStorage.getItem('ID')
+   
+    
+  // }
+ 
   ngAfterViewInit() {
 
     const chart = c3.generate({

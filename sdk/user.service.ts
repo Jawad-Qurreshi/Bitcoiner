@@ -51,8 +51,16 @@ export class UserService {
   
   public gettheclient(id: String): Observable<any>{
     const url = ProjectConfig.getPath() + "/client/" + id;
-    console.log('get the clients waly credentials:',id);
-    console.log('get the clients waly url :',url);
+    // console.log('get the clients waly credentials:',id);
+    // console.log('get the clients waly url :',url);
+    return this.http.get(url);
+
+    //return this.http.get(url);
+  }
+  public sendrequest(id: String): Observable<any>{
+    const url = ProjectConfig.getPath() + "/myrequest/" + id;
+    // console.log('get the clients waly credentials:',id);
+    // console.log('get the clients waly url :',url);
     return this.http.get(url);
 
     //return this.http.get(url);
