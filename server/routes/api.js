@@ -10,7 +10,6 @@ const ClientSeller = require('../models/clientSeller');
 const ClientBuyer = require('../models/clientBuyer');
 const ClientRequest = require('../models/clientrequest_model');
 const EthAddress = require('../models/BtcAddress');
-const EthAddress = require('../models/BtcAddress');
 
 const db = "mongodb://localhost:27017/bitcoinerDB";
 mongoose.Promise = global.Promise;
@@ -212,7 +211,7 @@ router.post('/signup', async (req, res) => {
     newClient.Phone = req.body.Phone;
     // newClient.DOB= req.body.DOB;
     newClient.Address = req.body.Address;
-  
+
     // const client = new Client(body);
     //const result = await client.save();
     //console.log(result);
@@ -406,7 +405,7 @@ router.post('/myrequests/:id', async (req, res) => {
   }
   );
         //nc.ClientRequest = newreq._id;
-        // await nc.save() 
+        // await nc.save()
          nc.ClientRequest.pus;
 });
 
