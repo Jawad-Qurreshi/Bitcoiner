@@ -405,9 +405,9 @@ router.post('/myrequests/:id', async (req, res) => {
     }
   }
   );
-        //nc.ClientRequest = newreq._id;
-        // await nc.save()
-         nc.ClientRequest.pus;
+        nc.ClientRequest = newreq._id;
+        await nc.save()
+        // nc.ClientRequest.pus;
 });
 
 //dill main ajeeb si hulchal hai lagta hai k tou naraz hai
