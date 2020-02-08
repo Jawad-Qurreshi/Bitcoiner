@@ -144,6 +144,30 @@ router.delete('/DeleteSeller/:id', function (req, res) {
 // })
 
 /////////////////////////All requests////////////////////////////////////////
+router.post('/Addtorequests', async (req, res) => {
+  
+  const newrequest = new Request();
+  newrequest.Username= req.body.Username;
+  newrequest.Email= req.body.Email;
+  newrequest.Phone= req.body.Phone;
+  newrequest.Address= req.body.Address;
+  newrequest.Status= req.body.status;
+  newrequest.TypeOfRequest= req.body.TypeOfRequest;
+  newrequest.BTC= req.body.BTC;
+  newrequest.ETC= req.body.ETC;
+  newrequest.Dollars= req.body.Dollars;
+
+  await newrequest.save(function (err, insertedRequest) {
+    if (err) {
+      console.log('error while saving client');
+      // res.json(newClient);
+    } else {
+      res.json(insertedRequest);
+    }
+  }
+  );
+});
+
 
 router.get('/ShowAllRequest', function (req, res) {
   console.log('get request of all clients', req.body);
@@ -197,8 +221,7 @@ router.put('/request/:id', function (req, res) {
 
 router.post('/signup', async (req, res) => {
   const body = req.body;
-  console.log('req.body', body);
-  console.log('post a video');
+ 
 
   const Email = body.Email;
   const result = await Client.findOne({ "Email": Email });
