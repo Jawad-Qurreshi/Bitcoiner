@@ -9,8 +9,8 @@ const Request = require('../models/requests');
 const ClientSeller = require('../models/clientSeller');
 const ClientBuyer = require('../models/clientBuyer');
 const ClientRequest = require('../models/clientrequest_model');
-const EthAddress = require('../models/EthAddress');
-const BtcAddress = require('../models/BtcAddress');
+const EthAddress = require('../models/ethaddress');
+const BtcAddress = require('../models/btcaddress');
 
 const db = "mongodb://localhost:27017/bitcoinerDB";
 mongoose.Promise = global.Promise;
@@ -72,6 +72,27 @@ router.get('/ethapi', function (req, res) {
 });
 
 ////////////////////////////Buyers////////////////////////////////
+router.post('/Addtobuyers', async (req, res) => {
+  
+  const newbuyer = new ClientBuyer();
+
+  newbuyer.Name = req.body.Name;
+  newbuyer.Type_of_currency = req.body.Type_of_currency;
+  newbuyer.Price= req.body.Price;
+  newbuyer.Change= req.body.Change;
+  newbuyer.Wallet= req.body.Wallet;
+
+  await newbuyer.save(function (err, insertedBuyer) {
+    if (err) {
+      console.log('error while saving client');
+      // res.json(newClient);
+    } else {
+      res.json(insertedBuyer);
+    }
+  }
+  );
+});
+
 router.get('/ShowAllBuyers', function (req, res) {
   //const allClients = await Client.find();
   ClientBuyer.find({})
@@ -96,6 +117,26 @@ router.delete('/DeleteBuyer/:id', function (req, res) {
 })
 
 ////////////////////////////Sellers//////////////////////////////////
+router.post('/Addtosellers', async (req, res) => {
+  
+  const newseller = new ClientSeller();
+
+  newseller.Name = req.body.Name;
+  newseller.Type_of_currency = req.body.Type_of_currency;
+  newseller.Price= req.body.Price;
+  newseller.Change= req.body.Change;
+  newseller.Wallet= req.body.Wallet;
+
+  await newseller.save(function (err, insertedSeller) {
+    if (err) {
+      console.log('error while saving client');
+      // res.json(newClient);
+    } else {
+      res.json(insertedSeller);
+    }
+  }
+  );
+});
 
 router.get('/ShowAllSellers', function (req, res) {
   //const allClients = await Client.find();
@@ -168,7 +209,6 @@ router.post('/Addtorequests', async (req, res) => {
   );
 });
 
-
 router.get('/ShowAllRequest', function (req, res) {
   console.log('get request of all clients', req.body);
   //const allClients = await Client.find();
@@ -193,7 +233,7 @@ router.delete('/DeleteRequest/:id', function (req, res) {
   })
 })
 
-router.put('/request/:id', function (req, res) {
+router.put('/updaterequest/:id', function (req, res) {
   console.log('update a client');
   Request.findByIdAndUpdate(req.params.id, {
     $set: {
@@ -221,8 +261,6 @@ router.put('/request/:id', function (req, res) {
 
 router.post('/signup', async (req, res) => {
   const body = req.body;
- 
-
   const Email = body.Email;
   const result = await Client.findOne({ "Email": Email });
   if (!result) // this means result is null
@@ -284,13 +322,13 @@ router.post('/login', async (req, res) => {
 
 router.post('/ethaddress', async (req, res) =>{
   const body = req.body;
-  const Address = body.address;
-  const result = await EthAddress.findOne({ "address": Address });
+  const Address = body.Address;
+  const result = await EthAddress.findOne({ "Address": Address });
   if (!result) // this means result is null
   {
     var newAddress = new EthAddress();
     //newAddress.id = req.body.id;
-    newAddress.address = req.body.address;
+    newAddress.Address = req.body.Address;
     newAddress.save(function (err, insertedAddress) {
       if (err) {
         console.log('error while saving client');
@@ -307,13 +345,13 @@ router.post('/ethaddress', async (req, res) =>{
 
 router.post('/btcaddress', async (req, res) => {
   const body = req.body;
-  const address = body.address;
-  const result = await BtcAddress.findOne({ "address": address });
+  const Address = body.Address;
+  const result = await BtcAddress.findOne({ "Address": Address });
   if (!result) // this means result is null
   {
     var newAddress = new BtcAddress();
     //newAddress.id = req.body.id;
-    newAddress.address = req.body.address;
+    newAddress.Address = req.body.Address;
     newAddress.save(function (err, insertedAddress) {
       if (err) {
         console.log('error while saving client');

@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 const BtcAddress = new Schema({
     id: Number,
-    address: String
+    Address: String
 });
 
-module.exports = mongoose.model('btcaddresses', BtcAddress);
+module.exports = mongoose.model('btcaddress', BtcAddress , 'btcaddresses');
