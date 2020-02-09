@@ -1,40 +1,51 @@
-import { Component } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
-import { Router } from '@angular/router';
-import { UserService } from 'sdk/user.service';
-import { Subscription } from 'rxjs';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  Validators
+} from "@angular/forms";
+import { Component, OnInit } from "@angular/core";
+
+import { NzMessageService } from "ng-zorro-antd";
+import { Router } from "@angular/router";
+import { Subscription } from "rxjs";
+import { UserService } from "sdk/user.service";
 
 @Component({
-  selector: 'app-signup',
-  templateUrl: './signup.component.html'
+  selector: "app-signup",
+  templateUrl: "./signup.component.html"
 })
-
-export class SignupComponent {
+export class SignupComponent implements OnInit {
   loading = false;
   public clicked = false;
   signupData: FormGroup;
-  constructor(private fb: FormBuilder, private router: Router, private userService: UserService) {}
-  
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private userService: UserService,
+    private message: NzMessageService
+  ) {}
+
   ngOnInit() {
     this.formInitializer();
   }
 
   formInitializer() {
     this.signupData = this.fb.group({
-      Username: ['', Validators.required],
-      Email: ['', [Validators.required, Validators.email]],
-      Password: ['', [Validators.required, Validators.minLength(6)]],
+      Username: ["", Validators.required],
+      Email: ["", [Validators.required, Validators.email]],
+      Password: ["", [Validators.required, Validators.minLength(6)]],
       Confirm: [
-        '',
+        "",
         [
           Validators.required,
           Validators.minLength(6),
-          this.matchOtherValidator('password')
+          this.matchOtherValidator("password")
         ]
       ],
-      Phone: ['', Validators.required],
+      Phone: ["", Validators.required],
       //DOB: ['', [Validators.required]],
-      Address: ['', [Validators.required]],
+      Address: ["", [Validators.required]]
     });
   }
 
@@ -55,25 +66,25 @@ export class SignupComponent {
     };
   }
 
-
-SaveToDB() {
+  SaveToDB() {
     this.clicked = true;
     this.loading = true;
+
     this.userService.userRegister(this.signupData.value).subscribe(
       data => {
-        console.log('got response from server', data);
-       alert('Registeration Successfull!');
-       // this.loading = false;
-       this.router.navigate(['/login']);
+        console.log("got response from server", data);
+        // alert("Registeration Successfull!");
+        // this.loading = false;
+        this.message.success("Signup Successful");
+
+        this.router.navigate(["/authentication/login"]);
       },
       error => {
         this.clicked = false;
         this.loading = false;
-        console.log('error in save button');
-        alert('Registeration Failed! User Already Exists');
+        console.log("error in save button");
+        alert("Registeration Failed! User Already Exists");
       }
     );
   }
-
-
 }
