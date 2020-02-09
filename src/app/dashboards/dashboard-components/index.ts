@@ -31,3 +31,4 @@ export * from './data-table/data-table.component';
 export * from './request-table/request-table.component';
 export * from './buyer-table/buyer-table.component';
 export * from './seller-table/seller-table.component';
+export * from './smart-table/smart-table.component'
