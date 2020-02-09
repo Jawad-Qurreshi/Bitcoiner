@@ -6,7 +6,7 @@
                 <div class="d-flex">
                     <div class="m-r-10">
                         <span>Wallet Balance</span>
-                        <h4>${{TotalWallet}}</h4>
+                        <h4>${{TotalWallet | number : '1.3-3'}}</h4>
                     </div>
                     <div class="ml-auto">
                         <div class="line-chart m-b-40">
@@ -26,7 +26,7 @@
                 <div class="d-flex align-items-center">
                     <div class="m-r-10">
                         <span>Bitcoin Current Rate</span>
-                        <h4>${{bitcurrent}}</h4>
+                        <h4>${{bitcurrent | number : '1.3-3'}}</h4>
                     </div>
                     <div class="ml-auto">
                         <div class="ml-auto" style="height: 56px; width: 100px">
@@ -47,7 +47,7 @@
                 <div class="d-flex align-items-center">
                     <div class="m-r-10">
                         <span>Ethereum current rate</span>
-                        <h4><table>${{ethcurrent}}</table></h4>
+                        <h4><table>${{ethcurrent | number  : '1.3-3'}}</table></h4>
                     </div>
                     <div class="ml-auto" style="height: 56px; width: 100px">
                         <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels"

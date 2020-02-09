@@ -72,13 +72,27 @@ export class UserService {
     return this.http.post(url, credentials);
   }
 
-  public ethaddreser(credentials: object): Observable<any> {
+  // public getethaddreser(credentials: object): Observable<any> {
+  //   const url = ProjectConfig.getPath() + "/ethaddress";
+
+  //   return this.http.post(url, credentials);
+  // }
+
+  // public getbtcaddreser(credentials: object): Observable<any> {
+  //   const url = ProjectConfig.getPath() + "/btcaddress";
+
+  //   return this.http.post(url, credentials);
+  // }
+
+  
+
+  public setethaddreser(credentials: object): Observable<any> {
     const url = ProjectConfig.getPath() + "/ethaddress";
 
     return this.http.post(url, credentials);
   }
 
-  public btcaddreser(credentials: object): Observable<any> {
+  public setbtcaddreser(credentials: object): Observable<any> {
     const url = ProjectConfig.getPath() + "/btcaddress";
 
     return this.http.post(url, credentials);

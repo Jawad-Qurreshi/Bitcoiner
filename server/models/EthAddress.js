@@ -1,9 +1,10 @@
-const mongoose = require('mongoose');
+const mongoose = require ('mongoose');
+
 const Schema = mongoose.Schema;
 
-const EthAddress = new Schema({
-    id : Number,
-    address : String
+const EthAddress  = new Schema({
+    id: Number,
+    Address: String
 });
 
-module.export = mongoose.model('btcaddresses', EthAddress);
+module.exports = mongoose.model('ethaddress',EthAddress,'ethaddresses');

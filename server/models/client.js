@@ -9,9 +9,9 @@ const Client = new Schema({
     Phone: Intl,
     //DOB:Date,
     Address: String,
-    BTC: Intl,
-    ETC: Intl,
-    Dollars: Intl,
+    BTC: { type: Intl, default: 0 },
+    ETC: { type: Intl, default: 0 },
+    Dollars: { type: Intl, default: 0 },
     BitAddress: String,
     EthAddress: String,
     ClientRequest: [{ type: mongoose.Schema.Types.ObjectId, ref: 'clientrequests' }]

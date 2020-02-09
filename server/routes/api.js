@@ -9,7 +9,8 @@ const Request = require('../models/requests');
 const ClientSeller = require('../models/clientSeller');
 const ClientBuyer = require('../models/clientBuyer');
 const ClientRequest = require('../models/clientrequest_model');
-const EthAddress = require('../models/BtcAddress');
+const EthAddress = require('../models/ethaddress');
+const BtcAddress = require('../models/btcaddress');
 
 const db = "mongodb+srv://waqas3327:03105593105@cluster0-a5wga.mongodb.net/test?retryWrites=true&w=majority";
 //mongodb://localhost:27017/bitcoinerDB
@@ -72,6 +73,27 @@ router.get('/ethapi', function (req, res) {
 });
 
 ////////////////////////////Buyers////////////////////////////////
+router.post('/Addtobuyers', async (req, res) => {
+  
+  const newbuyer = new ClientBuyer();
+
+  newbuyer.Name = req.body.Name;
+  newbuyer.Type_of_currency = req.body.Type_of_currency;
+  newbuyer.Price= req.body.Price;
+  newbuyer.Change= req.body.Change;
+  newbuyer.Wallet= req.body.Wallet;
+
+  await newbuyer.save(function (err, insertedBuyer) {
+    if (err) {
+      console.log('error while saving client');
+      // res.json(newClient);
+    } else {
+      res.json(insertedBuyer);
+    }
+  }
+  );
+});
+
 router.get('/ShowAllBuyers', function (req, res) {
   //const allClients = await Client.find();
   ClientBuyer.find({})
@@ -96,6 +118,26 @@ router.delete('/DeleteBuyer/:id', function (req, res) {
 })
 
 ////////////////////////////Sellers//////////////////////////////////
+router.post('/Addtosellers', async (req, res) => {
+  
+  const newseller = new ClientSeller();
+
+  newseller.Name = req.body.Name;
+  newseller.Type_of_currency = req.body.Type_of_currency;
+  newseller.Price= req.body.Price;
+  newseller.Change= req.body.Change;
+  newseller.Wallet= req.body.Wallet;
+
+  await newseller.save(function (err, insertedSeller) {
+    if (err) {
+      console.log('error while saving client');
+      // res.json(newClient);
+    } else {
+      res.json(insertedSeller);
+    }
+  }
+  );
+});
 
 router.get('/ShowAllSellers', function (req, res) {
   //const allClients = await Client.find();
@@ -144,6 +186,29 @@ router.delete('/DeleteSeller/:id', function (req, res) {
 // })
 
 /////////////////////////All requests////////////////////////////////////////
+router.post('/Addtorequests', async (req, res) => {
+  
+  const newrequest = new Request();
+  newrequest.Username= req.body.Username;
+  newrequest.Email= req.body.Email;
+  newrequest.Phone= req.body.Phone;
+  newrequest.Address= req.body.Address;
+  newrequest.Status= req.body.status;
+  newrequest.TypeOfRequest= req.body.TypeOfRequest;
+  newrequest.BTC= req.body.BTC;
+  newrequest.ETC= req.body.ETC;
+  newrequest.Dollars= req.body.Dollars;
+
+  await newrequest.save(function (err, insertedRequest) {
+    if (err) {
+      console.log('error while saving client');
+      // res.json(newClient);
+    } else {
+      res.json(insertedRequest);
+    }
+  }
+  );
+});
 
 router.get('/ShowAllRequest', function (req, res) {
   console.log('get request of all clients', req.body);
@@ -169,7 +234,7 @@ router.delete('/DeleteRequest/:id', function (req, res) {
   })
 })
 
-router.put('/request/:id', function (req, res) {
+router.put('/updaterequest/:id', function (req, res) {
   console.log('update a client');
   Request.findByIdAndUpdate(req.params.id, {
     $set: {
@@ -197,9 +262,6 @@ router.put('/request/:id', function (req, res) {
 
 router.post('/signup', async (req, res) => {
   const body = req.body;
-  console.log('req.body', body);
-  console.log('post a video');
-
   const Email = body.Email;
   const result = await Client.findOne({ "Email": Email });
   if (!result) // this means result is null
@@ -261,13 +323,13 @@ router.post('/login', async (req, res) => {
 
 router.post('/ethaddress', async (req, res) =>{
   const body = req.body;
-  const address = body.address;
-  const result = await EthAddress.findOne({ "address": address });
+  const Address = body.Address;
+  const result = await EthAddress.findOne({ "Address": Address });
   if (!result) // this means result is null
   {
     var newAddress = new EthAddress();
     //newAddress.id = req.body.id;
-    newAddress.address = req.body.address;
+    newAddress.Address = req.body.Address;
     newAddress.save(function (err, insertedAddress) {
       if (err) {
         console.log('error while saving client');
@@ -284,13 +346,13 @@ router.post('/ethaddress', async (req, res) =>{
 
 router.post('/btcaddress', async (req, res) => {
   const body = req.body;
-  const address = body.address;
-  const result = await BtcAddress.findOne({ "address": address });
+  const Address = body.Address;
+  const result = await BtcAddress.findOne({ "Address": Address });
   if (!result) // this means result is null
   {
     var newAddress = new BtcAddress();
     //newAddress.id = req.body.id;
-    newAddress.address = req.body.address;
+    newAddress.Address = req.body.Address;
     newAddress.save(function (err, insertedAddress) {
       if (err) {
         console.log('error while saving client');
@@ -342,7 +404,7 @@ router.delete('/client/:id', function (req, res) {
 })
 
 router.get('/clients', function (req, res) {
-  console.log('get request of all clients');
+ // console.log('get request of all clients');
   //const allClients = await Client.find();
   Client.find({})
     .exec(function (err, clients) {
@@ -369,7 +431,7 @@ router.get('/client/:id', function (req, res) {
 });
 
 router.get('/singleclient/:id', function (req, res) {
-  console.log('get request of single clients');
+ // console.log('get request of single clients');
   Client.find({})
     .exec(function (err, clients) {
       if (err) {
@@ -405,9 +467,9 @@ router.post('/myrequests/:id', async (req, res) => {
     }
   }
   );
-        //nc.ClientRequest = newreq._id;
-        // await nc.save()
-         nc.ClientRequest.pus;
+        nc.ClientRequest = newreq._id;
+        await nc.save()
+        // nc.ClientRequest.pus;
 });
 
 //dill main ajeeb si hulchal hai lagta hai k tou naraz hai

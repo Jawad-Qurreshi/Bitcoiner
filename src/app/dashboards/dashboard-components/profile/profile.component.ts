@@ -1,15 +1,16 @@
-import { Component, Input, Output, OnInit, OnChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, Output } from "@angular/core";
+
+import { Router } from "@angular/router";
 import { UserService } from "sdk/user.service";
 
 @Component({
-  selector: 'app-profile',
-  templateUrl: 'profile.component.html',
+  selector: "app-profile",
+  templateUrl: "profile.component.html",
   providers: [UserService]
 })
-export class ProfileComponent implements OnInit,OnChanges{
-  
+export class ProfileComponent implements OnInit {
   isVisible = false;
-is2ndVisible = false;
+  is2ndVisible = false;
   isOkLoading = false;
 
   sellers = [];
@@ -18,23 +19,15 @@ is2ndVisible = false;
   //singleclient = [];
 
   @Input() singleclient = [];
-  router: any;
 
-  constructor(private userservice: UserService) {
-    
-  }
-  
-  logout(){
-    localStorage.removeItem('ID');
-    localStorage.removeItem('token');
-    this.router.navigateByUrl('../../starter');
+  constructor(private userservice: UserService, private router: Router) {}
+
+  logout() {
+    localStorage.removeItem("ID");
+    localStorage.removeItem("token");
+    this.router.navigateByUrl("/authentication/login");
   }
 
-  ngOnChanges(){
-
-    //console.log("this.userdata", this.singleclient);
-  }
-  
   showModal(): void {
     this.isVisible = true;
   }
@@ -54,11 +47,9 @@ is2ndVisible = false;
   handleCancel(): void {
     this.isVisible = false;
     this.is2ndVisible = false;
-  } 
-
+  }
 
   ngOnInit() {
-    
     // var id =localStorage.getItem('ID');
     // //console.log("id from localstorage", id);
     // this.userservice.gettheclient(id).subscribe(
@@ -91,5 +82,4 @@ is2ndVisible = false;
       }
     );
   }
-
 }
