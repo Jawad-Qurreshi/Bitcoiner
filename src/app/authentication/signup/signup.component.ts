@@ -83,7 +83,7 @@ export class SignupComponent implements OnInit {
         this.clicked = false;
         this.loading = false;
         console.log("error in save button");
-        alert("Registeration Failed! User Already Exists");
+        this.message.error("Registeration Failed! User Already Exists");
       }
     );
   }

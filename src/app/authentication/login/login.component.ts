@@ -45,7 +45,9 @@ export class LoginComponent implements OnInit {
           this.clicked = false;
           this.loading = false;
           console.log("error", error);
-          alert("Wrong email or password!");
+          this.message.error("Wrong email or password!");
+
+          // alert("Wrong email or password!");
         }
       );
     } catch (ex) {
