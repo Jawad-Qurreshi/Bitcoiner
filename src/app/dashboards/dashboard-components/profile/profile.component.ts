@@ -8,7 +8,7 @@ import { UserService } from "sdk/user.service";
   templateUrl: "profile.component.html",
   providers: [UserService]
 })
-export class ProfileComponent implements OnInit, OnChanges {
+export class ProfileComponent implements OnInit {
   isVisible = false;
   is2ndVisible = false;
   isOkLoading = false;
