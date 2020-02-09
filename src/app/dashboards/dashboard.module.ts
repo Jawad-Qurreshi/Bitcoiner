@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
@@ -29,7 +29,6 @@ import {
   TopsellComponent,
   ActivityComponent,
   DatatableComponent,
-  SmarttableComponent,
   RequesttableComponent,
   BrowserStatsComponent,
   DeviceVisitsComponent,
@@ -51,9 +50,11 @@ import {
   VisitsBounceComponent,
   WeathercardComponent,
   WelcomeComponent,
-  ProfileComponent
+  ProfileComponent,
+  AddressestableComponent
 } from './dashboard-components';
 import { NavigationComponent } from './dashboard-components/header-navigation/navigation.component';
+import { Ng2SmartTableModule } from 'ng2-smart-table';
 
 @NgModule({
   imports: [
@@ -62,12 +63,14 @@ import { NavigationComponent } from './dashboard-components/header-navigation/na
     NgbModule,
     ChartsModule,
     ChartistModule,
+    ReactiveFormsModule,
     RouterModule.forChild(DashboardRoutes),
     PerfectScrollbarModule,
     CalendarModule.forRoot(),
     NgxChartsModule,
     NgxDatatableModule,
     NgZorroAntdModule,
+    Ng2SmartTableModule
   ],
   providers   : [
     { provide: NZ_I18N, useValue: en_US }
@@ -80,12 +83,12 @@ import { NavigationComponent } from './dashboard-components/header-navigation/na
     BuyertableComponent,
     ChatComponent,
     ProfileComponent,
-    SmarttableComponent,
     CommentComponent,
     NavigationComponent,
     RequesttableComponent,
     TopsellComponent,
     SellertableComponent,
+    AddressestableComponent,
     ActivityComponent,
     BrowserStatsComponent,
     DeviceVisitsComponent,

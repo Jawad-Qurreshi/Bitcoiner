@@ -10,6 +10,7 @@ import { UserService } from "sdk/user.service";
 export class Dashboard1Component implements OnInit {
   clients = [];
   requests = [];
+  btcAddresses = [];
 
   constructor(private userservice: UserService) {}
 
@@ -34,5 +35,14 @@ export class Dashboard1Component implements OnInit {
       }
     );
     
+     this.userservice.getAddresses().subscribe(
+       addresses => {
+         //console.log("resallrequest", resallrequest);
+       this.btcAddresses = addresses;
+       },
+       err => {
+         console.log("api error in all request retreaval", err);
+       }
+     );
   }
 }

@@ -37,6 +37,17 @@ export class UserService {
     return this.http.get(url);
   }
 
+  public getAddresses(): Observable<any> {
+    const url = ProjectConfig.getPath() + "/getAddresses";
+    //return this.http.get(url, credentials);
+    return this.http.get(url);
+  }
+
+  public postAddresses(credentials: object): Observable<any> {
+    const url = ProjectConfig.getPath() + "/btcaddress";
+    //return this.http.get(url, credentials);
+    return this.http.post(url, credentials);
+  }
   public gettheBIT(): Observable<any> {
     const url = ProjectConfig.getPath() + "/bitapi";
     //return this.http.get(url, credentials);
@@ -84,7 +95,7 @@ export class UserService {
   //   return this.http.post(url, credentials);
   // }
 
-  
+
 
   public setethaddreser(credentials: object): Observable<any> {
     const url = ProjectConfig.getPath() + "/ethaddress";

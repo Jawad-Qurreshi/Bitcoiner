@@ -11,12 +11,7 @@ const ClientBuyer = require('../models/clientBuyer');
 const ClientRequest = require('../models/clientrequest_model');
 const BtcAddress = require('../models/btcaddress');
 
-<<<<<<< HEAD
-const db = "mongodb+srv://bitcoiner3327:123456jawad@bitcoinercluster-t5n19.mongodb.net/test?retryWrites=true&w=majority";
-=======
-const db = "mongodb+srv://waqas3327:03105593105@cluster0-a5wga.mongodb.net/test?retryWrites=true&w=majority";
-//mongodb://localhost:27017/bitcoinerDB
->>>>>>> 5f6af3dea539364e4bce845843fa9beba4e7020e
+const db = "mongodb://localhost:27017/bitcoinerDB";
 mongoose.Promise = global.Promise;
 
 mongoose.connect(db, { useUnifiedTopology: true, useNewUrlParser: true }, function (err) {
@@ -337,7 +332,8 @@ router.post('/btcaddress', async (req, res) => {
     if (!result2) {
       var newAddress = new BtcAddress();
       //newAddress.id = req.body.id;
-      newAddress.Address = req.body.Address;
+      newAddress.AddressBTC = req.body.AddressBTC;
+      newAddress.AddressETH = req.body.AddressETH;
       newAddress.save(function (err, insertedAddress) {
         if (err) {
           console.log('error while saving client');
@@ -354,6 +350,21 @@ router.post('/btcaddress', async (req, res) => {
   else {
     console.log('AddressBTC already exist');
   }
+});
+
+router.get('/getAddresses', function (req, res) {
+  // console.log('get request of all clients');
+  //const allClients = await Client.find();
+  BtcAddress.find({})
+    .exec(function (err, btcaddresses) {
+      if (err) {
+        console.log('Error while retrieving clients');
+      } else {
+        res.json(btcaddresses);
+      }
+    });
+  // console.log('allClients', allClients);
+  // res.send(allClients);
 });
 
 ////////////////////////////////Clients///////////////////////////////////////////
