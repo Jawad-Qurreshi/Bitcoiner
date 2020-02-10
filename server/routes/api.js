@@ -326,14 +326,16 @@ router.post('/btcaddress', async (req, res) => {
   const AddressBTC = body.AddressBTC;
   const AddressETH = body.AddressETH;
   const result1 = await BtcAddress.findOne({ "AddressBTC": AddressBTC });
+  console.log('data in result1', result1);
   const result2 = await BtcAddress.findOne({ "AddressETH": AddressETH });
+  console.log('data in result2 ' , result2);;
   if (!result1) // this means result is null
   {
     if (!result2) {
       var newAddress = new BtcAddress();
       //newAddress.id = req.body.id;
-      newAddress.AddressBTC = req.body.AddressBTC;
-      newAddress.AddressETH = req.body.AddressETH;
+      newAddress.AddressBTC = body.AddressBTC;
+      newAddress.AddressETH = body.AddressETH;
       newAddress.save(function (err, insertedAddress) {
         if (err) {
           console.log('error while saving client');

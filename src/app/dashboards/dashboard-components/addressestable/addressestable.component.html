@@ -22,15 +22,13 @@
           <div class="card-body">
               <div class="d-flex no-block align-items-center m-b-10">
                   <h4 class="card-title">Addresses (BTC & ETH)</h4>
-                  <button type="button" (click)="showmModal()"
-                                class="btn btn-rounded btn-primary">Add Addresses</button>
               </div>
+              <button type="button" (click)="showmModal()"
+                                class="btn btn-rounded btn-primary">Add Addresses</button><br>
               <div class="table-responsive">
                   <table class="table bg-white table-bordered nowrap display">
                       <thead>
                           <tr>
-                             
-                              <th>ID</th>
                               <th>BTCAddress</th>
                               <th>ETHAddress</th>
                           </tr>
@@ -43,11 +41,9 @@
                                   <a href="javscript:void(0)">
                                       <img src="assets/images/users/1.jpg" alt="user" class="rounded-circle" width="30" /> Govinda jalan</a>
                               </td> -->
-                              <td>{{ btcAddress._id }}</td>
                               <td>{{ btcAddress.AddressBTC }}</td>
-                              <td>${{ btcAddress.AddressETH }}</td>
+                              <td>{{ btcAddress.AddressETH }}</td>
                           </tr>
-                          
                       </tbody>
                   </table>
               </div>
@@ -62,13 +58,13 @@
                 
       <div class="form-group row ">
           <div class="col-12 ">
-             <input class="form-control form-control-lg"   name="BTC" type="text" formControlName="btc" placeholder="enter bitcoin wallet address">
+             <input class="form-control form-control-lg"   name="BTC" type="text" formControlName="AddressBTC" placeholder="enter bitcoin wallet address">
           </div>
       </div>
 
       <div class="form-group row">
           <div class="col-12 ">
-              <input class="form-control form-control-lg" name="ETH" type="text" placeholder="enter ethereum wallet address" formControlName="eth">
+              <input class="form-control form-control-lg" name="ETH" type="text" placeholder="enter ethereum wallet address" formControlName="AddressETH">
           </div>
       </div>
 

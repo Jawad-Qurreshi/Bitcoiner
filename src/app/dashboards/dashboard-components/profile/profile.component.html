@@ -160,9 +160,9 @@
                     <form class="m-t-30">
                         <div class="form-group m-b-30">
                             <h4 class="card-title">Select Currency</h4>
-                            <select class="form-control" id="exampleFormControlSelect1">
-                                <option>Bitcoin</option>
-                                <option>Ethereum</option>
+                            <select ng-model="data.currencySelector" class="form-control" id="currencySelector" name="currencySelector">
+                                <option value="BTC">Bitcoin</option>
+                                <option value="ETH">Ethereum</option>
                             </select><br>
                             <h4 class="card-title">To</h4>
                             <input type="text" class="form-control" id="nametext" aria-describedby="name"

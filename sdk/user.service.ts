@@ -48,6 +48,7 @@ export class UserService {
     //return this.http.get(url, credentials);
     return this.http.post(url, credentials);
   }
+
   public gettheBIT(): Observable<any> {
     const url = ProjectConfig.getPath() + "/bitapi";
     //return this.http.get(url, credentials);
@@ -62,19 +63,13 @@ export class UserService {
   
   public gettheclient(id: String): Observable<any>{
     const url = ProjectConfig.getPath() + "/client/" + id;
-    // console.log('get the clients waly credentials:',id);
-    // console.log('get the clients waly url :',url);
     return this.http.get(url);
 
     //return this.http.get(url);
   }
   public sendrequest(id: String): Observable<any>{
-    const url = ProjectConfig.getPath() + "/myrequest/" + id;
-    // console.log('get the clients waly credentials:',id);
-    // console.log('get the clients waly url :',url);
+    const url = ProjectConfig.getPath() + "/myrequest/" + id
     return this.http.get(url);
-
-    //return this.http.get(url);
   }
 
   public userLogin(credentials: object): Observable<any> {

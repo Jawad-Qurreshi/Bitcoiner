@@ -25,8 +25,8 @@ export class AddressestableComponent {
 
   formInitializer() {
     this.addressData = this.fb.group({
-      btc: ["", Validators.required],
-      eth: ["", Validators.required],
+      AddressBTC: ["", Validators.required],
+      AddressETH: ["", Validators.required],
     });
   }
   SaveToDB(){
