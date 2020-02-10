@@ -39,7 +39,7 @@ export class Dashboard1Component implements OnInit, OnChanges {
     
     this.userservice.getallrequests().subscribe(
       resallrequest => {
-        //console.log("resallrequest", resallrequest);
+        console.log("resallrequest", resallrequest);
         this.requests = resallrequest;
       },
       err => {

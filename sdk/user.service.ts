@@ -68,13 +68,17 @@ export class UserService {
     //return this.http.get(url);
   }
   public sendrequest(id: String): Observable<any>{
-    const url = ProjectConfig.getPath() + "/myrequest/" + id
+    const url = ProjectConfig.getPath() + "/sendmyrequest/" + id
+    return this.http.post(url,id);
+  }
+
+  public getmyrequest(id: String): Observable<any>{
+    const url = ProjectConfig.getPath() + "/getmyrequests/" + id
     return this.http.get(url);
   }
 
   public userLogin(credentials: object): Observable<any> {
     const url = ProjectConfig.getPath() + "/login";
-
     return this.http.post(url, credentials);
   }
 

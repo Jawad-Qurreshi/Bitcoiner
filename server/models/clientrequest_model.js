@@ -6,6 +6,7 @@ const ClientRequest = new Schema({
     request_type: {type: String},
     crypto_type: {type: String},
     amount: mongoose.Schema.Types.Decimal128,
+    date:Date,
     client: {type: mongoose.Schema.Types.ObjectId, ref: 'clients'}
 
 });

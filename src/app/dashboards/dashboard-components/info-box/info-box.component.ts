@@ -22,14 +22,14 @@ export class InfoBoxComponent implements OnInit, OnChanges, AfterViewInit {
 
   TotalWallet = 0;
   walletBTC = 0;
-  walletETC = 0;
-  walletDollers = 0;
+  walletETH = 0;
+  walletDollars = 0;
   newbitcurrent = 0;
   newethcurrent = 0;
   bitcurrent = 0;
   ethcurrent = 0;
   calcwalletBTC = 0;
-  calcwalletETC = 0;
+  calcwalletETH = 0;
   bit = 0;
   eth = 0;
 
@@ -73,25 +73,29 @@ export class InfoBoxComponent implements OnInit, OnChanges, AfterViewInit {
   public barChartType = "bar";
 
   ngOnChanges() {
-    console.log("this.userdata", this.singleclient);
+    //console.log("this.userdata", this.singleclient);
     this.updateTotalWallet();
   }
 
   updateTotalWallet() {
-    console.log("updateTotalWallet");
+    //console.log("updateTotalWallet");
 
     if (this.bitcurrent && this.ethcurrent) {
       this.walletBTC = +this.singleclient.BTC;
-      this.walletETC = +this.singleclient.ETC;
-      this.walletDollers = +this.singleclient.Dollars;
+      this.walletETH = +this.singleclient.ETC;
+      this.walletDollars = +this.singleclient.Dollars;
+      
+      console.log("walletBTC", this.walletBTC);
+      console.log("walletETH", this.walletETH);
+      console.log("walletDOLLARS", this.walletDollars);
 
       this.newethcurrent = +this.ethcurrent;
       this.newbitcurrent = +this.bitcurrent;
 
       this.calcwalletBTC = this.walletBTC * this.newbitcurrent;
-      this.calcwalletETC = this.walletETC * this.newethcurrent;
+      this.calcwalletETH = this.walletETH * this.newethcurrent;
 
-      this.TotalWallet = this.walletBTC + this.walletETC + this.walletDollers;
+      this.TotalWallet = this.calcwalletBTC + this.calcwalletETH + this.walletDollars;
       console.log("ywh wala", this.TotalWallet);
     }
   }

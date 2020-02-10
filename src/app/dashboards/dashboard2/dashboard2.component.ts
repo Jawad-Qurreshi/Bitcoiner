@@ -9,7 +9,7 @@ import { UserService } from "sdk/user.service";
 export class Dashboard2Component implements AfterViewInit {
   
   singleclient = [];
-  requests = [];
+  myrequests = [];
   constructor(private userservice: UserService) {}
 
   ngOnInit() {
@@ -26,15 +26,25 @@ export class Dashboard2Component implements AfterViewInit {
       }
     );
 
-    this.userservice.getallrequests().subscribe(
-      resallrequest => {
-       // console.log("resallrequest", resallrequest);
-        this.requests = resallrequest;
-      },
-      err => {
-        console.log("api error in all request retreaval", err);
-      }
-    );
+    // this.userservice.getallrequests().subscribe(
+    //   resallrequest => {
+    //    // console.log("resallrequest", resallrequest);
+    //     this.requests = resallrequest;
+    //   },
+    //   err => {
+    //     console.log("api error in all request retreaval", err);
+    //   }
+    // );
+
+     this.userservice.getmyrequest(id).subscribe(
+       getmyreq => {
+        console.log("mt all requesty",getmyreq);
+        this.myrequests = getmyreq;
+       },
+       err => {
+        console.log("api error in my request retreaval", err);
+       } 
+     );
   }
   ngAfterViewInit() {}
 }

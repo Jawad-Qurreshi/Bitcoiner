@@ -11,7 +11,7 @@ export class UserDetailsComponent {
 
   constructor(private userservice: UserService) {}
 
-  @Input() requests : [];
+  @Input() myrequests : [];
 
 
 }

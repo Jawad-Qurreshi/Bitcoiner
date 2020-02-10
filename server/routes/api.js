@@ -319,8 +319,6 @@ router.post('/login', async (req, res) => {
   }
 });
 
-
-
 router.post('/btcaddress', async (req, res) => {
   const body = req.body;
   const AddressBTC = body.AddressBTC;
@@ -425,7 +423,7 @@ router.get('/client/:id', function (req, res) {
   Client.findById(userid)
     .exec(function (err, client) {
       if (err) {
-        console.log('Error while retrieving video');
+       // console.log('Error while retrieving video');
       } else {
         res.json(client);
       }
@@ -458,6 +456,9 @@ router.post('/myrequests/:id', async (req, res) => {
   const newreq = new ClientRequest();
   newreq.status = req.body.status;
   newreq.request_type = req.body.request_type;
+  newreq.crypto_type = req.body.crypto_type;
+  newreq.amount = req.body.amount;
+  newreq.date = new Date();
   newreq.client = req.params.id;
 
   await newreq.save(function (err, insertedRequest) {
@@ -477,11 +478,11 @@ router.post('/myrequests/:id', async (req, res) => {
 //dill main ajeeb si hulchal hai lagta hai k tou naraz hai
 //hum pr bhi tou nazare kram kr yeh khan ka insaf hai
 
-router.get('/myrequests/:id', async (req, res) => {
+router.get('/getmyrequests/:id', async (req, res) => {
   let userid = req.params.id;
-  //console.log('error while saving client'+ userid);
+  console.log('error while saving client'+ userid);
   ClientRequest.findOne({ 'client': userid })
-    //console.log('error while saving client'+ result);
+    console.log('error while saving client'+ result)
     //res.send ({result});
     .exec((err, request) => {
       if (err) {
@@ -489,9 +490,7 @@ router.get('/myrequests/:id', async (req, res) => {
           message: err.message
         });
       } else {
-        res.status(200).json({
-          request: request
-        });
+        res.json(request);
       }
     });
 });
