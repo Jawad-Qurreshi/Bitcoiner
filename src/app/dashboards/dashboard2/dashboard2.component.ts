@@ -38,7 +38,7 @@ export class Dashboard2Component implements AfterViewInit {
 
      this.userservice.getmyrequest(id).subscribe(
        getmyreq => {
-        console.log("mt all requesty",getmyreq);
+        console.log("get all request",getmyreq);
         this.myrequests = getmyreq;
        },
        err => {

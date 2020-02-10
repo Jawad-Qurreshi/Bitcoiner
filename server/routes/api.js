@@ -11,7 +11,7 @@ const ClientBuyer = require('../models/clientBuyer');
 const ClientRequest = require('../models/clientrequest_model');
 const BtcAddress = require('../models/btcaddress');
 
-const db = "mongodb://localhost:27017/bitcoinerDB";
+const db = "mongodb+srv://mybitcoiner:123456789db@cluster0-8jh11.mongodb.net/test?retryWrites=true&w=majority";
 mongoose.Promise = global.Promise;
 
 mongoose.connect(db, { useUnifiedTopology: true, useNewUrlParser: true }, function (err) {
@@ -83,7 +83,7 @@ router.post('/Addtobuyers', async (req, res) => {
 
   await newbuyer.save(function (err, insertedBuyer) {
     if (err) {
-      console.log('error while saving client');
+      console.log('error while saving new buyer');
       // res.json(newClient);
     } else {
       res.json(insertedBuyer);
@@ -108,7 +108,7 @@ router.delete('/DeleteBuyer/:id', function (req, res) {
   console.log('Deleting a buyer');
   ClientBuyer.findByIdAndRemove(req.params.id, function (err, deletedBuyer) {
     if (err) {
-      res.send("Error deleting client")
+      res.send("Error deleting buyer")
     } else {
       res.json(deletedBuyer);
     }
@@ -128,7 +128,7 @@ router.post('/Addtosellers', async (req, res) => {
 
   await newseller.save(function (err, insertedSeller) {
     if (err) {
-      console.log('error while saving client');
+      console.log('error while saving Seller');
       // res.json(newClient);
     } else {
       res.json(insertedSeller);
@@ -199,7 +199,7 @@ router.post('/Addtorequests', async (req, res) => {
 
   await newrequest.save(function (err, insertedRequest) {
     if (err) {
-      console.log('error while saving client');
+      console.log('error while adding to request');
       // res.json(newClient);
     } else {
       res.json(insertedRequest);
@@ -279,7 +279,7 @@ router.post('/signup', async (req, res) => {
     //res.json(newClient);
     newClient.save(function (err, insertedClient) {
       if (err) {
-        console.log('error while saving client');
+        console.log('error in signup');
         // res.json(newClient);
       } else {
         res.json(insertedClient);
@@ -336,7 +336,7 @@ router.post('/btcaddress', async (req, res) => {
       newAddress.AddressETH = body.AddressETH;
       newAddress.save(function (err, insertedAddress) {
         if (err) {
-          console.log('error while saving client');
+          console.log('error while saving eth address');
           // res.json(newClient);
         } else {
           res.json(insertedAddress);
@@ -358,7 +358,7 @@ router.get('/getAddresses', function (req, res) {
   BtcAddress.find({})
     .exec(function (err, btcaddresses) {
       if (err) {
-        console.log('Error while retrieving clients');
+        console.log('Error while retrieving address');
       } else {
         res.json(btcaddresses);
       }
@@ -463,7 +463,7 @@ router.post('/myrequests/:id', async (req, res) => {
 
   await newreq.save(function (err, insertedRequest) {
     if (err) {
-      console.log('error while saving client');
+      console.log('error while saving my request');
       // res.json(newClient);
     } else {
       res.json(insertedRequest);
@@ -480,17 +480,17 @@ router.post('/myrequests/:id', async (req, res) => {
 
 router.get('/getmyrequests/:id', async (req, res) => {
   let userid = req.params.id;
-  console.log('error while saving client'+ userid);
+ // console.log('error while saving client'+ userid);
   ClientRequest.findOne({ 'client': userid })
-    console.log('error while saving client'+ result)
+   // console.log('error while getting my requests'+ result)
     //res.send ({result});
-    .exec((err, request) => {
+    .exec(function (err, myrequest) {
       if (err) {
         res.status(500).json({
           message: err.message
         });
       } else {
-        res.json(request);
+        res.json(myrequest);
       }
     });
 });
