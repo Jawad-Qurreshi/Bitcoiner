@@ -84,31 +84,31 @@
                             <div class="card">
                                 <div class="card-body">
 
-                                    <form class="m-t-30">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" id="nametext1" placeholder="Name"
+                                    <form [formGroup]="tradedata" class="m-t-30">
+                                        <div class="form-group row">
+                                            <input type="text" class="form-control" id="nametext1" formControlName="Name" required=" " placeholder="Name"
                                                 disabled>
                                         </div>
-                                    </form>
-                                    <br>
-                                    <h6>I want to:</h6>
-                                    <div class="form-check form-check-inline">
-                                        <div class="custom-control custom-radio">
-                                            <input type="radio" class="custom-control-input"
-                                                id="customControlValidation2" name="radio-stacked">
-                                            <label class="custom-control-label"
-                                                for="customControlValidation2">Buy</label>
+
+                                        <br>
+                                        <h6>I want to:</h6>
+                                        <div class="form-check form-check-inline">
+                                            <div class="custom-control custom-radio">
+                                                <input type="radio" class="custom-control-input"
+                                                    id="customControlValidation2" formControlName="Radiocheckbuy"  name="radio-stacked">
+                                                <label class="custom-control-label"
+                                                    for="customControlValidation2">Buy</label>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <div class="custom-control custom-radio">
-                                            <input type="radio" class="custom-control-input"
-                                                id="customControlValidation3" name="radio-stacked">
-                                            <label class="custom-control-label"
-                                                for="customControlValidation3">Sell</label>
-                                        </div>
-                                    </div><br><br>
-                                    <form>
+                                        <div class="form-check form-check-inline">
+                                            <div class="custom-control custom-radio">
+                                                <input type="radio" class="custom-control-input"
+                                                    id="customControlValidation3" formControlName="Radiochecksell" name="radio-stacked">
+                                                <label class="custom-control-label"
+                                                    for="customControlValidation3">Sell</label>
+                                            </div>
+                                        </div><br><br>
+
                                         <div class="form-group m-b-30">
                                             <label class="mr-sm-2" for="inlineFormCustomSelect">Select the type of
                                                 currency</label>
@@ -118,27 +118,28 @@
                                                 <option value="2">Ethereum</option>
                                             </select>
                                         </div>
-                                    </form>
-                                    <br>
-                                    <h6>Please enter the price</h6>
-                                    <form class="m-t-20">
-                                        <div class="form-group">
+
+                                        <br>
+                                        <h6>Please enter the price</h6>
+
+                                        <div class="form-group row">
                                             <input type="text" class="form-control" id="nametext"
                                                 aria-describedby="name" placeholder="Price">
                                             <small id="name" class="form-text text-muted">Price should be in dollars
                                                 because i will be calculated according to the current price of
                                                 BTC/ETH</small>
                                         </div>
-                                    </form>
-                                    <form class="m-t-30">
+
+
                                         <div class="form-group">
                                             <input type="text" class="form-control" id="nametext1" placeholder="Change"
                                                 disabled>
                                         </div>
                                     </form>
-                                    
+
                                     <div class="col-4 col-lg-2 col-md-4">
-                                        <button type="button" class="btn btn-rounded btn-block btn-success">confirm</button>
+                                        <button type="button"
+                                            class="btn btn-rounded btn-block btn-success">confirm</button>
                                     </div>
 
                                 </div>
@@ -154,13 +155,14 @@
 <nz-modal [(nzVisible)]="isVisible" nzTitle="Send Bitcoins" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()"
     [nzOkLoading]="isOkLoading">
     <div class="row">
-        <div class="col-sm-12 col-md-12 col-lg-12">
+        <form [formGroup]="" <div class="col-sm-12 col-md-12 col-lg-12">
             <div class="card">
                 <div class="card-body">
                     <form class="m-t-30">
                         <div class="form-group m-b-30">
                             <h4 class="card-title">Select Currency</h4>
-                            <select ng-model="data.currencySelector" class="form-control" id="currencySelector" name="currencySelector">
+                            <select ng-model="data.currencySelector" class="form-control" id="currencySelector"
+                                name="currencySelector">
                                 <option value="BTC">Bitcoin</option>
                                 <option value="ETH">Ethereum</option>
                             </select><br>
@@ -188,7 +190,7 @@
                     </form>
                 </div>
             </div>
-        </div>
+    </div>
     </div>
 </nz-modal>
 <nz-modal [(nzVisible)]="is2ndVisible" nzTitle="Recieve Bitcoins" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()"
