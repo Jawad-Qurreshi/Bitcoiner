@@ -1,5 +1,11 @@
 import { Component, Input, OnChanges, OnInit, Output } from "@angular/core";
-
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  Validators
+} from "@angular/forms";
+import { NzMessageService } from "ng-zorro-antd";
 import { Router } from "@angular/router";
 import { UserService } from "sdk/user.service";
 
@@ -13,14 +19,20 @@ export class ProfileComponent implements OnInit {
   is2ndVisible = false;
   isOkLoading = false;
 
+  senderform: FormGroup;
+
   sellers = [];
   buyers = [];
   name: any;
-  //singleclient = [];
-
+  
   @Input() singleclient = [];
 
-  constructor(private userservice: UserService, private router: Router) {}
+  constructor(
+    private fb: FormBuilder,
+    private message: NzMessageService,
+    private userService: UserService, 
+    private router: Router) {
+  }
 
   logout() {
     localStorage.removeItem("ID");
@@ -35,7 +47,34 @@ export class ProfileComponent implements OnInit {
     this.is2ndVisible = true;
   }
 
-  handleOk(): void {
+  handlesenderOk(): void {
+    // var id =localStorage.getItem('ID');
+    // this.userService.sendrequest(id,this.senderform.value).subscribe(
+    //   data => {
+    //     console.log("got response from server", data);
+    //     // alert("Registeration Successfull!");
+    //     // this.loading = false;
+    //     this.message.success("Payment succeded");
+
+    //     this.router.navigate(["/authentication/login"]);
+    //   },
+    //   error => {
+    //     // this.clicked = false;
+    //     // this.loading = false;
+    //     // console.log("error in save button");
+    //      this.message.error("Unable to pay");
+    //   }
+    // );
+    this.isOkLoading = true;
+    setTimeout(() => {
+      this.isVisible = false;
+      this.is2ndVisible = false;
+      this.isOkLoading = false;
+    }, 3000);
+  }
+
+  handlereceiverOk(): void {
+
     this.isOkLoading = true;
     setTimeout(() => {
       this.isVisible = false;
@@ -50,6 +89,8 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit() {
+   // this.formInitializer();
+
     // var id =localStorage.getItem('ID');
     // //console.log("id from localstorage", id);
     // this.userservice.gettheclient(id).subscribe(
@@ -64,7 +105,7 @@ export class ProfileComponent implements OnInit {
     // );
     //console.log("client in profile", this.singleclient);
 
-    this.userservice.getallsellers().subscribe(
+    this.userService.getallsellers().subscribe(
       resSellerData => {
         this.sellers = resSellerData;
       },
@@ -73,7 +114,7 @@ export class ProfileComponent implements OnInit {
       }
     );
 
-    this.userservice.getallbuyers().subscribe(
+    this.userService.getallbuyers().subscribe(
       resBuyerData => {
         this.buyers = resBuyerData;
       },
@@ -82,4 +123,15 @@ export class ProfileComponent implements OnInit {
       }
     );
   }
+
+  // formInitializer() {
+  //   this.senderform = this.fb.group({
+  //     currencyselection: ["", Validators.required],
+  //     walletAddress: ["", [Validators.required]],
+  //     currencyBTC: ["", [Validators.required]],
+  //     currencyUSD: [""],
+  //     //DOB: ['', [Validators.required]],
+  //     descriptionselection: [""]
+  //   });
+  // }
 }

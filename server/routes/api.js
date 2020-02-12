@@ -11,7 +11,8 @@ const ClientBuyer = require('../models/clientBuyer');
 const ClientRequest = require('../models/clientrequest_model');
 const BtcAddress = require('../models/btcaddress');
 
-const db = "mongodb+srv://mybitcoiner:123456789db@cluster0-8jh11.mongodb.net/test?retryWrites=true&w=majority";
+const db = "mongodb://localhost:27017/bitcoinerDB";
+//const db = "mongodb+srv://mybitcoiner:123456789db@cluster0-8jh11.mongodb.net/test?retryWrites=true&w=majority";
 mongoose.Promise = global.Promise;
 
 mongoose.connect(db, { useUnifiedTopology: true, useNewUrlParser: true }, function (err) {
@@ -448,13 +449,13 @@ router.get('/singleclient/:id', function (req, res) {
 ///////////////////////////////////////////////////////////////////////////
 
 
-router.post('/myrequests/:id', async (req, res) => {
+router.post('/sendmyrequest/:id', async (req, res) => {
   let userid = req.params.id;
 
   const nc = await Client.findById(userid);
   //console.log('this is client id',nc);
   const newreq = new ClientRequest();
-  newreq.status = req.body.status;
+  newreq.status = 'under process';
   newreq.request_type = req.body.request_type;
   newreq.crypto_type = req.body.crypto_type;
   newreq.amount = req.body.amount;

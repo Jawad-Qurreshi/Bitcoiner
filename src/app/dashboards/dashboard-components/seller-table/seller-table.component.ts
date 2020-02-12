@@ -24,7 +24,7 @@
 //     { prop: "Price" },
 //     { prop: "Change" }   
 //   ];
-  
+
 //   
 
 //   @ViewChild(SellertableComponent, { static: false }) table: SellertableComponent;
@@ -45,7 +45,7 @@
 //   setTableData() {
 //     this.rows = this.seller;
 //   }
-  
+
 //   updateFilter(event) {
 //     const val = event.target.value.toLowerCase();
 
@@ -62,9 +62,10 @@
 //   }
 // }
 
-
+import { Router } from '@angular/router'
 import { Component, Input } from '@angular/core';
 import { UserService } from 'sdk/user.service';
+import { NzMessageService } from "ng-zorro-antd";
 
 @Component({
   selector: "app-seller-table",
@@ -72,11 +73,39 @@ import { UserService } from 'sdk/user.service';
 })
 
 export class SellertableComponent {
-  
 
-  constructor(private userservice: UserService) {}
+  loading = false;
+  public clicked = false;
+
+  constructor(
+    private userservice: UserService,
+    private router:Router,
+    private message : NzMessageService) { }
 
   @Input() sellers = [];
+  @Input() singleclient = [];
+  
+  sellitem() {
+    this.clicked = true;
+    this.loading = true;
 
+    console.log('my value:' , this.singleclient )
 
+    // this.userservice.userRegister(this.signupData.value).subscribe(
+    //   data => {
+    //     console.log("got response from server", data);
+    //     // alert("Registeration Successfull!");
+    //     // this.loading = false;
+    //     this.message.success("Signup Successful");
+
+    //     this.router.navigate(["/authentication/login"]);
+    //   },
+    //   error => {
+    //     this.clicked = false;
+    //     this.loading = false;
+    //     console.log("error in save button");
+    //     this.message.error("Registeration Failed! User Already Exists");
+    //   }
+    // );
+  }
 }

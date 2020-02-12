@@ -67,9 +67,9 @@ export class UserService {
 
     //return this.http.get(url);
   }
-  public sendrequest(id: String): Observable<any>{
+  public sendrequest(id: String , credentials:object): Observable<any>{
     const url = ProjectConfig.getPath() + "/sendmyrequest/" + id
-    return this.http.post(url,id);
+    return this.http.post(url,id,credentials);
   }
 
   public getmyrequest(id: String): Observable<any>{
