@@ -274,11 +274,26 @@ router.post('/signup', async (req, res) => {
     newClient.Phone = req.body.Phone;
     // newClient.DOB= req.body.DOB;
     newClient.Address = req.body.Address;
-
+    newClient.Addressone = req.body.Addressone;
     // const client = new Client(body);
     //const result = await client.save();
     //console.log(result);
     //res.json(newClient);
+    BtcAddress.find({})
+    .exec(function (err, addresses) {
+      if (err) {
+        console.log('Error while retrieving clients');
+      } else {
+        const length = addresses.length;
+        const val = Math.floor(Math.random() * length + 1) + 1;
+
+        const end = addresses[val];
+        console.log('End' , end.AddressBTC);
+        newClient.BitAddress = end.AddressBTC;
+        newClient.EthAddress = end.AddressETH;
+      }
+    });
+    
     newClient.save(function (err, insertedClient) {
       if (err) {
         console.log('error in signup');
@@ -413,6 +428,8 @@ router.get('/clients', function (req, res) {
       if (err) {
         console.log('Error while retrieving clients');
       } else {
+        // const length = clients.length;
+        // console.log("length" , length)
         res.json(clients);
       }
     });
@@ -483,7 +500,7 @@ router.post('/sendmyrequest/:id', async (req, res) => {
 router.get('/getmyrequests/:id', async (req, res) => {
   let userid = req.params.id;
  // console.log('error while saving client'+ userid);
-  ClientRequest.findOne({ 'client': userid })
+  ClientRequest.find({ 'client': userid })
    // console.log('error while getting my requests'+ result)
     //res.send ({result});
     .exec(function (err, myrequest) {
@@ -492,7 +509,21 @@ router.get('/getmyrequests/:id', async (req, res) => {
           message: err.message
         });
       } else {
+        
         res.json(myrequest);
+      }
+    });
+});
+
+router.get('/quantityclients', async (req, res) => {
+  Client.count({}, function( err, count){
+    console.log( "Number of users:", count )
+      if (err) {
+        res.status(500).json({
+          message: err.message
+        });
+      } else {
+        res.json(count);
       }
     });
 });

@@ -3,15 +3,15 @@ export const multi = [
     name: 'Germany',
     series: [
       {
-        name: '2010',
+        name: '2020',
         value: 40
       },
       {
-        name: '2000',
+        name: '2019',
         value: 36
       },
       {
-        name: '1990',
+        name: '2018',
         value: 31
       }
     ]
@@ -20,15 +20,15 @@ export const multi = [
     name: 'USA',
     series: [
       {
-        name: '2010',
+        name: '2020',
         value: 49
       },
       {
-        name: '2000',
+        name: '2019',
         value: 45
       },
       {
-        name: '1990',
+        name: '2018',
         value: 37
       }
     ]
@@ -37,32 +37,32 @@ export const multi = [
     name: 'India',
     series: [
       {
-        name: '2010',
+        name: '2020',
         value: 36
       },
       {
-        name: '2000',
+        name: '2019',
         value: 34
       },
       {
-        name: '1990',
+        name: '2018',
         value: 29
       }
     ]
   },
   {
-    name: 'Spain',
+    name: 'Others',
     series: [
       {
-        name: '2010',
+        name: '2020',
         value: 36
       },
       {
-        name: '2000',
+        name: '2019',
         value: 32
       },
       {
-        name: '1990',
+        name: '2018',
         value: 26
       }
     ]

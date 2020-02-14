@@ -12,6 +12,11 @@ import { colorSets } from '@swimlane/ngx-charts/release/utils/color-sets';
 export class VisitorsComponent {
   multi: any[];
   // options
+   germany: Number;
+   usa: Number;
+   india: Number;
+   others: Number;
+   
   showXAxis = true;
   showYAxis = true;
   gradient = false;
@@ -43,6 +48,10 @@ export class VisitorsComponent {
   schemeType = 'ordinal';
 
   constructor() {
+    this.germany = +Math.floor(Math.random() * 15) + 1;
+    this.usa = +Math.floor(Math.random() * 35) + 1;
+    this.india = +Math.floor(Math.random() * 15) + 1;
+    this.others = 100;
     Object.assign(this, {
       multi
     });

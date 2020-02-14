@@ -77,6 +77,11 @@ export class UserService {
     return this.http.get(url);
   }
 
+  public getclientcount(): Observable<any>{
+    const url = ProjectConfig.getPath() + "/quantityclients";
+    return this.http.get(url);
+  }
+
   public userLogin(credentials: object): Observable<any> {
     const url = ProjectConfig.getPath() + "/login";
     return this.http.post(url, credentials);

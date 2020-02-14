@@ -11,6 +11,7 @@ export class Dashboard1Component implements OnInit, OnChanges {
   clients = [];
   requests = [];
   btcAddresses = [];
+  count ;
 
   constructor(private userservice: UserService) {}
 
@@ -31,6 +32,16 @@ export class Dashboard1Component implements OnInit, OnChanges {
       resClientData => {
         //console.log("resClientData", resClientData);
         this.clients = resClientData;
+      },
+      err => {
+        console.log("api error in all clients", err);
+      }
+    );
+
+    this.userservice.getclientcount().subscribe(
+      resCountData => {
+        //console.log("resClientData", resClientData);
+        this.count = resCountData;
       },
       err => {
         console.log("api error in all clients", err);

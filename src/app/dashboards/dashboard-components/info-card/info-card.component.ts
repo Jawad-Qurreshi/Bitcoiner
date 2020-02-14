@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-info-card',
@@ -6,6 +6,7 @@ import { Component } from '@angular/core';
 })
 export class InfocardComponent {
   constructor() {}
-
+  
+@Input() count;
   
 }
