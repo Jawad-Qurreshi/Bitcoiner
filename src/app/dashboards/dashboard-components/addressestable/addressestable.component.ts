@@ -1,5 +1,4 @@
 
-
 import { Component, Input } from '@angular/core';
 import { UserService } from 'sdk/user.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -53,11 +52,10 @@ export class AddressestableComponent {
     setTimeout(() => {
       this.is2ndVisible = false;
       this.isOkLoading = false;
-    }, 3000);
+    }, 100);
   }
 
   handleCancel(): void {
     this.is2ndVisible = false;
   }
-
 }

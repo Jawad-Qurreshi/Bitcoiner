@@ -73,6 +73,14 @@ export class ProfileComponent implements OnInit {
     this.is2ndVisible = false;
   }
 
+  handleOk(): void {
+    this.isOkLoading = true;
+    alert('hatt chutiyaa');
+    setTimeout(() => {
+      this.is2ndVisible = false;
+      this.isOkLoading = false;
+    }, 100);
+  }
   ngOnInit() {
     this.userService.getallsellers().subscribe(
       resSellerData => {
