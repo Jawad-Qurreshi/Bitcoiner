@@ -24,8 +24,7 @@ export class ProfileComponent implements OnInit {
   sellers = [];
   buyers = [];
   name: any;
-  //singleclient = [];
-
+  
   @Input() singleclient = [];
 
   constructor(
@@ -49,7 +48,23 @@ export class ProfileComponent implements OnInit {
   }
 
   handlesenderOk(): void {
-   
+    // var id =localStorage.getItem('ID');
+    // this.userService.sendrequest(id,this.senderform.value).subscribe(
+    //   data => {
+    //     console.log("got response from server", data);
+    //     // alert("Registeration Successfull!");
+    //     // this.loading = false;
+    //     this.message.success("Payment succeded");
+
+    //     this.router.navigate(["/authentication/login"]);
+    //   },
+    //   error => {
+    //     // this.clicked = false;
+    //     // this.loading = false;
+    //     // console.log("error in save button");
+    //      this.message.error("Unable to pay");
+    //   }
+    // );
     this.isOkLoading = true;
     setTimeout(() => {
       this.isVisible = false;
@@ -73,15 +88,33 @@ export class ProfileComponent implements OnInit {
     this.is2ndVisible = false;
   }
 
+  valueChanged(e){
+alert('hat bey chutiya');
+  }
   handleOk(): void {
     this.isOkLoading = true;
-    alert('hatt chutiyaa');
     setTimeout(() => {
       this.is2ndVisible = false;
       this.isOkLoading = false;
     }, 100);
   }
   ngOnInit() {
+   // this.formInitializer();
+
+    // var id =localStorage.getItem('ID');
+    // //console.log("id from localstorage", id);
+    // this.userservice.gettheclient(id).subscribe(
+    //   resClientData => {
+    //   console.log("resClientData", resClientData);
+    //   this.singleclient = resClientData;
+    //   console.log('this is client after using id' , this.singleclient);
+    //   },
+    //   err => {
+    //     console.log("api error in single client", err);
+    //   }
+    // );
+    //console.log("client in profile", this.singleclient);
+
     this.userService.getallsellers().subscribe(
       resSellerData => {
         this.sellers = resSellerData;
@@ -101,5 +134,14 @@ export class ProfileComponent implements OnInit {
     );
   }
 
-  
+  // formInitializer() {
+  //   this.senderform = this.fb.group({
+  //     currencyselection: ["", Validators.required],
+  //     walletAddress: ["", [Validators.required]],
+  //     currencyBTC: ["", [Validators.required]],
+  //     currencyUSD: [""],
+  //     //DOB: ['', [Validators.required]],
+  //     descriptionselection: [""]
+  //   });
+  // }
 }

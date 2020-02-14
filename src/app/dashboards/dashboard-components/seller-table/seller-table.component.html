@@ -31,6 +31,7 @@
                               <th>Name</th>
                               <th>Type of currency</th>
                               <th>Price</th>
+                              <th>Limit</th>
                               <th>Change</th>
                           </tr>
                       </thead>
@@ -45,11 +46,11 @@
                               <td>{{ seller.Name }}</td>
                               <td>{{ seller.Type_of_currency }}</td>
                               <td>${{ seller.Price }}</td>
+                              <td>${{ seller.Limit }}</td>
                               <td>{{ seller.Change }}%</td>
                               <td>
-                                  <button type="button" class="btn btn-sm btn-icon btn-pure btn-outline delete-row-btn" data-toggle="tooltip" data-original-title="Delete">
-                                      <i  aria-hidden="true" (click)="sellitem()">Buy</i>
-                                  </button>
+                                <button type="button" (click)="showModal()"
+                                class="btn btn-rounded btn-primary">Buy</button>
                               </td>
                           </tr>
                           

@@ -161,7 +161,7 @@
                     <form class="m-t-30">
                         <div class="form-group m-b-30">
                             <h4 class="card-title">Select Currency</h4>
-                            <select class="form-control" id="currencySelector" name="currencySelector">
+                            <select [(ngModel)]="optionValue" class="form-control" id="currencySelector" name="currencySelector">
                                 <option value="BTC">Bitcoin</option>
                                 <option value="ETH">Ethereum</option>
                             </select><br>
@@ -173,7 +173,8 @@
                                 <input type="text" class="form-control" placeholder="0.00"
                                     aria-describedby="basic-addon1">
                                 <div class="input-group-append">
-                                    <span class="input-group-text">BTC</span>
+                                    <span *ngIf="optionValue == 'BTC'" class="input-group-text">BTC</span>
+                                    <span *ngIf="optionValue == 'ETH'" class="input-group-text">ETH</span>
                                 </div>
                                 <input type="text" class="form-control" placeholder="$0.00"
                                     aria-describedby="basic-addon1">

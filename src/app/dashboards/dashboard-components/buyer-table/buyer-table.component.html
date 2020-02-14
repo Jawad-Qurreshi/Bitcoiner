@@ -31,6 +31,7 @@
                               <th>Name</th>
                               <th>Type of currency</th>
                               <th>Price</th>
+                              <th>Quantity</th>
                               <th>Change</th>
                           </tr>
                       </thead>
@@ -45,6 +46,7 @@
                               <td>{{ buyer.Name }}</td>
                               <td>{{ buyer.Type_of_currency }}</td>
                               <td>${{ buyer.Price }}</td>
+                              <td>${{ buyer.Quantity }}</td>
                               <td>{{ buyer.Change}}%</td>
                               <td>
                                 <button type="button" (click)="showModal()"
