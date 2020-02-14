@@ -7,6 +7,7 @@ const ClientBuyer = new Schema({
     Type_of_currency: String,
     Price: Intl,
     Change: Number,
+    Quantity: Intl,
     Wallet:String
    });
 

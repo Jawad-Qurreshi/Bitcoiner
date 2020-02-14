@@ -13,7 +13,7 @@ const BtcAddress = require('../models/btcaddress');
 
 //const db = "mongodb://localhost:27017/bitcoinerDB";
 const db = "mongodb+srv://mybitcoiner:123456789db@cluster0-8jh11.mongodb.net/test?retryWrites=true&w=majority"
-//const db newFunction()y";
+
 mongoose.Promise = global.Promise;
 
 mongoose.connect(db, { useUnifiedTopology: true, useNewUrlParser: true }, function (err) {
@@ -81,6 +81,7 @@ router.post('/Addtobuyers', async (req, res) => {
   newbuyer.Type_of_currency = req.body.Type_of_currency;
   newbuyer.Price = req.body.Price;
   newbuyer.Change = req.body.Change;
+  newbuyer.Quantity = req.body.Quantity;
   newbuyer.Wallet = req.body.Wallet;
 
   await newbuyer.save(function (err, insertedBuyer) {
@@ -127,6 +128,7 @@ router.post('/Addtosellers', async (req, res) => {
   newseller.Price = req.body.Price;
   newseller.Change = req.body.Change;
   newseller.Wallet = req.body.Wallet;
+  newseller.Limit = req.body.Limit;
 
   await newseller.save(function (err, insertedSeller) {
     if (err) {
@@ -532,7 +534,5 @@ router.get('/quantityclients', async (req, res) => {
 
 
 module.exports = router;
-function newFunction() {
-  return "mongodb+srv://mybitcoiner:123456789db@cluster0-8jh11.mongodb.net/test?retryWrites=true&w=majority";
-}
+
 
