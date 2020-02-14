@@ -82,13 +82,8 @@ export class InfoBoxComponent implements OnInit, OnChanges, AfterViewInit {
 
     if (this.bitcurrent && this.ethcurrent) {
       this.walletBTC = +this.singleclient.BTC;
-      this.walletETH = +this.singleclient.ETC;
+      this.walletETH = +this.singleclient.ETH;
       this.walletDollars = +this.singleclient.Dollars;
-      
-      console.log("walletBTC", this.walletBTC);
-      console.log("walletETH", this.walletETH);
-      console.log("walletDOLLARS", this.walletDollars);
-
       this.newethcurrent = +this.ethcurrent;
       this.newbitcurrent = +this.bitcurrent;
 
@@ -96,7 +91,6 @@ export class InfoBoxComponent implements OnInit, OnChanges, AfterViewInit {
       this.calcwalletETH = this.walletETH * this.newethcurrent;
 
       this.TotalWallet = this.calcwalletBTC + this.calcwalletETH + this.walletDollars;
-      console.log("ywh wala", this.TotalWallet);
     }
   }
   ngOnInit() {
