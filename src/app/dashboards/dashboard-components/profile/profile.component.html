@@ -152,7 +152,8 @@
     <!-- Column -->
 </div>
 <nz-modal [(nzVisible)]="isVisible" nzTitle="Send Bitcoins" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()"
-    [nzOkLoading]="isOkLoading">
+    [nzOkLoading]="isOkLoading"
+    [nzFooter]="modalFooter">
     <div class="row">
         <div class="col-sm-12 col-md-12 col-lg-12">
             <div class="card">
@@ -160,7 +161,7 @@
                     <form class="m-t-30">
                         <div class="form-group m-b-30">
                             <h4 class="card-title">Select Currency</h4>
-                            <select ng-model="data.currencySelector" class="form-control" id="currencySelector" name="currencySelector">
+                            <select class="form-control" id="currencySelector" name="currencySelector">
                                 <option value="BTC">Bitcoin</option>
                                 <option value="ETH">Ethereum</option>
                             </select><br>
@@ -190,9 +191,14 @@
             </div>
         </div>
     </div>
+    <ng-template #modalFooter>
+        <button nz-button nzType="default" (click)="handleCancel()">Cancel</button>
+        <button nz-button nzType="primary" (click)="handleOk()" [nzLoading]="isOkLoading">Done</button>
+      </ng-template>
 </nz-modal>
 <nz-modal [(nzVisible)]="is2ndVisible" nzTitle="Recieve Bitcoins" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()"
-    [nzOkLoading]="isOkLoading">
+    [nzOkLoading]="isOkLoading"
+    [nzFooter]="modalFooter">
     <div class="row">
         <div class="col-sm-12 col-md-12 col-lg-12">
             <div class="card">
@@ -219,4 +225,8 @@
             </div>
         </div>
     </div>
+    <ng-template #modalFooter>
+        <button nz-button nzType="default" (click)="handleCancel()">Cancel</button>
+        <button nz-button nzType="primary" (click)="handleOk()" [nzLoading]="isConfirmLoading">Done</button>
+      </ng-template>
 </nz-modal>
