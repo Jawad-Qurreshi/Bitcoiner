@@ -165,8 +165,8 @@
                                 <option value="ETH">Ethereum</option>
                             </select><br>
                             <h4 class="card-title">To</h4>
-                            <input type="text" class="form-control" id="nametext" aria-describedby="name"
-                                placeholder="paste destination here"><br>
+                            <input ng-if="selectValues.selcetedValue === 'B'" type="text" class="form-control" id="nametext" aria-describedby="name"
+                                placeholder="Placve email here of receiver"><br>
                             <h4 class="card-title">Amount</h4>
                             <div class="input-group mb-3">
                                 <input type="text" class="form-control" placeholder="0.00"

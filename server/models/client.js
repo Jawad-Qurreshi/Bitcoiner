@@ -10,7 +10,7 @@ const Client = new Schema({
     //DOB:Date,
     Address: String,
     BTC: { type: Intl, default: 0 },
-    ETC: { type: Intl, default: 0 },
+    ETH: { type: Intl, default: 0 },
     Dollars: { type: Intl, default: 0 },
     BitAddress: String,
     EthAddress: String,

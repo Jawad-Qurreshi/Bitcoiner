@@ -5,14 +5,23 @@ import * as c3 from 'c3';
   selector: 'app-device-visits',
   templateUrl: './device-visits.component.html'
 })
+
+
+    
 export class DeviceVisitsComponent implements AfterViewInit {
-  constructor() { }
+  constructor()  {
+   
+  }
 
   ngAfterViewInit() {
+    
+    var tab=Math.floor(Math.random() * 60) + 1;
+    var desktop=Math.floor(Math.random() * 21) +60;
+    
     const chart = c3.generate({
       bindto: '#visitor',
       data: {
-        columns: [['Desktop', 60], ['Tablet', 12], ['Mobile', 28]],
+        columns: [['Desktop', desktop  ], ['Tablet',tab], ['Mobile', 28]],
 
         type: 'donut'
       },

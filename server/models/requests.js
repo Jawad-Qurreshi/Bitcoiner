@@ -10,7 +10,7 @@ const Request = new Schema({
     Status: String,
     TypeOfRequest: String,
     BTC:Intl,
-    ETC:Intl,
+    ETH:Intl,
     Dollars:Intl
    });
 
