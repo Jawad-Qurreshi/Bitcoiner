@@ -3,7 +3,7 @@ import { FormBuilder, Validators } from "@angular/forms";
 
 import { FormGroup } from "@angular/forms";
 import { NzMessageService } from "ng-zorro-antd";
-import { Router } from "@angular/router";
+import { Router, NavigationEnd } from "@angular/router";
 import { UserService } from "sdk/user.service";
 
 @Component({
@@ -24,6 +24,11 @@ export class LoginComponent implements OnInit {
   recoverform = false;
   loginForm: FormGroup;
   recoveryForm: FormGroup;
+
+  forgotPassword(){
+    alert("ABhy oo ghajni");
+    this.router.navigateByUrl("/authentication/Lock");
+  }
 
   login() {
     this.clicked = true;

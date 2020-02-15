@@ -1,85 +1,50 @@
-<div class="auth-wrapper d-flex no-block justify-content-center align-items-center" style="background:url(assets/images/big/auth-bg.jpg) no-repeat center center;">
+<div class="auth-wrapper d-flex no-block justify-content-center align-items-center"
+    style="background:url(assets/images/big/auth-bg.jpg) no-repeat center center;">
     <div class="auth-box">
-        <div >
+        <div>
             <div class="logo">
                 <span class="db"><img src="assets/images/logo-icon.png" alt="logo" /></span>
-                <h5 class="font-medium m-b-20">Sign In to Admin</h5>
+                <h5 class="font-medium m-b-20">Sign In</h5>
             </div>
             <!-- Form -->
             <div class="row">
                 <div class="col-12">
                     <form [formGroup]="loginForm">
-                             
-                              
-                              <div padding>
-                                
-                                <input type="email" formControlName="Email" class="form-control form-control-lg" placeholder="Email" aria-label="Email" aria-describedby="basic-addon1">
-                                  <!-- <input name="username" type="email" placeholder="your@email.com" formControlName="username">
-                             -->
-                             <input type="password" formControlName="Password" class="form-control form-control-lg" placeholder="Password" aria-label="Password" aria-describedby="basic-addon1">
-                                  <!-- <input name="password" type="password" placeholder="Password" formControlName="password"> -->
-                                
-                              </div>
-                              <div class="col-md-12">
-                                <!-- <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="customCheck1">
-                                    <label class="custom-control-label" for="customCheck1">Remember me</label>
-                                    <a (click)="showRecoverForm()" href="javascript:void(0)" id="to-recover" class="text-dark float-right"><i class="fa fa-lock m-r-5"></i> Forgot pwd?</a>
-                                </div> -->
+                        <div padding>
+                            <div class="form-group row">
+                                <div class="col-12 ">
+                                    <input type="email" formControlName="Email" class="form-control form-control-lg"
+                                        placeholder="Email" aria-label="Email" aria-describedby="basic-addon1">
+                                </div>
                             </div>
-                              <div padding>
-                                <!-- <button  size="large" (click)="login()" expand="block" shape="round">Login -->
-                                    <button class="btn btn-block btn-lg btn-info" type="submit" (click)="login()">Log In</button>
-                              </div>
-                              <div class="col-sm-12 text-center">
-                                Don't have an account? <a href="#/authentication/signup" class="text-info m-l-5"><b>Sign Up</b></a>
+                            <div class="form-group row">
+                                <div class="col-12 ">
+                                    <input type="password" formControlName="Password"
+                                        class="form-control form-control-lg" placeholder="Password"
+                                        aria-label="Password" aria-describedby="basic-addon1">
+                                </div>
                             </div>
-                              <div text-center>
-                                <button  size="small" (click)="forgotPassword()" shape="round">Forgot Password?</button>
-                              </div>
-                        
-                      </form>
-                    <!-- <form claform-horizontal m-t-20" [formGroup]="loginData">
-                        <div class="t-group mb-3">
-                            <div cl"input-group-prepend">
-                                <sclass="input-group-text" id="basic-addon1"><i class="ti-user"></i></span>
-                            </div>
-                        <input type="text" formControlName="username" class="form-control form-control-lg" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
-                    </div>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon2"><i class="ti-pencil"></i></span>
-                            </div>
-                            <input type="text" formControlName="password" class="form-control form-control-lg" placeholder="Password" aria-label="Password" aria-describedby="basic-addon1">
+                        </div>
+                        <div class="col-md-12">
                         </div>
                         <div class="form-group row">
-                            <div class="col-md-12">
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="customCheck1">
-                                    <label class="custom-control-label" for="customCheck1">Remember me</label>
-                                    <a (click)="showRecoverForm()" href="javascript:void(0)" id="to-recover" class="text-dark float-right"><i class="fa fa-lock m-r-5"></i> Forgot pwd?</a>
+                            <div class="col-12 ">
+                                <div padding>
+                                    <button class="btn btn-block btn-lg btn-info" type="submit" (click)="login()">Log
+                                        In</button>
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group text-center">
-                            <div class="col-xs-12 p-b-20">
-                                <button class="btn btn-block btn-lg btn-info" type="submit" (click)="login()">Log In</button>
+                        <div class="col-sm-12 text-center">
+                            Don't have an account? <a href="#/authentication/signup" class="text-info m-l-5"><b>Sign
+                                    Up</b></a>
+                        </div>
+                        <div class="form-group row">
+                            <div text-center>
+                                <button size="small" (click)="forgotPassword()" shape="round">Forgot Password?</button>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-xs-12 col-sm-12 col-md-12 m-t-10 text-center">
-                                <div class="social">
-                                    <a href="javascript:void(0)" class="btn btn-facebook m-r-5" data-toggle="tooltip" title="" data-original-title="Login with Facebook"> <i aria-hidden="true" class="fab fa-facebook"></i> </a>
-                                    <a href="javascript:void(0)" class="btn btn-googleplus" data-toggle="tooltip" title="" data-original-title="Login with Google"> <i aria-hidden="true" class="fab fa-google-plus"></i> </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group m-b-0 m-t-10">
-                            <div class="col-sm-12 text-center">
-                                Don't have an account? <a href="#/authentication/signup" class="text-info m-l-5"><b>Sign Up</b></a>
-                            </div>
-                        </div>
-                    </form> -->
+                    </form>
                 </div>
             </div>
         </div>
@@ -90,7 +55,7 @@
                 <span>Enter your Email and instructions will be sent to you!</span>
             </div>
             <div class="row m-t-20">
-                
+
                 <!-- <form class="col-12" [formGroup]="recoveryData">
                     
                     <div class="row">

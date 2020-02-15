@@ -8,8 +8,7 @@ import { NotfoundComponent } from "./404/not-found.component";
 import { ReactiveFormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 import { SignupComponent } from "./signup/signup.component";
-
-//import { Login2Component } from './login2/login2.component';
+import {  LockComponent } from './lock/lock.component';
 
 //import { Signup2Component } from './signup2/signup2.component';
 
@@ -21,6 +20,6 @@ import { SignupComponent } from "./signup/signup.component";
     NgbModule,
     NgZorroAntdModule
   ],
-  declarations: [NotfoundComponent, LoginComponent, SignupComponent]
+  declarations: [NotfoundComponent, LockComponent, LoginComponent, SignupComponent]
 })
 export class AuthenticationModule {}

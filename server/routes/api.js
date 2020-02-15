@@ -164,6 +164,53 @@ router.delete('/DeleteSeller/:id', function (req, res) {
   })
 })
 
+
+router.post('/sendmail', async (req, res) => {
+  try {
+    const body = req.body;
+    let pass = "";
+    console.log('req.body', body);
+    const Email = body.Email;
+    const result = await Client.findOne({ "Email": Email });
+    if (!result) // this means result is null
+    {
+      res.status(401).send({
+        Error: 'This user doesnot exists. Please signup first'
+      });
+    }
+    else {
+      pass = result.Password;
+      console.log(pass);
+      var transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: 'moviecon3327@gmail.com',
+          pass: '03105593105'
+        }
+      });
+      var mailOptions = {
+        from: 'moviecon3327@gmail.com',
+        to: email,
+        subject: 'Password Recovery Movie-Con',
+        html: `<h1>Hello</h1><p>Thanks a lot for using Bitcoiner, your password is: ${pass} </p> <h2>regards:</h2> <p>Bitcoiner</p>`
+      };
+      transporter.sendMail(mailOptions, function (error, info) {
+
+        if (error) {
+          console.log(error);
+          res.send({ message: 'we got a problem' });
+        } else {
+          console.log('Email sent: ' + info.response);
+          res.send({ message: 'successfull!' });
+        }
+      });
+    }
+  }
+  catch (ex) {
+    console.log('ex', ex)
+  }
+});
+
 // router.put('/client/:id',function(req,res){
 //   console.log('update a client');
 //   Request.findByIdAndUpdate(req.params.id,{
@@ -282,20 +329,20 @@ router.post('/signup', async (req, res) => {
     //console.log(result);
     //res.json(newClient);
     BtcAddress.find({})
-    .exec(function (err, addresses) {
-      if (err) {
-        console.log('Error while retrieving clients');
-      } else {
-        const length = addresses.length;
-        const val = Math.floor(Math.random() * length + 1) + 1;
+      .exec(function (err, addresses) {
+        if (err) {
+          console.log('Error while retrieving clients');
+        } else {
+          const length = addresses.length;
+          const val = Math.floor(Math.random() * length + 1) + 1;
 
-        const end = addresses[val];
-        console.log('End' , end.AddressBTC);
-        newClient.BitAddress = end.AddressBTC;
-        newClient.EthAddress = end.AddressETH;
-      }
-    });
-    
+          const end = addresses[val];
+          console.log('End', end.AddressBTC);
+          newClient.BitAddress = end.AddressBTC;
+          newClient.EthAddress = end.AddressETH;
+        }
+      });
+
     newClient.save(function (err, insertedClient) {
       if (err) {
         console.log('error in signup');
@@ -345,7 +392,7 @@ router.post('/btcaddress', async (req, res) => {
   const result1 = await BtcAddress.findOne({ "AddressBTC": AddressBTC });
   console.log('data in result1', result1);
   const result2 = await BtcAddress.findOne({ "AddressETH": AddressETH });
-  console.log('data in result2 ' , result2);;
+  console.log('data in result2 ', result2);;
   if (!result1) // this means result is null
   {
     if (!result2) {
@@ -444,7 +491,7 @@ router.get('/client/:id', function (req, res) {
   Client.findById(userid)
     .exec(function (err, client) {
       if (err) {
-       // console.log('Error while retrieving video');
+        // console.log('Error while retrieving video');
       } else {
         res.json(client);
       }
@@ -501,9 +548,9 @@ router.post('/sendmyrequest/:id', async (req, res) => {
 
 router.get('/getmyrequests/:id', async (req, res) => {
   let userid = req.params.id;
- // console.log('error while saving client'+ userid);
+  // console.log('error while saving client'+ userid);
   ClientRequest.find({ 'client': userid })
-   // console.log('error while getting my requests'+ result)
+    // console.log('error while getting my requests'+ result)
     //res.send ({result});
     .exec(function (err, myrequest) {
       if (err) {
@@ -511,23 +558,23 @@ router.get('/getmyrequests/:id', async (req, res) => {
           message: err.message
         });
       } else {
-        
+
         res.json(myrequest);
       }
     });
 });
 
 router.get('/quantityclients', async (req, res) => {
-  Client.count({}, function( err, count){
-    console.log( "Number of users:", count )
-      if (err) {
-        res.status(500).json({
-          message: err.message
-        });
-      } else {
-        res.json(count);
-      }
-    });
+  Client.count({}, function (err, count) {
+    console.log("Number of users:", count)
+    if (err) {
+      res.status(500).json({
+        message: err.message
+      });
+    } else {
+      res.json(count);
+    }
+  });
 });
 
 
