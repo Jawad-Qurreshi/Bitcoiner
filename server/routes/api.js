@@ -13,7 +13,7 @@ const BtcAddress = require('../models/btcaddress');
 
 //const db = "mongodb://localhost:27017/bitcoinerDB";
 const db = "mongodb+srv://mybitcoiner:123456789db@cluster0-8jh11.mongodb.net/test?retryWrites=true&w=majority"
-
+//const db newFunction()y";
 mongoose.Promise = global.Promise;
 
 mongoose.connect(db, { useUnifiedTopology: true, useNewUrlParser: true }, function (err) {
@@ -80,8 +80,8 @@ router.post('/Addtobuyers', async (req, res) => {
   newbuyer.Name = req.body.Name;
   newbuyer.Type_of_currency = req.body.Type_of_currency;
   newbuyer.Price = req.body.Price;
-  newbuyer.Change = req.body.Change;
   newbuyer.Quantity = req.body.Quantity;
+  newbuyer.Change = req.body.Change;
   newbuyer.Wallet = req.body.Wallet;
 
   await newbuyer.save(function (err, insertedBuyer) {
@@ -126,9 +126,9 @@ router.post('/Addtosellers', async (req, res) => {
   newseller.Name = req.body.Name;
   newseller.Type_of_currency = req.body.Type_of_currency;
   newseller.Price = req.body.Price;
+  newseller.Limit = req.body.Limit;
   newseller.Change = req.body.Change;
   newseller.Wallet = req.body.Wallet;
-  newseller.Limit = req.body.Limit;
 
   await newseller.save(function (err, insertedSeller) {
     if (err) {
@@ -163,53 +163,6 @@ router.delete('/DeleteSeller/:id', function (req, res) {
     }
   })
 })
-
-
-router.post('/sendmail', async (req, res) => {
-  try {
-    const body = req.body;
-    let pass = "";
-    console.log('req.body', body);
-    const Email = body.Email;
-    const result = await Client.findOne({ "Email": Email });
-    if (!result) // this means result is null
-    {
-      res.status(401).send({
-        Error: 'This user doesnot exists. Please signup first'
-      });
-    }
-    else {
-      pass = result.Password;
-      console.log(pass);
-      var transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-          user: 'moviecon3327@gmail.com',
-          pass: '03105593105'
-        }
-      });
-      var mailOptions = {
-        from: 'moviecon3327@gmail.com',
-        to: email,
-        subject: 'Password Recovery Movie-Con',
-        html: `<h1>Hello</h1><p>Thanks a lot for using Bitcoiner, your password is: ${pass} </p> <h2>regards:</h2> <p>Bitcoiner</p>`
-      };
-      transporter.sendMail(mailOptions, function (error, info) {
-
-        if (error) {
-          console.log(error);
-          res.send({ message: 'we got a problem' });
-        } else {
-          console.log('Email sent: ' + info.response);
-          res.send({ message: 'successfull!' });
-        }
-      });
-    }
-  }
-  catch (ex) {
-    console.log('ex', ex)
-  }
-});
 
 // router.put('/client/:id',function(req,res){
 //   console.log('update a client');
@@ -323,33 +276,19 @@ router.post('/signup', async (req, res) => {
     newClient.Phone = req.body.Phone;
     // newClient.DOB= req.body.DOB;
     newClient.Address = req.body.Address;
-    newClient.Addressone = req.body.Addressone;
+
     // const client = new Client(body);
     //const result = await client.save();
     //console.log(result);
     //res.json(newClient);
-    BtcAddress.find({})
-      .exec(function (err, addresses) {
-        if (err) {
-          console.log('Error while retrieving clients');
-        } else {
-          const length = addresses.length;
-          const val = Math.floor(Math.random() * length + 1) + 1;
+    newClient.save()
+    .then(client => {
+      res.json(client)
 
-          const end = addresses[val];
-          console.log('End', end.AddressBTC);
-          newClient.BitAddress = end.AddressBTC;
-          newClient.EthAddress = end.AddressETH;
-        }
-      });
+    })
+    .catch(err => {
+      res.json(err);
 
-    newClient.save(function (err, insertedClient) {
-      if (err) {
-        console.log('error in signup');
-        // res.json(newClient);
-      } else {
-        res.json(insertedClient);
-      }
     });
   }
   else {
@@ -392,7 +331,7 @@ router.post('/btcaddress', async (req, res) => {
   const result1 = await BtcAddress.findOne({ "AddressBTC": AddressBTC });
   console.log('data in result1', result1);
   const result2 = await BtcAddress.findOne({ "AddressETH": AddressETH });
-  console.log('data in result2 ', result2);;
+  console.log('data in result2 ' , result2);;
   if (!result1) // this means result is null
   {
     if (!result2) {
@@ -477,8 +416,6 @@ router.get('/clients', function (req, res) {
       if (err) {
         console.log('Error while retrieving clients');
       } else {
-        // const length = clients.length;
-        // console.log("length" , length)
         res.json(clients);
       }
     });
@@ -491,7 +428,7 @@ router.get('/client/:id', function (req, res) {
   Client.findById(userid)
     .exec(function (err, client) {
       if (err) {
-        // console.log('Error while retrieving video');
+       // console.log('Error while retrieving video');
       } else {
         res.json(client);
       }
@@ -548,9 +485,9 @@ router.post('/sendmyrequest/:id', async (req, res) => {
 
 router.get('/getmyrequests/:id', async (req, res) => {
   let userid = req.params.id;
-  // console.log('error while saving client'+ userid);
-  ClientRequest.find({ 'client': userid })
-    // console.log('error while getting my requests'+ result)
+ // console.log('error while saving client'+ userid);
+  ClientRequest.findOne({ 'client': userid })
+   // console.log('error while getting my requests'+ result)
     //res.send ({result});
     .exec(function (err, myrequest) {
       if (err) {
@@ -558,28 +495,16 @@ router.get('/getmyrequests/:id', async (req, res) => {
           message: err.message
         });
       } else {
-
         res.json(myrequest);
       }
     });
-});
-
-router.get('/quantityclients', async (req, res) => {
-  Client.count({}, function (err, count) {
-    console.log("Number of users:", count)
-    if (err) {
-      res.status(500).json({
-        message: err.message
-      });
-    } else {
-      res.json(count);
-    }
-  });
 });
 
 
 
 
 module.exports = router;
-
+function newFunction() {
+  return "mongodb+srv://mybitcoiner:123456789db@cluster0-8jh11.mongodb.net/test?retryWrites=true&w=majority";
+}
 

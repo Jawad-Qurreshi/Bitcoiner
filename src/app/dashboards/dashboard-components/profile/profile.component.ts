@@ -19,6 +19,8 @@ export class ProfileComponent implements OnInit {
   is2ndVisible = false;
   isOkLoading = false;
 
+  optionValue;
+  optionValue1;
   senderform: FormGroup;
 
   sellers = [];
@@ -26,6 +28,8 @@ export class ProfileComponent implements OnInit {
   name: any;
   
   @Input() singleclient = [];
+  ethcurrent: any;
+  bitcurrent: any;
 
   constructor(
     private fb: FormBuilder,
@@ -88,9 +92,7 @@ export class ProfileComponent implements OnInit {
     this.is2ndVisible = false;
   }
 
-  valueChanged(e){
-alert('hat bey chutiya');
-  }
+  
   handleOk(): void {
     this.isOkLoading = true;
     setTimeout(() => {
@@ -132,6 +134,31 @@ alert('hat bey chutiya');
         console.log("api error in all Buyer", err);
       }
     );
+    this.userService.gettheBIT().subscribe(
+      resBitData => {
+        //console.log("resBitData", resBitData);
+
+        this.bitcurrent = resBitData.ticker.BTCUSDT;
+        console.log("API this.ethcurrent", this.bitcurrent);
+      },
+      err => {
+        console.log("api error in getting bitcoin current", err);
+      }
+    );
+
+    this.userService.gettheETH().subscribe(
+      resEthData => {
+        //console.log("resEthData", resEthData);
+
+        this.ethcurrent = resEthData.ticker.ETHUSDT;
+        console.log("API this.ethcurrent", this.ethcurrent);
+        //console.log("Price of ETH: $", this.tickereth);
+      },
+      err => {
+        console.log("api error in getting ethereum current", err);
+      }
+    );
+
   }
 
   // formInitializer() {

@@ -61,3 +61,31 @@
       </div>
   </div>
 </div>
+<nz-modal [(nzVisible)]="is2ndVisible" nzTitle="Sell" 
+(nzOnCancel)="handleCancel()"
+ (nzOnOk)="handleOk()"
+    [nzOkLoading]="isOkLoading"
+    [nzFooter]="modalFooter">
+    
+    <form [formGroup]="buydata">
+                
+      <div class="form-group row ">
+          <div class="col-12 ">
+          <label>
+          </label>   
+          </div>
+      </div>
+
+      <div class="form-group row">
+          <div class="col-12 ">
+              <input class="form-control form-control-lg" name="ETH" type="text" placeholder="enter ethereum wallet address" formControlName="AddressETH">
+          </div>
+      </div>
+
+  <button class="btn btn-block btn-lg btn-info " type="submit" (click)="SaveToDB()" > Save To Database</button>
+</form>
+<ng-template #modalFooter>
+  <button nz-button nzType="default" (click)="handleCancel()">Cancel</button>
+  <button nz-button nzType="primary" (click)="handleOk()" [nzLoading]="isConfirmLoading">Done</button>
+</ng-template>
+</nz-modal>

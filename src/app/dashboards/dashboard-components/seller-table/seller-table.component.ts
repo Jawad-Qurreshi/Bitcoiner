@@ -66,6 +66,7 @@ import { Router } from '@angular/router'
 import { Component, Input } from '@angular/core';
 import { UserService } from 'sdk/user.service';
 import { NzMessageService } from "ng-zorro-antd";
+import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: "app-seller-table",
@@ -76,11 +77,14 @@ export class SellertableComponent {
 
   loading = false;
   public clicked = false;
-
+  buydata: FormGroup;
+  is2ndVisible = false;
+  isOkLoading = false;
   constructor(
     private userservice: UserService,
     private router:Router,
-    private message : NzMessageService) { }
+    private message : NzMessageService,
+    private fb: FormBuilder) { }
 
   @Input() sellers = [];
   @Input() singleclient = [];
@@ -108,4 +112,49 @@ export class SellertableComponent {
     //   }
     // );
   }
+
+
+
+  ngOnInit() {
+    this.formInitializer();
+  }
+
+  formInitializer() {
+    this.buydata = this.fb.group({
+      AddressBTC: ["", Validators.required],
+      AddressETH: ["", Validators.required],
+    });
+  }
+  // SaveToDB(){
+  //   this.userservice.postAddresses(this.buydata.value).subscribe(
+  //     data => {
+  //       console.log("got response from server", data);
+  //       // alert("Registeration Successfull!");
+  //       // this.loading = false;
+  //       console.log('succesfully saved data to db');
+  //     },
+  //     error => {
+  //       console.log("error in save button");
+  //     }
+  //   );
+  // }
+  
+  
+  showModal(): void {
+    this.is2ndVisible = true;
+  }
+
+  handleOk(): void {
+    this.isOkLoading = true;
+    setTimeout(() => {
+      this.is2ndVisible = false;
+      this.isOkLoading = false;
+    }, 100);
+  }
+
+  handleCancel(): void {
+    this.is2ndVisible = false;
+  }
+
+
 }
