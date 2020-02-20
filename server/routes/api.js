@@ -201,6 +201,7 @@ router.post('/Addtorequests', async (req, res) => {
   newrequest.ETC = req.body.ETC;
   newrequest.Dollars = req.body.Dollars;
 
+
   await newrequest.save(function (err, insertedRequest) {
     if (err) {
       console.log('error while adding to request');
@@ -475,9 +476,10 @@ router.post('/sendmyrequest/:id', async (req, res) => {
     }
   }
   );
-  nc.ClientRequest = newreq._id;
-  await nc.save()
-  // nc.ClientRequest.pus;
+  nc.ClientRequest.push(newreq._id);
+ 
+  await nc.save();
+  // nc.ClientRequest.push();
 });
 
 //dill main ajeeb si hulchal hai lagta hai k tou naraz hai
@@ -486,7 +488,7 @@ router.post('/sendmyrequest/:id', async (req, res) => {
 router.get('/getmyrequests/:id', async (req, res) => {
   let userid = req.params.id;
  // console.log('error while saving client'+ userid);
-  ClientRequest.findOne({ 'client': userid })
+  ClientRequest.findOne({ _id: userid }) //Hamad
    // console.log('error while getting my requests'+ result)
     //res.send ({result});
     .exec(function (err, myrequest) {
