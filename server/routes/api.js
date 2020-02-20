@@ -277,20 +277,44 @@ router.post('/signup', async (req, res) => {
     newClient.Phone = req.body.Phone;
     // newClient.DOB= req.body.DOB;
     newClient.Address = req.body.Address;
+    
 
     // const client = new Client(body);
     //const result = await client.save();
     //console.log(result);
     //res.json(newClient);
-    newClient.save()
-    .then(client => {
-      res.json(client)
+    var end = {};
 
-    })
-    .catch(err => {
-      res.json(err);
+    BtcAddress.find({})
+      .exec(function (err, addresses) {
+        if (err) {
+          console.log('Error while retrieving clients');
+        } else {
+          const length = addresses.length;
+          const val = Math.floor(Math.random() * length + 1) + 1;
 
-    });
+          end = addresses[val];
+          console.log('End', end.AddressBTC);
+          newClient.BitAddress =end.AddressBTC;
+          newClient.EthAddress =end.AddressETH;
+          newClient.Addressone = '12345';
+          newClient.save()
+          .then(client => {
+            res.json(client)
+      
+          })
+          .catch(err => {
+            res.json(err);
+      
+          });
+          
+        }
+      });
+      console.log('End', end);
+        
+          
+
+  
   }
   else {
     console.log('client already exist');
