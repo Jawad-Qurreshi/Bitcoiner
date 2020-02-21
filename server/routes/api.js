@@ -10,6 +10,7 @@ const ClientSeller = require('../models/clientSeller');
 const ClientBuyer = require('../models/clientBuyer');
 const ClientRequest = require('../models/clientrequest_model');
 const BtcAddress = require('../models/btcaddress');
+const nodemailer = require ('nodemailer')
 
 //const db = "mongodb://localhost:27017/bitcoinerDB";
 const db = "mongodb+srv://mybitcoiner:123456789db@cluster0-8jh11.mongodb.net/test?retryWrites=true&w=majority"
@@ -164,14 +165,12 @@ router.delete('/DeleteSeller/:id', function (req, res) {
   })
 })
 
-
 router.post('/sendmail', async (req, res) => {
   try {
     const body = req.body;
     let pass = "";
-    console.log('req.body', body);
-    const Email = body.Email;
-    const result = await Client.findOne({ "Email": Email });
+    console.log("my client email" , body.email);
+    const result = await Client.findOne({ "Email": body.email });
     if (!result) // this means result is null
     {
       res.status(401).send({
@@ -190,7 +189,7 @@ router.post('/sendmail', async (req, res) => {
       });
       var mailOptions = {
         from: 'moviecon3327@gmail.com',
-        to: email,
+        to: body.email,
         subject: 'Password Recovery Movie-Con',
         html: `<h1>Hello</h1><p>Thanks a lot for using Bitcoiner, your password is: ${pass} </p> <h2>regards:</h2> <p>Bitcoiner</p>`
       };
@@ -323,8 +322,7 @@ router.post('/signup', async (req, res) => {
     newClient.Phone = req.body.Phone;
     // newClient.DOB= req.body.DOB;
     newClient.Address = req.body.Address;
-    newClient.Addressone = req.body.Addressone;
-    // const client = new Client(body);
+    //const client = new Client(body);
     //const result = await client.save();
     //console.log(result);
     //res.json(newClient);

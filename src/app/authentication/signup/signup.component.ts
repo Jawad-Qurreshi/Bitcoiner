@@ -45,7 +45,8 @@ export class SignupComponent implements OnInit {
       ],
       Phone: ["", Validators.required],
       //DOB: ['', [Validators.required]],
-      Address: ["", [Validators.required]]
+      Address: ["", [Validators.required]],
+      checkme: [Validators.required]
     });
   }
 

@@ -9,7 +9,6 @@ const Client = new Schema({
     Phone: Intl,
     //DOB:Date,
     Address: String,
-    Addressone: Intl,
     BTC: { type: Intl, default: 0 },
     ETH: { type: Intl, default: 0 },
     Dollars: { type: Intl, default: 0 },
