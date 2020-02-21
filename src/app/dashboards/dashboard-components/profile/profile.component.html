@@ -207,10 +207,24 @@
                     <form class="m-t-30">
                         <div class="form-group m-b-30">
                             <h4 class="card-title">Select Currency:</h4>
-                            <select class="form-control" id="exampleFormControlSelect1">
-                                <option>Bitcoin</option>
-                                <option>Ethereum</option>
+                            <select [(ngModel)]="optionValue1" class="form-control" id="exampleFormControlSelect1" name="exampleFormControlSelect1">
+                                <option value="BTC">Bitcoin</option>
+                                <option value="ETH">Ethereum</option>
                             </select><br><br>
+                            <h4 class="card-title">Amount</h4>
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" placeholder="0.00"
+                                    aria-describedby="basic-addon1">
+                                <div class="input-group-append">
+                                    <span *ngIf="optionValue1 == 'BTC'" class="input-group-text">BTC</span>
+                                    <span *ngIf="optionValue1 == 'ETH'" class="input-group-text">ETH</span>
+                                </div>
+                                <input type="text" class="form-control" placeholder="$0.00"
+                                    aria-describedby="basic-addon1">
+                                <div class="input-group-append">
+                                    <span class="input-group-text">USD</span>
+                                </div>
+                            </div><br>
                             <h4 class="card-title">Address:</h4>
                             <div class="input-group mb-3">
                                 <input type="text" class="form-control" placeholder="wallet address"

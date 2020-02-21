@@ -82,8 +82,10 @@ export class InfoBoxComponent implements OnInit, OnChanges, AfterViewInit {
 
     if (this.bitcurrent && this.ethcurrent) {
       this.walletBTC = +this.singleclient.BTC;
-      this.walletETH = +this.singleclient.ETH;
+      this.walletETH = +this.singleclient.ETC;
       this.walletDollars = +this.singleclient.Dollars;
+      
+      
       this.newethcurrent = +this.ethcurrent;
       this.newbitcurrent = +this.bitcurrent;
 
@@ -91,6 +93,7 @@ export class InfoBoxComponent implements OnInit, OnChanges, AfterViewInit {
       this.calcwalletETH = this.walletETH * this.newethcurrent;
 
       this.TotalWallet = this.calcwalletBTC + this.calcwalletETH + this.walletDollars;
+     
     }
   }
   ngOnInit() {
@@ -99,11 +102,11 @@ export class InfoBoxComponent implements OnInit, OnChanges, AfterViewInit {
         //console.log("resBitData", resBitData);
 
         this.bitcurrent = resBitData.ticker.BTCUSDT;
-        console.log("API this.bitcurrent", this.bitcurrent);
+      
         this.updateTotalWallet();
       },
       err => {
-        console.log("api error in single client", err);
+        console.log("api error in getting bitcoin current", err);
       }
     );
 
@@ -117,7 +120,7 @@ export class InfoBoxComponent implements OnInit, OnChanges, AfterViewInit {
         //console.log("Price of ETH: $", this.tickereth);
       },
       err => {
-        console.log("api error in single client", err);
+        console.log("api error in getting ethereum current", err);
       }
     );
   }
