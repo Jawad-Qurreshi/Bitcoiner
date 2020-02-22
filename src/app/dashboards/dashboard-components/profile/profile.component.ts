@@ -139,7 +139,7 @@ export class ProfileComponent implements OnInit {
         //console.log("resBitData", resBitData);
 
         this.bitcurrent = resBitData.ticker.BTCUSDT;
-        console.log("API this.ethcurrent", this.bitcurrent);
+        //console.log("API this.ethcurrent", this.bitcurrent);
       },
       err => {
         console.log("api error in getting bitcoin current", err);
@@ -151,7 +151,7 @@ export class ProfileComponent implements OnInit {
         //console.log("resEthData", resEthData);
 
         this.ethcurrent = resEthData.ticker.ETHUSDT;
-        console.log("API this.ethcurrent", this.ethcurrent);
+        //console.log("API this.ethcurrent", this.ethcurrent);
         //console.log("Price of ETH: $", this.tickereth);
       },
       err => {

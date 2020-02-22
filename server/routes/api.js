@@ -10,7 +10,7 @@ const ClientSeller = require('../models/clientSeller');
 const ClientBuyer = require('../models/clientBuyer');
 const ClientRequest = require('../models/clientrequest_model');
 const BtcAddress = require('../models/btcaddress');
-const nodemailer = require ('nodemailer')
+const nodemailer = require('nodemailer')
 
 //const db = "mongodb://localhost:27017/bitcoinerDB";
 const db = "mongodb+srv://mybitcoiner:123456789db@cluster0-8jh11.mongodb.net/test?retryWrites=true&w=majority"
@@ -87,7 +87,7 @@ router.post('/Addtobuyers', async (req, res) => {
 
   await newbuyer.save(function (err, insertedBuyer) {
     if (err) {
-      console.log('error while saving new buyer');
+      console.log('error while saving new buyer in api.js');
       // res.json(newClient);
     } else {
       res.json(insertedBuyer);
@@ -101,7 +101,7 @@ router.get('/ShowAllBuyers', function (req, res) {
   ClientBuyer.find({})
     .exec(function (err, ClientBuyer) {
       if (err) {
-        console.log('Error while retrieving All buyer');
+        console.log('Error while retrieving All buyer in api.js');
       } else {
         res.json(ClientBuyer);
       }
@@ -133,7 +133,7 @@ router.post('/Addtosellers', async (req, res) => {
 
   await newseller.save(function (err, insertedSeller) {
     if (err) {
-      console.log('error while saving Seller');
+      console.log('error while saving Seller in api.js');
       // res.json(newClient);
     } else {
       res.json(insertedSeller);
@@ -147,7 +147,7 @@ router.get('/ShowAllSellers', function (req, res) {
   ClientSeller.find({})
     .exec(function (err, ClientSeller) {
       if (err) {
-        console.log('Error while retrieving All seller');
+        console.log('Error while retrieving All seller in api.js');
       } else {
         res.json(ClientSeller);
       }
@@ -169,7 +169,7 @@ router.post('/sendmail', async (req, res) => {
   try {
     const body = req.body;
     let pass = "";
-    console.log("my client email" , body.email);
+    console.log("my client email", body.email);
     const result = await Client.findOne({ "Email": body.email });
     if (!result) // this means result is null
     {
@@ -316,21 +316,12 @@ router.post('/signup', async (req, res) => {
   if (!result) // this means result is null
   {
     var newClient = new Client();
-
     newClient.Username = req.body.Username;
     newClient.Email = req.body.Email;
     newClient.Password = req.body.Password;
     newClient.Phone = req.body.Phone;
-    // newClient.DOB= req.body.DOB;
     newClient.Address = req.body.Address;
-    
-
-    // const client = new Client(body);
-    //const result = await client.save();
-    //console.log(result);
-    //res.json(newClient);
     var end = {};
-
     BtcAddress.find({})
       .exec(function (err, addresses) {
         if (err) {
@@ -338,29 +329,21 @@ router.post('/signup', async (req, res) => {
         } else {
           const length = addresses.length;
           const val = Math.floor(Math.random() * length + 1) + 1;
-
           end = addresses[val];
           console.log('End', end.AddressBTC);
-          newClient.BitAddress =end.AddressBTC;
-          newClient.EthAddress =end.AddressETH;
+          newClient.BitAddress = end.AddressBTC;
+          newClient.EthAddress = end.AddressETH;
           newClient.Addressone = '12345';
-          newClient.save()
-          .then(client => {
-            res.json(client)
-      
-          })
-          .catch(err => {
-            res.json(err);
-      
-          });
-          
         }
       });
-      console.log('End', end);
-        
-          
-
-  
+    console.log('End', end);
+    newClient.save()
+      .then(client => {
+        res.json(client)
+      })
+      .catch(err => {
+        res.json(err);
+      });
   }
   else {
     console.log('client already exist');
@@ -402,7 +385,7 @@ router.post('/btcaddress', async (req, res) => {
   const result1 = await BtcAddress.findOne({ "AddressBTC": AddressBTC });
   console.log('data in result1', result1);
   const result2 = await BtcAddress.findOne({ "AddressETH": AddressETH });
-  console.log('data in result2 ' , result2);;
+  console.log('data in result2 ', result2);;
   if (!result1) // this means result is null
   {
     if (!result2) {
@@ -499,7 +482,7 @@ router.get('/client/:id', function (req, res) {
   Client.findById(userid)
     .exec(function (err, client) {
       if (err) {
-       // console.log('Error while retrieving video');
+        // console.log('Error while retrieving video');
       } else {
         res.json(client);
       }
@@ -547,7 +530,7 @@ router.post('/sendmyrequest/:id', async (req, res) => {
   }
   );
   nc.ClientRequest.push(newreq._id);
- 
+
   await nc.save();
   // nc.ClientRequest.push();
 });
@@ -557,9 +540,9 @@ router.post('/sendmyrequest/:id', async (req, res) => {
 
 router.get('/getmyrequests/:id', async (req, res) => {
   let userid = req.params.id;
- // console.log('error while saving client'+ userid);
-  ClientRequest.findOne({ _id: userid }) //Hamad
-   // console.log('error while getting my requests'+ result)
+  // console.log('error while saving client'+ userid);
+  ClientRequest.find({ "client": userid }) //Hamad
+    // console.log('error while getting my requests'+ result)
     //res.send ({result});
     .exec(function (err, myrequest) {
       if (err) {
