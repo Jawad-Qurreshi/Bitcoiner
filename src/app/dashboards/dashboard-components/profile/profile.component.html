@@ -5,7 +5,7 @@
             <div class="card-body">
                 <div class="m-t-30 text-center">
                     <img src="assets/images/users/5.jpg" class="rounded-circle" width="150" />
-                    <h4 class="card-title m-t-10">{{singleclient.Username}}</h4>
+                    <h4 class="card-title m-t-10">{{singleclient?.Username}}</h4>
 
                     <div class="row text-center justify-content-md-center">
                         <button (click)="logout()" clas="row" type="button" class="btn btn-success">Logout</button>
@@ -27,11 +27,11 @@
             </div>
             <div class="card-body">
                 <small class="text-muted">Email address </small>
-                <h6>{{singleclient.Email}}</h6>
+                <h6>{{singleclient?.Email}}</h6>
                 <small class="text-muted p-t-30 db">Phone</small>
-                <h6>{{singleclient.Phone}}</h6>
+                <h6>{{singleclient?.Phone}}</h6>
                 <small class="text-muted p-t-30 db">Address</small>
-                <h6>{{singleclient.Address}}</h6>
+                <h6>{{singleclient?.Address}}</h6>
                 <small class="text-muted p-t-30 db">Social Profile</small>
                 <br />
                 <!-- <button class="btn btn-circle btn-secondary">
@@ -217,21 +217,26 @@
                 <div class="card-body">
                     <form class="m-t-30">
                         <div class="form-group m-b-30">
+
                             <h4 class="card-title">Select Currency:</h4>
+<<<<<<< HEAD
                             <select [(ngModel)]="optionValue1" class="form-control" id="exampleFormControlSelect1"
                                 name="exampleFormControlSelect1">
+=======
+                            <select [(ngModel)]="coinType" class="form-control"  (ngModelChange)="amountChanged()" [ngModelOptions]="{standalone: true}" id="exampleFormControlSelect1" name="exampleFormControlSelect1">
+>>>>>>> 878b4a7864b2674cd55ad8a4487899fdc253d080
                                 <option value="BTC">Bitcoin</option>
                                 <option value="ETH">Ethereum</option>
                             </select><br><br>
                             <h4 class="card-title">Amount</h4>
                             <div class="input-group mb-3">
-                                <input type="text" class="form-control" placeholder="0.00"
-                                    aria-describedby="basic-addon1">
+                                <input type="text" [(ngModel)]="amount" (ngModelChange)="amountChanged()" [ngModelOptions]="{standalone: true}"  class="form-control" placeholder="0.00"
+                                    >
                                 <div class="input-group-append">
-                                    <span *ngIf="optionValue1 == 'BTC'" class="input-group-text">BTC</span>
-                                    <span *ngIf="optionValue1 == 'ETH'" class="input-group-text">ETH</span>
+                                    <span *ngIf="coinType == 'BTC'" class="input-group-text">BTC</span>
+                                    <span *ngIf="coinType == 'ETH'" class="input-group-text">ETH</span>
                                 </div>
-                                <input type="text" class="form-control" placeholder="$0.00"
+                                <input type="text" [(ngModel)]="usdAmount" [ngModelOptions]="{standalone: true}" disabled class="form-control" placeholder="$0.00"
                                     aria-describedby="basic-addon1">
                                 <div class="input-group-append">
                                     <span class="input-group-text">USD</span>
@@ -239,7 +244,7 @@
                             </div><br>
                             <h4 class="card-title">Address:</h4>
                             <div class="input-group mb-3">
-                                <input type="text" class="form-control" placeholder="wallet address"
+                                <input type="text" [(ngModel)]="finalAddress" disabled [ngModelOptions]="{standalone: true}" class="form-control" placeholder="wallet address"
                                     aria-describedby="basic-addon1">
                                 <div class="input-group-append">
                                     <span class="input-group-text">Wallet</span>
@@ -254,6 +259,12 @@
     </div>
     <ng-template #modalFooter>
         <button nz-button nzType="default" (click)="handleCancel()">Cancel</button>
+<<<<<<< HEAD
         <button nz-button nzType="primary" (click)="handleOk()" [nzLoading]="isConfirmLoading">Done</button>
     </ng-template>
 </nz-modal>
+=======
+        <button nz-button nzType="primary" (click)="saveReceieved()" [disabled]="usdAmount=='0'" [nzLoading]="saveReceivedLoading">Done</button>
+      </ng-template>
+</nz-modal>
+>>>>>>> 878b4a7864b2674cd55ad8a4487899fdc253d080

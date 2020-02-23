@@ -141,6 +141,23 @@ router.post('/Addtosellers', async (req, res) => {
   }
   );
 });
+router.post('/receivecoins', async (req, res) => {
+
+  const body = req.body;
+  console.log('body', body);
+
+  try{
+  const result = await ClientRequest.create(body);
+    console.log('result->', result);
+    res.send({code:200,data: result});
+
+  }
+  catch(ex){
+    console.log('ex->', ex);
+    res.send({code:500,error: ex});
+  }
+
+});
 
 router.get('/ShowAllSellers', function (req, res) {
   //const allClients = await Client.find();
