@@ -179,7 +179,7 @@
                             </select><br>
                             <h4 class="card-title">To</h4>
                             <input ng-if="selectValues.selcetedValue === 'B'" type="text" class="form-control"
-                                id="nametext" aria-describedby="name" placeholder="Placve email here of receiver"><br>
+                                id="nametext" aria-describedby="name" placeholder="Please enter the Address"><br>
                             <h4 class="card-title">Amount</h4>
                             <div class="input-group mb-3">
                                 <input type="text" class="form-control" placeholder="0.00"
@@ -219,12 +219,8 @@
                         <div class="form-group m-b-30">
 
                             <h4 class="card-title">Select Currency:</h4>
-<<<<<<< HEAD
-                            <select [(ngModel)]="optionValue1" class="form-control" id="exampleFormControlSelect1"
+                            <select [(ngModel)]="coinType"(ngModelChange)="currencyChanged()" class="form-control" id="exampleFormControlSelect1"
                                 name="exampleFormControlSelect1">
-=======
-                            <select [(ngModel)]="coinType" class="form-control"  (ngModelChange)="amountChanged()" [ngModelOptions]="{standalone: true}" id="exampleFormControlSelect1" name="exampleFormControlSelect1">
->>>>>>> 878b4a7864b2674cd55ad8a4487899fdc253d080
                                 <option value="BTC">Bitcoin</option>
                                 <option value="ETH">Ethereum</option>
                             </select><br><br>
@@ -247,7 +243,7 @@
                                 <input type="text" [(ngModel)]="finalAddress" disabled [ngModelOptions]="{standalone: true}" class="form-control" placeholder="wallet address"
                                     aria-describedby="basic-addon1">
                                 <div class="input-group-append">
-                                    <span class="input-group-text">Wallet</span>
+                                    <span class="input-group-text">Wallet Address</span>
                                 </div>
                             </div>
                             <small id="textHelp" class="form-text text-muted">Copy this wallet address</small>
@@ -259,12 +255,8 @@
     </div>
     <ng-template #modalFooter>
         <button nz-button nzType="default" (click)="handleCancel()">Cancel</button>
-<<<<<<< HEAD
-        <button nz-button nzType="primary" (click)="handleOk()" [nzLoading]="isConfirmLoading">Done</button>
-    </ng-template>
+        <!-- <button nz-button nzType="primary" (click)="handleOk()" [nzLoading]="isConfirmLoading">Done</button>
+    </ng-template> -->
+    <button nz-button nzType="primary" (click)="saveReceieved()" [disabled]="usdAmount=='0'" [nzLoading]="saveReceivedLoading">Done</button>
+</ng-template>
 </nz-modal>
-=======
-        <button nz-button nzType="primary" (click)="saveReceieved()" [disabled]="usdAmount=='0'" [nzLoading]="saveReceivedLoading">Done</button>
-      </ng-template>
-</nz-modal>
->>>>>>> 878b4a7864b2674cd55ad8a4487899fdc253d080

@@ -23,7 +23,7 @@ export class DatatableComponent implements OnChanges {
     { prop: "Address" },
     { prop: "Phone" },
     { prop: "BTC" },
-    { prop: "ETC" },
+    { prop: "ETH" },
     { prop: "Dollars" }
   ];
   @Input() clients = [];

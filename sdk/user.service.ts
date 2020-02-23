@@ -99,6 +99,12 @@ export class UserService {
   //   return this.http.post(url, credentials);
   // }
 
+  public requestToReceive(body: object): Observable<any> {
+    const url = ProjectConfig.getPath() + "/Addtorequests";
+
+    return this.http.post(url, body);
+  }
+
   public receiveCoins(body: object): Observable<any> {
     const url = ProjectConfig.getPath() + "/receivecoins";
 

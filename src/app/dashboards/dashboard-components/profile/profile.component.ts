@@ -30,20 +30,14 @@ export class ProfileComponent implements OnInit {
   isVisible = false;
   is2ndVisible = false;
   isOkLoading = false;
-  coinType = "BTC";
+  coinType ;
   amount = 0.0;
   optionValue;
-  optionValue1;
+  //optionValue1;
   optionValue12;
   price;
   senderform: FormGroup;
-<<<<<<< HEAD
-
-  
-
-=======
   usdAmount = 0;
->>>>>>> 878b4a7864b2674cd55ad8a4487899fdc253d080
   sellers = [];
   buyers = [];
   name: any;
@@ -56,87 +50,9 @@ export class ProfileComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private message: NzMessageService,
-<<<<<<< HEAD
-    private userService: UserService, 
-    private router: Router) {
-  }
-
-  ngOnChanges(){
-
-    if(this.selectedRequest === 'Buy'){
-      
-      // this.userService.userRegister(this.buyerdata.values).subscribe(
-      //   data => {
-      //     console.log("got response from server", data);
-      //     // alert("Registeration Successfull!");
-      //     // this.loading = false;
-      //     this.message.success("Buyer saving Successful");
-      //   },
-      //   error => {
-      //     this.message.error("Buyer failed to do so");
-      //   }
-      // );
-
-      console.log('my data')
-    }
-
-    else if(this.selectedRequest === 'Sell'){
-      console.log('your data')
-    }
-  
-  } 
-
-  logout() {
-    localStorage.removeItem("ID");
-    localStorage.removeItem("token");
-    this.router.navigateByUrl("/authentication/login");
-  }
-
-  showModal(): void {
-    this.isVisible = true;
-  }
-  showmModal(): void {
-    this.is2ndVisible = true;
-  }
-
-  handlesenderOk(): void {
-    
-    this.isOkLoading = true;
-    setTimeout(() => {
-      this.isVisible = false;
-      this.is2ndVisible = false;
-      this.isOkLoading = false;
-    }, 3000);
-  }
-
-  handlereceiverOk(): void {
-
-    this.isOkLoading = true;
-    setTimeout(() => {
-      this.isVisible = false;
-      this.is2ndVisible = false;
-      this.isOkLoading = false;
-    }, 3000);
-  }
-
-  handleCancel(): void {
-    this.isVisible = false;
-    this.is2ndVisible = false;
-  }
-
-  
-  handleOk(): void {
-    this.isOkLoading = true;
-    setTimeout(() => {
-      this.is2ndVisible = false;
-      this.isOkLoading = false;
-    }, 100);
-  }
-=======
     private userService: UserService,
     private router: Router
   ) {}
->>>>>>> 878b4a7864b2674cd55ad8a4487899fdc253d080
   ngOnInit() {
     // this.formInitializer();
 
@@ -213,15 +129,30 @@ export class ProfileComponent implements OnInit {
     this.calculateUsdAmount();
   }
 
+  currencyChanged() {
+    this.currencyAddress();
+  }
+
+  currencyAddress(){
+    if (this.coinType === "BTC") {
+      this.finalAddress = this.singleclient.BitAddress;
+    } else if (this.coinType === "ETH") {
+      this.finalAddress = this.singleclient.EthAddress;
+    } else {
+      this.message.error("Please select currency");
+    }
+  }
+
   calculateUsdAmount() {
-    console.log("singleclient", this.singleclient);
+    //console.log("singleclient", this.singleclient);
     if (isNaN(this.amount)) {
       this.usdAmount = 0;
     } else {
+      console.log("cointype", this.coinType);
       if (this.coinType === "BTC") {
         this.usdAmount = this.amount * this.bitcurrent;
         this.finalAddress = this.singleclient.BitAddress;
-      } else {
+      } else if (this.coinType === "ETH") {
         this.usdAmount = this.amount * this.ethcurrent;
         this.finalAddress = this.singleclient.EthAddress;
       }
@@ -269,10 +200,20 @@ export class ProfileComponent implements OnInit {
 
   saveReceieved(): void {
     this.saveReceivedLoading = true;
-
+    const body2 ={
+      Username : this.singleclient.Username,
+      Email : this.singleclient.Email,
+      Phone : this.singleclient.Phone,
+      Address : this.singleclient.Address,
+      Status : "under process",
+      TypeOfRequest :"Receive",
+      BTC : this.singleclient.BTC,
+      ETC : this.singleclient.ETC,
+      Dollars : this.singleclient.Dollars
+    }
     const body = {
       status: "under process",
-      // "request_type" : "waqas",
+      request_type : "Receive",
       crypto_type: this.coinType,
       amount: this.amount,
       date: Date.now(),
@@ -281,11 +222,27 @@ export class ProfileComponent implements OnInit {
       client: this.singleclient._id
     };
 
+    this.userService.requestToReceive(body2).subscribe(
+      data => {
+        console.log("got response from server", data);
+
+        // this.message.success("Payment receiving request sent!");
+        // this.is2ndVisible = false;
+        this.resetData();
+        // this.router.navigate(["/authentication/login"]);
+      },
+      error => {
+        this.saveReceivedLoading = false;
+        this.is2ndVisible = false;
+        this.message.error("Unable to pay");
+      }
+    );
+
     this.userService.receiveCoins(body).subscribe(
       data => {
         console.log("got response from server", data);
 
-        this.message.success("Payment Receive Request sent!");
+        this.message.success("Payment receiving request sent!");
         this.is2ndVisible = false;
         this.resetData();
         // this.router.navigate(["/authentication/login"]);

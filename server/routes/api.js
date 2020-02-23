@@ -144,17 +144,17 @@ router.post('/Addtosellers', async (req, res) => {
 router.post('/receivecoins', async (req, res) => {
 
   const body = req.body;
-  console.log('body', body);
+  //console.log('body', body);
 
-  try{
-  const result = await ClientRequest.create(body);
-    console.log('result->', result);
-    res.send({code:200,data: result});
+  try {
+    const result = await ClientRequest.create(body);
+    //console.log('result->', result);
+    res.send({ code: 200, data: result });
 
   }
-  catch(ex){
-    console.log('ex->', ex);
-    res.send({code:500,error: ex});
+  catch (ex) {
+    //console.log('ex->', ex);
+    res.send({ code: 500, error: ex });
   }
 
 });
@@ -253,27 +253,18 @@ router.post('/sendmail', async (req, res) => {
 /////////////////////////All requests////////////////////////////////////////
 router.post('/Addtorequests', async (req, res) => {
 
-  const newrequest = new Request();
-  newrequest.Username = req.body.Username;
-  newrequest.Email = req.body.Email;
-  newrequest.Phone = req.body.Phone;
-  newrequest.Address = req.body.Address;
-  newrequest.Status = req.body.status;
-  newrequest.TypeOfRequest = req.body.TypeOfRequest;
-  newrequest.BTC = req.body.BTC;
-  newrequest.ETC = req.body.ETC;
-  newrequest.Dollars = req.body.Dollars;
-
-
-  await newrequest.save(function (err, insertedRequest) {
-    if (err) {
-      console.log('error while adding to request');
-      // res.json(newClient);
-    } else {
-      res.json(insertedRequest);
-    }
+  const body = req.body;
+  console.log('body', body);
+  try {
+    const result = await Request.create(body);
+    //console.log('result->', result);
+    res.send({ code: 200, data: result });
   }
-  );
+  catch (ex) {
+    //console.log('ex->', ex);
+    res.send({ code: 500, error: ex });
+  }
+  
 });
 
 router.get('/ShowAllRequest', function (req, res) {
@@ -351,16 +342,16 @@ router.post('/signup', async (req, res) => {
           newClient.BitAddress = end.AddressBTC;
           newClient.EthAddress = end.AddressETH;
           newClient.save()
-          .then(client => {
-            res.json(client)
-          })
-          .catch(err => {
-            res.json(err);
-          });
+            .then(client => {
+              res.json(client)
+            })
+            .catch(err => {
+              res.json(err);
+            });
         }
       });
     console.log('End', end);
-   
+
   }
   else {
     console.log('client already exist');
