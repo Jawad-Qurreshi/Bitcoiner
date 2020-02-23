@@ -1,10 +1,11 @@
-import { Component, Input, OnChanges, OnInit, Output } from "@angular/core";
 import {
   AbstractControl,
   FormBuilder,
   FormGroup,
   Validators
 } from "@angular/forms";
+import { Component, Input, OnChanges, OnInit, Output } from "@angular/core";
+
 import { NzMessageService } from "ng-zorro-antd";
 import { Router } from "@angular/router";
 import { UserService } from "sdk/user.service";
@@ -18,90 +19,29 @@ export class ProfileComponent implements OnInit {
   isVisible = false;
   is2ndVisible = false;
   isOkLoading = false;
-
+  coinType = "BTC";
+  amount = 0.0;
   optionValue;
   optionValue1;
   senderform: FormGroup;
-
+  usdAmount = 0;
   sellers = [];
   buyers = [];
   name: any;
-  
-  @Input() singleclient = [];
+  finalAddress;
+  @Input() singleclient;
   ethcurrent: any;
   bitcurrent: any;
+  saveReceivedLoading = false;
 
   constructor(
     private fb: FormBuilder,
     private message: NzMessageService,
-    private userService: UserService, 
-    private router: Router) {
-  }
-
-  logout() {
-    localStorage.removeItem("ID");
-    localStorage.removeItem("token");
-    this.router.navigateByUrl("/authentication/login");
-  }
-
-  showModal(): void {
-    this.isVisible = true;
-  }
-  showmModal(): void {
-    this.is2ndVisible = true;
-  }
-
-  handlesenderOk(): void {
-    // var id =localStorage.getItem('ID');
-    // this.userService.sendrequest(id,this.senderform.value).subscribe(
-    //   data => {
-    //     console.log("got response from server", data);
-    //     // alert("Registeration Successfull!");
-    //     // this.loading = false;
-    //     this.message.success("Payment succeded");
-
-    //     this.router.navigate(["/authentication/login"]);
-    //   },
-    //   error => {
-    //     // this.clicked = false;
-    //     // this.loading = false;
-    //     // console.log("error in save button");
-    //      this.message.error("Unable to pay");
-    //   }
-    // );
-    this.isOkLoading = true;
-    setTimeout(() => {
-      this.isVisible = false;
-      this.is2ndVisible = false;
-      this.isOkLoading = false;
-    }, 3000);
-  }
-
-  handlereceiverOk(): void {
-
-    this.isOkLoading = true;
-    setTimeout(() => {
-      this.isVisible = false;
-      this.is2ndVisible = false;
-      this.isOkLoading = false;
-    }, 3000);
-  }
-
-  handleCancel(): void {
-    this.isVisible = false;
-    this.is2ndVisible = false;
-  }
-
-  
-  handleOk(): void {
-    this.isOkLoading = true;
-    setTimeout(() => {
-      this.is2ndVisible = false;
-      this.isOkLoading = false;
-    }, 100);
-  }
+    private userService: UserService,
+    private router: Router
+  ) {}
   ngOnInit() {
-   // this.formInitializer();
+    // this.formInitializer();
 
     // var id =localStorage.getItem('ID');
     // //console.log("id from localstorage", id);
@@ -158,17 +98,110 @@ export class ProfileComponent implements OnInit {
         console.log("api error in getting ethereum current", err);
       }
     );
-
   }
 
-  // formInitializer() {
-  //   this.senderform = this.fb.group({
-  //     currencyselection: ["", Validators.required],
-  //     walletAddress: ["", [Validators.required]],
-  //     currencyBTC: ["", [Validators.required]],
-  //     currencyUSD: [""],
-  //     //DOB: ['', [Validators.required]],
-  //     descriptionselection: [""]
-  //   });
-  // }
+  logout() {
+    localStorage.removeItem("ID");
+    localStorage.removeItem("token");
+    this.router.navigateByUrl("/authentication/login");
+  }
+
+  showModal(): void {
+    this.isVisible = true;
+  }
+  showmModal(): void {
+    this.is2ndVisible = true;
+  }
+  amountChanged() {
+    this.calculateUsdAmount();
+  }
+
+  calculateUsdAmount() {
+    console.log("singleclient", this.singleclient);
+    if (isNaN(this.amount)) {
+      this.usdAmount = 0;
+    } else {
+      if (this.coinType === "BTC") {
+        this.usdAmount = this.amount * this.bitcurrent;
+        this.finalAddress = this.singleclient.BitAddress;
+      } else {
+        this.usdAmount = this.amount * this.ethcurrent;
+        this.finalAddress = this.singleclient.EthAddress;
+      }
+    }
+  }
+  handlesenderOk(): void {
+    // var id =localStorage.getItem('ID');
+    // this.userService.sendrequest(id,this.senderform.value).subscribe(
+    //   data => {
+    //     console.log("got response from server", data);
+    //     // alert("Registeration Successfull!");
+    //     // this.loading = false;
+    //     this.message.success("Payment succeded");
+
+    //     this.router.navigate(["/authentication/login"]);
+    //   },
+    //   error => {
+    //     // this.clicked = false;
+    //     // this.loading = false;
+    //     // console.log("error in save button");
+    //      this.message.error("Unable to pay");
+    //   }
+    // );
+    this.isOkLoading = true;
+    setTimeout(() => {
+      this.isVisible = false;
+      this.is2ndVisible = false;
+      this.isOkLoading = false;
+    }, 3000);
+  }
+
+  handlereceiverOk(): void {
+    this.isOkLoading = true;
+    setTimeout(() => {
+      this.isVisible = false;
+      this.is2ndVisible = false;
+      this.isOkLoading = false;
+    }, 3000);
+  }
+
+  handleCancel(): void {
+    this.isVisible = false;
+    this.is2ndVisible = false;
+  }
+
+  saveReceieved(): void {
+    this.saveReceivedLoading = true;
+
+    const body = {
+      status: "under process",
+      // "request_type" : "waqas",
+      crypto_type: this.coinType,
+      amount: this.amount,
+      date: Date.now(),
+      usd_amount: this.usdAmount,
+      address: this.finalAddress,
+      client: this.singleclient._id
+    };
+
+    this.userService.receiveCoins(body).subscribe(
+      data => {
+        console.log("got response from server", data);
+
+        this.message.success("Payment Receive Request sent!");
+        this.is2ndVisible = false;
+        this.resetData();
+        // this.router.navigate(["/authentication/login"]);
+      },
+      error => {
+        this.saveReceivedLoading = false;
+        this.is2ndVisible = false;
+        this.message.error("Unable to pay");
+      }
+    );
+  }
+
+  resetData() {
+    this.amount = 0;
+  }
 }
