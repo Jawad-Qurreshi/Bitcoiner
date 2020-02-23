@@ -61,7 +61,7 @@
                 <ngb-tab title="Sell">
                     <ng-template ngbTabContent>
                         <div class="card-body">
-                            <app-seller-table  [sellers]="sellers"></app-seller-table>
+                            <app-seller-table [sellers]="sellers"></app-seller-table>
                         </div>
                     </ng-template>
                 </ngb-tab>
@@ -86,18 +86,27 @@
 
                                     <form class="m-t-30">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" id="nametext1" placeholder="Name"
-                                                disabled>
+                                            <input type="text" class="form-control" id="nametext1"
+                                                placeholder={{singleclient.Username}} disabled>
                                         </div>
                                     </form>
                                     <br>
                                     <h6>I want to:</h6>
-                                    <div class="form-check form-check-inline">
+                                    <div *ngFor="let type of types">
+                                        <input 
+                                        type="radio"
+                                        name="typeof req"
+                                        value="{{type}}"
+                                        (change) = "radioChangeHandler($event)">
+                                        <b>{{type}}</b>
+                                    </div>
+                                    <!-- <div class="form-check form-check-inline">
                                         <div class="custom-control custom-radio">
                                             <input type="radio" class="custom-control-input"
                                                 id="customControlValidation2" name="radio-stacked">
                                             <label class="custom-control-label"
                                                 for="customControlValidation2">Buy</label>
+                                            
                                         </div>
                                     </div>
                                     <div class="form-check form-check-inline">
@@ -106,16 +115,17 @@
                                                 id="customControlValidation3" name="radio-stacked">
                                             <label class="custom-control-label"
                                                 for="customControlValidation3">Sell</label>
-                                        </div>
-                                    </div><br><br>
+                                        </div> 
+                                    </div> -->
+                                    <br><br>
                                     <form>
                                         <div class="form-group m-b-30">
                                             <label class="mr-sm-2" for="inlineFormCustomSelect">Select the type of
                                                 currency</label>
-                                            <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
-                                                <option selected>Choose...</option>
-                                                <option value="1">Bitcoin</option>
-                                                <option value="2">Ethereum</option>
+                                            <select [(ngModel)]="optionValue12" class="custom-select mr-sm-2"
+                                                id="inlineFormCustomSelect">
+                                                <option value="BTC">Bitcoin</option>
+                                                <option value="ETH">Ethereum</option>
                                             </select>
                                         </div>
                                     </form>
@@ -124,9 +134,10 @@
                                     <form class="m-t-20">
                                         <div class="form-group">
                                             <input type="text" class="form-control" id="nametext"
-                                                aria-describedby="name" placeholder="Price">
+                                                aria-describedby="name" placeholder="Price" formControlName="price">
                                             <small id="name" class="form-text text-muted">Price should be in dollars
-                                                because i will be calculated according to the current price of
+                                                because change will be calculated from market according to current price
+                                                of
                                                 BTC/ETH</small>
                                         </div>
                                     </form>
@@ -136,9 +147,10 @@
                                                 disabled>
                                         </div>
                                     </form>
-                                    
+
                                     <div class="col-4 col-lg-2 col-md-4">
-                                        <button type="button" class="btn btn-rounded btn-block btn-success">confirm</button>
+                                        <button type="button"
+                                            class="btn btn-rounded btn-block btn-success">confirm</button>
                                     </div>
 
                                 </div>
@@ -152,8 +164,7 @@
     <!-- Column -->
 </div>
 <nz-modal [(nzVisible)]="isVisible" nzTitle="Send Bitcoins" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()"
-    [nzOkLoading]="isOkLoading"
-    [nzFooter]="modalFooter">
+    [nzOkLoading]="isOkLoading" [nzFooter]="modalFooter">
     <div class="row">
         <div class="col-sm-12 col-md-12 col-lg-12">
             <div class="card">
@@ -161,13 +172,14 @@
                     <form class="m-t-30">
                         <div class="form-group m-b-30">
                             <h4 class="card-title">Select Currency</h4>
-                            <select [(ngModel)]="optionValue" class="form-control" id="currencySelector" name="currencySelector">
+                            <select [(ngModel)]="optionValue" class="form-control" id="currencySelector"
+                                name="currencySelector">
                                 <option value="BTC">Bitcoin</option>
                                 <option value="ETH">Ethereum</option>
                             </select><br>
                             <h4 class="card-title">To</h4>
-                            <input ng-if="selectValues.selcetedValue === 'B'" type="text" class="form-control" id="nametext" aria-describedby="name"
-                                placeholder="Placve email here of receiver"><br>
+                            <input ng-if="selectValues.selcetedValue === 'B'" type="text" class="form-control"
+                                id="nametext" aria-describedby="name" placeholder="Placve email here of receiver"><br>
                             <h4 class="card-title">Amount</h4>
                             <div class="input-group mb-3">
                                 <input type="text" class="form-control" placeholder="0.00"
@@ -195,11 +207,10 @@
     <ng-template #modalFooter>
         <button nz-button nzType="default" (click)="handleCancel()">Cancel</button>
         <button nz-button nzType="primary" (click)="handleOk()" [nzLoading]="isOkLoading">Done</button>
-      </ng-template>
+    </ng-template>
 </nz-modal>
 <nz-modal [(nzVisible)]="is2ndVisible" nzTitle="Recieve Bitcoins" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()"
-    [nzOkLoading]="isOkLoading"
-    [nzFooter]="modalFooter">
+    [nzOkLoading]="isOkLoading" [nzFooter]="modalFooter">
     <div class="row">
         <div class="col-sm-12 col-md-12 col-lg-12">
             <div class="card">
@@ -207,7 +218,8 @@
                     <form class="m-t-30">
                         <div class="form-group m-b-30">
                             <h4 class="card-title">Select Currency:</h4>
-                            <select [(ngModel)]="optionValue1" class="form-control" id="exampleFormControlSelect1" name="exampleFormControlSelect1">
+                            <select [(ngModel)]="optionValue1" class="form-control" id="exampleFormControlSelect1"
+                                name="exampleFormControlSelect1">
                                 <option value="BTC">Bitcoin</option>
                                 <option value="ETH">Ethereum</option>
                             </select><br><br>
@@ -243,5 +255,5 @@
     <ng-template #modalFooter>
         <button nz-button nzType="default" (click)="handleCancel()">Cancel</button>
         <button nz-button nzType="primary" (click)="handleOk()" [nzLoading]="isConfirmLoading">Done</button>
-      </ng-template>
+    </ng-template>
 </nz-modal>

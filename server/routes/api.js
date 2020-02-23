@@ -333,17 +333,17 @@ router.post('/signup', async (req, res) => {
           console.log('End', end.AddressBTC);
           newClient.BitAddress = end.AddressBTC;
           newClient.EthAddress = end.AddressETH;
-          newClient.Addressone = '12345';
+          newClient.save()
+          .then(client => {
+            res.json(client)
+          })
+          .catch(err => {
+            res.json(err);
+          });
         }
       });
     console.log('End', end);
-    newClient.save()
-      .then(client => {
-        res.json(client)
-      })
-      .catch(err => {
-        res.json(err);
-      });
+   
   }
   else {
     console.log('client already exist');

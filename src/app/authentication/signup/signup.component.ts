@@ -71,21 +71,6 @@ export class SignupComponent implements OnInit {
     this.clicked = true;
     this.loading = true;
 
-    this.userService.userRegister(this.signupData.value).subscribe(
-      data => {
-        console.log("got response from server", data);
-        // alert("Registeration Successfull!");
-        // this.loading = false;
-        this.message.success("Signup Successful");
-
-        this.router.navigate(["/authentication/login"]);
-      },
-      error => {
-        this.clicked = false;
-        this.loading = false;
-        console.log("error in save button");
-        this.message.error("Registeration Failed! User Already Exists");
-      }
-    );
+    
   }
 }

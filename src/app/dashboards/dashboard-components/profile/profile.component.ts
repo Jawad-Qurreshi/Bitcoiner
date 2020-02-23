@@ -15,13 +15,28 @@ import { UserService } from "sdk/user.service";
   providers: [UserService]
 })
 export class ProfileComponent implements OnInit {
+  selectedRequest: String = '';
+  buyerdata : any = [];
+  types: any =[
+    'Buy',
+    'Sell'
+  ];
+
+  radioChangeHandler (event: any){
+    this.selectedRequest = event.target.value;
+  }
+
   isVisible = false;
   is2ndVisible = false;
   isOkLoading = false;
 
   optionValue;
   optionValue1;
+  optionValue12;
+  price;
   senderform: FormGroup;
+
+  
 
   sellers = [];
   buyers = [];
@@ -38,6 +53,31 @@ export class ProfileComponent implements OnInit {
     private router: Router) {
   }
 
+  ngOnChanges(){
+
+    if(this.selectedRequest === 'Buy'){
+      
+      // this.userService.userRegister(this.buyerdata.values).subscribe(
+      //   data => {
+      //     console.log("got response from server", data);
+      //     // alert("Registeration Successfull!");
+      //     // this.loading = false;
+      //     this.message.success("Buyer saving Successful");
+      //   },
+      //   error => {
+      //     this.message.error("Buyer failed to do so");
+      //   }
+      // );
+
+      console.log('my data')
+    }
+
+    else if(this.selectedRequest === 'Sell'){
+      console.log('your data')
+    }
+  
+  } 
+
   logout() {
     localStorage.removeItem("ID");
     localStorage.removeItem("token");
@@ -52,23 +92,7 @@ export class ProfileComponent implements OnInit {
   }
 
   handlesenderOk(): void {
-    // var id =localStorage.getItem('ID');
-    // this.userService.sendrequest(id,this.senderform.value).subscribe(
-    //   data => {
-    //     console.log("got response from server", data);
-    //     // alert("Registeration Successfull!");
-    //     // this.loading = false;
-    //     this.message.success("Payment succeded");
-
-    //     this.router.navigate(["/authentication/login"]);
-    //   },
-    //   error => {
-    //     // this.clicked = false;
-    //     // this.loading = false;
-    //     // console.log("error in save button");
-    //      this.message.error("Unable to pay");
-    //   }
-    // );
+    
     this.isOkLoading = true;
     setTimeout(() => {
       this.isVisible = false;

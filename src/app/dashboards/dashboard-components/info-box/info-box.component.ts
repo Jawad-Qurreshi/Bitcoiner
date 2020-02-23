@@ -82,7 +82,7 @@ export class InfoBoxComponent implements OnInit, OnChanges, AfterViewInit {
 
     if (this.bitcurrent && this.ethcurrent) {
       this.walletBTC = +this.singleclient.BTC;
-      this.walletETH = +this.singleclient.ETC;
+      this.walletETH = +this.singleclient.ETH;
       this.walletDollars = +this.singleclient.Dollars;
       
       
