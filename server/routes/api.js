@@ -16,6 +16,7 @@ const nodemailer = require('nodemailer')
 const db = "mongodb+srv://mybitcoiner:123456789db@cluster0-8jh11.mongodb.net/test?retryWrites=true&w=majority"
 //const db newFunction()y";
 mongoose.Promise = global.Promise;
+mongoose.set('useFindAndModify', false);
 
 mongoose.connect(db, { useUnifiedTopology: true, useNewUrlParser: true }, function (err) {
   if (err) {
@@ -264,7 +265,7 @@ router.post('/Addtorequests', async (req, res) => {
     //console.log('ex->', ex);
     res.send({ code: 500, error: ex });
   }
-  
+
 });
 
 router.get('/ShowAllRequest', function (req, res) {
@@ -292,15 +293,11 @@ router.delete('/DeleteRequest/:id', function (req, res) {
 })
 
 router.put('/updaterequest/:id', function (req, res) {
-  console.log('update a client');
+  console.log('update a client of');
   Request.findByIdAndUpdate(req.params.id, {
     $set: {
-      username: req.body.username,
-      email: req.body.email,
-      password: req.body.password,
-      phone: req.body.phone,
-      //DOB: req.body.DOB,
-      Address: req.body.Address,
+
+      Status : "Approved"
     }
   },
     {
@@ -313,8 +310,7 @@ router.put('/updaterequest/:id', function (req, res) {
         res.json(updatedRequest);
       }
     });
-})
-
+  })
 ///////////////////////////login   Signup////////////////////////////////////
 
 router.post('/signup', async (req, res) => {
@@ -439,12 +435,13 @@ router.put('/client/:id', function (req, res) {
   console.log('update a client');
   Client.findByIdAndUpdate(req.params.id, {
     $set: {
-      username: req.body.username,
-      email: req.body.email,
-      password: req.body.password,
-      phone: req.body.phone,
-      //DOB: req.body.DOB,
-      Address: req.body.Address,
+      // username: req.body.username,
+      // email: req.body.email,
+      // password: req.body.password,
+      // phone: req.body.phone,
+      // //DOB: req.body.DOB,
+      // Address: req.body.Address,
+
     }
   },
     {

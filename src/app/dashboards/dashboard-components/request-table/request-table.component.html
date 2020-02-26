@@ -1,10 +1,10 @@
-<div class="row">
-  <!-- column -->
+<!-- <div class="row">
+ 
   <div class="col-lg-12">
     <div class="card">
       <div class="card-body">
         <h4 class="card-title">Requests Details</h4>
-        <!-- <h5 class="card-subtitle">This is the filerable Data table</h5> -->
+       
         <form class="w-50 m-b-30">
           <input type='text' class="form-control" placeholder='Type the name to Search...' (keyup)='updateFilter($event)' />
         </form>
@@ -14,4 +14,87 @@
       </div>
     </div>
   </div>
+</div> -->
+
+
+<div class="row">
+  <div class="col-lg-12">
+      <div class="card bg-light">
+          <div class="card-body">
+              <div class="d-flex no-block align-items-center m-b-10">
+                  <h4 class="card-title">All requests</h4>
+              </div>
+              <div class="table-responsive">
+                  <table class="table bg-white table-bordered nowrap display">
+                      <thead>
+                          <tr>                             
+                              <th>Username</th>
+                              <th>Email</th>
+                              <th>Phone</th>
+                              <th>Address</th>
+                              <th>Status</th>
+                              <th>Type Of Request</th>
+                              <th>BTC</th>
+                              <th>ETH</th>
+                              <th>Dollars</th>
+                              <th></th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                      
+                          <tr *ngFor="let request of requests">
+                              
+                              <!-- <td>
+                                  <a href="javscript:void(0)">
+                                      <img src="assets/images/users/1.jpg" alt="user" class="rounded-circle" width="30" /> Govinda jalan</a>
+                              </td> -->
+                              <td>{{ request.Username }}</td>
+                              <td>{{ request.Email }}</td>
+                              <td>{{ request.Phone }}</td>
+                              <td>{{ request.Address }}</td>
+                              <td>{{ request.Status }}</td>
+                              <td>{{ request.TypeOfRequest}}</td>
+                              <td>{{ request.BTC }}</td>
+                              <td>{{ request.ETH}}%</td>
+                              <td>{{ request.Dollars }}</td>
+                              <td>
+                                <button type="button" (click)="showModal()"
+                                class="btn btn-rounded btn-primary" (click)="Approve()">Approve</button>
+                              </td>
+                          </tr>
+                          
+                      </tbody>
+                  </table>
+              </div>
+          </div>
+      </div>
+  </div>
 </div>
+<!-- <nz-modal [(nzVisible)]="is2ndVisible" nzTitle="Approve" 
+(nzOnCancel)="handleCancel()"
+ (nzOnOk)="handleOk()"
+    [nzOkLoading]="isOkLoading"
+    [nzFooter]="modalFooter">
+    
+    <form [formGroup]="requestdata">
+                
+      <div class="form-group row ">
+          <div class="col-12 ">
+          <label>{{request.Username}}
+          </label>   
+          </div>
+      </div>
+
+      <div class="form-group row">
+          <div class="col-12 ">
+              <input class="form-control form-control-lg" name="ETH" type="text" placeholder="enter ethereum wallet address" formControlName="AddressETH">
+          </div>
+      </div>
+
+  <button class="btn btn-block btn-lg btn-info " type="submit" (click)="SaveToDB()" > Save To Database</button>
+</form>
+<ng-template #modalFooter>
+  <button nz-button nzType="default" (click)="handleCancel()">Cancel</button>
+  <button nz-button nzType="primary" (click)="handleOk()" [nzLoading]="isConfirmLoading">Done</button>
+</ng-template>
+</nz-modal> -->

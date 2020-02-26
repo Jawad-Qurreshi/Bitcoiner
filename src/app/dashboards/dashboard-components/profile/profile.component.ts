@@ -30,8 +30,10 @@ export class ProfileComponent implements OnInit {
   isVisible = false;
   is2ndVisible = false;
   isOkLoading = false;
-  coinType ;
-  amount = 0.0;
+  coinType = "BTC" ;
+  coinTypeSend ;
+  amountReceive = 0.0;
+  amountSend = 0.0;
   optionValue;
   //optionValue1;
   optionValue12;
@@ -46,6 +48,7 @@ export class ProfileComponent implements OnInit {
   ethcurrent: any;
   bitcurrent: any;
   saveReceivedLoading = false;
+  saveSendLoading = false;
 
   constructor(
     private fb: FormBuilder,
@@ -54,22 +57,6 @@ export class ProfileComponent implements OnInit {
     private router: Router
   ) {}
   ngOnInit() {
-    // this.formInitializer();
-
-    // var id =localStorage.getItem('ID');
-    // //console.log("id from localstorage", id);
-    // this.userservice.gettheclient(id).subscribe(
-    //   resClientData => {
-    //   console.log("resClientData", resClientData);
-    //   this.singleclient = resClientData;
-    //   console.log('this is client after using id' , this.singleclient);
-    //   },
-    //   err => {
-    //     console.log("api error in single client", err);
-    //   }
-    // );
-    //console.log("client in profile", this.singleclient);
-
     this.userService.getallsellers().subscribe(
       resSellerData => {
         this.sellers = resSellerData;
@@ -125,13 +112,20 @@ export class ProfileComponent implements OnInit {
   showmModal(): void {
     this.is2ndVisible = true;
   }
+
+  amountChangedSend() {
+    this.calculateUsdAmountSend();
+  }
+
   amountChanged() {
-    this.calculateUsdAmount();
+    this.calculateUsdAmountReceive();
   }
 
   currencyChanged() {
     this.currencyAddress();
   }
+
+  
 
   currencyAddress(){
     if (this.coinType === "BTC") {
@@ -143,21 +137,36 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  calculateUsdAmount() {
+  calculateUsdAmountReceive() {
     //console.log("singleclient", this.singleclient);
-    if (isNaN(this.amount)) {
+    if (isNaN(this.amountReceive)) {
       this.usdAmount = 0;
     } else {
-      console.log("cointype", this.coinType);
+      console.log("cointypeReceived", this.coinType);
       if (this.coinType === "BTC") {
-        this.usdAmount = this.amount * this.bitcurrent;
-        this.finalAddress = this.singleclient.BitAddress;
+        this.usdAmount = this.amountReceive * this.bitcurrent;
       } else if (this.coinType === "ETH") {
-        this.usdAmount = this.amount * this.ethcurrent;
-        this.finalAddress = this.singleclient.EthAddress;
+        this.usdAmount = this.amountReceive * this.ethcurrent;
       }
     }
   }
+
+  calculateUsdAmountSend() {
+    //console.log("singleclient", this.singleclient);
+    if (isNaN(this.amountSend)) {
+      this.usdAmount = 0;
+    } else {
+      console.log("cointypeSend", this.coinType);
+      if (this.coinTypeSend === "BTC") {
+        
+        this.usdAmount = this.amountSend * this.bitcurrent;
+      } else if (this.coinTypeSend === "ETH") {
+        console.log("cointype ETH send i was called");
+        this.usdAmount = this.amountSend * this.ethcurrent;
+      }
+    }
+  }
+
   handlesenderOk(): void {
     // var id =localStorage.getItem('ID');
     // this.userService.sendrequest(id,this.senderform.value).subscribe(
@@ -199,6 +208,7 @@ export class ProfileComponent implements OnInit {
   }
 
   saveReceieved(): void {
+    console.log("main hn receive wala");
     this.saveReceivedLoading = true;
     const body2 ={
       Username : this.singleclient.Username,
@@ -215,14 +225,14 @@ export class ProfileComponent implements OnInit {
       status: "under process",
       request_type : "Receive",
       crypto_type: this.coinType,
-      amount: this.amount,
+      amount: this.amountReceive,
       date: Date.now(),
       usd_amount: this.usdAmount,
       address: this.finalAddress,
       client: this.singleclient._id
     };
 
-    this.userService.requestToReceive(body2).subscribe(
+    this.userService.addToRequest(body2).subscribe(
       data => {
         console.log("got response from server", data);
 
@@ -253,9 +263,70 @@ export class ProfileComponent implements OnInit {
         this.message.error("Unable to pay");
       }
     );
+    this.handlereceiverOk()
+  }
+
+  saveSend(): void {
+    console.log("main hn send wala");
+    this.saveSendLoading = true;
+    const body2 ={
+      Username : this.singleclient.Username,
+      Email : this.singleclient.Email,
+      Phone : this.singleclient.Phone,
+      Address : this.singleclient.Address,
+      Status : "under process",
+      TypeOfRequest :"Send",
+      BTC : this.singleclient.BTC,
+      ETC : this.singleclient.ETC,
+      Dollars : this.singleclient.Dollars
+    }
+    const body = {
+      status: "under process",
+      request_type : "Send",
+      crypto_type: this.coinType,
+      amount: this.amountReceive,
+      date: Date.now(),
+      usd_amount: this.usdAmount,
+      address: this.finalAddress,
+      client: this.singleclient._id
+    };
+
+    this.userService.addToRequest(body2).subscribe(
+      data => {
+        console.log("got response from server", data);
+
+        // this.message.success("Payment receiving request sent!");
+        // this.is2ndVisible = false;
+        this.resetData();
+        // this.router.navigate(["/authentication/login"]);
+      },
+      error => {
+        this.saveReceivedLoading = false;
+        this.is2ndVisible = false;
+        this.message.error("Unable to pay");
+      }
+    );
+
+    this.userService.receiveCoins(body).subscribe(
+      data => {
+        console.log("got response from server", data);
+
+        this.message.success("Payment Sending request sent!");
+        this.is2ndVisible = false;
+        this.resetData();
+        // this.router.navigate(["/authentication/login"]);
+      },
+      error => {
+        this.saveReceivedLoading = false;
+        this.is2ndVisible = false;
+        this.message.error("Unable to pay");
+      }
+    );
+    this.handlereceiverOk()
   }
 
   resetData() {
-    this.amount = 0;
+    this.amountReceive = 0;
+    this.amountSend = 0;
   }
 }

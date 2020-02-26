@@ -172,7 +172,7 @@
                     <form class="m-t-30">
                         <div class="form-group m-b-30">
                             <h4 class="card-title">Select Currency</h4>
-                            <select [(ngModel)]="optionValue" class="form-control" id="currencySelector"
+                            <select [(ngModel)]="coinTypeSend" class="form-control" id="currencySelector"
                                 name="currencySelector">
                                 <option value="BTC">Bitcoin</option>
                                 <option value="ETH">Ethereum</option>
@@ -182,13 +182,13 @@
                                 id="nametext" aria-describedby="name" placeholder="Please enter the Address"><br>
                             <h4 class="card-title">Amount</h4>
                             <div class="input-group mb-3">
-                                <input type="text" class="form-control" placeholder="0.00"
+                                <input type="text" [(ngModel)]="amountSend" (ngModelChange)="amountChangedSend()" [ngModelOptions]="{standalone: true}" class="form-control" placeholder="0.00"
                                     aria-describedby="basic-addon1">
                                 <div class="input-group-append">
-                                    <span *ngIf="optionValue == 'BTC'" class="input-group-text">BTC</span>
-                                    <span *ngIf="optionValue == 'ETH'" class="input-group-text">ETH</span>
+                                    <span *ngIf="coinTypeSend == 'BTC'" class="input-group-text">BTC</span>
+                                    <span *ngIf="coinTypeSend == 'ETH'" class="input-group-text">ETH</span>
                                 </div>
-                                <input type="text" class="form-control" placeholder="$0.00"
+                                <input type="text" [(ngModel)]="usdAmount" [ngModelOptions]="{standalone: true}" disabled class="form-control" placeholder="$0.00"
                                     aria-describedby="basic-addon1">
                                 <div class="input-group-append">
                                     <span class="input-group-text">USD</span>
@@ -206,7 +206,7 @@
     </div>
     <ng-template #modalFooter>
         <button nz-button nzType="default" (click)="handleCancel()">Cancel</button>
-        <button nz-button nzType="primary" (click)="handleOk()" [nzLoading]="isOkLoading">Done</button>
+        <button nz-button nzType="primary" (click)="saveSend()" [disabled]="usdAmount=='0'" [nzLoading]="saveSendLoading" [nzLoading]="isOkLoading">Done</button>
     </ng-template>
 </nz-modal>
 <nz-modal [(nzVisible)]="is2ndVisible" nzTitle="Recieve Bitcoins" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()"
@@ -226,7 +226,7 @@
                             </select><br><br>
                             <h4 class="card-title">Amount</h4>
                             <div class="input-group mb-3">
-                                <input type="text" [(ngModel)]="amount" (ngModelChange)="amountChanged()" [ngModelOptions]="{standalone: true}"  class="form-control" placeholder="0.00"
+                                <input type="text" [(ngModel)]="amountReceive" (ngModelChange)="amountChanged()" [ngModelOptions]="{standalone: true}"  class="form-control" placeholder="0.00"
                                     >
                                 <div class="input-group-append">
                                     <span *ngIf="coinType == 'BTC'" class="input-group-text">BTC</span>
