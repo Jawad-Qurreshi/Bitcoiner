@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { UserService } from 'sdk/user.service';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
+import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 
 @Component({
   selector: "app-buyer-table",
@@ -8,7 +9,7 @@ import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 })
 
 export class BuyertableComponent {
-
+  public config: PerfectScrollbarConfigInterface = {};
   
   constructor(private userservice: UserService, private fb: FormBuilder) {}
   buydata: FormGroup;

@@ -100,7 +100,7 @@ export class UserService {
   // }
 
   public addToRequest(body: object): Observable<any> {
-    const url = ProjectConfig.getPath() + "/Addtorequests";
+    const url = ProjectConfig.getPath() + "/add/request";
 
     return this.http.post(url, body);
   }

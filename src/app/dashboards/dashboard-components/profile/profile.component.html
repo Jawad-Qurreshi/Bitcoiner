@@ -175,7 +175,7 @@
                                 <option value="ETH">Ethereum</option>
                             </select><br>
                             <h4 class="card-title">To</h4>
-                            <input ng-if="selectValues.selcetedValue === 'B'" type="text" class="form-control"
+                            <input [(ngModel)]="addressTo" ng-if="selectValues.selcetedValue === 'B'" type="text" class="form-control"
                                 id="nametext" aria-describedby="name" placeholder="Please enter the Address"><br>
                             <h4 class="card-title">Amount</h4>
                             <div class="input-group mb-3">
@@ -239,7 +239,7 @@
                             </div><br>
                             <h4 class="card-title">Address:</h4>
                             <div class="input-group mb-3">
-                                <input type="text" [(ngModel)]="finalAddress" disabled
+                                <input type="text" [(ngModel)]="addressFrom" disabled
                                     [ngModelOptions]="{standalone: true}" class="form-control"
                                     placeholder="wallet address" aria-describedby="basic-addon1">
                                 <div class="input-group-append">
