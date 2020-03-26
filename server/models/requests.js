@@ -2,17 +2,14 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-const Request = new Schema({ 
-    Username: String,
-    Email: String,
-    Phone: Intl,
-    Address: String,
-    Status: String,
-    TypeOfRequest: String,
-    BTC:Intl,
-    ETH:Intl,
-    Dollars:Intl,
-    date:Date
-   });
+const Request = new Schema({
+    username: String,
+    email: String,
+    address: String,
+    status: String,
+    requestType: String,
+    amount: Int32Array,
+    createdAt: { type: Date, default: Date.now }
+});
 
-   module.exports = mongoose.model('request',Request,'allrequests');
+module.exports = mongoose.model('request', Request, 'allrequests');
