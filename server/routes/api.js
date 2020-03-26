@@ -391,6 +391,7 @@ router.post('/signup', async (req, res) => {
   }
   else {
     console.log('client already exist');
+    res.status(401).json({message:'User already exists',isSuccess:false})
   }
 });
 

@@ -10,6 +10,7 @@ import { NzMessageService } from "ng-zorro-antd";
 import { Router } from "@angular/router";
 import { Subscription } from "rxjs";
 import { UserService } from "sdk/user.service";
+import { id } from "@swimlane/ngx-charts/release/utils";
 
 @Component({
   selector: "app-signup",
@@ -87,8 +88,12 @@ export class SignupComponent implements OnInit {
 
     this.userService.userRegister(body).subscribe(
       data => {
-        console.log("got response from server", data);        
-        // this.router.navigate(["/authentication/login"]);
+        if(data.isSuccess == false){
+          this.message.error("User already exists");
+        }else{
+          console.log("got response from server", data);        
+          this.router.navigate(["/authentication/login"]);
+        }
       },
       error => {
         this.message.error("Unable to Sign up");
