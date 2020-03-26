@@ -255,16 +255,40 @@ router.post('/sendmail', async (req, res) => {
 router.post('/Addtorequests', async (req, res) => {
 
   const body = req.body;
-  console.log('body', body);
+  const userId = body.id;
+
+
+  console.log('body 1', body);
   try {
     const result = await Request.create(body);
+    Client.findById({ _id: userId })
+      .exec()
+      .then(client => {
+        client.ClientRequest.push(result._id);
+        console.log(result._id);
+        client.save().then(po => {
+          console.log('okay');
+          return res.send({ code: 200, data: result });
+          
+        })
+          .catch(err => {
+
+          });
+
+
+      })
+      .catch(err => {
+
+      });
     //console.log('result->', result);
-    res.send({ code: 200, data: result });
+
   }
   catch (ex) {
     //console.log('ex->', ex);
     res.send({ code: 500, error: ex });
   }
+
+
 
 });
 
@@ -292,25 +316,41 @@ router.delete('/DeleteRequest/:id', function (req, res) {
   })
 })
 
-router.put('/updaterequest/:id', function (req, res) {
+router.put('/updaterequest/:id', async function (req, res) {
   console.log('update a client of');
-  Request.findByIdAndUpdate(req.params.id, {
-    $set: {
-
-      Status : "Approved"
-    }
-  },
-    {
-      new: true
-    },
-    function (err, updatedRequest) {
-      if (err) {
-        res.send("Error updating client")
-      } else {
-        res.json(updatedRequest);
-      }
+  var request = await Request.findById({ _id: req.params.id }).exec();
+  console.log('This is my id' + req.params.id);
+  request.Status = 'approved';
+  request
+    .save()
+    .then(request => {
+      res.status().json({
+        request: request
+      })
+    })
+    .catch(err => {
+      res.status(500).json({
+        message: err.message
+      });
     });
-  })
+  // Request.findByIdAndUpdate(req.params.id, {
+  //   $set: {
+
+  //     Status: "Approved"
+  //   }
+  // },
+  //   {
+  //     new: true
+  //   },
+  //   function (err, updatedRequest) {
+  //     console.log('hello');
+  //     if (err) {
+  //       res.send("Error updating client")
+  //     } else {
+  //       res.json(updatedRequest);
+  //     }
+  //   });
+})
 ///////////////////////////login   Signup////////////////////////////////////
 
 router.post('/signup', async (req, res) => {

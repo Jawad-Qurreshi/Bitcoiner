@@ -9,18 +9,18 @@
                 
                 <div class="form-group row ">
                     <div class="col-12 ">
-                       <input class="form-control form-control-lg"   name="Username" type="text" formControlName="Username" required=" " placeholder="UserName">
+                       <input class="form-control form-control-lg" [(ngModel)]="username" name="Username" type="text" formControlName="Username" required=" " placeholder="UserName">
                     </div>
                 </div>
 
                 <div class="form-group row">
                     <div class="col-12 ">
-                        <input class="form-control form-control-lg" name="Email" type="Email" placeholder="your@email.com" formControlName="Email">
+                        <input class="form-control form-control-lg" [(ngModel)]="email" name="Email" type="Email" placeholder="your@email.com" formControlName="Email">
                     </div>
                 </div>
                 <div class="form-group row">
                     <div class="col-12 ">
-                        <input class="form-control form-control-lg" name="Password" type="Password" placeholder="Password" formControlName="Password">
+                        <input class="form-control form-control-lg" [(ngModel)]="password" name="Password" type="Password" placeholder="Password" formControlName="Password">
                     </div>
                 </div>
                 <div class="form-group row">
@@ -30,7 +30,7 @@
                 </div>
                 <div class="form-group row">
                     <div class="col-12 ">
-                        <input class="form-control form-control-lg" name="Phone" type="text" placeholder="Phone" formControlName="Phone">
+                        <input class="form-control form-control-lg" [(ngModel)]="phone" name="Phone" type="text" placeholder="Phone" formControlName="Phone">
                     </div>
                 </div>
                 <!-- <div class="form-group row">
@@ -40,7 +40,7 @@
                 </div> -->
                 <div class="form-group row">
                     <div class="col-12 ">
-                        <input class="form-control form-control-lg" name="Address" type="text" placeholder="Address" formControlName="Address">
+                        <input class="form-control form-control-lg" [(ngModel)]="address" name="Address" type="text" placeholder="Address" formControlName="Address">
                     </div>
                 </div>
                 

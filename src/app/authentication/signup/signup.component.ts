@@ -26,6 +26,12 @@ export class SignupComponent implements OnInit {
     private message: NzMessageService
   ) {}
 
+  username;
+  password;
+  address;
+  email;
+  phone;
+
   ngOnInit() {
     this.formInitializer();
   }
@@ -70,7 +76,24 @@ export class SignupComponent implements OnInit {
   SaveToDB() {
     this.clicked = true;
     this.loading = true;
+    
+    const body = {
+      Username: this.username,
+      Password : this.password,
+      Email: this.email,
+      Phone: this.phone,
+      Address: this.address
+    };
 
+    this.userService.userRegister(body).subscribe(
+      data => {
+        console.log("got response from server", data);        
+        // this.router.navigate(["/authentication/login"]);
+      },
+      error => {
+        this.message.error("Unable to Sign up");
+      }
+    );
     
   }
 }

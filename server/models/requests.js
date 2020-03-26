@@ -11,7 +11,8 @@ const Request = new Schema({
     TypeOfRequest: String,
     BTC:Intl,
     ETH:Intl,
-    Dollars:Intl
+    Dollars:Intl,
+    date:Date
    });
 
    module.exports = mongoose.model('request',Request,'allrequests');

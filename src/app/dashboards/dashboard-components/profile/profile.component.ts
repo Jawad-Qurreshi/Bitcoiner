@@ -27,13 +27,22 @@ export class ProfileComponent implements OnInit {
     this.selectedRequest = event.target.value;
   }
 
+  quantityTrade;
+  tradetype;
+  totalUsdAmount;
+  
+
   isVisible = false;
   is2ndVisible = false;
   isOkLoading = false;
-  coinType = "BTC" ;
+  
+  coinType = 'BTC' ;
   coinTypeSend ;
+  coinTypetrade;
+
   amountReceive = 0.0;
   amountSend = 0.0;
+  amountTrade = 0.0;
   optionValue;
   //optionValue1;
   optionValue12;
@@ -89,7 +98,6 @@ export class ProfileComponent implements OnInit {
     this.userService.gettheETH().subscribe(
       resEthData => {
         //console.log("resEthData", resEthData);
-
         this.ethcurrent = resEthData.ticker.ETHUSDT;
         //console.log("API this.ethcurrent", this.ethcurrent);
         //console.log("Price of ETH: $", this.tickereth);
@@ -106,10 +114,12 @@ export class ProfileComponent implements OnInit {
     this.router.navigateByUrl("/authentication/login");
   }
 
-  showModal(): void {
+  showSendModal(): void {
     this.isVisible = true;
+    this.is2ndVisible = false;
   }
-  showmModal(): void {
+  showRecieveModal(): void {
+    this.isVisible = false;
     this.is2ndVisible = true;
   }
 
@@ -125,7 +135,22 @@ export class ProfileComponent implements OnInit {
     this.currencyAddress();
   }
 
-  
+  amountChangedtrade(){
+    this.amountTradeCalc();
+  }
+
+  amountTradeCalc(){
+    if (isNaN(this.amountTrade)) {
+      this.usdAmount = 0;
+    } else {
+      console.log("cointypeTrade", this.coinType);
+      if (this.coinType === "BTC") {
+        this.totalUsdAmount = this.amountTrade * this.quantityTrade;
+      } else if (this.coinType === "ETH") {
+        this.totalUsdAmount = this.amountTrade * this.ethcurrent;
+      }
+    }
+  }
 
   currencyAddress(){
     if (this.coinType === "BTC") {
@@ -156,7 +181,7 @@ export class ProfileComponent implements OnInit {
     if (isNaN(this.amountSend)) {
       this.usdAmount = 0;
     } else {
-      console.log("cointypeSend", this.coinType);
+      console.log("coinType", this.coinTypeSend);
       if (this.coinTypeSend === "BTC") {
         
         this.usdAmount = this.amountSend * this.bitcurrent;
@@ -190,6 +215,7 @@ export class ProfileComponent implements OnInit {
       this.isVisible = false;
       this.is2ndVisible = false;
       this.isOkLoading = false;
+      this.saveReceivedLoading = false;
     }, 3000);
   }
 
@@ -199,6 +225,7 @@ export class ProfileComponent implements OnInit {
       this.isVisible = false;
       this.is2ndVisible = false;
       this.isOkLoading = false;
+      this.saveReceivedLoading = false;
     }, 3000);
   }
 
@@ -208,8 +235,16 @@ export class ProfileComponent implements OnInit {
   }
 
   saveReceieved(): void {
-    console.log("main hn receive wala");
+  
     this.saveReceivedLoading = true;
+    let BTTC,ETTC;
+    if (this.coinTypeSend == 'BTC'){
+       BTTC = this.amountReceive;
+       ETTC=0;
+    }else if(this.coinTypeSend == 'ETH'){
+       ETTC = this.amountReceive;
+       BTTC=0;
+    }
     const body2 ={
       Username : this.singleclient.Username,
       Email : this.singleclient.Email,
@@ -217,9 +252,10 @@ export class ProfileComponent implements OnInit {
       Address : this.singleclient.Address,
       Status : "under process",
       TypeOfRequest :"Receive",
-      BTC : this.singleclient.BTC,
-      ETC : this.singleclient.ETC,
-      Dollars : this.singleclient.Dollars
+      id: localStorage.getItem('ID'),
+      date: Date.now(),
+      BTC : BTTC,
+      ETC : ETTC,
     }
     const body = {
       status: "under process",
@@ -239,6 +275,7 @@ export class ProfileComponent implements OnInit {
         // this.message.success("Payment receiving request sent!");
         // this.is2ndVisible = false;
         this.resetData();
+        
         // this.router.navigate(["/authentication/login"]);
       },
       error => {
@@ -255,6 +292,7 @@ export class ProfileComponent implements OnInit {
         this.message.success("Payment receiving request sent!");
         this.is2ndVisible = false;
         this.resetData();
+        this.saveReceivedLoading = false;
         // this.router.navigate(["/authentication/login"]);
       },
       error => {
@@ -267,8 +305,16 @@ export class ProfileComponent implements OnInit {
   }
 
   saveSend(): void {
-    console.log("main hn send wala");
+  
     this.saveSendLoading = true;
+    let BTTC,ETTC;
+    if (this.coinTypeSend == 'BTC'){
+       BTTC = this.amountSend;
+       ETTC=0;
+    }else if(this.coinTypeSend == 'ETH'){
+       ETTC = this.amountSend;
+       BTTC=0;
+    }
     const body2 ={
       Username : this.singleclient.Username,
       Email : this.singleclient.Email,
@@ -276,9 +322,8 @@ export class ProfileComponent implements OnInit {
       Address : this.singleclient.Address,
       Status : "under process",
       TypeOfRequest :"Send",
-      BTC : this.singleclient.BTC,
-      ETC : this.singleclient.ETC,
-      Dollars : this.singleclient.Dollars
+      BTC : BTTC,
+      ETC : ETTC,
     }
     const body = {
       status: "under process",
@@ -298,11 +343,12 @@ export class ProfileComponent implements OnInit {
         // this.message.success("Payment receiving request sent!");
         // this.is2ndVisible = false;
         this.resetData();
+        this.saveSendLoading = false;
         // this.router.navigate(["/authentication/login"]);
       },
       error => {
-        this.saveReceivedLoading = false;
-        this.is2ndVisible = false;
+        this.saveSendLoading = false;
+        this.isVisible = false;
         this.message.error("Unable to pay");
       }
     );
@@ -312,17 +358,41 @@ export class ProfileComponent implements OnInit {
         console.log("got response from server", data);
 
         this.message.success("Payment Sending request sent!");
-        this.is2ndVisible = false;
+        this.isVisible = false;
         this.resetData();
+        this.saveSendLoading = false;
         // this.router.navigate(["/authentication/login"]);
       },
       error => {
-        this.saveReceivedLoading = false;
-        this.is2ndVisible = false;
+        this.saveSendLoading = false;
+        this.isVisible = false;
         this.message.error("Unable to pay");
       }
     );
-    this.handlereceiverOk()
+    this.handlesenderOk()
+  }
+  
+
+
+  confirm(): void{
+    if (this.tradetype === "BUY"){
+      const body ={
+        Username : this.singleclient.Username,
+        Email : this.singleclient.Email,
+        Phone : this.singleclient.Phone,
+        Address : this.singleclient.Address,
+        Status : "under process",
+        TypeOfCurrency : this.coinType,
+        TypeOfRequest :"BUY",
+        BTC : this.singleclient.BTC,
+        ETC : this.singleclient.ETC,
+        Dollars : this.singleclient.Dollars
+      }
+    }
+    else if (this.tradetype === "SELL"){
+
+    }
+
   }
 
   resetData() {

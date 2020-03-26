@@ -33,6 +33,7 @@
                 <small class="text-muted p-t-30 db">Address</small>
                 <h6>{{singleclient?.Address}}</h6>
                 <small class="text-muted p-t-30 db">Social Profile</small>
+                <h6>{{singleclient?.Address}}</h6>
                 <br />
                 <!-- <button class="btn btn-circle btn-secondary">
                     <i class="fab fa-facebook"></i>
@@ -68,11 +69,11 @@
                 <ngb-tab title="My wallet">
                     <ng-template ngbTabContent>
                         <div class="card-body">
-                            <button type="button" (click)="showModal()"
+                            <button type="button" (click)="showSendModal()"
                                 class="btn btn-rounded btn-primary">Send</button>
-                            <button type="button" (click)="showmModal()"
+                            <button type="button" (click)="showRecieveModal()"
                                 class="btn btn-rounded btn-primary">Recieve</button>
-
+                            <br>
                             <app-earnings [singleclient]="singleclient"></app-earnings>
                         </div>
                     </ng-template>
@@ -89,70 +90,66 @@
                                             <input type="text" class="form-control" id="nametext1"
                                                 placeholder={{singleclient.Username}} disabled>
                                         </div>
-                                    </form>
-                                    <br>
-                                    <h6>I want to:</h6>
-                                    <div *ngFor="let type of types">
-                                        <input 
-                                        type="radio"
-                                        name="typeof req"
-                                        value="{{type}}"
-                                        (change) = "radioChangeHandler($event)">
-                                        <b>{{type}}</b>
-                                    </div>
-                                    <!-- <div class="form-check form-check-inline">
-                                        <div class="custom-control custom-radio">
-                                            <input type="radio" class="custom-control-input"
-                                                id="customControlValidation2" name="radio-stacked">
-                                            <label class="custom-control-label"
-                                                for="customControlValidation2">Buy</label>
-                                            
+                                        <br>
+                                        <h6>I want to:</h6>
+                                        <div class="form-group m-b-30">
+                                            <label class="mr-sm-2" for="inlineFormCustomSelect">Select the type of
+                                                trade</label>
+                                            <select [(ngModel)]="tradetype" class="custom-select mr-sm-2"
+                                                id="inlineFormCustomSelect">
+                                                <option value="BUY">Buy</option>
+                                                <option value="SELL">Sell</option>
+                                            </select>
                                         </div>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <div class="custom-control custom-radio">
-                                            <input type="radio" class="custom-control-input"
-                                                id="customControlValidation3" name="radio-stacked">
-                                            <label class="custom-control-label"
-                                                for="customControlValidation3">Sell</label>
-                                        </div> 
-                                    </div> -->
-                                    <br><br>
-                                    <form>
+                                        <br>
                                         <div class="form-group m-b-30">
                                             <label class="mr-sm-2" for="inlineFormCustomSelect">Select the type of
                                                 currency</label>
-                                            <select [(ngModel)]="optionValue12" class="custom-select mr-sm-2"
+                                            <select [(ngModel)]="coinTypetrade" class="custom-select mr-sm-2"
                                                 id="inlineFormCustomSelect">
                                                 <option value="BTC">Bitcoin</option>
                                                 <option value="ETH">Ethereum</option>
                                             </select>
                                         </div>
-                                    </form>
-                                    <br>
-                                    <h6>Please enter the price</h6>
-                                    <form class="m-t-20">
+                                        <br>
+                                        <h6>Please enter total Quantity</h6>
                                         <div class="form-group">
-                                            <input type="text" class="form-control" id="nametext"
-                                                aria-describedby="name" placeholder="Price" formControlName="price">
-                                            <small id="name" class="form-text text-muted">Price should be in dollars
-                                                because change will be calculated from market according to current price
-                                                of
+                                            <input [(ngModel)]="quantityTrade" [ngModelOptions]="{standalone: true}"
+                                                class="form-control" placeholder="$0.00"
+                                                aria-describedby="basic-addon1">
+                                            <small id="name" class="form-text text-muted">please enter the quantity of
+                                                the BTC/ETH</small>
+                                        </div>
+                                        <br>
+                                        <h6>Please enter the price of one</h6>
+                                        <div class="form-group">
+                                            <input [(ngModel)]="amountTrade" (ngModelChange)="amountChangedtrade()"
+                                                [ngModelOptions]="{standalone: true}" class="form-control"
+                                                placeholder="$0.00" aria-describedby="basic-addon1">
+                                            <small id="name" class="form-text text-muted">please enter the price in
+                                                dollars of per quantity
                                                 BTC/ETH</small>
                                         </div>
-                                    </form>
-                                    <form class="m-t-30">
+                                        <br>
                                         <div class="form-group">
-                                            <input type="text" class="form-control" id="nametext1" placeholder="Change"
-                                                disabled>
+                                            <input type="text" [(ngModel)]="totalUsdAmount"
+                                                [ngModelOptions]="{standalone: true}" class="form-control"
+                                                id="nametext1" placeholder="Total Price" disabled>
+                                            <div class="input-group-append">
+                                                <span class="input-group-text">USD</span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="text" [(ngModel)]="Change"
+                                                [ngModelOptions]="{standalone: true}" class="form-control"
+                                                id="nametext1" placeholder="$0.00" disabled>
+
+                                        </div>
+                                        <div class="col-4 col-lg-2 col-md-4">
+                                            <button type="button" class="btn btn-rounded btn-block btn-success"
+                                                (click)="confirm">confirm</button>
                                         </div>
                                     </form>
-
-                                    <div class="col-4 col-lg-2 col-md-4">
-                                        <button type="button"
-                                            class="btn btn-rounded btn-block btn-success">confirm</button>
-                                    </div>
-
                                 </div>
                             </div>
                         </div>
@@ -164,7 +161,7 @@
     <!-- Column -->
 </div>
 <nz-modal [(nzVisible)]="isVisible" nzTitle="Send Bitcoins" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()"
-    [nzOkLoading]="isOkLoading" [nzFooter]="modalFooter">
+    [nzOkLoading]="isOkLoading" [nzFooter]="modalFooter1">
     <div class="row">
         <div class="col-sm-12 col-md-12 col-lg-12">
             <div class="card">
@@ -182,14 +179,15 @@
                                 id="nametext" aria-describedby="name" placeholder="Please enter the Address"><br>
                             <h4 class="card-title">Amount</h4>
                             <div class="input-group mb-3">
-                                <input type="text" [(ngModel)]="amountSend" (ngModelChange)="amountChangedSend()" [ngModelOptions]="{standalone: true}" class="form-control" placeholder="0.00"
+                                Change_amount : <input type="text" [(ngModel)]="amountSend" (ngModelChange)="amountChangedSend()"
+                                    [ngModelOptions]="{standalone: true}" class="form-control" placeholder="0.00"
                                     aria-describedby="basic-addon1">
                                 <div class="input-group-append">
                                     <span *ngIf="coinTypeSend == 'BTC'" class="input-group-text">BTC</span>
                                     <span *ngIf="coinTypeSend == 'ETH'" class="input-group-text">ETH</span>
                                 </div>
-                                <input type="text" [(ngModel)]="usdAmount" [ngModelOptions]="{standalone: true}" disabled class="form-control" placeholder="$0.00"
-                                    aria-describedby="basic-addon1">
+                                <input type="text" [(ngModel)]="usdAmount" [ngModelOptions]="{standalone: true}"
+                                    disabled class="form-control" placeholder="$0.00" aria-describedby="basic-addon1">
                                 <div class="input-group-append">
                                     <span class="input-group-text">USD</span>
                                 </div>
@@ -204,9 +202,10 @@
             </div>
         </div>
     </div>
-    <ng-template #modalFooter>
+    <ng-template #modalFooter1>
         <button nz-button nzType="default" (click)="handleCancel()">Cancel</button>
-        <button nz-button nzType="primary" (click)="saveSend()" [disabled]="usdAmount=='0'" [nzLoading]="saveSendLoading" [nzLoading]="isOkLoading">Done</button>
+        <button nz-button nzType="primary" (click)="saveSend()" [disabled]="usdAmount=='0'"
+            [nzLoading]="saveSendLoading">Done sending</button>
     </ng-template>
 </nz-modal>
 <nz-modal [(nzVisible)]="is2ndVisible" nzTitle="Recieve Bitcoins" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()"
@@ -219,34 +218,41 @@
                         <div class="form-group m-b-30">
 
                             <h4 class="card-title">Select Currency:</h4>
-                            <select [(ngModel)]="coinType"(ngModelChange)="currencyChanged()" class="form-control" id="exampleFormControlSelect1"
-                                name="exampleFormControlSelect1">
+                            <select [(ngModel)]="coinType" (ngModelChange)="currencyChanged()" class="form-control"
+                                id="exampleFormControlSelect1" name="exampleFormControlSelect1">
                                 <option value="BTC">Bitcoin</option>
                                 <option value="ETH">Ethereum</option>
                             </select><br><br>
                             <h4 class="card-title">Amount</h4>
                             <div class="input-group mb-3">
-                                <input type="text" [(ngModel)]="amountReceive" (ngModelChange)="amountChanged()" [ngModelOptions]="{standalone: true}"  class="form-control" placeholder="0.00"
-                                    >
+                                <input type="text" [(ngModel)]="amountReceive" (ngModelChange)="amountChanged()"
+                                    [ngModelOptions]="{standalone: true}" class="form-control" placeholder="0.00">
                                 <div class="input-group-append">
                                     <span *ngIf="coinType == 'BTC'" class="input-group-text">BTC</span>
                                     <span *ngIf="coinType == 'ETH'" class="input-group-text">ETH</span>
                                 </div>
-                                <input type="text" [(ngModel)]="usdAmount" [ngModelOptions]="{standalone: true}" disabled class="form-control" placeholder="$0.00"
-                                    aria-describedby="basic-addon1">
+                                <input type="text" [(ngModel)]="usdAmount" [ngModelOptions]="{standalone: true}"
+                                    disabled class="form-control" placeholder="$0.00" aria-describedby="basic-addon1">
                                 <div class="input-group-append">
                                     <span class="input-group-text">USD</span>
                                 </div>
                             </div><br>
                             <h4 class="card-title">Address:</h4>
                             <div class="input-group mb-3">
-                                <input type="text" [(ngModel)]="finalAddress" disabled [ngModelOptions]="{standalone: true}" class="form-control" placeholder="wallet address"
-                                    aria-describedby="basic-addon1">
+                                <input type="text" [(ngModel)]="finalAddress" disabled
+                                    [ngModelOptions]="{standalone: true}" class="form-control"
+                                    placeholder="wallet address" aria-describedby="basic-addon1">
                                 <div class="input-group-append">
                                     <span class="input-group-text">Wallet Address</span>
+                                    <!-- <button <i class="mdi mdi-file-multiple"></i>click me</button> -->
                                 </div>
                             </div>
                             <small id="textHelp" class="form-text text-muted">Copy this wallet address</small>
+                            <!-- <div>
+                                <button nz-button nzType="default" (click)="handleCancel()">Cancel</button>
+                                <button nz-button nzType="primary" (click)="saveReceieved()" [disabled]="usdAmount=='0'"
+                                    [nzLoading]="saveReceivedLoading">Done recieving</button>
+                            </div> -->
                         </div>
                     </form>
                 </div>
@@ -255,8 +261,7 @@
     </div>
     <ng-template #modalFooter>
         <button nz-button nzType="default" (click)="handleCancel()">Cancel</button>
-        <!-- <button nz-button nzType="primary" (click)="handleOk()" [nzLoading]="isConfirmLoading">Done</button>
-    </ng-template> -->
-    <button nz-button nzType="primary" (click)="saveReceieved()" [disabled]="usdAmount=='0'" [nzLoading]="saveReceivedLoading">Done</button>
-</ng-template>
+        <button nz-button nzType="primary" (click)="saveReceieved()" [disabled]="usdAmount=='0'"
+            [nzLoading]="saveReceivedLoading">Done recieving</button>
+    </ng-template>
 </nz-modal>
