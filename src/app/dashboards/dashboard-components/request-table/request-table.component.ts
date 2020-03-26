@@ -70,15 +70,16 @@
 import { Component, Input } from '@angular/core';
 import { UserService } from 'sdk/user.service';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
+import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 
 @Component({
   selector: "app-request-table",
-  templateUrl: "./request-table.component.html",
+  templateUrl: './request-table.component.html',
+  styleUrls: ['./request-table.component.css']
 })
 
 export class RequesttableComponent {
-
-  
+  public config: PerfectScrollbarConfigInterface = {};
   constructor(private userservice: UserService, private fb: FormBuilder) {}
   buydata: FormGroup;
   //@Input() btcAddresses = [];
