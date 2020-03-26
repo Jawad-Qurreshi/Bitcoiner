@@ -17,32 +17,35 @@ import { UserService } from "sdk/user.service";
 })
 export class ProfileComponent implements OnInit {
   selectedRequest: String = '';
-  buyerdata : any = [];
-  types: any =[
+  buyerdata: any = [];
+  types: any = [
     'Buy',
     'Sell'
   ];
 
-  radioChangeHandler (event: any){
+  radioChangeHandler(event: any) {
     this.selectedRequest = event.target.value;
   }
 
   quantityTrade;
   tradetype;
   totalUsdAmount;
-  
+
 
   isVisible = false;
   is2ndVisible = false;
   isOkLoading = false;
-  
-  coinType = 'BTC' ;
-  coinTypeSend ;
+
+  coinType = 'BTC';
+  coinTypeSend;
   coinTypetrade;
 
   amountReceive = 0.0;
   amountSend = 0.0;
   amountTrade = 0.0;
+  addressTo;
+  addressFrom;
+
   optionValue;
   //optionValue1;
   optionValue12;
@@ -52,8 +55,7 @@ export class ProfileComponent implements OnInit {
   sellers = [];
   buyers = [];
   name: any;
-  finalAddress;
-  @Input() singleclient;
+    @Input() singleclient;
   ethcurrent: any;
   bitcurrent: any;
   saveReceivedLoading = false;
@@ -64,7 +66,7 @@ export class ProfileComponent implements OnInit {
     private message: NzMessageService,
     private userService: UserService,
     private router: Router
-  ) {}
+  ) { }
   ngOnInit() {
     this.userService.getallsellers().subscribe(
       resSellerData => {
@@ -135,11 +137,11 @@ export class ProfileComponent implements OnInit {
     this.currencyAddress();
   }
 
-  amountChangedtrade(){
+  amountChangedtrade() {
     this.amountTradeCalc();
   }
 
-  amountTradeCalc(){
+  amountTradeCalc() {
     if (isNaN(this.amountTrade)) {
       this.usdAmount = 0;
     } else {
@@ -152,11 +154,11 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  currencyAddress(){
+  currencyAddress() {
     if (this.coinType === "BTC") {
-      this.finalAddress = this.singleclient.BitAddress;
+      this.addressFrom = this.singleclient.BitAddress;
     } else if (this.coinType === "ETH") {
-      this.finalAddress = this.singleclient.EthAddress;
+      this.addressFrom = this.singleclient.EthAddress;
     } else {
       this.message.error("Please select currency");
     }
@@ -183,7 +185,7 @@ export class ProfileComponent implements OnInit {
     } else {
       console.log("coinType", this.coinTypeSend);
       if (this.coinTypeSend === "BTC") {
-        
+
         this.usdAmount = this.amountSend * this.bitcurrent;
       } else if (this.coinTypeSend === "ETH") {
         console.log("cointype ETH send i was called");
@@ -235,65 +237,25 @@ export class ProfileComponent implements OnInit {
   }
 
   saveReceieved(): void {
-  
+
     this.saveReceivedLoading = true;
-    let BTTC,ETTC;
-    if (this.coinTypeSend == 'BTC'){
-       BTTC = this.amountReceive;
-       ETTC=0;
-    }else if(this.coinTypeSend == 'ETH'){
-       ETTC = this.amountReceive;
-       BTTC=0;
-    }
-    const body2 ={
-      Username : this.singleclient.Username,
-      Email : this.singleclient.Email,
-      Phone : this.singleclient.Phone,
-      Address : this.singleclient.Address,
-      Status : "under process",
-      TypeOfRequest :"Receive",
-      id: localStorage.getItem('ID'),
-      date: Date.now(),
-      BTC : BTTC,
-      ETC : ETTC,
-    }
+   
     const body = {
-      status: "under process",
-      request_type : "Receive",
-      crypto_type: this.coinType,
-      amount: this.amountReceive,
-      date: Date.now(),
-      usd_amount: this.usdAmount,
-      address: this.finalAddress,
-      client: this.singleclient._id
-    };
+      username: this.singleclient.Username,
+      email: this.singleclient.Email, 
+      address: this.addressFrom,
+      requestType:"Receive",
+      cryptoType:this.coinTypeSend,
+      amount:this.amountSend,
+    }
+    
 
-    this.userService.addToRequest(body2).subscribe(
+    this.userService.addToRequest(body).subscribe(
       data => {
         console.log("got response from server", data);
-
-        // this.message.success("Payment receiving request sent!");
-        // this.is2ndVisible = false;
-        this.resetData();
-        
-        // this.router.navigate(["/authentication/login"]);
-      },
-      error => {
-        this.saveReceivedLoading = false;
-        this.is2ndVisible = false;
-        this.message.error("Unable to pay");
-      }
-    );
-
-    this.userService.receiveCoins(body).subscribe(
-      data => {
-        console.log("got response from server", data);
-
         this.message.success("Payment receiving request sent!");
         this.is2ndVisible = false;
         this.resetData();
-        this.saveReceivedLoading = false;
-        // this.router.navigate(["/authentication/login"]);
       },
       error => {
         this.saveReceivedLoading = false;
@@ -305,63 +267,26 @@ export class ProfileComponent implements OnInit {
   }
 
   saveSend(): void {
-  
+
     this.saveSendLoading = true;
-    let BTTC,ETTC;
-    if (this.coinTypeSend == 'BTC'){
-       BTTC = this.amountSend;
-       ETTC=0;
-    }else if(this.coinTypeSend == 'ETH'){
-       ETTC = this.amountSend;
-       BTTC=0;
-    }
-    const body2 ={
-      Username : this.singleclient.Username,
-      Email : this.singleclient.Email,
-      Phone : this.singleclient.Phone,
-      Address : this.singleclient.Address,
-      Status : "under process",
-      TypeOfRequest :"Send",
-      BTC : BTTC,
-      ETC : ETTC,
-    }
+    
     const body = {
-      status: "under process",
-      request_type : "Send",
-      crypto_type: this.coinType,
-      amount: this.amountReceive,
-      date: Date.now(),
-      usd_amount: this.usdAmount,
-      address: this.finalAddress,
-      client: this.singleclient._id
-    };
+      username: this.singleclient.Username,
+      email: this.singleclient.Email, 
+      address: this.addressTo,
+      requestType:"Send",
+      cryptoType:this.coinTypeSend,
+      amount:this.amountSend,
+    }
+    
 
-    this.userService.addToRequest(body2).subscribe(
+    this.userService.addToRequest(body).subscribe(
       data => {
         console.log("got response from server", data);
-
-        // this.message.success("Payment receiving request sent!");
-        // this.is2ndVisible = false;
-        this.resetData();
-        this.saveSendLoading = false;
-        // this.router.navigate(["/authentication/login"]);
-      },
-      error => {
-        this.saveSendLoading = false;
-        this.isVisible = false;
-        this.message.error("Unable to pay");
-      }
-    );
-
-    this.userService.receiveCoins(body).subscribe(
-      data => {
-        console.log("got response from server", data);
-
         this.message.success("Payment Sending request sent!");
         this.isVisible = false;
         this.resetData();
         this.saveSendLoading = false;
-        // this.router.navigate(["/authentication/login"]);
       },
       error => {
         this.saveSendLoading = false;
@@ -371,25 +296,37 @@ export class ProfileComponent implements OnInit {
     );
     this.handlesenderOk()
   }
-  
 
 
-  confirm(): void{
-    if (this.tradetype === "BUY"){
-      const body ={
-        Username : this.singleclient.Username,
-        Email : this.singleclient.Email,
-        Phone : this.singleclient.Phone,
-        Address : this.singleclient.Address,
-        Status : "under process",
-        TypeOfCurrency : this.coinType,
-        TypeOfRequest :"BUY",
-        BTC : this.singleclient.BTC,
-        ETC : this.singleclient.ETC,
-        Dollars : this.singleclient.Dollars
+
+  confirm(): void {
+    if (this.tradetype === "BUY") {
+      const body = {
+        Username: this.singleclient.Username,
+        Email: this.singleclient.Email,
+        Phone: this.singleclient.Phone,
+        Address: this.singleclient.Address,
+        Status: "under process",
+        TypeOfCurrency: this.coinType,
+        TypeOfRequest: "BUY",
+        BTC: this.singleclient.BTC,
+        ETC: this.singleclient.ETC,
+        Dollars: this.singleclient.Dollars
       }
     }
-    else if (this.tradetype === "SELL"){
+    else if (this.tradetype === "SELL") {
+      const body = {
+        Username: this.singleclient.Username,
+        Email: this.singleclient.Email,
+        Phone: this.singleclient.Phone,
+        Address: this.singleclient.Address,
+        Status: "under process",
+        TypeOfCurrency: this.coinType,
+        TypeOfRequest: "Sell",
+        BTC: this.singleclient.BTC,
+        ETC: this.singleclient.ETC,
+        Dollars: this.singleclient.Dollars
+      }
 
     }
 
