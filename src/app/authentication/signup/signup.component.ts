@@ -70,7 +70,7 @@ export class SignupComponent implements OnInit {
   SaveToDB() {
     this.clicked = true;
     this.loading = true;
-
+    
     
   }
 }
