@@ -19,5 +19,4 @@ const Client = new Schema({
 
 module.exports = mongoose.model('client', Client, 'clients');
 
-//client.clientrequest.push(clientrequest_id).update()/patch
 

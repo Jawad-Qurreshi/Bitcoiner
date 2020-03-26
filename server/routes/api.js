@@ -142,23 +142,23 @@ router.post('/Addtosellers', async (req, res) => {
   }
   );
 });
-router.post('/receivecoins', async (req, res) => {
+// router.post('/receivecoins', async (req, res) => {
 
-  const body = req.body;
-  //console.log('body', body);
+//   const body = req.body;
+//   //console.log('body', body);
 
-  try {
-    const result = await ClientRequest.create(body);
-    //console.log('result->', result);
-    res.send({ code: 200, data: result });
+//   try {
+//     const result = await ClientRequest.create(body);
+//     //console.log('result->', result);
+//     res.send({ code: 200, data: result });
 
-  }
-  catch (ex) {
-    //console.log('ex->', ex);
-    res.send({ code: 500, error: ex });
-  }
+//   }
+//   catch (ex) {
+//     //console.log('ex->', ex);
+//     res.send({ code: 500, error: ex });
+//   }
 
-});
+// });
 
 router.get('/ShowAllSellers', function (req, res) {
   //const allClients = await Client.find();
@@ -252,45 +252,38 @@ router.post('/sendmail', async (req, res) => {
 // })
 
 /////////////////////////All requests////////////////////////////////////////
-router.post('/Addtorequests', async (req, res) => {
-
+router.post('/add/request', async (req, res) => {
   const body = req.body;
-  const userId = body.id;
 
+  const request = new Request({
+    username: body.username,
+    email: body.email,
+    address: body.address,
+    requestType: body.requestType,
+    cryptoType: body.cryptoType,
+    amount: body.amount,
+    status: 'Under Process'
+  });
 
-  console.log('body 1', body);
-  try {
-    const result = await Request.create(body);
-    Client.findById({ _id: userId })
-      .exec()
-      .then(client => {
-        client.ClientRequest.push(result._id);
-        console.log(result._id);
-        client.save().then(po => {
-          console.log('okay');
-          return res.send({ code: 200, data: result });
-          
-        })
-          .catch(err => {
+  const client = await Client.findOne({ email: body.email }).exec();
+  const storedRequest = await request.save();
 
-          });
-
-
-      })
-      .catch(err => {
-
+  client.ClientRequest.push(storedRequest._id);
+  client.save()
+    .then(client => {
+      res.status(200).json({
+        message: 'Request Stored!',
+        isSuccess: true
       });
-    //console.log('result->', result);
-
-  }
-  catch (ex) {
-    //console.log('ex->', ex);
-    res.send({ code: 500, error: ex });
-  }
-
-
-
+    })
+    .catch(err => {
+      res.status(500).json({
+        message: err.message,
+        isSuccess: false
+      });
+    });
 });
+
 
 router.get('/ShowAllRequest', function (req, res) {
   console.log('get request of all clients', req.body);
@@ -391,7 +384,7 @@ router.post('/signup', async (req, res) => {
   }
   else {
     console.log('client already exist');
-    res.status(401).json({message:'User already exists',isSuccess:false})
+    res.status(401).json({ message: 'User already exists', isSuccess: false })
   }
 });
 
