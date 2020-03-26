@@ -13,6 +13,7 @@
   "dependencies": {
     "@agm/core": "^1.1.0",
     "@angular/animations": "^8.2.14",
+    "@angular/cli": "^8.3.25",
     "@angular/common": "^8.2.14",
     "@angular/compiler": "^8.2.14",
     "@angular/core": "^8.2.14",
@@ -64,8 +65,7 @@
     "zone.js": "~0.9.1"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^0.801.3",
-    "@angular/cli": "^8.3.25",
+    "@angular-devkit/build-angular": "^0.803.24",
     "@angular/compiler-cli": "^8.2.14",
     "@angular/language-service": "^8.2.14",
     "@types/c3": "^0.6.4",
