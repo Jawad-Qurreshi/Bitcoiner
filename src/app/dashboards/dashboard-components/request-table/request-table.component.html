@@ -57,10 +57,10 @@
                               <td>{{ request.requestType}}</td>
                               <td>{{ request.cryptoType }}</td>
                               <td>{{ request.amount}}</td>
-                              <td>{{ request.createdAt }}</td>
+                              <td>{{ request.createdAt | date: 'MMM d, y, h:mm:ss a' }}</td>
                               <td>
-                                <button type="button" (click)="Approve()"
-                                class="btn btn-rounded btn-primary" (click)="Approve()">Approve</button>
+                                <button type="button" (click)="Approve(request)"
+                                class="btn btn-rounded btn-primary" >Approve</button>
                               </td>
                           </tr>
                           

@@ -99,8 +99,9 @@ export class RequesttableComponent {
     //   AddressETH: ["", Validators.required],
     // });
   }
-  Approve(){
-    this.userservice.updateRequestApproved(this.id).subscribe(
+  Approve(request){
+    this.userservice.updateRequestApproved(request._id).subscribe(
+      
       data => {
         console.log("got response from server", data);
         // alert("Registeration Successfull!");

@@ -175,7 +175,7 @@
                                 <option value="ETH">Ethereum</option>
                             </select><br>
                             <h4 class="card-title">To</h4>
-                            <input [(ngModel)]="addressToSend" ng-if="selectValues.selcetedValue === 'B'" type="text" class="form-control"
+                            <input [(ngModel)]="addressToSend" [ngModelOptions]="{standalone: true}" ng-if="selectValues.selcetedValue === 'B'" type="text" class="form-control"
                                 id="nametext" aria-describedby="name" placeholder="Please enter the Address"><br>
                             <h4 class="card-title">Amount</h4>
                             <div class="input-group mb-3">
@@ -194,7 +194,7 @@
                             </div>
                             <h4 class="card-title">Description</h4>
                             <div class="m-t-20">
-                                <textarea class="form-control" type="text" [(ngModel)]="descriptionSend" rows="3" placeholder="Text Here..."></textarea>
+                                <textarea class="form-control" type="text" [(ngModel)]="descriptionSend" [ngModelOptions]="{standalone: true}" rows="3" placeholder="Text Here..."></textarea>
                             </div>
                         </div>
                     </form>
@@ -239,7 +239,7 @@
                             </div><br>
                             <h4 class="card-title">Sender Wallet Address:</h4>
                             <div class="input-group mb-3">
-                                <input type="text" [(ngModel)]="addressFrom"                                   class="form-control"
+                                <input type="text" [(ngModel)]="addressFrom" [ngModelOptions]="{standalone: true}"                                  class="form-control"
                                     placeholder="wallet address" aria-describedby="basic-addon1">
                                 <div class="input-group-append">
                                     <span class="input-group-text">Sender's Wallet Address</span>

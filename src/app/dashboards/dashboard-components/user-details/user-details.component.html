@@ -13,6 +13,8 @@
                                 <th>Status</th>
                                 <th>Request Type</th>
                                 <th>Cryto type</th>
+                                <th>Send to</th>
+                                <th>Receive from</th>
                                 <th>amount</th>
                                 <th>Date</th>
                             </tr>
@@ -25,10 +27,12 @@
                                 <td>
                                     <span class="label label-success">{{ myrequest.status }}</span>
                                 </td>
-                                <td>{{ myrequest.request_type }}</td>
-                                <td>{{ myrequest.crypto_type }}</td>
+                                <td>{{ myrequest.requestType }}</td>
+                                <td>{{ myrequest.cryptoType }}</td>
+                                <td>{{ myrequest.to }}</td>
+                                <td>{{ myrequest.from }}</td>
                                 <td>{{ myrequest.amount}}</td>
-                                <td>{{ myrequest.date | date: 'MMM d, y, h:mm:ss a'}}</td>
+                                <td>{{ myrequest.createdAt | date: 'MMM d, y, h:mm:ss a'}}</td>
 
 
                             </tr>

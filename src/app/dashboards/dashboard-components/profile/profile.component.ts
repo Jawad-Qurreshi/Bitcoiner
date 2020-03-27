@@ -44,7 +44,7 @@ export class ProfileComponent implements OnInit {
   amountSend = 0.0;
   amountTrade = 0.0;
   addressTo;
-  addressFrom;
+  addressFrom ;
   addressToSend;
   descriptionSend;
 
@@ -241,7 +241,7 @@ export class ProfileComponent implements OnInit {
   saveReceieved(): void {
 
     this.saveReceivedLoading = true;
-   
+    console.log("this is receiving side", this.addressFrom);
     const body = {
       username: this.singleclient.username,
       email: this.singleclient.email,
@@ -348,8 +348,10 @@ export class ProfileComponent implements OnInit {
   resetData() {
     this.amountReceive = 0;
     this.amountSend = 0;
-    this.coinType = 'BTC';
-    this.coinTypeSend = 'BTC';
+    this.coinType = '';
+    this.coinTypeSend = '';
     this.addressToSend = '';
+    this.addressTo = '';
+    this.addressFrom = '' ;
   }
 }
