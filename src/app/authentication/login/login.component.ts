@@ -26,7 +26,7 @@ export class LoginComponent implements OnInit {
   recoveryForm: FormGroup;
 
   forgotPassword(){
-    alert("ABhy oo ghajni");
+   
     this.router.navigateByUrl("/authentication/Lock");
   }
 
@@ -67,8 +67,8 @@ export class LoginComponent implements OnInit {
 
   formInitializer() {
     this.loginForm = this.formBuilder.group({
-      Email: [null, [Validators.required, Validators.email]],
-      Password: [null, [Validators.required]]
+      email: [null, [Validators.required, Validators.email]],
+      password: [null, [Validators.required]]
     });
     this.recoveryForm = this.formBuilder.group({
       recoveryemail: [null, [Validators.required, Validators.email]],

@@ -124,7 +124,7 @@ export class UserService {
   }
 
   public setbtcaddreser(credentials: object): Observable<any> {
-    const url = ProjectConfig.getPath() + "/btcaddress";
+    const url = ProjectConfig.getPath() + "/address/add";
 
     return this.http.post(url, credentials);
   }
