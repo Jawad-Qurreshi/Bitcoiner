@@ -421,7 +421,7 @@ router.post('/login', async (req, res) => {
   } else {
     id = result._id;
     if (body.password === result.password) {
-      
+
       res.status(200).json(id);
       console.log(body.password)
     } else {
@@ -547,7 +547,8 @@ router.get('/client/:id', function (req, res) {
       if (err) {
         // console.log('Error while retrieving video');
       } else {
-        res.json(client);
+        console.log(client)
+        res.status(200).json(client);
       }
     });
 });
@@ -601,10 +602,10 @@ router.post('/sendmyrequest/:id', async (req, res) => {
 //dill main ajeeb si hulchal hai lagta hai k tou naraz hai
 //hum pr bhi tou nazare kram kr yeh khan ka insaf hai
 
-router.get('/getmyrequests/:id', async (req, res) => {
+router.get('/request/:id', async (req, res) => {
   let userid = req.params.id;
-  // console.log('error while saving client'+ userid);
-  ClientRequest.find({ "client": userid }) //Hamad
+
+  Request.find({ clientId: userid }) //Hamad
     // console.log('error while getting my requests'+ result)
     //res.send ({result});
     .exec(function (err, myrequest) {
