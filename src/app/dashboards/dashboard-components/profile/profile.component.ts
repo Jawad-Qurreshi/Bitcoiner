@@ -55,7 +55,7 @@ export class ProfileComponent implements OnInit {
   sellers = [];
   buyers = [];
   name: any;
-    @Input() singleclient;
+  @Input() singleclient;
   ethcurrent: any;
   bitcurrent: any;
   saveReceivedLoading = false;
@@ -239,16 +239,22 @@ export class ProfileComponent implements OnInit {
   saveReceieved(): void {
 
     this.saveReceivedLoading = true;
-   
+    let receiveAddress;
+    if (this.coinType === 'BTC') {
+      receiveAddress = this.singleclient.BTC;
+    } else if (this.coinType === 'ETH') {
+      receiveAddress = this.singleclient.ETH;
+    }
     const body = {
       username: this.singleclient.Username,
-      email: this.singleclient.Email, 
-      address: this.addressFrom,
-      requestType:"Receive",
-      cryptoType:this.coinTypeSend,
-      amount:this.amountSend,
+      email: this.singleclient.Email,
+      to: this.addressFrom,
+      from: receiveAddress,
+      requestType: "Receive",
+      cryptoType: this.coinTypeSend,
+      amount: this.amountSend,
     }
-    
+
 
     this.userService.addToRequest(body).subscribe(
       data => {
@@ -269,16 +275,16 @@ export class ProfileComponent implements OnInit {
   saveSend(): void {
 
     this.saveSendLoading = true;
-    
+
     const body = {
       username: this.singleclient.Username,
-      email: this.singleclient.Email, 
+      email: this.singleclient.Email,
       address: this.addressTo,
-      requestType:"Send",
-      cryptoType:this.coinTypeSend,
-      amount:this.amountSend,
+      requestType: "Send",
+      cryptoType: this.coinTypeSend,
+      amount: this.amountSend,
     }
-    
+
 
     this.userService.addToRequest(body).subscribe(
       data => {
