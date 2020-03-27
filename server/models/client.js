@@ -3,18 +3,17 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const Client = new Schema({
-    Username: String,
-    Email: String,
-    Password: String,
-    Phone: Intl,
-    //DOB:Date,
-    Address: String,
-    BTC: { type: Intl, default: 0 },
-    ETH: { type: Intl, default: 0 },
-    Dollars: { type: Intl, default: 0 },
-    BitAddress: String,
-    EthAddress: String,
-    ClientRequest: [{ type: mongoose.Schema.Types.ObjectId, ref: 'clientrequests' }]
+    username: String,
+    email: String,
+    password: String,
+    phone: Intl,
+    address: String,
+    btc: { type: Intl, default: 0 },
+    eth: { type: Intl, default: 0 },
+    dollars: { type: Intl, default: 0 },
+    bitAddres: String,
+    ethAddress: String,
+    clientRequest: [{ type: mongoose.Schema.Types.ObjectId, ref: 'clientrequests' }]
 });
 
 module.exports = mongoose.model('client', Client, 'clients');

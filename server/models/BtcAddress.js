@@ -3,8 +3,8 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const BtcAddress = new Schema({
-    AddressBTC: String,
-    AddressETH: String
+    btcAddress: String,
+    ethAddress: String
 });
 
-module.exports = mongoose.model('btcaddress', BtcAddress , 'btcaddresses');
+module.exports = mongoose.model('btcaddress', BtcAddress, 'btcaddresses');

@@ -252,7 +252,7 @@ router.post('/sendmail', async (req, res) => {
 // })
 
 /////////////////////////All requests////////////////////////////////////////
-router.post('/request/add', async (req, res) => {
+router.post('/request/add', (req, res) => {
   const body = req.body;
 
   const request = new Request({
@@ -268,7 +268,7 @@ router.post('/request/add', async (req, res) => {
 
   Client.findOne({ Email: body.email })
     .exec()
-    .then(client => {
+    .then(async client => {
       const storedRequest = await request.save();
       client.ClientRequest.push(storedRequest._id);
       client.save()
@@ -289,10 +289,7 @@ router.post('/request/add', async (req, res) => {
       res.status(500).json({
         isSuccess: false
       });
-      console.log('OKAY 3');
     });
-
-
 });
 
 
