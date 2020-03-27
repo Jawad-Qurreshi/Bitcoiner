@@ -40,8 +40,9 @@
                               <th></th>
                           </tr>
                       </thead>
-                      <tbody>
                       
+                      <tbody>
+                        <div class="table-responsive1" [perfectScrollbar]="config">
                           <tr *ngFor="let request of requests">
                               
                               <!-- <td>
@@ -62,8 +63,9 @@
                                 class="btn btn-rounded btn-primary" (click)="Approve()">Approve</button>
                               </td>
                           </tr>
-                          
+                        </div>  
                       </tbody>
+                  
                   </table>
               </div>
           </div>
