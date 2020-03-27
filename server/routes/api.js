@@ -254,6 +254,7 @@ router.post('/sendmail', async (req, res) => {
 /////////////////////////All requests////////////////////////////////////////
 router.post('/request/add', (req, res) => {
   const body = req.body;
+  console.log(body)
 
   const request = new Request({
     username: body.username,
@@ -267,11 +268,12 @@ router.post('/request/add', (req, res) => {
     status: 'Under Process'
   });
 
-  Client.findOne({ Email: body.email })
+  Client.findOne({ email: body.email })
     .exec()
     .then(async client => {
       const storedRequest = await request.save();
-      client.ClientRequest.push(storedRequest._id);
+      console.log(client)
+      client.clientRequest.push(storedRequest._id);
       client.save()
         .then(client => {
           res.status(201).json({
@@ -280,6 +282,7 @@ router.post('/request/add', (req, res) => {
           });
         })
         .catch(err => {
+          console.log('1')
           res.status(500).json({
             message: err.message,
             isSuccess: false
@@ -287,6 +290,7 @@ router.post('/request/add', (req, res) => {
         });
     })
     .catch(err => {
+      console.log(err)
       res.status(500).json({
         isSuccess: false
       });

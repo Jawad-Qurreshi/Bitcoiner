@@ -16,4 +16,4 @@ const Request = new Schema({
     clientId: { type: Schema.Types.ObjectId, ref: 'clients' }
 });
 
-module.exports = mongoose.model('request', Request, 'allrequests');
+module.exports = mongoose.model('request', Request, 'request');
