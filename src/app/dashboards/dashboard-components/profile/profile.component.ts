@@ -158,9 +158,9 @@ export class ProfileComponent implements OnInit {
 
   currencyAddress() {
     if (this.coinType === "BTC") {
-      this.addressFrom = this.singleclient.BitAddress;
+      this.addressTo = this.singleclient.btcAddress;
     } else if (this.coinType === "ETH") {
-      this.addressFrom = this.singleclient.EthAddress;
+      this.addressTo = this.singleclient.ethAddress;
     } else {
       this.message.error("Please select currency");
     }
@@ -243,13 +243,13 @@ export class ProfileComponent implements OnInit {
     this.saveReceivedLoading = true;
    
     const body = {
-      username: this.singleclient.Username,
-      email: this.singleclient.Email,
+      username: this.singleclient.username,
+      email: this.singleclient.email,
       to: this.addressTo,
       from: this.addressFrom,
       requestType: "Receive",
       cryptoType: this.coinType,
-      amount: this.amountSend,
+      amount: this.amountReceive,
     }
 
 
@@ -279,8 +279,8 @@ export class ProfileComponent implements OnInit {
         receiverAddress = this.singleclient.ETH;
     }
     const body = {
-      username: this.singleclient.Username,
-      email: this.singleclient.Email,
+      username: this.singleclient.username,
+      email: this.singleclient.email,
       to: this.addressTo,
       from: receiverAddress,
       requestType: "Send",
