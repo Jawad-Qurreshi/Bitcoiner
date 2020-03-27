@@ -45,6 +45,8 @@ export class ProfileComponent implements OnInit {
   amountTrade = 0.0;
   addressTo;
   addressFrom;
+  addressToSend;
+  descriptionSend;
 
   optionValue;
   //optionValue1;
@@ -239,19 +241,14 @@ export class ProfileComponent implements OnInit {
   saveReceieved(): void {
 
     this.saveReceivedLoading = true;
-    let receiveAddress;
-    if (this.coinType === 'BTC') {
-      receiveAddress = this.singleclient.BTC;
-    } else if (this.coinType === 'ETH') {
-      receiveAddress = this.singleclient.ETH;
-    }
+   
     const body = {
       username: this.singleclient.Username,
       email: this.singleclient.Email,
-      to: this.addressFrom,
-      from: receiveAddress,
+      to: this.addressTo,
+      from: this.addressFrom,
       requestType: "Receive",
-      cryptoType: this.coinTypeSend,
+      cryptoType: this.coinType,
       amount: this.amountSend,
     }
 
@@ -275,14 +272,21 @@ export class ProfileComponent implements OnInit {
   saveSend(): void {
 
     this.saveSendLoading = true;
-
+    let receiverAddress;
+    if (this.coinTypeSend === 'BTC'){
+        receiverAddress = this.singleclient.BTC;
+    }else if (this.coinTypeSend === 'ETH'){
+        receiverAddress = this.singleclient.ETH;
+    }
     const body = {
       username: this.singleclient.Username,
       email: this.singleclient.Email,
-      address: this.addressTo,
+      to: this.addressTo,
+      from: receiverAddress,
       requestType: "Send",
       cryptoType: this.coinTypeSend,
       amount: this.amountSend,
+      description: this.descriptionSend
     }
 
 
@@ -341,5 +345,8 @@ export class ProfileComponent implements OnInit {
   resetData() {
     this.amountReceive = 0;
     this.amountSend = 0;
+    this.coinType = 'BTC';
+    this.coinTypeSend = 'BTC';
+    this.addressToSend = '';
   }
 }
