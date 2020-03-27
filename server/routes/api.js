@@ -252,13 +252,14 @@ router.post('/sendmail', async (req, res) => {
 // })
 
 /////////////////////////All requests////////////////////////////////////////
-router.post('/add/request', async (req, res) => {
+router.post('/request/add', async (req, res) => {
   const body = req.body;
 
   const request = new Request({
     username: body.username,
     email: body.email,
-    address: body.address,
+    to: body.to,
+    from: body.from,
     requestType: body.requestType,
     cryptoType: body.cryptoType,
     amount: body.amount,
@@ -271,7 +272,7 @@ router.post('/add/request', async (req, res) => {
   client.ClientRequest.push(storedRequest._id);
   client.save()
     .then(client => {
-      res.status(200).json({
+      res.status(201).json({
         message: 'Request Stored!',
         isSuccess: true
       });
@@ -285,7 +286,7 @@ router.post('/add/request', async (req, res) => {
 });
 
 
-router.get('/ShowAllRequest', function (req, res) {
+router.get('/request/all', function (req, res) {
   console.log('get request of all clients', req.body);
   //const allClients = await Client.find();
   Request.find({})
@@ -298,18 +299,20 @@ router.get('/ShowAllRequest', function (req, res) {
     })
 })
 
-router.delete('/DeleteRequest/:id', function (req, res) {
-  console.log('Deleting a client');
+router.delete('/request/:id', function (req, res) {
+  console.log('Deleting a client request');
   Request.findByIdAndRemove(req.params.id, function (err, deletedRequest) {
     if (err) {
-      res.send("Error deleting client")
+      res.status(500).send("Error deleting client request")
     } else {
-      res.json(deletedRequest);
+      res.status(200).json({
+        isSuccess: true
+      });
     }
   })
 })
 
-router.put('/updaterequest/:id', async function (req, res) {
+router.put('/request/approve/:id', async function (req, res) {
   console.log('update a client of');
   var request = await Request.findById({ _id: req.params.id }).exec();
   console.log('This is my id' + req.params.id);
@@ -449,7 +452,7 @@ router.post('/btcaddress', async (req, res) => {
   }
 });
 
-router.get('/getAddresses', function (req, res) {
+router.get('/address/all', function (req, res) {
   // console.log('get request of all clients');
   //const allClients = await Client.find();
   BtcAddress.find({})

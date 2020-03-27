@@ -5,10 +5,11 @@ const Schema = mongoose.Schema;
 const Request = new Schema({
     username: String,
     email: String,
-    address: String,
+    to: String,
+    from: String,
     status: String,
     requestType: String,
-    amount: Int32Array,
+    amount: Intl,
     createdAt: { type: Date, default: Date.now }
 });
 
