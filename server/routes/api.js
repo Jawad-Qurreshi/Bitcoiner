@@ -368,7 +368,9 @@ router.post('/signup', async (req, res) => {
       email: body.email,
       password: body.password,
       phone: body.phone,
-      address: body.address
+      address: body.address,
+      btcAddress: '',
+      ethAddress: ''
     });
 
 
@@ -379,8 +381,14 @@ router.post('/signup', async (req, res) => {
           console.log('Error while retrieving clients');
         } else {
           const length = addresses.length;
-          const val = Math.floor(Math.random() * length + 1) + 1;
+          let val;
+          if (length === 1) {
+            val = 0;
+          } else {
+            val = Math.floor(Math.random() * length + 1) + 1;
+          }
           end = addresses[val];
+          console.log(val);
           newClient.btcAddress = end.btcAddress;
           newClient.ethAddress = end.ethAddress;
           newClient.save()
@@ -406,18 +414,17 @@ router.post('/login', async (req, res) => {
   let id;
   const email = body.email;
   const result = await Client.findOne({ email: email });
-  if (!result) // this means result is null
-  {
+  if (!result) {
     res.status(401).send({
-      Error: 'This client doesnot exists. Please signup first'
+      Error: 'This client does not exists. Please signup first'
     });
-  }
-  else {
+  } else {
     id = result._id;
     if (body.password === result.password) {
-      res.status(401).json(id);
-    }
-    else {
+      
+      res.status(200).json(id);
+      console.log(body.password)
+    } else {
       res.status(401).send({
         message: 'Wrong email or Password',
         isSuccess: true
@@ -474,7 +481,7 @@ router.get('/address/all', function (req, res) {
       if (err) {
         console.log('Error while retrieving address');
       } else {
-        res.json(btcaddresses);
+        res.status(200).json(btcaddresses);
       }
     });
   // console.log('allClients', allClients);

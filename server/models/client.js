@@ -11,7 +11,7 @@ const Client = new Schema({
     btc: { type: Intl, default: 0 },
     eth: { type: Intl, default: 0 },
     dollar: { type: Intl, default: 0 },
-    btcAddres: String,
+    btcAddress: String,
     ethAddress: String,
     clientRequest: [{ type: mongoose.Schema.Types.ObjectId, ref: 'clientrequests' }]
 });
