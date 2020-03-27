@@ -1,6 +1,7 @@
 const express = require('express');
 //const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const morgan = require('morgan');
 const app = express();
 const path = require('path');
 const cors = require('cors');
@@ -12,6 +13,7 @@ const api = require ('./server/routes/api');
 app.use(express.static(path.join(__dirname,'dist')));
 
 app.use(cors());
+app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: true

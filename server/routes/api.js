@@ -266,23 +266,33 @@ router.post('/request/add', async (req, res) => {
     status: 'Under Process'
   });
 
-  const client = await Client.findOne({ email: body.email }).exec();
-  const storedRequest = await request.save();
-
-  client.ClientRequest.push(storedRequest._id);
-  client.save()
+  Client.findOne({ Email: body.email })
+    .exec()
     .then(client => {
-      res.status(201).json({
-        message: 'Request Stored!',
-        isSuccess: true
-      });
+      const storedRequest = await request.save();
+      client.ClientRequest.push(storedRequest._id);
+      client.save()
+        .then(client => {
+          res.status(201).json({
+            message: 'Request Stored!',
+            isSuccess: true
+          });
+        })
+        .catch(err => {
+          res.status(500).json({
+            message: err.message,
+            isSuccess: false
+          });
+        });
     })
     .catch(err => {
       res.status(500).json({
-        message: err.message,
         isSuccess: false
       });
+      console.log('OKAY 3');
     });
+
+
 });
 
 

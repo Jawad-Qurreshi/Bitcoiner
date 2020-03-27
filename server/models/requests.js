@@ -9,8 +9,10 @@ const Request = new Schema({
     from: String,
     status: String,
     requestType: String,
+    cryptoType: String,
     amount: Intl,
-    createdAt: { type: Date, default: Date.now }
+    createdAt: { type: Date, default: Date.now },
+    clientId: { type: Schema.Types.ObjectId, ref: 'clients' }
 });
 
 module.exports = mongoose.model('request', Request, 'allrequests');
