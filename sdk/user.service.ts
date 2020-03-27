@@ -26,7 +26,7 @@ export class UserService {
   }
 
   public getallrequests(): Observable<any> {
-    const url = ProjectConfig.getPath() + "/ShowAllRequest";
+    const url = ProjectConfig.getPath() + "/request/all";
     //return this.http.get(url, credentials);
     return this.http.get(url);
   }
@@ -38,7 +38,7 @@ export class UserService {
   }
 
   public getAddresses(): Observable<any> {
-    const url = ProjectConfig.getPath() + "/getAddresses";
+    const url = ProjectConfig.getPath() + "/address/all";
     //return this.http.get(url, credentials);
     return this.http.get(url);
   }
@@ -100,13 +100,13 @@ export class UserService {
   // }
 
   public addToRequest(body: object): Observable<any> {
-    const url = ProjectConfig.getPath() + "/add/request";
+    const url = ProjectConfig.getPath() + "/request/add";
 
     return this.http.post(url, body);
   }
 
   public updateRequestApproved(id: String): Observable<any> {
-    const url = ProjectConfig.getPath() + "/updaterequest/" +id;
+    const url = ProjectConfig.getPath() + "/request/approve/" +id;
 
     return this.http.put(url , id);
   }
@@ -140,4 +140,6 @@ export class UserService {
 
     return this.http.post(url, credentials);
   }
+
+  //Delete request "/request/:id"
 }
