@@ -10,8 +10,8 @@ const Client = new Schema({
     address: String,
     btc: { type: Intl, default: 0 },
     eth: { type: Intl, default: 0 },
-    dollars: { type: Intl, default: 0 },
-    bitAddres: String,
+    dollar: { type: Intl, default: 0 },
+    btcAddres: String,
     ethAddress: String,
     clientRequest: [{ type: mongoose.Schema.Types.ObjectId, ref: 'clientrequests' }]
 });

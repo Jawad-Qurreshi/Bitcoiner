@@ -263,6 +263,7 @@ router.post('/request/add', (req, res) => {
     requestType: body.requestType,
     cryptoType: body.cryptoType,
     amount: body.amount,
+    description: body.description,
     status: 'Under Process'
   });
 
@@ -358,16 +359,19 @@ router.put('/request/approve/:id', async function (req, res) {
 
 router.post('/signup', async (req, res) => {
   const body = req.body;
-  const Email = body.Email;
-  const result = await Client.findOne({ "Email": Email });
+  const email = body.email;
+  const result = await Client.findOne({ email: email });
   if (!result) // this means result is null
   {
-    var newClient = new Client();
-    newClient.Username = req.body.Username;
-    newClient.Email = req.body.Email;
-    newClient.Password = req.body.Password;
-    newClient.Phone = req.body.Phone;
-    newClient.Address = req.body.Address;
+    let newClient = new Client({
+      username: body.username,
+      email: body.email,
+      password: body.password,
+      phone: body.phone,
+      address: body.address
+    });
+
+
     var end = {};
     BtcAddress.find({})
       .exec(function (err, addresses) {
@@ -377,9 +381,8 @@ router.post('/signup', async (req, res) => {
           const length = addresses.length;
           const val = Math.floor(Math.random() * length + 1) + 1;
           end = addresses[val];
-          console.log('End', end.AddressBTC);
-          newClient.BitAddress = end.AddressBTC;
-          newClient.EthAddress = end.AddressETH;
+          newClient.btcAddress = end.btcAddress;
+          newClient.ethAddress = end.ethAddress;
           newClient.save()
             .then(client => {
               res.json(client)
@@ -389,21 +392,20 @@ router.post('/signup', async (req, res) => {
             });
         }
       });
-    console.log('End', end);
-
   }
   else {
-    console.log('client already exist');
-    res.status(401).json({ message: 'User already exists', isSuccess: false })
+    res.status(401).json({
+      message: 'User already exists',
+      isSuccess: false
+    });
   }
 });
 
 router.post('/login', async (req, res) => {
   const body = req.body;
-  var id;
-  console.log('req.body', body);
-  const Email = body.Email;
-  const result = await Client.findOne({ "Email": Email });
+  let id;
+  const email = body.email;
+  const result = await Client.findOne({ email: email });
   if (!result) // this means result is null
   {
     res.status(401).send({
@@ -411,51 +413,56 @@ router.post('/login', async (req, res) => {
     });
   }
   else {
-    // email did exist
     id = result._id;
-    // so lets match password
-    if (body.Password === result.Password) {
-      // great, allow this user access
-      console.log('match');
-      res.json(id);
+    if (body.password === result.password) {
+      res.status(401).json(id);
     }
     else {
-      console.log('password doesnot match');
-      res.status(401).send({ message: 'Wrong email or Password' });
+      res.status(401).send({
+        message: 'Wrong email or Password',
+        isSuccess: true
+      });
     }
   }
 });
 
-router.post('/btcaddress', async (req, res) => {
+router.post('/address/add', async (req, res) => {
   const body = req.body;
-  const AddressBTC = body.AddressBTC;
-  const AddressETH = body.AddressETH;
-  const result1 = await BtcAddress.findOne({ "AddressBTC": AddressBTC });
-  console.log('data in result1', result1);
-  const result2 = await BtcAddress.findOne({ "AddressETH": AddressETH });
-  console.log('data in result2 ', result2);;
-  if (!result1) // this means result is null
-  {
-    if (!result2) {
-      var newAddress = new BtcAddress();
-      //newAddress.id = req.body.id;
-      newAddress.AddressBTC = body.AddressBTC;
-      newAddress.AddressETH = body.AddressETH;
-      newAddress.save(function (err, insertedAddress) {
-        if (err) {
-          console.log('error while saving eth address');
-          // res.json(newClient);
-        } else {
-          res.json(insertedAddress);
-        }
+  const btcAddress = body.btcAddress;
+  const ethAddress = body.ethAddress;
+  const btc = await BtcAddress.findOne({ btcAddress: btcAddress });
+  const eth = await BtcAddress.findOne({ ethAddress: ethAddress });
+  if (!btc) {
+    if (!eth) {
+      const address = new BtcAddress({
+        btcAddress: btcAddress,
+        ethAddress: ethAddress
+      });
+
+      address.save()
+        .then(address => {
+          res.status(201).json({
+            isSuccess: true,
+            message: 'Address Added!'
+          });
+        })
+        .catch(err => {
+          res.status(500).json({
+            isSuccess: false,
+            message: 'Address not Added!'
+          });
+        });
+    } else {
+      res.status(400).json({
+        isSuccess: false,
+        message: 'ETH Address already exists!'
       });
     }
-    else {
-      console.log('AddressETH already exist');
-    }
-  }
-  else {
-    console.log('AddressBTC already exist');
+  } else {
+    res.status(400).json({
+      isSuccess: false,
+      message: 'BTC Address already exists!'
+    });
   }
 });
 
