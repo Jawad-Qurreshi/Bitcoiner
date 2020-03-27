@@ -265,17 +265,19 @@ router.post('/request/add', (req, res) => {
     cryptoType: body.cryptoType,
     amount: body.amount,
     description: body.description,
-    status: 'Under Process'
+    status: 'Under Process',
+    clientId: ''
   });
 
   Client.findOne({ email: body.email })
     .exec()
     .then(async client => {
+      request.clientId = client._id;
       const storedRequest = await request.save();
-      console.log(client)
       client.clientRequest.push(storedRequest._id);
       client.save()
         .then(client => {
+          console.log(storedRequest);
           res.status(201).json({
             message: 'Request Stored!',
             isSuccess: true
@@ -551,7 +553,6 @@ router.get('/client/:id', function (req, res) {
       if (err) {
         // console.log('Error while retrieving video');
       } else {
-        console.log(client)
         res.status(200).json(client);
       }
     });
@@ -619,6 +620,7 @@ router.get('/request/:id', async (req, res) => {
         });
       } else {
         res.json(myrequest);
+        console.log(myrequest)
       }
     });
 });
