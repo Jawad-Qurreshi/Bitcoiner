@@ -44,7 +44,7 @@ export class UserService {
   }
 
   public postAddresses(credentials: object): Observable<any> {
-    const url = ProjectConfig.getPath() + "/btcaddress";
+    const url = ProjectConfig.getPath() + "/address/add";
     //return this.http.get(url, credentials);
     return this.http.post(url, credentials);
   }

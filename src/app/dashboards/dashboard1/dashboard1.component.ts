@@ -60,7 +60,7 @@ export class Dashboard1Component implements OnInit, OnChanges {
     
      this.userservice.getAddresses().subscribe(
        addresses => {
-         //console.log("resallrequest", resallrequest);
+       console.log("all addreses", addresses);
        this.btcAddresses = addresses;
        },
        err => {
