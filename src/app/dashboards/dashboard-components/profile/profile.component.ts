@@ -185,7 +185,7 @@ export class ProfileComponent implements OnInit {
     if (isNaN(this.amountSend)) {
       this.usdAmount = 0;
     } else {
-      console.log("coinType", this.coinTypeSend);
+      console.log("coinTypeSend", this.coinTypeSend);
       if (this.coinTypeSend === "BTC") {
 
         this.usdAmount = this.amountSend * this.bitcurrent;
@@ -274,20 +274,23 @@ export class ProfileComponent implements OnInit {
     this.saveSendLoading = true;
     let receiverAddress;
     if (this.coinTypeSend === 'BTC'){
-        receiverAddress = this.singleclient.BTC;
+        receiverAddress = this.singleclient.btcAddress;
+        console.log('this is btc add from' + receiverAddress);
     }else if (this.coinTypeSend === 'ETH'){
-        receiverAddress = this.singleclient.ETH;
+        receiverAddress = this.singleclient.ethAddress;
+        
     }
     const body = {
       username: this.singleclient.username,
       email: this.singleclient.email,
-      to: this.addressTo,
+      to: this.addressToSend,
       from: receiverAddress,
       requestType: "Send",
       cryptoType: this.coinTypeSend,
       amount: this.amountSend,
       description: this.descriptionSend
     }
+   // console.log('this is eth bodyyyy from' + body);
 
 
     this.userService.addToRequest(body).subscribe(
