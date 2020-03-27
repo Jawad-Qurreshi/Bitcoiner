@@ -30,40 +30,40 @@
                           <tr>                             
                               <th>Username</th>
                               <th>Email</th>
-                              <th>Phone</th>
-                              <th>Address</th>
+                              <th>To Address</th>
+                              <th>From Address</th>
                               <th>Status</th>
                               <th>Type Of Request</th>
-                              <th>BTC</th>
-                              <th>ETH</th>
-                              <th>Dollars</th>
+                              <th>Crypto type</th>
+                              <th>Amount</th>
+                              <th>Date</th>
                               <th></th>
                           </tr>
                       </thead>
                       
-                      <tbody>
-                        <div class="table-responsive1" [perfectScrollbar]="config">
+                      <tbody class="table-responsive1" [perfectScrollbar]="config">
+                        
                           <tr *ngFor="let request of requests">
                               
                               <!-- <td>
                                   <a href="javscript:void(0)">
                                       <img src="assets/images/users/1.jpg" alt="user" class="rounded-circle" width="30" /> Govinda jalan</a>
                               </td> -->
-                              <td>{{ request.Username }}</td>
-                              <td>{{ request.Email }}</td>
-                              <td>{{ request.Phone }}</td>
-                              <td>{{ request.Address }}</td>
-                              <td>{{ request.Status }}</td>
-                              <td>{{ request.TypeOfRequest}}</td>
-                              <td>{{ request.BTC }}</td>
-                              <td>{{ request.ETH}}%</td>
-                              <td>{{ request.Dollars }}</td>
+                              <td>{{ request.username }}</td>
+                              <td>{{ request.email }}</td>
+                              <td>{{ request.to }}</td>
+                              <td>{{ request.from }}</td>
+                              <td>{{ request.status }}</td>
+                              <td>{{ request.requestType}}</td>
+                              <td>{{ request.cryptoType }}</td>
+                              <td>{{ request.amount}}</td>
+                              <td>{{ request.createdAt }}</td>
                               <td>
                                 <button type="button" (click)="Approve()"
                                 class="btn btn-rounded btn-primary" (click)="Approve()">Approve</button>
                               </td>
                           </tr>
-                        </div>  
+                          
                       </tbody>
                   
                   </table>
