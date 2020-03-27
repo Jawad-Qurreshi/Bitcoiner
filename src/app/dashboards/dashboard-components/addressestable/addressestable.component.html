@@ -29,8 +29,8 @@
                   <table class="table bg-white table-bordered nowrap display">
                       <thead>
                           <tr>
-                              <th>BTCAddress</th>
-                              <th>ETHAddress</th>
+                              <th>Bitcoin Address</th>
+                              <th>Ethereum Address</th>
                           </tr>
                       </thead>
                       <tbody>
@@ -41,8 +41,8 @@
                                   <a href="javscript:void(0)">
                                       <img src="assets/images/users/1.jpg" alt="user" class="rounded-circle" width="30" /> Govinda jalan</a>
                               </td> -->
-                              <td>{{ btcAddress.AddressBTC }}</td>
-                              <td>{{ btcAddress.AddressETH }}</td>
+                              <td>{{ btcAddress.btcAddress }}</td>
+                              <td>{{ btcAddress.ethAddress }}</td>
                           </tr>
                       </tbody>
                   </table>
@@ -62,20 +62,20 @@
                 
       <div class="form-group row ">
           <div class="col-12 ">
-             <input class="form-control form-control-lg"   name="BTC" type="text" formControlName="AddressBTC" placeholder="enter bitcoin wallet address">
+             <input class="form-control form-control-lg"   name="BTC" type="text" formControlName="btcAddress" placeholder="Please enter bitcoin wallet address">
           </div>
       </div>
 
       <div class="form-group row">
           <div class="col-12 ">
-              <input class="form-control form-control-lg" name="ETH" type="text" placeholder="enter ethereum wallet address" formControlName="AddressETH">
+              <input class="form-control form-control-lg" name="ETH" type="text" placeholder="Please enter ethereum wallet address" formControlName="ethAddress">
           </div>
       </div>
 
-  <button class="btn btn-block btn-lg btn-info " type="submit" (click)="SaveToDB()" > Save To Database</button>
+  <!-- //<button class="btn btn-block btn-lg btn-info " type="submit" (click)="SaveToDB()" > Save To Database</button> -->
 </form>
 <ng-template #modalFooter>
   <button nz-button nzType="default" (click)="handleCancel()">Cancel</button>
-  <button nz-button nzType="primary" (click)="handleOk()" [nzLoading]="isConfirmLoading">Done</button>
+  <button nz-button nzType="primary" (click)="handleOk()" [disabled]="btcAddress==''" [disabled]="ethAddress==''" [nzLoading]="isConfirmLoading">Done</button>
 </ng-template>
 </nz-modal>

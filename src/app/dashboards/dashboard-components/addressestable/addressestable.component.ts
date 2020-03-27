@@ -24,11 +24,30 @@ export class AddressestableComponent {
 
   formInitializer() {
     this.addressData = this.fb.group({
-      AddressBTC: ["", Validators.required],
-      AddressETH: ["", Validators.required],
+      btcAddress: ["", Validators.required],
+      ethAddress: ["", Validators.required],
     });
   }
-  SaveToDB(){
+  // SaveToDB(){
+  //   this.userservice.postAddresses(this.addressData.value).subscribe(
+  //     data => {
+  //       console.log("got response from server", data);
+  //       // alert("Registeration Successfull!");
+  //       // this.loading = false;
+  //       console.log('succesfully saved data to db');
+  //     },
+  //     error => {
+  //       console.log("error in save button");
+  //     }
+  //   );
+  // }
+  
+  
+  showmModal(): void {
+    this.is2ndVisible = true;
+  }
+
+  handleOk(): void {
     this.userservice.postAddresses(this.addressData.value).subscribe(
       data => {
         console.log("got response from server", data);
@@ -40,14 +59,6 @@ export class AddressestableComponent {
         console.log("error in save button");
       }
     );
-  }
-  
-  
-  showmModal(): void {
-    this.is2ndVisible = true;
-  }
-
-  handleOk(): void {
     this.isOkLoading = true;
     setTimeout(() => {
       this.is2ndVisible = false;

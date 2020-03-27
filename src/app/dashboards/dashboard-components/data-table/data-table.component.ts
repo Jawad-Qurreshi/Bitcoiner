@@ -18,13 +18,13 @@ export class DatatableComponent implements OnChanges {
   reorderable = true;
 
   columns = [
-    { prop: "Username" },
-    { prop: "Email" },
-    { prop: "Address" },
-    { prop: "Phone" },
-    { prop: "BTC" },
-    { prop: "ETH" },
-    { prop: "Dollars" }
+    { prop: "username" , name:"Username" },
+    { prop: "email" },
+    { prop: "address" },
+    { prop: "phone" },
+    { prop: "btc" },
+    { prop: "eth" },
+    { prop: "dollar" }
   ];
   @Input() clients = [];
   @ViewChild(DatatableComponent, { static: false }) table: DatatableComponent;

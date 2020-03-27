@@ -79,11 +79,11 @@ export class SignupComponent implements OnInit {
     this.loading = true;
     
     const body = {
-      Username: this.username,
-      Password : this.password,
-      Email: this.email,
-      Phone: this.phone,
-      Address: this.address
+      username: this.username,
+      password : this.password,
+      email: this.email,
+      phone: this.phone,
+      address: this.address
     };
 
     this.userService.userRegister(body).subscribe(
