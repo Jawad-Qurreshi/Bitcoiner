@@ -254,7 +254,7 @@ router.post('/sendmail', async (req, res) => {
 /////////////////////////All requests////////////////////////////////////////
 router.post('/request/add', (req, res) => {
   const body = req.body;
-  console.log(body)
+  //console.log(body)
 
   const request = new Request({
     username: body.username,
@@ -273,6 +273,35 @@ router.post('/request/add', (req, res) => {
     .exec()
     .then(async client => {
       request.clientId = client._id;
+      if (body.requestType === 'Send') {
+        const btcCredit = client.btc;
+        const ethCredit = client.eth;
+
+        if (body.cryptoType === 'BTC') {
+
+          if (body.amount < btcCredit) {
+            client.btc -= body.amount;
+          } else {
+            console.log('Not enough BTC!');
+            res.status(400).json({
+              isSuccess: false,
+              message: 'Not enough credit!'
+            })
+          }
+        } else {
+
+          if (body.amount < ethCredit) {
+            client.eth -= body.amount;
+          } else {
+            console.log('Not enough ETH!');
+            res.status(400).json({
+              isSuccess: false,
+              message: 'Not enough credit!'
+            })
+          }
+        }
+      }
+
       const storedRequest = await request.save();
       client.clientRequest.push(storedRequest._id);
       client.save()
@@ -327,40 +356,36 @@ router.delete('/request/:id', function (req, res) {
 })
 
 router.put('/request/approve/:id', async function (req, res) {
-  console.log('update a client of');
-  var request = await Request.findById({ _id: req.params.id }).exec();
-  console.log('This is my id' + req.params.id);
-  request.Status = 'approved';
-  request
-    .save()
+  Request.findById({ _id: req.params.id }).exec()
     .then(request => {
-      res.status().json({
-        request: request
-      })
+      console.log(req.params.id)
+      console.log(request)
+      if (request.requestType == 'Recieve') {
+        if (request.cryptoType == 'BTC') {
+          request.btc += request.amount;
+        } else {
+          request.eth += request.amount;
+        }
+      }
+      request.Status = 'Approved';
+      request.save()
+        .then(request => {
+          res.status().json({
+            request: request
+          })
+        })
+        .catch(err => {
+          res.status(500).json({
+            message: err.message
+          });
+        });
     })
     .catch(err => {
-      res.status(500).json({
-        message: err.message
-      });
-    });
-  // Request.findByIdAndUpdate(req.params.id, {
-  //   $set: {
+      console.log(err)
 
-  //     Status: "Approved"
-  //   }
-  // },
-  //   {
-  //     new: true
-  //   },
-  //   function (err, updatedRequest) {
-  //     console.log('hello');
-  //     if (err) {
-  //       res.send("Error updating client")
-  //     } else {
-  //       res.json(updatedRequest);
-  //     }
-  //   });
-})
+    });
+
+});
 ///////////////////////////login   Signup////////////////////////////////////
 
 router.post('/signup', async (req, res) => {
@@ -532,8 +557,7 @@ router.delete('/client/:id', function (req, res) {
 })
 
 router.get('/clients', function (req, res) {
-  // console.log('get request of all clients');
-  //const allClients = await Client.find();
+
   Client.find({})
     .exec(function (err, clients) {
       if (err) {
@@ -542,8 +566,6 @@ router.get('/clients', function (req, res) {
         res.json(clients);
       }
     });
-  // console.log('allClients', allClients);
-  // res.send(allClients);
 });
 
 router.get('/client/:id', function (req, res) {
