@@ -81,9 +81,9 @@ export class InfoBoxComponent implements OnInit, OnChanges, AfterViewInit {
     //console.log("updateTotalWallet");
 
     if (this.bitcurrent && this.ethcurrent) {
-      this.walletBTC = +this.singleclient.BTC;
-      this.walletETH = +this.singleclient.ETH;
-      this.walletDollars = +this.singleclient.Dollars;
+      this.walletBTC = +this.singleclient.btc;
+      this.walletETH = +this.singleclient.eth;
+      this.walletDollars = +this.singleclient.dollar;
       
       
       this.newethcurrent = +this.ethcurrent;

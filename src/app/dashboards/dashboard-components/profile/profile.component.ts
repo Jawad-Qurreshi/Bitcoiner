@@ -37,7 +37,7 @@ export class ProfileComponent implements OnInit {
   isOkLoading = false;
 
   coinType = 'BTC';
-  coinTypeSend;
+  coinTypeSend =  'ETH';
   coinTypetrade;
 
   amountReceive = 0.0;

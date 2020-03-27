@@ -73,7 +73,7 @@ export class UserService {
   }
 
   public getmyrequest(id: String): Observable<any> {
-    const url = ProjectConfig.getPath() + "/getmyrequests/" + id;
+    const url = ProjectConfig.getPath() + "/request/" + id;
     return this.http.get(url);
   }
 
