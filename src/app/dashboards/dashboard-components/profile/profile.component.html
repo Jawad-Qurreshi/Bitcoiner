@@ -83,7 +83,7 @@
                     <ng-template ngbTabContent>
                         <div class="col-sm-12 col-md-12 col-lg-12">
                             <div class="card">
-                                <div class="card-body">
+                                <div class="card-body" [perfectScrollbar]="config" >
 
                                     <form class="m-t-30">
                                         <div class="form-group">
@@ -113,8 +113,8 @@
                                        
                                         <h6>Please enter total Quantity</h6>
                                         <div class="form-group">
-                                            <input [(ngModel)]="quantityTrade" [ngModelOptions]="{standalone: true}"
-                                                class="form-control" placeholder="$0.00"
+                                            <input [(ngModel)]="quantityTrade" (ngModelChange)="amountChangedtrade()" [ngModelOptions]="{standalone: true}"
+                                                class="form-control" placeholder="0.0"
                                                 aria-describedby="basic-addon1">
                                             <small id="name" class="form-text text-muted">please enter the quantity of
                                                 the BTC/ETH</small>
@@ -141,7 +141,7 @@
                                         <div class="form-group">
                                             <input type="text" [(ngModel)]="Change"
                                                 [ngModelOptions]="{standalone: true}" class="form-control"
-                                                id="nametext1" placeholder="$0.00" disabled>
+                                                id="nametext1" placeholder="Calculated change from market" disabled>
                                         </div>
                                         <h6 class="card-title">Description</h6>
                                         <div class="m-t-20">

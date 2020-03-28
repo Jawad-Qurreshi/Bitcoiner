@@ -9,13 +9,16 @@ import { Component, Input, OnChanges, OnInit, Output } from "@angular/core";
 import { NzMessageService } from "ng-zorro-antd";
 import { Router } from "@angular/router";
 import { UserService } from "sdk/user.service";
+import { PerfectScrollbarConfigInterface } from "ngx-perfect-scrollbar";
 
 @Component({
   selector: "app-profile",
   templateUrl: "profile.component.html",
+  styleUrls: ["./profile.component.css"],
   providers: [UserService]
 })
 export class ProfileComponent implements OnInit {
+  public config: PerfectScrollbarConfigInterface = {};
   selectedRequest: String = '';
   buyerdata: any = [];
   types: any = [
@@ -322,7 +325,6 @@ export class ProfileComponent implements OnInit {
     let receiverAddress
     if (this.cryptoTypeTrade === 'BTC') {
       receiverAddress = this.singleclient.btcAddress;
-      console.log('this is btc add from' + receiverAddress);
     } else if (this.cryptoTypeTrade === 'ETH') {
       receiverAddress = this.singleclient.ethAddress;
     }
@@ -339,11 +341,10 @@ export class ProfileComponent implements OnInit {
       
       this.userService.addOneBuyer(body).subscribe(
         data => {
-          console.log("got response from server", data);
           this.message.success("Buying request send!");
           this.resetData();
         },error => {
-          this.message.error("Unable to set request");
+          this.message.error("Unable to set Buying request");
         }
       )
     }
@@ -361,10 +362,10 @@ export class ProfileComponent implements OnInit {
       this.userService.addOneSeller(body).subscribe(
         data => {
           console.log("got response from server", data);
-          this.message.success("Buying request send!");
+          this.message.success("Selling request send!");
           this.resetData();
         },error => {
-          this.message.error("Unable to set request");
+          this.message.error("Unable to set Selling request");
         }
       )
     }
@@ -379,5 +380,9 @@ export class ProfileComponent implements OnInit {
     this.addressToSend = '';
     this.addressTo = '';
     this.addressFrom = '';
+    this.cryptoTypeTrade = '';
+    this.amountTrade = 0;
+    this.quantityTrade = 0;
+    this.descriptionTrade='';
   }
 }
