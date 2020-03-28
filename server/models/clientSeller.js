@@ -7,7 +7,6 @@ const ClientSeller = new Schema({
     cryptoType: String,
     price: Intl,
     walletAddress: String,
-    quantity: Intl,
     description: String,
     clientId: { type: Schema.Types.ObjectId, ref: 'clients' }
 });

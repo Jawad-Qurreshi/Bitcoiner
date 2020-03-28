@@ -136,10 +136,10 @@ router.post('/seller/add', async (req, res) => {
     name: body.name,
     cryptoType: body.cryptoType,
     price: body.price,
-    quantity: body.quantity,
     walletAddress: body.walletAddress,
     clientId: body.clientId,
-    message: body.message
+    message: body.message,
+    description: body.description
   });
   newseller.save()
     .then(result => {
@@ -185,8 +185,7 @@ router.post('/sendmail', async (req, res) => {
     let pass = "";
     console.log("my client email", body.email);
     const result = await Client.findOne({ "Email": body.email });
-    if (!result) 
-    {
+    if (!result) {
       res.status(401).send({
         Error: 'This user doesnot exists. Please signup first'
       });
