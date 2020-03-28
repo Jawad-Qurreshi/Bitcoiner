@@ -25,12 +25,12 @@ export class UserService {
     return this.http.get(url);
   }
 
-  public addBuyer(credentials: object): Observable<any> {
+  public addOneBuyer(credentials: object): Observable<any> {
     const url = ProjectConfig.getPath() + "/buyer/add";
     //return this.http.get(url, credentials);
     return this.http.post(url, credentials);
   }
-  public addSeller(credentials: object): Observable<any> {
+  public addOneSeller(credentials: object): Observable<any> {
     const url = ProjectConfig.getPath() + "/seller/add";
     //return this.http.get(url, credentials);
     return this.http.post(url, credentials);

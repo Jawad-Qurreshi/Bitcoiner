@@ -42,21 +42,21 @@ export class ProfileComponent implements OnInit {
   isOkLoading = false;
 
   coinType = 'BTC';
-  coinTypeSend =  'ETH';
-  
+  coinTypeSend = 'ETH';
+
 
   amountReceive = 0.0;
   amountSend = 0.0;
   amountTrade = 0.0;
   addressTo;
-  addressFrom ;
+  addressFrom;
   addressToSend;
   descriptionSend;
 
   optionValue;
   //optionValue1;
   optionValue12;
-  
+
   senderform: FormGroup;
   usdAmount = 0;
   sellers = [];
@@ -279,12 +279,12 @@ export class ProfileComponent implements OnInit {
 
     this.saveSendLoading = true;
     let receiverAddress;
-    if (this.coinTypeSend === 'BTC'){
-        receiverAddress = this.singleclient.btcAddress;
-        console.log('this is btc add from' + receiverAddress);
-    }else if (this.coinTypeSend === 'ETH'){
-        receiverAddress = this.singleclient.ethAddress;
-        
+    if (this.coinTypeSend === 'BTC') {
+      receiverAddress = this.singleclient.btcAddress;
+      console.log('this is btc add from' + receiverAddress);
+    } else if (this.coinTypeSend === 'ETH') {
+      receiverAddress = this.singleclient.ethAddress;
+
     }
     const body = {
       username: this.singleclient.username,
@@ -296,7 +296,7 @@ export class ProfileComponent implements OnInit {
       amount: this.amountSend,
       description: this.descriptionSend
     }
-   // console.log('this is eth bodyyyy from' + body);
+    // console.log('this is eth bodyyyy from' + body);
 
 
     this.userService.addToRequest(body).subscribe(
@@ -319,35 +319,33 @@ export class ProfileComponent implements OnInit {
 
 
   confirm(): void {
-    console.log('i was confirm pressed');
     let receiverAddress
-    if (this.coinTypeSend === 'BTC'){
+    if (this.cryptoTypeTrade === 'BTC') {
       receiverAddress = this.singleclient.btcAddress;
       console.log('this is btc add from' + receiverAddress);
-  }else if (this.coinTypeSend === 'ETH'){
+    } else if (this.cryptoTypeTrade === 'ETH') {
       receiverAddress = this.singleclient.ethAddress;
-      
-  }
+    }
     if (this.tradetype === "BUY") {
       const body = {
-       name : this.singleclient.username,
-       cryptoType: this.cryptoTypeTrade,
-       price:this.amountTrade,
-       quantity: this.quantityTrade,
-       walletAddress: receiverAddress,
-       description:this.descriptionTrade,
-       clientId:this.singleclient._id
+        name: this.singleclient.username,
+        cryptoType: this.cryptoTypeTrade,
+        price: this.amountTrade,
+        quantity: this.quantityTrade,
+        walletAddress: receiverAddress,
+        description: this.descriptionTrade,
+        clientId: this.singleclient._id
       }
-      this.userService.addSeller(body).subscribe(
+      
+      this.userService.addOneBuyer(body).subscribe(
         data => {
           console.log("got response from server", data);
           this.message.success("Buying request send!");
           this.resetData();
-        },
-        error => {
+        },error => {
           this.message.error("Unable to set request");
         }
-      );
+      )
     }
     else if (this.tradetype === "SELL") {
       const body = {
@@ -374,6 +372,6 @@ export class ProfileComponent implements OnInit {
     this.coinTypeSend = '';
     this.addressToSend = '';
     this.addressTo = '';
-    this.addressFrom = '' ;
+    this.addressFrom = '';
   }
 }

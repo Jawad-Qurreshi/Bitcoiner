@@ -102,7 +102,7 @@
                                         </div>
                                         <h6>CryptoType:</h6>
                                         <div class="form-group m-b-30">
-                                            <select [(ngModel)]="cryptoTypeTrade" class="custom-select mr-sm-2"
+                                            <select [(ngModel)]="cryptoTypeTrade"  [ngModelOptions]="{standalone: true}" class="custom-select mr-sm-2"
                                                 id="inlineFormCustomSelect">
                                                 <option value="BTC">Bitcoin</option>
                                                 <option value="ETH">Ethereum</option>
@@ -145,10 +145,9 @@
                                         </div>
                                         <h6 class="card-title">Description</h6>
                                         <div class="m-t-20">
-                                            <textarea class="form-control" type="text" [(ngModel)]="descriptionSend" [ngModelOptions]="{standalone: true}" rows="3" placeholder="Text Here..."></textarea>
+                                            <textarea class="form-control" type="text" [(ngModel)]="descriptionTrade" [ngModelOptions]="{standalone: true}" rows="3" placeholder="Text Here..."></textarea>
                                         </div>
-
-                                        
+                                        <br>
                                         <div class="col-4 col-lg-2 col-md-4">
                                             <button type="button" class="btn btn-rounded btn-block btn-success"
                                                 (click)="confirm()">confirm</button>
