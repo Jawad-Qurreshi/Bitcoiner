@@ -75,29 +75,36 @@ router.get('/ethapi', function (req, res) {
 });
 
 ////////////////////////////Buyers////////////////////////////////
-router.post('/Addtobuyers', async (req, res) => {
+router.post('/buyer/add', async (req, res) => {
+  const body = req.body;
 
-  const newbuyer = new ClientBuyer();
+  const newbuyer = new ClientBuyer({
+    name: body.name,
+    cryptoType: body.cryptoType,
+    price: body.price,
+    quantity: body.quantity,
+    walletAddres: body.walletAddress,
+    description: body.description,
+    clientId: body.clientId
+  });
 
-  newbuyer.Name = req.body.Name;
-  newbuyer.Type_of_currency = req.body.Type_of_currency;
-  newbuyer.Price = req.body.Price;
-  newbuyer.Quantity = req.body.Quantity;
-  newbuyer.Change = req.body.Change;
-  newbuyer.Wallet = req.body.Wallet;
+  newbuyer.save()
+    .then(result => {
+      res.status(201).json({
+        message: 'Request Posted!',
+        isSuccess: true
+      });
+    })
+    .catch(err => {
+      res.status(500).json({
+        message: err.message,
+        isSuccess: false
+      });
+    });
 
-  await newbuyer.save(function (err, insertedBuyer) {
-    if (err) {
-      console.log('error while saving new buyer in api.js');
-      // res.json(newClient);
-    } else {
-      res.json(insertedBuyer);
-    }
-  }
-  );
 });
 
-router.get('/ShowAllBuyers', function (req, res) {
+router.get('/buyer/all', function (req, res) {
   //const allClients = await Client.find();
   ClientBuyer.find({})
     .exec(function (err, ClientBuyer) {
@@ -109,7 +116,7 @@ router.get('/ShowAllBuyers', function (req, res) {
     })
 })
 
-router.delete('/DeleteBuyer/:id', function (req, res) {
+router.delete('/buyer/:id', function (req, res) {
   console.log('Deleting a buyer');
   ClientBuyer.findByIdAndRemove(req.params.id, function (err, deletedBuyer) {
     if (err) {
@@ -121,7 +128,7 @@ router.delete('/DeleteBuyer/:id', function (req, res) {
 });
 
 ////////////////////////////Sellers//////////////////////////////////
-router.post('/Addtosellers', async (req, res) => {
+router.post('/seller/add', async (req, res) => {
 
   const newseller = new ClientSeller();
 
@@ -160,7 +167,7 @@ router.post('/Addtosellers', async (req, res) => {
 
 // });
 
-router.get('/ShowAllSellers', function (req, res) {
+router.get('/seller/all', function (req, res) {
   //const allClients = await Client.find();
   ClientSeller.find({})
     .exec(function (err, ClientSeller) {
@@ -172,7 +179,7 @@ router.get('/ShowAllSellers', function (req, res) {
     })
 })
 
-router.delete('/DeleteSeller/:id', function (req, res) {
+router.delete('/seller/:id', function (req, res) {
   console.log('Deleting a client');
   ClientSeller.findByIdAndRemove(req.params.id, function (err, deletedSeller) {
     if (err) {
@@ -411,7 +418,6 @@ router.put('/request/approve/:id', async function (req, res) {
           });
 
       } else {
-        console.log('Request Already Approved!')
         return res.status(400).json({
           isSuccess: false,
           message: 'Request Already Approved!'
@@ -521,7 +527,7 @@ router.post('/address/add', async (req, res) => {
         .then(address => {
           res.status(201).json({
             isSuccess: true,
-            message: 'Address Added!'
+            message: 'Addresses Added!'
           });
         })
         .catch(err => {
@@ -545,8 +551,7 @@ router.post('/address/add', async (req, res) => {
 });
 
 router.get('/address/all', function (req, res) {
-  // console.log('get request of all clients');
-  //const allClients = await Client.find();
+
   BtcAddress.find({})
     .exec(function (err, btcaddresses) {
       if (err) {
@@ -555,8 +560,6 @@ router.get('/address/all', function (req, res) {
         res.status(200).json(btcaddresses);
       }
     });
-  // console.log('allClients', allClients);
-  // res.send(allClients);
 });
 
 ////////////////////////////////Clients///////////////////////////////////////////
@@ -663,11 +666,10 @@ router.post('/sendmyrequest/:id', async (req, res) => {
   nc.ClientRequest.push(newreq._id);
 
   await nc.save();
-  // nc.ClientRequest.push();
+
 });
 
-//dill main ajeeb si hulchal hai lagta hai k tou naraz hai
-//hum pr bhi tou nazare kram kr yeh khan ka insaf hai
+
 
 router.get('/request/:id', async (req, res) => {
   let userid = req.params.id;
@@ -691,7 +693,3 @@ router.get('/request/:id', async (req, res) => {
 
 
 module.exports = router;
-function newFunction() {
-  return "mongodb+srv://mybitcoiner:123456789db@cluster0-8jh11.mongodb.net/test?retryWrites=true&w=majority";
-}
-
