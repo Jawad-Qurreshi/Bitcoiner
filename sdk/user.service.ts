@@ -14,16 +14,39 @@ export class UserService {
   //private url1 = ProjectConfig.getPath() + "/api/clients";
 
   public getallsellers(): Observable<any> {
-    const url = ProjectConfig.getPath() + "/ShowAllSellers";
+    const url = ProjectConfig.getPath() + "/seller/all";
     //return this.http.get(url, credentials);
     return this.http.get(url);
   }
 
   public getallbuyers(): Observable<any> {
-    const url = ProjectConfig.getPath() + "/ShowAllBuyers";
+    const url = ProjectConfig.getPath() + "/buyer/all";
     //return this.http.get(url, credentials);
     return this.http.get(url);
   }
+
+  public addOneBuyer(credentials: object): Observable<any> {
+    const url = ProjectConfig.getPath() + "/buyer/add";
+    //return this.http.get(url, credentials);
+    return this.http.post(url, credentials);
+  }
+  public addOneSeller(credentials: object): Observable<any> {
+    const url = ProjectConfig.getPath() + "/seller/add";
+    //return this.http.get(url, credentials);
+    return this.http.post(url, credentials);
+  }
+
+  public deleteBuyer(id: String): Observable<any> {
+    const url = ProjectConfig.getPath() + "/buyer/" + id;
+    return this.http.get(url);
+  }
+  public deleteSeller(id: String): Observable<any> {
+    const url = ProjectConfig.getPath() + "/seller/" + id;
+    return this.http.get(url);
+  }
+
+
+
 
   public getallrequests(): Observable<any> {
     const url = ProjectConfig.getPath() + "/request/all";
@@ -64,8 +87,6 @@ export class UserService {
   public gettheclient(id: String): Observable<any> {
     const url = ProjectConfig.getPath() + "/client/" + id;
     return this.http.get(url);
-
-    //return this.http.get(url);
   }
   public sendrequest(id: String, credentials: object): Observable<any> {
     const url = ProjectConfig.getPath() + "/sendmyrequest/" + id;
@@ -112,11 +133,11 @@ export class UserService {
   }
 
 
-  public receiveCoins(body: object): Observable<any> {
-    const url = ProjectConfig.getPath() + "/receivecoins";
+  // public receiveCoins(body: object): Observable<any> {
+  //   const url = ProjectConfig.getPath() + "/receivecoins";
 
-    return this.http.post(url, body);
-  }
+  //   return this.http.post(url, body);
+  // }
   public setethaddreser(credentials: object): Observable<any> {
     const url = ProjectConfig.getPath() + "/ethaddress";
 

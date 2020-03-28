@@ -90,28 +90,27 @@
                                             <input type="text" class="form-control" id="nametext1"
                                                 placeholder={{singleclient.username}} disabled>
                                         </div>
-                                        <br>
+                                        
                                         <h6>I want to:</h6>
                                         <div class="form-group m-b-30">
-                                            <label class="mr-sm-2" for="inlineFormCustomSelect">Select the type of
-                                                trade</label>
-                                            <select [(ngModel)]="tradetype" class="custom-select mr-sm-2"
+                                            <select [(ngModel)]="tradetype" class="custom-select mr-sm-2" [ngModelOptions]="{standalone: true}"
                                                 id="inlineFormCustomSelect">
                                                 <option value="BUY">Buy</option>
                                                 <option value="SELL">Sell</option>
                                             </select>
+                                            <small id="name" class="form-text text-muted">Select the type of trade</small>
                                         </div>
-                                        <br>
+                                        <h6>CryptoType:</h6>
                                         <div class="form-group m-b-30">
-                                            <label class="mr-sm-2" for="inlineFormCustomSelect">Select the type of
-                                                currency</label>
-                                            <select [(ngModel)]="coinTypetrade" class="custom-select mr-sm-2"
+                                            <select [(ngModel)]="cryptoTypeTrade"  [ngModelOptions]="{standalone: true}" class="custom-select mr-sm-2"
                                                 id="inlineFormCustomSelect">
                                                 <option value="BTC">Bitcoin</option>
                                                 <option value="ETH">Ethereum</option>
                                             </select>
+                                            <small id="name" class="form-text text-muted">Select the type of
+                                                currency</small>
                                         </div>
-                                        <br>
+                                       
                                         <h6>Please enter total Quantity</h6>
                                         <div class="form-group">
                                             <input [(ngModel)]="quantityTrade" [ngModelOptions]="{standalone: true}"
@@ -120,7 +119,7 @@
                                             <small id="name" class="form-text text-muted">please enter the quantity of
                                                 the BTC/ETH</small>
                                         </div>
-                                        <br>
+                                       
                                         <h6>Please enter the price of one</h6>
                                         <div class="form-group">
                                             <input [(ngModel)]="amountTrade" (ngModelChange)="amountChangedtrade()"
@@ -130,7 +129,7 @@
                                                 dollars of per quantity
                                                 BTC/ETH</small>
                                         </div>
-                                        <br>
+                                        
                                         <div class="form-group">
                                             <input type="text" [(ngModel)]="totalUsdAmount"
                                                 [ngModelOptions]="{standalone: true}" class="form-control"
@@ -143,11 +142,15 @@
                                             <input type="text" [(ngModel)]="Change"
                                                 [ngModelOptions]="{standalone: true}" class="form-control"
                                                 id="nametext1" placeholder="$0.00" disabled>
-
                                         </div>
+                                        <h6 class="card-title">Description</h6>
+                                        <div class="m-t-20">
+                                            <textarea class="form-control" type="text" [(ngModel)]="descriptionTrade" [ngModelOptions]="{standalone: true}" rows="3" placeholder="Text Here..."></textarea>
+                                        </div>
+                                        <br>
                                         <div class="col-4 col-lg-2 col-md-4">
                                             <button type="button" class="btn btn-rounded btn-block btn-success"
-                                                (click)="confirm">confirm</button>
+                                                (click)="confirm()">confirm</button>
                                         </div>
                                     </form>
                                 </div>
