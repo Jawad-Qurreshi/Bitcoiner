@@ -83,7 +83,7 @@ router.post('/buyer/add', async (req, res) => {
     cryptoType: body.cryptoType,
     price: body.price,
     quantity: body.quantity,
-    walletAddres: body.walletAddress,
+    walletAddress: body.walletAddress,
     description: body.description,
     clientId: body.clientId
   });
