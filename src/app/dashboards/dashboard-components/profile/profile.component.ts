@@ -261,6 +261,7 @@ export class ProfileComponent implements OnInit {
         this.resetData();
       },
       error => {
+        console.log(error.message);
         this.saveReceivedLoading = false;
         this.is2ndVisible = false;
         this.message.error("Unable to pay");

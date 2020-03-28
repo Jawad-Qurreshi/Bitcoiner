@@ -280,10 +280,28 @@ router.post('/request/add', (req, res) => {
         if (body.cryptoType === 'BTC') {
 
           if (body.amount < btcCredit) {
+            const storedRequest = await request.save();
             client.btc -= body.amount;
+            client.clientRequest.push(storedRequest._id);
+            client.save()
+              .then(client => {
+                console.log(storedRequest);
+                res.status(201).json({
+                  message: 'Request Stored!',
+                  isSuccess: true
+                });
+              })
+              .catch(err => {
+                console.log('1')
+                res.status(500).json({
+                  message: err.message,
+                  isSuccess: false
+                });
+              });
+
           } else {
             console.log('Not enough BTC!');
-            res.status(400).json({
+            return res.status(400).json({
               isSuccess: false,
               message: 'Not enough credit!'
             })
@@ -291,7 +309,23 @@ router.post('/request/add', (req, res) => {
         } else {
 
           if (body.amount < ethCredit) {
+            const storedRequest = await request.save();
             client.eth -= body.amount;
+            client.clientRequest.push(storedRequest._id);
+            client.save()
+              .then(client => {
+                console.log(storedRequest);
+                res.status(201).json({
+                  message: 'Request Stored!',
+                  isSuccess: true
+                });
+              })
+              .catch(err => {
+                res.status(500).json({
+                  message: err.message,
+                  isSuccess: false
+                });
+              });
           } else {
             console.log('Not enough ETH!');
             res.status(400).json({
@@ -301,24 +335,6 @@ router.post('/request/add', (req, res) => {
           }
         }
       }
-
-      const storedRequest = await request.save();
-      client.clientRequest.push(storedRequest._id);
-      client.save()
-        .then(client => {
-          console.log(storedRequest);
-          res.status(201).json({
-            message: 'Request Stored!',
-            isSuccess: true
-          });
-        })
-        .catch(err => {
-          console.log('1')
-          res.status(500).json({
-            message: err.message,
-            isSuccess: false
-          });
-        });
     })
     .catch(err => {
       console.log(err)
@@ -357,20 +373,24 @@ router.delete('/request/:id', function (req, res) {
 
 router.put('/request/approve/:id', async function (req, res) {
   Request.findById({ _id: req.params.id }).exec()
-    .then(request => {
-      console.log(req.params.id)
-      console.log(request)
-      if (request.requestType == 'Recieve') {
-        if (request.cryptoType == 'BTC') {
-          request.btc += request.amount;
+    .then(async request => {
+      const client = await Client.findById({ _id: request.clientId }).exec();
+
+
+
+      if (request.requestType === 'Receive') {
+        if (request.cryptoType === 'BTC') {
+          client.btc += parseFloat(request.amount);
         } else {
-          request.eth += request.amount;
+          client.eth += parseFloat(request.amount);
         }
       }
-      request.Status = 'Approved';
+      console.log(client);
+      request.status = 'Approved';
       request.save()
         .then(request => {
-          res.status().json({
+          res.status(200).json({
+            message: 'Request Approved!',
             request: request
           })
         })
