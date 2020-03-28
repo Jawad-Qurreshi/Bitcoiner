@@ -30,6 +30,11 @@ export class ProfileComponent implements OnInit {
   quantityTrade;
   tradetype;
   totalUsdAmount;
+  price;
+  walletAddress;
+  cryptoTypeTrade;
+  descriptionTrade;
+
 
 
   isVisible = false;
@@ -38,7 +43,7 @@ export class ProfileComponent implements OnInit {
 
   coinType = 'BTC';
   coinTypeSend =  'ETH';
-  coinTypetrade;
+  
 
   amountReceive = 0.0;
   amountSend = 0.0;
@@ -51,7 +56,7 @@ export class ProfileComponent implements OnInit {
   optionValue;
   //optionValue1;
   optionValue12;
-  price;
+  
   senderform: FormGroup;
   usdAmount = 0;
   sellers = [];
@@ -314,19 +319,35 @@ export class ProfileComponent implements OnInit {
 
 
   confirm(): void {
+    console.log('i was confirm pressed');
+    let receiverAddress
+    if (this.coinTypeSend === 'BTC'){
+      receiverAddress = this.singleclient.btcAddress;
+      console.log('this is btc add from' + receiverAddress);
+  }else if (this.coinTypeSend === 'ETH'){
+      receiverAddress = this.singleclient.ethAddress;
+      
+  }
     if (this.tradetype === "BUY") {
       const body = {
-        Username: this.singleclient.Username,
-        Email: this.singleclient.Email,
-        Phone: this.singleclient.Phone,
-        Address: this.singleclient.Address,
-        Status: "under process",
-        TypeOfCurrency: this.coinType,
-        TypeOfRequest: "BUY",
-        BTC: this.singleclient.BTC,
-        ETC: this.singleclient.ETC,
-        Dollars: this.singleclient.Dollars
+       name : this.singleclient.username,
+       cryptoType: this.cryptoTypeTrade,
+       price:this.amountTrade,
+       quantity: this.quantityTrade,
+       walletAddress: receiverAddress,
+       description:this.descriptionTrade,
+       clientId:this.singleclient._id
       }
+      this.userService.addSeller(body).subscribe(
+        data => {
+          console.log("got response from server", data);
+          this.message.success("Buying request send!");
+          this.resetData();
+        },
+        error => {
+          this.message.error("Unable to set request");
+        }
+      );
     }
     else if (this.tradetype === "SELL") {
       const body = {
