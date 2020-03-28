@@ -67,6 +67,7 @@ import { Component, Input } from '@angular/core';
 import { UserService } from 'sdk/user.service';
 import { NzMessageService } from "ng-zorro-antd";
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
+import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 
 @Component({
   selector: "app-seller-table",
@@ -74,6 +75,7 @@ import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 })
 
 export class SellertableComponent {
+  public config: PerfectScrollbarConfigInterface = {};
 
   loading = false;
   public clicked = false;

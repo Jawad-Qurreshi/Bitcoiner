@@ -37,6 +37,7 @@ export class ProfileComponent implements OnInit {
   walletAddress;
   cryptoTypeTrade;
   descriptionTrade;
+  Change;
 
 
 
@@ -380,9 +381,12 @@ export class ProfileComponent implements OnInit {
     this.addressToSend = '';
     this.addressTo = '';
     this.addressFrom = '';
-    this.cryptoTypeTrade = '';
-    this.amountTrade = 0;
-    this.quantityTrade = 0;
-    this.descriptionTrade='';
+    // this.cryptoTypeTrade = '';
+    // this.amountTrade = 0;
+    // this.quantityTrade = 0;
+    // this.descriptionTrade='';
+    // this.Change = 0;
+    // this.totalUsdAmount = 0;
+    this.ngOnInit();
   }
 }
