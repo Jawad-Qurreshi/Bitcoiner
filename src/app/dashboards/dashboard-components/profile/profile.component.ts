@@ -349,18 +349,24 @@ export class ProfileComponent implements OnInit {
     }
     else if (this.tradetype === "SELL") {
       const body = {
-        Username: this.singleclient.Username,
-        Email: this.singleclient.Email,
-        Phone: this.singleclient.Phone,
-        Address: this.singleclient.Address,
-        Status: "under process",
-        TypeOfCurrency: this.coinType,
-        TypeOfRequest: "Sell",
-        BTC: this.singleclient.BTC,
-        ETC: this.singleclient.ETC,
-        Dollars: this.singleclient.Dollars
+        name: this.singleclient.username,
+        cryptoType: this.cryptoTypeTrade,
+        price: this.amountTrade,
+        quantity: this.quantityTrade,
+        walletAddress: receiverAddress,
+        description: this.descriptionTrade,
+        clientId: this.singleclient._id
       }
-
+      
+      this.userService.addOneSeller(body).subscribe(
+        data => {
+          console.log("got response from server", data);
+          this.message.success("Buying request send!");
+          this.resetData();
+        },error => {
+          this.message.error("Unable to set request");
+        }
+      )
     }
 
   }

@@ -43,11 +43,11 @@
                                   <a href="javscript:void(0)">
                                       <img src="assets/images/users/1.jpg" alt="user" class="rounded-circle" width="30" /> Govinda jalan</a>
                               </td> -->
-                              <td>{{ buyer.Name }}</td>
-                              <td>{{ buyer.Type_of_currency }}</td>
-                              <td>${{ buyer.Price }}</td>
-                              <td>${{ buyer.Quantity }}</td>
-                              <td>{{ buyer.Change}}%</td>
+                              <td>{{ buyer.name }}</td>
+                              <td>{{ buyer.cryptoType }}</td>
+                              <td>{{ buyer.price }}</td>
+                              <td>{{ buyer.quantity }}</td>
+                              <td>{{ "hi"}}%</td>
                               <td>
                                 <button type="button" (click)="showModal()"
                                 class="btn btn-rounded btn-primary">Sell</button>
@@ -61,9 +61,7 @@
       </div>
   </div>
 </div>
-<nz-modal [(nzVisible)]="is2ndVisible" nzTitle="Buy" 
-(nzOnCancel)="handleCancel()"
- (nzOnOk)="handleOk()"
+<nz-modal [(nzVisible)]="is2ndVisible" nzTitle="Buy" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()"
     [nzOkLoading]="isOkLoading"
     [nzFooter]="modalFooter">
     
@@ -71,7 +69,7 @@
                 
       <div class="form-group row ">
           <div class="col-12 ">
-          <label>{{buyers.Name}}
+          <label>{{buyers.name}}
           </label>   
           </div>
       </div>
@@ -82,7 +80,7 @@
           </div>
       </div>
 
-  <button class="btn btn-block btn-lg btn-info " type="submit" (click)="SaveToDB()" > Save To Database</button>
+  
 </form>
 <ng-template #modalFooter>
   <button nz-button nzType="default" (click)="handleCancel()">Cancel</button>
