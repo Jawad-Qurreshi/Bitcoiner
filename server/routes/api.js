@@ -105,15 +105,21 @@ router.post('/buyer/add', async (req, res) => {
 });
 
 router.get('/buyer/all', function (req, res) {
-  //const allClients = await Client.find();
+
   ClientBuyer.find({})
-    .exec(function (err, ClientBuyer) {
-      if (err) {
-        console.log('Error while retrieving All buyer in api.js');
-      } else {
-        res.json(ClientBuyer);
-      }
+    .exec()
+    .then(result => {
+      res.status(200).json({
+        buyers: result,
+        isSuccess: true
+      });
     })
+    .catch(err => {
+      res.status(500).json({
+        message: err.message,
+        isSuccess: false
+      })
+    });
 })
 
 router.delete('/buyer/:id', function (req, res) {
