@@ -14,7 +14,7 @@ const nodemailer = require('nodemailer')
 
 //const db = "mongodb://localhost:27017/bitcoinerDB";
 const db = "mongodb+srv://mybitcoiner:123456789db@cluster0-8jh11.mongodb.net/test?retryWrites=true&w=majority"
-//const db newFunction()y";
+
 mongoose.Promise = global.Promise;
 mongoose.set('useFindAndModify', false);
 
@@ -30,9 +30,7 @@ router.get('/', function (req, res) {
 
 router.get('/allclients', async (req, res) => {
 
-  const allClients = await Client.find();
-  console.log('allClients', allClients);
-
+  const allClients = await Client.find({}).exec();
 });
 
 ///////////////////////////////////BIT API/////////////////////////////////////
@@ -109,10 +107,7 @@ router.get('/buyer/all', function (req, res) {
   ClientBuyer.find({})
     .exec()
     .then(result => {
-      res.status(200).json(result);
-      result.quantity = parseFloat(result.quantity);
-      result.price = parseFloat(result.price);
-      console.log(result);
+      res.status(200).json(result); //Dislaimer: Don't Change
     })
     .catch(err => {
       res.status(500).json({
@@ -135,46 +130,34 @@ router.delete('/buyer/:id', function (req, res) {
 
 ////////////////////////////Sellers//////////////////////////////////
 router.post('/seller/add', async (req, res) => {
+  const body = req.body;
 
-  const newseller = new ClientSeller();
-
-  newseller.Name = req.body.Name;
-  newseller.Type_of_currency = req.body.Type_of_currency;
-  newseller.Price = req.body.Price;
-  newseller.Limit = req.body.Limit;
-  newseller.Change = req.body.Change;
-  newseller.Wallet = req.body.Wallet;
-
-  await newseller.save(function (err, insertedSeller) {
-    if (err) {
-      console.log('error while saving Seller in api.js');
-      // res.json(newClient);
-    } else {
-      res.json(insertedSeller);
-    }
-  }
-  );
+  const newseller = new ClientSeller({
+    name: body.name,
+    cryptoType: body.cryptoType,
+    price: body.price,
+    quantity: body.quantity,
+    walletAddress: body.walletAddress,
+    clientId: body.clientId,
+    message: body.message
+  });
+  newseller.save()
+    .then(result => {
+      res.status(201).json({
+        message: 'Sell Posted!',
+        isSuccess: true
+      });
+    })
+    .catch(err => {
+      res.status(500).json({
+        message: err.message,
+        isSuccess: false
+      });
+    });
 });
-// router.post('/receivecoins', async (req, res) => {
 
-//   const body = req.body;
-//   //console.log('body', body);
-
-//   try {
-//     const result = await ClientRequest.create(body);
-//     //console.log('result->', result);
-//     res.send({ code: 200, data: result });
-
-//   }
-//   catch (ex) {
-//     //console.log('ex->', ex);
-//     res.send({ code: 500, error: ex });
-//   }
-
-// });
 
 router.get('/seller/all', function (req, res) {
-  //const allClients = await Client.find();
   ClientSeller.find({})
     .exec(function (err, ClientSeller) {
       if (err) {
@@ -182,7 +165,7 @@ router.get('/seller/all', function (req, res) {
       } else {
         res.json(ClientSeller);
       }
-    })
+    });
 })
 
 router.delete('/seller/:id', function (req, res) {
@@ -202,7 +185,7 @@ router.post('/sendmail', async (req, res) => {
     let pass = "";
     console.log("my client email", body.email);
     const result = await Client.findOne({ "Email": body.email });
-    if (!result) // this means result is null
+    if (!result) 
     {
       res.status(401).send({
         Error: 'This user doesnot exists. Please signup first'
@@ -210,7 +193,6 @@ router.post('/sendmail', async (req, res) => {
     }
     else {
       pass = result.Password;
-      console.log(pass);
       var transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
@@ -240,29 +222,6 @@ router.post('/sendmail', async (req, res) => {
     console.log('ex', ex)
   }
 });
-
-// router.put('/client/:id',function(req,res){
-//   console.log('update a client');
-//   Request.findByIdAndUpdate(req.params.id,{
-//       $set: {username: req.body.username,
-//          email: req.body.email,
-//           password: req.body.password,
-//           phone: req.body.phone,
-//           //DOB: req.body.DOB,
-//           Address: req.body.Address,
-//       }
-//   },
-//   {
-//       new: true
-//   },
-//   function(err, updatedRequest){
-//       if(err){
-//           res.send("Error updating client")
-//       }else{
-//           res.json(updatedRequest);
-//       }
-//   });
-// })
 
 /////////////////////////All requests////////////////////////////////////////
 router.post('/request/add', (req, res) => {
@@ -646,37 +605,6 @@ router.get('/singleclient/:id', function (req, res) {
 
 ///////////////////////////////////////////////////////////////////////////
 
-
-router.post('/sendmyrequest/:id', async (req, res) => {
-  let userid = req.params.id;
-
-  const nc = await Client.findById(userid);
-  //console.log('this is client id',nc);
-  const newreq = new ClientRequest();
-  newreq.status = 'under process';
-  newreq.request_type = req.body.request_type;
-  newreq.crypto_type = req.body.crypto_type;
-  newreq.amount = req.body.amount;
-  newreq.date = new Date();
-  newreq.client = req.params.id;
-
-  await newreq.save(function (err, insertedRequest) {
-    if (err) {
-      console.log('error while saving my request');
-      // res.json(newClient);
-    } else {
-      res.json(insertedRequest);
-    }
-  }
-  );
-  nc.ClientRequest.push(newreq._id);
-
-  await nc.save();
-
-});
-
-
-
 router.get('/request/:id', async (req, res) => {
   let userid = req.params.id;
 
@@ -689,13 +617,9 @@ router.get('/request/:id', async (req, res) => {
           message: err.message
         });
       } else {
-        res.json(myrequest);
-        console.log(myrequest)
+        res.status(200).json(myrequest);
       }
     });
 });
-
-
-
 
 module.exports = router;
