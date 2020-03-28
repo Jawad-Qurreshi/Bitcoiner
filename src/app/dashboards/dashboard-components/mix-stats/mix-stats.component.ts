@@ -3,12 +3,13 @@ import * as c3 from 'c3';
 
 @Component({
   selector: 'app-mix-stats',
-  templateUrl: './mix-stats.component.html'
+  templateUrl: './mix-stats.component.html',
+  styleUrls: ['./mix-stats.component.css']
 })
 export class MixstatsComponent implements AfterViewInit {
   constructor() { }
 
-	// bar chart
+	//bar chart
   public barChartData: Array<any> = [
     { data: [1.1, 1.4, 1.1, 0.9, 1.9, 1, 0.3, 1.1, 1.4, 1.1, 0.9, 1.9, 1, 0.3, 1.1], label: 'Cost' }
   ];
@@ -104,7 +105,7 @@ export class MixstatsComponent implements AfterViewInit {
   public lineChartLegend1 = false;
   public lineChartType1 = 'line';
 
-  ngAfterViewInit() {
+ngAfterViewInit() {
 
     const chart = c3.generate({
       bindto: '#visitor',
@@ -176,5 +177,5 @@ export class MixstatsComponent implements AfterViewInit {
         pattern: ['#4798e8', '#01c0c8']
       }
     });
-  }
-}
+   }
+ }
