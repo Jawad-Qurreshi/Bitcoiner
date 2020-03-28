@@ -109,10 +109,7 @@ router.get('/buyer/all', function (req, res) {
   ClientBuyer.find({})
     .exec()
     .then(result => {
-      res.status(200).json({
-        buyers: result,
-        isSuccess: true
-      });
+      res.status(200).json(result);
     })
     .catch(err => {
       res.status(500).json({
