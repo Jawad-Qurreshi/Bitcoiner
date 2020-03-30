@@ -8,7 +8,6 @@ const Client = require('../models/client');
 const Request = require('../models/requests');
 const ClientSeller = require('../models/clientSeller');
 const ClientBuyer = require('../models/clientBuyer');
-const ClientRequest = require('../models/clientrequest_model');
 const BtcAddress = require('../models/btcaddress');
 const nodemailer = require('nodemailer')
 
@@ -268,7 +267,7 @@ router.put('/request/approve/:id', async function (req, res) {
 });
 router.get('/request/approved/all', (req, res) => {
 
-  Request.find({ status: 'Approved' })
+  Request.find({ status: "Approved" })
     .select('-__v -clientId')
     .exec()
     .then(approvedRequests => {
@@ -421,7 +420,7 @@ router.delete('/request/:id', (req, res) => {
 });
 router.get('/request/approved/:clientId', (req, res) => {
   const clientId = req.params.clientId;
-  Client.find({ clientId: clientId, status: 'Approved' })
+  Request.find({ clientId: clientId, status: 'Approved' })
     .select('-__v -clientId')
     .exec()
     .then(approvedRequests => {
@@ -440,10 +439,11 @@ router.get('/request/approved/:clientId', (req, res) => {
 router.get('/request/pending/:clientId', (req, res) => {
   const clientId = req.params.clientId;
 
-  Client.find({ clientId: clientId, status: 'Under Process' })
+  Request.find({ clientId: clientId, status: 'Under Process' })
     .select('-__v -clientId -approvedAt')
     .exec()
     .then(pendingRequests => {
+      console.log(pendingRequests)
       res.status(200).json({
         isSuccess: true,
         requests: pendingRequests
