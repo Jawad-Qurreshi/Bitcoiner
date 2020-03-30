@@ -34,7 +34,7 @@
                                 <td>{{ myPendingRequest.amount}}</td>
                                 <td>{{ myPendingRequest.createdAt | date: 'MMM d, y, h:mm:ss a'}}</td>
                                 <td>
-                                    <button type="button" (click)="Cancel()"
+                                    <button type="button" (click)="Cancel(myPendingRequest)"
                                     class="btn btn-success" >Cancel</button>
                                 </td>
 

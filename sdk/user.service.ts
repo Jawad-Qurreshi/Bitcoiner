@@ -35,6 +35,12 @@ export class UserService {
     //return this.http.get(url, credentials);
     return this.http.post(url, credentials);
   }
+  
+  public deleteMyRequest(id: String): Observable<any> {
+    const url = ProjectConfig.getPath() + "/request/delete" + id;
+    return this.http.get(url);
+  }
+
 
   public deleteBuyer(id: String): Observable<any> {
     const url = ProjectConfig.getPath() + "/buyer/" + id;

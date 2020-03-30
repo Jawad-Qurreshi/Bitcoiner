@@ -16,7 +16,20 @@ export class UserDetailsComponent {
 
   @Input() myPendingRequests = [];
 
- Cancel() : void{
-   
+ Cancel(myPendingRequest) : void{
+
+  this.userservice.deleteMyRequest(myPendingRequest._id).subscribe(
+    response => {
+     if(response.isSuccess){
+      console.log("Deleted");
+     }
+     else{
+      console.log("Unable to delete");
+     }
+    },
+    err => {
+     console.log("Unable to delete", err);
+    } 
+  );
  }
 }

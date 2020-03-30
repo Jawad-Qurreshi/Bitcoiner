@@ -165,11 +165,11 @@ export class ProfileComponent implements OnInit {
     if (isNaN(this.amountTrade)) {
       this.usdAmount = 0;
     } else {
-      console.log("cointypeTrade", this.coinType);
-      if (this.coinType === "BTC") {
+      
+      if (this.cryptoTypeTrade === "BTC") {
         this.totalUsdAmount = this.amountTrade * this.quantityTrade;
-      } else if (this.coinType === "ETH") {
-        this.totalUsdAmount = this.amountTrade * this.ethcurrent;
+      } else if (this.cryptoTypeTrade === "ETH") {
+        this.totalUsdAmount = this.amountTrade * this.quantityTrade;
       }
     }
   }
@@ -330,19 +330,14 @@ export class ProfileComponent implements OnInit {
   }
 
   confirm(): void {
-    let receiverAddress
-    if (this.cryptoTypeTrade === 'BTC') {
-      receiverAddress = this.singleclient.btcAddress;
-    } else if (this.cryptoTypeTrade === 'ETH') {
-      receiverAddress = this.singleclient.ethAddress;
-    }
+   
     if (this.tradetype === "BUY") {
       const body = {
         name: this.singleclient.username,
         cryptoType: this.cryptoTypeTrade,
         price: this.amountTrade,
         quantity: this.quantityTrade,
-        walletAddress: receiverAddress,
+        //walletAddress: receiverAddress,
         description: this.descriptionTrade,
         clientId: this.singleclient._id
       }
@@ -362,7 +357,8 @@ export class ProfileComponent implements OnInit {
         cryptoType: this.cryptoTypeTrade,
         price: this.amountTrade,
         quantity: this.quantityTrade,
-        walletAddress: receiverAddress,
+        //walletAddress: receiverAddress,
+
         description: this.descriptionTrade,
         clientId: this.singleclient._id
       }
