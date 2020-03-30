@@ -18,7 +18,6 @@ export class Dashboard2Component implements AfterViewInit {
     //console.log("id from localstorage", id);
     this.userservice.gettheclient(id).subscribe(
       resClientData => {
-       console.log("resClientData", resClientData);
         this.singleclient = resClientData;
         //console.log('this is client after using id' , this.singleclient);
       },
@@ -39,8 +38,7 @@ export class Dashboard2Component implements AfterViewInit {
 
      this.userservice.getmypendingrequest(id).subscribe(
        getmypenreq => {
-        console.log("my pending requests",getmypenreq);
-        this.myPendingRequests = getmypenreq;
+        this.myPendingRequests = getmypenreq.requests;
        },
        err => {
         console.log("api error in my request retreaval", err);
@@ -49,8 +47,7 @@ export class Dashboard2Component implements AfterViewInit {
 
      this.userservice.getmyapprovedrequest(id).subscribe(
       getmyappreq => {
-       console.log("get approved request",getmyappreq);
-       this. myApprovedRequests  = getmyappreq;
+       this. myApprovedRequests  = getmyappreq.requests;
       },
       err => {
        console.log("api error in my request retreaval", err);

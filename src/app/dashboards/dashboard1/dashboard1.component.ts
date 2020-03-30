@@ -41,7 +41,6 @@ export class Dashboard1Component implements OnInit, OnChanges {
 
     this.userservice.getclientcount().subscribe(
       resCountData => {
-        //console.log("resClientData", resClientData);
         this.count = resCountData;
       },
       err => {
@@ -51,7 +50,7 @@ export class Dashboard1Component implements OnInit, OnChanges {
     
     this.userservice.getpendingrequests().subscribe(
       resallrequest => {
-        this.requests = resallrequest;
+        this.requests = resallrequest.requests;
       },
       err => {
         console.log("api error in pending request retreaval", err);
@@ -60,7 +59,7 @@ export class Dashboard1Component implements OnInit, OnChanges {
 
     this.userservice.getapprovedrequests().subscribe(
       resallrequest => {
-        this.approvedRequests = resallrequest;
+        this.approvedRequests = resallrequest.requests;
       },
       err => {
         console.log("api error in approved request retreaval", err);
@@ -69,7 +68,6 @@ export class Dashboard1Component implements OnInit, OnChanges {
     
      this.userservice.getAddresses().subscribe(
        addresses => {
-       console.log("all addreses", addresses);
        this.btcAddresses = addresses;
        },
        err => {

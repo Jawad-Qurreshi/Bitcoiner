@@ -44,10 +44,6 @@ export class UserService {
     const url = ProjectConfig.getPath() + "/seller/" + id;
     return this.http.get(url);
   }
-
-
-
-
   public getapprovedrequests(): Observable<any> {
     const url = ProjectConfig.getPath() + "/request/approved/all";
     //return this.http.get(url, credentials);
@@ -58,37 +54,31 @@ export class UserService {
     //return this.http.get(url, credentials);
     return this.http.get(url);
   }
-
   public getallclients(): Observable<any> {
     const url = ProjectConfig.getPath() + "/clients";
     //return this.http.get(url, credentials);
     return this.http.get(url);
   }
-
   public getAddresses(): Observable<any> {
     const url = ProjectConfig.getPath() + "/address/all";
     //return this.http.get(url, credentials);
     return this.http.get(url);
   }
-
   public postAddresses(credentials: object): Observable<any> {
     const url = ProjectConfig.getPath() + "/address/add";
     //return this.http.get(url, credentials);
     return this.http.post(url, credentials);
   }
-
   public gettheBIT(): Observable<any> {
     const url = ProjectConfig.getPath() + "/bitapi";
     //return this.http.get(url, credentials);
     return this.http.get(url);
   }
-
   public gettheETH(): Observable<any> {
     const url = ProjectConfig.getPath() + "/ethapi";
     //return this.http.get(url, credentials);
     return this.http.get(url);
   }
-
   public gettheclient(id: String): Observable<any> {
     const url = ProjectConfig.getPath() + "/client/" + id;
     return this.http.get(url);
@@ -97,23 +87,18 @@ export class UserService {
     const url = ProjectConfig.getPath() + "/sendmyrequest/" + id;
     return this.http.post(url, id, credentials);
   }
-
   public getmyapprovedrequest(id: String): Observable<any> {
     const url = ProjectConfig.getPath() + "/request/approved/" + id;
     return this.http.get(url);
   }
-
   public getmypendingrequest(id: String): Observable<any> {
     const url = ProjectConfig.getPath() + "/request/pending/" + id;
     return this.http.get(url);
   }
-  
-
   public getclientcount(): Observable<any> {
     const url = ProjectConfig.getPath() + "/quantityclients";
     return this.http.get(url);
   }
-
   public userLogin(credentials: object): Observable<any> {
     const url = ProjectConfig.getPath() + "/login";
     return this.http.post(url, credentials);
@@ -136,14 +121,11 @@ export class UserService {
 
     return this.http.post(url, body);
   }
-
   public updateRequestApproved(id: String): Observable<any> {
     const url = ProjectConfig.getPath() + "/request/approve/" +id;
 
     return this.http.put(url , id);
   }
-
-
   // public receiveCoins(body: object): Observable<any> {
   //   const url = ProjectConfig.getPath() + "/receivecoins";
 
@@ -154,24 +136,20 @@ export class UserService {
 
     return this.http.post(url, credentials);
   }
-
   public setbtcaddreser(credentials: object): Observable<any> {
     const url = ProjectConfig.getPath() + "/address/add";
 
     return this.http.post(url, credentials);
   }
-
   public userRegister(credentials: object): Observable<any> {
     const url = ProjectConfig.getPath() + "/signup";
 
     return this.http.post(url, credentials);
   }
-
   public userForgotPassword(credentials: object): Observable<any> {
     const url = ProjectConfig.getPath() + "/sendmail";
 
     return this.http.post(url, credentials);
   }
-
   //Delete request "/request/:id"
 }
