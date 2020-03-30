@@ -3,7 +3,7 @@
         <div class="card bg-light">
             <div class="card-body">
                 <div class="d-flex no-block align-items-center m-b-10">
-                    <h4 class="card-title">My Pending requests</h4>
+                    <h4 class="card-title">My Approved requests</h4>
                 </div>
                 <div class="table-responsive" [perfectScrollbar]="config">
                     <table class="table bg-white table-bordered nowrap display">
@@ -16,27 +16,26 @@
                                 <th>Send to</th>
                                 <th>Receive from</th>
                                 <th>amount</th>
-                                <th>Date</th>
+                                <th>Request Date</th>
+                                <th>Approved Date</th>
                             </tr>
                         </thead>
                         <tbody>
 
-                            <tr *ngFor="let myPendingRequest of myPendingRequests">
+                            <tr *ngFor="let myrequest of myrequests">
 
 
                                 <td>
-                                    <span class="label label-danger">{{ myPendingRequest.status }}</span>
+                                    <span class="label label-error">{{ myrequest.status }}</span>
                                 </td>
-                                <td>{{ myPendingRequest.requestType }}</td>
-                                <td>{{ myPendingRequest.cryptoType }}</td>
-                                <td>{{ myPendingRequest.to }}</td>
-                                <td>{{ myPendingRequest.from }}</td>
-                                <td>{{ myPendingRequest.amount}}</td>
-                                <td>{{ myPendingRequest.createdAt | date: 'MMM d, y, h:mm:ss a'}}</td>
-                                <td>
-                                    <button type="button" (click)="Cancel()"
-                                    class="btn btn-success" >Cancel</button>
-                                </td>
+                                <td>{{ myrequest.requestType }}</td>
+                                <td>{{ myrequest.cryptoType }}</td>
+                                <td>{{ myrequest.to }}</td>
+                                <td>{{ myrequest.from }}</td>
+                                <td>{{ myrequest.amount}}</td>
+                                <td>{{ myrequest.createdAt | date: 'MMM d, y, h:mm:ss a'}}</td>
+                                <td>{{ myrequest.approvedAt | date: 'MMM d, y, h:mm:ss a'}}</td>
+                                
 
                             </tr>
 

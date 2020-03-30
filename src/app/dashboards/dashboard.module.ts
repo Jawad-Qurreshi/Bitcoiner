@@ -51,7 +51,9 @@ import {
   WeathercardComponent,
   WelcomeComponent,
   ProfileComponent,
-  AddressestableComponent
+  AddressestableComponent,
+  ApprovedRequestComponent,
+  ApprovedRequestAdminComponent
 } from './dashboard-components';
 import { NavigationComponent } from './dashboard-components/header-navigation/navigation.component';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
@@ -86,6 +88,7 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
     CommentComponent,
     NavigationComponent,
     RequesttableComponent,
+    ApprovedRequestComponent,
     TopsellComponent,
     SellertableComponent,
     AddressestableComponent,
@@ -108,7 +111,8 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
     VisitorsComponent,
     VisitsBounceComponent,
     WeathercardComponent,
-    WelcomeComponent
+    WelcomeComponent,
+    ApprovedRequestAdminComponent
   ]
 })
 export class DashboardModule {}

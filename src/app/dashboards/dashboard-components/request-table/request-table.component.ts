@@ -66,7 +66,7 @@
 //     //this.setTableData();
 //   }
 // }
-
+import { NzMessageService } from "ng-zorro-antd";
 import { Component, Input } from '@angular/core';
 import { UserService } from 'sdk/user.service';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
@@ -80,7 +80,11 @@ import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 
 export class RequesttableComponent {
   public config: PerfectScrollbarConfigInterface = {};
-  constructor(private userservice: UserService, private fb: FormBuilder) {}
+  constructor(
+    private message: NzMessageService,
+    private userservice: UserService, 
+    private fb: FormBuilder
+    ) {}
   buydata: FormGroup;
   //@Input() btcAddresses = [];
   @Input() requests = [];
@@ -104,12 +108,10 @@ export class RequesttableComponent {
       
       data => {
         console.log("got response from server", data);
-        // alert("Registeration Successfull!");
-        // this.loading = false;
-        console.log('succesfully uproved request');
+        this.message.success("User Request Approved");
       },
       error => {
-        console.log("error in save button");
+        console.log("error in Approve button button");
       }
     );
   }

@@ -4,19 +4,17 @@ import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 
 
 @Component({
-  selector: 'app-user-details',
-  templateUrl: './user-details.component.html',
-  styleUrls: ['./user-details.component.css']
+  selector: 'app-approved-request-admin',
+  templateUrl: './approved-request.component.html',
+  styleUrls: ['./approved-request.component.css']
 })
 
-export class UserDetailsComponent {
+export class ApprovedRequestAdminComponent {
   public config: PerfectScrollbarConfigInterface = {};
 
   constructor(private userservice: UserService) {}
 
-  @Input() myPendingRequests = [];
+@Input() approvedRequests = [];
 
- Cancel() : void{
-   
- }
+
 }

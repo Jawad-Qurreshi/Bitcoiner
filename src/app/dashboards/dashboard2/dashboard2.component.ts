@@ -9,7 +9,7 @@ import { UserService } from "sdk/user.service";
 export class Dashboard2Component implements AfterViewInit {
   
   singleclient = [];
-  myrequests = [];
+  myPendingRequests = [];
   constructor(private userservice: UserService) {}
 
   ngOnInit() {
@@ -39,7 +39,7 @@ export class Dashboard2Component implements AfterViewInit {
      this.userservice.getmyrequest(id).subscribe(
        getmyreq => {
         console.log("get all request",getmyreq);
-        this.myrequests = getmyreq;
+        this.myPendingRequests = getmyreq;
        },
        err => {
         console.log("api error in my request retreaval", err);

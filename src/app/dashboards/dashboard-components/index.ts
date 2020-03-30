@@ -32,3 +32,5 @@ export * from './request-table/request-table.component';
 export * from './buyer-table/buyer-table.component';
 export * from './seller-table/seller-table.component';
 export * from './addressestable/addressestable.component';
+export * from './Approved-client-requests/approved-request.component'
+export * from './Approved-admin-requests/approved-request-admin.component'

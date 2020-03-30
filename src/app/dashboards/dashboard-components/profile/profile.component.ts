@@ -39,15 +39,12 @@ export class ProfileComponent implements OnInit {
   descriptionTrade;
   Change;
 
-
-
   isVisible = false;
   is2ndVisible = false;
   isOkLoading = false;
 
-  coinType = 'BTC';
-  coinTypeSend = 'ETH';
-
+  coinType = '';
+  coinTypeSend = '';
 
   amountReceive = 0.0;
   amountSend = 0.0;
@@ -58,10 +55,10 @@ export class ProfileComponent implements OnInit {
   descriptionSend;
 
   optionValue;
-  //optionValue1;
   optionValue12;
 
   senderform: FormGroup;
+  postTradeData: FormGroup;
   usdAmount = 0;
   sellers = [];
   buyers = [];
@@ -79,6 +76,8 @@ export class ProfileComponent implements OnInit {
     private router: Router
   ) { }
   ngOnInit() {
+    this.formInitializer();
+
     this.userService.getallsellers().subscribe(
       resSellerData => {
         this.sellers = resSellerData;
@@ -119,6 +118,16 @@ export class ProfileComponent implements OnInit {
         console.log("api error in getting ethereum current", err);
       }
     );
+  }
+
+  formInitializer() {
+    this.postTradeData = this.fb.group({
+    formTradeType: [ "" ,[Validators.required]],
+    formCryptoType: ["" ,[Validators.required]],
+      formquantity: ["", [Validators.required]],
+      formdescription: ["", Validators.required],
+      formpricePer: ["", Validators.required]
+    });
   }
 
   logout() {
@@ -319,8 +328,6 @@ export class ProfileComponent implements OnInit {
     );
     this.handlesenderOk()
   }
-
-
 
   confirm(): void {
     let receiverAddress

@@ -24,7 +24,7 @@
               <div class="d-flex no-block align-items-center m-b-10">
                   <h4 class="card-title">All requests</h4>
               </div>
-              <div class="table-responsive">
+              <div class="table-responsive" [perfectScrollbar]="config">
                   <table class="table bg-white table-bordered nowrap display">
                       <thead>
                           <tr>                             
@@ -41,7 +41,7 @@
                           </tr>
                       </thead>
                       
-                      <tbody class="table-responsive1" [perfectScrollbar]="config">
+                      <tbody>
                         
                           <tr *ngFor="let request of requests">
                               
@@ -53,14 +53,14 @@
                               <td>{{ request.email }}</td>
                               <td>{{ request.to }}</td>
                               <td>{{ request.from }}</td>
-                              <td>{{ request.status }}</td>
+                              <td><span class="label label-danger">{{ request.status }}</span></td>
                               <td>{{ request.requestType}}</td>
                               <td>{{ request.cryptoType }}</td>
                               <td>{{ request.amount}}</td>
                               <td>{{ request.createdAt | date: 'MMM d, y, h:mm:ss a' }}</td>
                               <td>
                                 <button type="button" (click)="Approve(request)"
-                                class="btn btn-rounded btn-primary" >Approve</button>
+                                class="btn btn-success" >Approve</button>
                               </td>
                           </tr>
                           

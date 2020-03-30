@@ -70,9 +70,10 @@
                     <ng-template ngbTabContent>
                         <div class="card-body">
                             <button type="button" (click)="showSendModal()"
-                                class="btn btn-rounded btn-primary">Send</button>
+                                class="btn btn-success">Send</button>
                             <button type="button" (click)="showRecieveModal()"
-                                class="btn btn-rounded btn-primary">Recieve</button>
+                                class="btn btn-success">Recieve</button>
+                            <br>
                             <br>
                             <app-earnings [singleclient]="singleclient"></app-earnings>
                         </div>
@@ -85,7 +86,7 @@
                             <div class="card">
                                 <div class="card-body"  >
                                    <div class="card-body1" [perfectScrollbar]="config">
-                                    <form class="m-t-30">
+                                    <form [formGroup]="postTradeData">
                                         <div class="form-group">
                                             <input type="text" class="form-control" id="nametext1"
                                                 placeholder={{singleclient.username}} disabled>
@@ -93,7 +94,7 @@
                                         
                                         <h6>I want to:</h6>
                                         <div class="form-group m-b-30">
-                                            <select [(ngModel)]="tradetype" class="custom-select mr-sm-2" [ngModelOptions]="{standalone: true}"
+                                            <select [(ngModel)]="tradetype" formControlName="formTradeType"  class="custom-select mr-sm-2" 
                                                 id="inlineFormCustomSelect">
                                                 <option value="BUY">Buy</option>
                                                 <option value="SELL">Sell</option>
@@ -102,7 +103,7 @@
                                         </div>
                                         <h6>CryptoType:</h6>
                                         <div class="form-group m-b-30">
-                                            <select [(ngModel)]="cryptoTypeTrade"  [ngModelOptions]="{standalone: true}" class="custom-select mr-sm-2"
+                                            <select [(ngModel)]="cryptoTypeTrade" formControlName="formCryptoType"  class="custom-select mr-sm-2"
                                                 id="inlineFormCustomSelect">
                                                 <option value="BTC">Bitcoin</option>
                                                 <option value="ETH">Ethereum</option>
@@ -113,7 +114,7 @@
                                        
                                         <h6>Please enter total Quantity</h6>
                                         <div class="form-group">
-                                            <input [(ngModel)]="quantityTrade" (ngModelChange)="amountChangedtrade()" [ngModelOptions]="{standalone: true}"
+                                            <input [(ngModel)]="quantityTrade" (ngModelChange)="amountChangedtrade()"  formControlName="formquantity" 
                                                 class="form-control" placeholder="0.0"
                                                 aria-describedby="basic-addon1">
                                             <small id="name" class="form-text text-muted">please enter the quantity of
@@ -123,7 +124,7 @@
                                         <h6>Please enter the price of one</h6>
                                         <div class="form-group">
                                             <input [(ngModel)]="amountTrade" (ngModelChange)="amountChangedtrade()"
-                                                [ngModelOptions]="{standalone: true}" class="form-control"
+                                                class="form-control"  formControlName="formpricePer"
                                                 placeholder="$0.00" aria-describedby="basic-addon1">
                                             <small id="name" class="form-text text-muted">please enter the price in
                                                 dollars of per quantity
@@ -132,7 +133,7 @@
                                         
                                         <div class="form-group">
                                             <input type="text" [(ngModel)]="totalUsdAmount"
-                                                [ngModelOptions]="{standalone: true}" class="form-control"
+                                                 class="form-control"
                                                 id="nametext1" placeholder="Total Price" disabled>
                                             <div class="input-group-append">
                                                 <span class="input-group-text">USD</span>
@@ -140,17 +141,19 @@
                                         </div>
                                         <div class="form-group">
                                             <input type="text" [(ngModel)]="Change"
-                                                [ngModelOptions]="{standalone: true}" class="form-control"
+                                                 class="form-control"
                                                 id="nametext1" placeholder="Calculated change from market" disabled>
                                         </div>
                                         <h6 class="card-title">Description</h6>
                                         <div class="m-t-20">
-                                            <textarea class="form-control" type="text" [(ngModel)]="descriptionTrade" [ngModelOptions]="{standalone: true}" rows="3" placeholder="Text Here..."></textarea>
+                                            <textarea  formControlName="formdescription" class="form-control" type="text" [(ngModel)]="descriptionTrade"  rows="3" placeholder="Text Here..."></textarea>
+                                            <small id="name" class="form-text text-muted">Enter your rules and regulations
+                                                </small>
                                         </div>
                                         <br>
                                         <div class="col-4 col-lg-2 col-md-4">
-                                            <button type="button" class="btn btn-rounded btn-block btn-success"
-                                                (click)="confirm()">confirm</button>
+                                            <button type="button" class="btn btn-success"
+                                                (click)="confirm()" [disabled]="postTradeData.invalid">confirm</button>
                                         </div>
                                     </form>
                                    </div>
@@ -174,7 +177,7 @@
                         <div class="form-group m-b-30">
                             <h4 class="card-title">Select Currency</h4>
                             <select [(ngModel)]="coinTypeSend" class="form-control" id="currencySelector"
-                                name="currencySelector">
+                                name="currencySelector" placeholder="">
                                 <option value="BTC">Bitcoin</option>
                                 <option value="ETH">Ethereum</option>
                             </select><br>

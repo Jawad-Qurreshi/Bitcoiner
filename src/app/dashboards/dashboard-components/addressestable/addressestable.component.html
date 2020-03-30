@@ -24,8 +24,8 @@
                   <h4 class="card-title">Addresses (BTC & ETH)</h4>
               </div>
               <button type="button" (click)="showmModal()"
-                                class="btn btn-rounded btn-primary">Add Addresses</button><br>
-              <div class="table-responsive">
+                                class="btn btn-success">Add Addresses</button><br><br>
+              <div class="table-responsive" [perfectScrollbar]="config" >
                   <table class="table bg-white table-bordered nowrap display">
                       <thead>
                           <tr>
@@ -72,10 +72,10 @@
           </div>
       </div>
 
-  <!-- //<button class="btn btn-block btn-lg btn-info " type="submit" (click)="SaveToDB()" > Save To Database</button> -->
+  <!-- //<button class="btn btn-success " type="submit" (click)="SaveToDB()" > Save To Database</button> -->
 </form>
 <ng-template #modalFooter>
   <button nz-button nzType="default" (click)="handleCancel()">Cancel</button>
-  <button nz-button nzType="primary" (click)="handleOk()" [disabled]="btcAddress==''" [disabled]="ethAddress==''" [nzLoading]="isConfirmLoading">Done</button>
+  <button nz-button nzType="primary" (click)="handleOk()" [disabled]="addressData.invalid"  [nzLoading]="isConfirmLoading">Done</button>
 </ng-template>
 </nz-modal>
