@@ -223,6 +223,88 @@ router.post('/sendmail', async (req, res) => {
 });
 
 /////////////////////////All requests////////////////////////////////////////
+
+//Admin's requests routes
+//This approves a request
+router.put('/request/approve/:id', async function (req, res) {
+  Request.findById({ _id: req.params.id }).exec()
+    .then(async request => {
+      if (request.status === 'Under Process') {
+        const client = await Client.findById({ _id: request.clientId }).exec();
+        if (request.requestType === 'Receive') {
+          if (request.cryptoType === 'BTC') {
+            client.btc += parseFloat(request.amount);
+            client.save();
+          } else {
+            client.eth += parseFloat(request.amount);
+            client.save();
+          }
+        }
+        request.status = 'Approved';
+        request.approvedAt = Date.now();
+        request.save()
+          .then(request => {
+            res.status(200).json({
+              message: 'Request Approved!',
+              request: request
+            })
+          })
+          .catch(err => {
+            res.status(500).json({
+              message: err.message
+            });
+          });
+
+      } else {
+        return res.status(400).json({
+          isSuccess: false,
+          message: 'Request Already Approved!'
+        });
+      }
+    })
+    .catch(err => {
+      console.log(err)
+    });
+});
+router.get('/request/approved/all', (req, res) => {
+
+  Request.find({ status: 'Approved' })
+    .select('-__v -clientId')
+    .exec()
+    .then(approvedRequests => {
+      res.status(200).json({
+        requests: approvedRequests,
+        isSuccess: true
+      });
+    })
+    .catch(err => {
+      res.status(500).json({
+        isSuccess: false,
+        message: err.message
+      });
+    });
+});
+router.get('/request/pending/all', (req, res) => {
+
+  Request.find({ status: 'Under Process' })
+    .select('-__v -clientId -approvedAt')
+    .exec()
+    .then(pendingRequests => {
+      res.status(200).json({
+        isSuccess: true,
+        requests: pendingRequests
+      });
+    })
+    .catch(err => {
+      res.status(500).json({
+        isSuccess: false,
+        message: err.message
+      });
+    });
+});
+
+
+//Client's Requests routes
 router.post('/request/add', (req, res) => {
   const body = req.body;
   //console.log(body)
@@ -325,22 +407,7 @@ router.post('/request/add', (req, res) => {
       });
     });
 });
-
-
-router.get('/request/all', function (req, res) {
-  console.log('get request of all clients', req.body);
-  //const allClients = await Client.find();
-  Request.find({})
-    .exec(function (err, requests) {
-      if (err) {
-        console.log('Error while retrieving All requests');
-      } else {
-        res.json(requests);
-      }
-    })
-})
-
-router.delete('/request/:id', function (req, res) {
+router.delete('/request/:id', (req, res) => {
   console.log('Deleting a client request');
   Request.findByIdAndRemove(req.params.id, function (err, deletedRequest) {
     if (err) {
@@ -351,50 +418,43 @@ router.delete('/request/:id', function (req, res) {
       });
     }
   })
-})
-
-router.put('/request/approve/:id', async function (req, res) {
-  Request.findById({ _id: req.params.id }).exec()
-    .then(async request => {
-      if (request.status === 'Under Process') {
-        const client = await Client.findById({ _id: request.clientId }).exec();
-        if (request.requestType === 'Receive') {
-          if (request.cryptoType === 'BTC') {
-            client.btc += parseFloat(request.amount);
-            client.save();
-          } else {
-            client.eth += parseFloat(request.amount);
-            client.save();
-          }
-        }
-        request.status = 'Approved';
-        request.save()
-          .then(request => {
-            res.status(200).json({
-              message: 'Request Approved!',
-              request: request
-            })
-          })
-          .catch(err => {
-            res.status(500).json({
-              message: err.message
-            });
-          });
-
-      } else {
-        return res.status(400).json({
-          isSuccess: false,
-          message: 'Request Already Approved!'
-        });
-
-      }
-
+});
+router.get('/request/approved/:clientId', (req, res) => {
+  const clientId = req.params.clientId;
+  Client.find({ clientId: clientId, status: 'Approved' })
+    .select('-__v -clientId')
+    .exec()
+    .then(approvedRequests => {
+      res.status(200).json({
+        isSuccess: true,
+        requests: approvedRequests
+      });
     })
     .catch(err => {
-      console.log(err)
-
+      res.status(500).json({
+        isSuccess: false,
+        message: err.message
+      });
     });
+});
+router.get('/request/pending/:clientId', (req, res) => {
+  const clientId = req.params.clientId;
 
+  Client.find({ clientId: clientId, status: 'Under Process' })
+    .select('-__v -clientId -approvedAt')
+    .exec()
+    .then(pendingRequests => {
+      res.status(200).json({
+        isSuccess: true,
+        requests: pendingRequests
+      });
+    })
+    .catch(err => {
+      res.status(500).json({
+        isSuccess: false,
+        message: err.message
+      });
+    });
 });
 ///////////////////////////login   Signup////////////////////////////////////
 

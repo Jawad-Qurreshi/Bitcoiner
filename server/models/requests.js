@@ -13,6 +13,7 @@ const Request = new Schema({
     description: String,
     amount: Intl,
     createdAt: { type: Date, default: Date.now },
+    approvedAt: Date,
     clientId: { type: Schema.Types.ObjectId, ref: 'clients' }
 });
 
