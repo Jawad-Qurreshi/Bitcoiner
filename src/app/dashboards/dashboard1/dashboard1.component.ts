@@ -45,7 +45,7 @@ export class Dashboard1Component implements OnInit, OnChanges {
         this.count = resCountData;
       },
       err => {
-        console.log("api error in all clients", err);
+        console.log("api error in all clients count", err);
       }
     );
     

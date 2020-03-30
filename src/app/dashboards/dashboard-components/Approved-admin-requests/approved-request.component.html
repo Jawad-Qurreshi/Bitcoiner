@@ -22,19 +22,19 @@
                         </thead>
                         <tbody>
 
-                            <tr *ngFor="let myrequest of myrequests">
+                            <tr *ngFor="let approvedRequest of approvedRequests">
 
 
                                 <td>
-                                    <span class="label label-success">{{ approvedRequests.status }}</span>
+                                    <span class="label label-success">{{ approvedRequest.status }}</span>
                                 </td>
-                                <td>{{ approvedRequests.requestType }}</td>
-                                <td>{{ approvedRequests.cryptoType }}</td>
-                                <td>{{ approvedRequests.to }}</td>
-                                <td>{{ approvedRequests.from }}</td>
-                                <td>{{ approvedRequests.amount}}</td>
-                                <td>{{ approvedRequests.createdAt | date: 'MMM d, y, h:mm:ss a'}}</td>
-                                <td>{{ approvedRequests.approvedAt | date: 'MMM d, y, h:mm:ss a'}}</td>
+                                <td>{{ approvedRequest.requestType }}</td>
+                                <td>{{ approvedRequest.cryptoType }}</td>
+                                <td>{{ approvedRequest.to }}</td>
+                                <td>{{ approvedRequest.from }}</td>
+                                <td>{{ approvedRequest.amount}}</td>
+                                <td>{{ approvedRequest.createdAt | date: 'MMM d, y, h:mm:ss a'}}</td>
+                                <td>{{ approvedRequest.approvedAt | date: 'MMM d, y, h:mm:ss a'}}</td>
                                 
 
                             </tr>

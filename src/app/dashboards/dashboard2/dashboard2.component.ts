@@ -38,9 +38,9 @@ export class Dashboard2Component implements AfterViewInit {
     // );
 
      this.userservice.getmypendingrequest(id).subscribe(
-       getmyreq => {
-        console.log("get all request",getmyreq);
-        this.myPendingRequests = getmyreq;
+       getmypenreq => {
+        console.log("my pending requests",getmypenreq);
+        this.myPendingRequests = getmypenreq;
        },
        err => {
         console.log("api error in my request retreaval", err);
@@ -48,9 +48,9 @@ export class Dashboard2Component implements AfterViewInit {
      );
 
      this.userservice.getmyapprovedrequest(id).subscribe(
-      getmyreq => {
-       console.log("get all request",getmyreq);
-       this. myApprovedRequests  = getmyreq;
+      getmyappreq => {
+       console.log("get approved request",getmyappreq);
+       this. myApprovedRequests  = getmyappreq;
       },
       err => {
        console.log("api error in my request retreaval", err);
