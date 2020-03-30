@@ -28,6 +28,12 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 
+import en from '@angular/common/locales/en';
+import { registerLocaleData } from '@angular/common';
+import { NgZorroAntdModule, NZ_I18N, en_US } from 'ng-zorro-antd';
+
+registerLocaleData(en);
+
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
   wheelSpeed: 1,
@@ -46,8 +52,10 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     CommonModule,
     BrowserModule,
     BrowserAnimationsModule,
+    NgZorroAntdModule,
     FormsModule,
     HttpClientModule,
+    BrowserAnimationsModule,
     NgbModule.forRoot(),
     SlimLoadingBarModule.forRoot(),
     RouterModule.forRoot(Approutes, { useHash: false }),
@@ -57,8 +65,13 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   ],
   providers: [
     {
-      provide: PERFECT_SCROLLBAR_CONFIG,
-      useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
+      provide:  PERFECT_SCROLLBAR_CONFIG ,
+      useValue:  DEFAULT_PERFECT_SCROLLBAR_CONFIG,
+ 
+    },
+    {
+      provide:  NZ_I18N ,
+      useValue: en_US 
     },
     {
       provide: LocationStrategy,

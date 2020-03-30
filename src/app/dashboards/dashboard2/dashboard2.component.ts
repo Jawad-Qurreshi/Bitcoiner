@@ -10,6 +10,7 @@ export class Dashboard2Component implements AfterViewInit {
   
   singleclient = [];
   myPendingRequests = [];
+  myApprovedRequests = [];
   constructor(private userservice: UserService) {}
 
   ngOnInit() {
@@ -36,7 +37,7 @@ export class Dashboard2Component implements AfterViewInit {
     //   }
     // );
 
-     this.userservice.getmyrequest(id).subscribe(
+     this.userservice.getmypendingrequest(id).subscribe(
        getmyreq => {
         console.log("get all request",getmyreq);
         this.myPendingRequests = getmyreq;
@@ -45,6 +46,16 @@ export class Dashboard2Component implements AfterViewInit {
         console.log("api error in my request retreaval", err);
        } 
      );
+
+     this.userservice.getmyapprovedrequest(id).subscribe(
+      getmyreq => {
+       console.log("get all request",getmyreq);
+       this. myApprovedRequests  = getmyreq;
+      },
+      err => {
+       console.log("api error in my request retreaval", err);
+      } 
+    );
   }
   ngAfterViewInit() {}
 }

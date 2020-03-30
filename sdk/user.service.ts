@@ -98,10 +98,16 @@ export class UserService {
     return this.http.post(url, id, credentials);
   }
 
-  public getmyrequest(id: String): Observable<any> {
-    const url = ProjectConfig.getPath() + "/request/" + id;
+  public getmyapprovedrequest(id: String): Observable<any> {
+    const url = ProjectConfig.getPath() + "/request/approved/" + id;
     return this.http.get(url);
   }
+
+  public getmypendingrequest(id: String): Observable<any> {
+    const url = ProjectConfig.getPath() + "/request/pending/" + id;
+    return this.http.get(url);
+  }
+  
 
   public getclientcount(): Observable<any> {
     const url = ProjectConfig.getPath() + "/quantityclients";

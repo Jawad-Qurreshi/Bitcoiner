@@ -14,7 +14,7 @@ export class ApprovedRequestComponent {
 
   constructor(private userservice: UserService) {}
 
-  @Input() myrequests = [];
+  @Input() myApprovedRequests = [];
 
 
 }
