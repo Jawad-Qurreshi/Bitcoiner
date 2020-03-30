@@ -35,26 +35,11 @@ router.get('/allclients', async (req, res) => {
 ///////////////////////////////////BIT API/////////////////////////////////////
 const binance = require('node-binance-api')().options({
   APIKEY: 'https://api.binance.com/api/v3/ticker/price',
-  //APISECRET: '<secret>',
   useServerTime: true // If you get timestamp errors, synchronize to server time at startup
 });
 
-// router.get('/bitapi', function (req, res) {
-//   console.log('get request of all BTC and ETH API');
-//     binance.prices('BTCUSDT', (error, ticker) => {
-//       if(error){
-//         console.log('Error while retrieving eth api');
-//       }else{
-//         console.log("Price of BTC: $", ticker.BTCUSDT);
-//         console.log("Price of BTC: $", ticker.ETHUSDT);
-//         res.json(ticker);
-//       }
-//   });
-// });
 router.get('/bitapi', function (req, res) {
-  //console.log('get request of current bit');
   binance.prices('BTCUSDT', (error, ticker) => {
-    //console.log("Price of BTC: $", ticker.BTCUSDT);
     res.send({
       ticker
     });
@@ -62,9 +47,7 @@ router.get('/bitapi', function (req, res) {
 });
 
 router.get('/ethapi', function (req, res) {
-  //console.log('get request of current eth');
   binance.prices('ETHUSDT', (error, ticker) => {
-    //console.log("Price of ETH: $", ticker.ETHUSDT);
     res.json({
       ticker
     });
@@ -130,31 +113,59 @@ router.delete('/buyer/:id', function (req, res) {
 ////////////////////////////Sellers//////////////////////////////////
 router.post('/seller/add', async (req, res) => {
   const body = req.body;
-
-  const newseller = new ClientSeller({
+  const clientId = body.clientId;
+  const seller = new ClientSeller({
     name: body.name,
     cryptoType: body.cryptoType,
     price: body.price,
-    walletAddress: body.walletAddress,
-    clientId: body.clientId,
-    message: body.message,
-    description: body.description
+    sellerId: body.clientId,
+    description: body.description,
+    quantity: body.quantity
   });
-  newseller.save()
-    .then(result => {
-      res.status(201).json({
-        message: 'Sell Posted!',
-        isSuccess: true
-      });
+
+  Client.findById({ _id: clientId })
+    .exec()
+    .then(client => {
+      if (body.cryptoType === 'BTC') {
+        client.btc -= parseFloat(body.quantity);
+        client.reservedBtc += parseFloat(body.quantity);
+        console.log
+      } else {
+        client.eth -= parseFloat(body.quantity);
+        client.reservedEth += parseFloat(body.quantity);
+      }
+      client.save()
+        .then(client => {
+          console.log(client);
+          seller.save()
+            .then(seller => {
+              res.status(201).json({
+                isSuccess: true,
+                message: 'Sell Posted!'
+              });
+            })
+            .catch(err => {
+              res.status(500).json({
+                isSuccess: false,
+                message: err.message
+              });
+            });
+        })
+        .catch(err => {
+          res.status(500).json({
+            isSuccess: false,
+            message: err.message
+          });
+
+        });
     })
     .catch(err => {
       res.status(500).json({
-        message: err.message,
-        isSuccess: false
+        isSuccess: false,
+        message: err.message
       });
     });
 });
-
 
 router.get('/seller/all', function (req, res) {
   ClientSeller.find({})
@@ -301,7 +312,6 @@ router.get('/request/pending/all', (req, res) => {
       });
     });
 });
-
 
 //Client's Requests routes
 router.post('/request/add', (req, res) => {
