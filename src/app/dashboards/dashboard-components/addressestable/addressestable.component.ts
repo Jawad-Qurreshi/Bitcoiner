@@ -2,16 +2,22 @@
 import { Component, Input } from '@angular/core';
 import { UserService } from 'sdk/user.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
+import { NzMessageService } from 'ng-zorro-antd';
 
 @Component({
   selector: "app-addressestable",
-  templateUrl: "./addressestable.component.html"
+  templateUrl: "./addressestable.component.html",
+  styleUrls: ['./addressestable.component.css']
 })
 
 export class AddressestableComponent {
   
-
-  constructor(private userservice: UserService, private fb: FormBuilder) {}
+  public config: PerfectScrollbarConfigInterface = {};
+  constructor(
+    private message: NzMessageService,
+    private userservice: UserService, 
+    private fb: FormBuilder) {}
   addressData: FormGroup;
   @Input() btcAddresses = [];
 
@@ -51,12 +57,10 @@ export class AddressestableComponent {
     this.userservice.postAddresses(this.addressData.value).subscribe(
       data => {
         console.log("got response from server", data);
-        // alert("Registeration Successfull!");
-        // this.loading = false;
-        console.log('succesfully saved data to db');
+        this.message.success("Address saved");
       },
       error => {
-        console.log("error in save button");
+        this.message.error("Unable to save Address");
       }
     );
     this.isOkLoading = true;

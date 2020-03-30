@@ -48,8 +48,13 @@ export class UserService {
 
 
 
-  public getallrequests(): Observable<any> {
-    const url = ProjectConfig.getPath() + "/request/all";
+  public getapprovedrequests(): Observable<any> {
+    const url = ProjectConfig.getPath() + "/request/approved/all";
+    //return this.http.get(url, credentials);
+    return this.http.get(url);
+  }
+  public getpendingrequests(): Observable<any> {
+    const url = ProjectConfig.getPath() + "/request/pending/all";
     //return this.http.get(url, credentials);
     return this.http.get(url);
   }

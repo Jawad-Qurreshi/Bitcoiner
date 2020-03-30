@@ -10,6 +10,7 @@ import { UserService } from "sdk/user.service";
 export class Dashboard1Component implements OnInit, OnChanges {
   clients = [];
   requests = [];
+  approvedRequests = [];
   btcAddresses = [];
   count ;
 
@@ -48,13 +49,21 @@ export class Dashboard1Component implements OnInit, OnChanges {
       }
     );
     
-    this.userservice.getallrequests().subscribe(
+    this.userservice.getpendingrequests().subscribe(
       resallrequest => {
-        console.log("resallrequest", resallrequest);
         this.requests = resallrequest;
       },
       err => {
-        console.log("api error in all request retreaval", err);
+        console.log("api error in pending request retreaval", err);
+      }
+    );
+
+    this.userservice.getapprovedrequests().subscribe(
+      resallrequest => {
+        this.approvedRequests = resallrequest;
+      },
+      err => {
+        console.log("api error in approved request retreaval", err);
       }
     );
     
