@@ -6,9 +6,10 @@ const ClientSeller = new Schema({
     name: String,
     cryptoType: String,
     price: Intl,
-    walletAddress: String,
     description: String,
-    clientId: { type: Schema.Types.ObjectId, ref: 'clients' }
+    quantity: Intl,
+    sellerId: { type: Schema.Types.ObjectId, ref: 'clients' },
+    buyerId: { type: Schema.Types.ObjectId, ref: 'clients' }
 });
 
 module.exports = mongoose.model('clientseller', ClientSeller, 'clientsSeller');
