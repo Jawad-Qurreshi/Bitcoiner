@@ -38,6 +38,7 @@ export class LoginComponent implements OnInit {
         data => {
           localStorage.setItem("token",data.token);
           localStorage.setItem("ID", data.id);
+          console.log('MSg' + data.id)
           this.message.success("Login Successful");
           this.router.navigate(["dashboard/dashboard2"]);
         },

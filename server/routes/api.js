@@ -11,7 +11,7 @@ const Request = require('../models/requests');
 const ClientSeller = require('../models/clientSeller');
 const ClientBuyer = require('../models/clientBuyer');
 const BtcAddress = require('../models/btcaddress');
-const nodemailer = require('nodemailer')
+const nodemailer = require('nodemailer');
 
 //const db = "mongodb://localhost:27017/bitcoinerDB";
 const db = "mongodb+srv://mybitcoiner:123456789db@cluster0-8jh11.mongodb.net/test?retryWrites=true&w=majority"
@@ -25,9 +25,7 @@ mongoose.connect(db, { useUnifiedTopology: true, useNewUrlParser: true }, functi
   }
 });
 
-router.get('/', function (req, res) {
-  res.send('api is working')
-});
+
 
 router.get('/allclients', async (req, res) => {
 
@@ -62,11 +60,13 @@ router.post('/buyer/add', async (req, res) => {
 
   const buyer = new ClientBuyer({
     name: body.name,
+    email: body.email,
     cryptoType: body.cryptoType,
     price: body.price,
+    limit: body.limit,
     walletAddress: body.walletAddress,
     description: body.description,
-    buyerId: body.clientId
+    clientId: body.clientId
   });
 
   buyer.save()
@@ -110,7 +110,7 @@ router.delete('/buyer/:id', function (req, res) {
   })
 });
 
-router.get('/confirm/buy', (req, res) => {
+router.post('/confirm/buy', (req, res) => {
 
 });
 
@@ -120,11 +120,13 @@ router.post('/seller/add', async (req, res) => {
   const clientId = body.clientId;
   const seller = new ClientSeller({
     name: body.name,
+    email: body.email,
     cryptoType: body.cryptoType,
     price: body.price,
     sellerId: body.clientId,
     description: body.description,
-    quantity: body.quantity
+    quantity: body.quantity,
+    clientId: clientId
   });
 
   Client.findById({ _id: clientId })
@@ -192,6 +194,10 @@ router.delete('/seller/:id', function (req, res) {
     }
   })
 })
+
+router.post('/confirm/sell', (req, res) => {
+
+});
 
 router.post('/sendmail', async (req, res) => {
   try {
@@ -457,7 +463,6 @@ router.get('/request/pending/:clientId', (req, res) => {
     .select('-__v -clientId -approvedAt')
     .exec()
     .then(pendingRequests => {
-      console.log(pendingRequests)
       res.status(200).json({
         isSuccess: true,
         requests: pendingRequests
@@ -542,6 +547,7 @@ router.post('/login', async (req, res) => {
         if (isMatched) {
           id = result._id;
           token = jwt.sign({ email: email }, 'orange', { expiresIn: 1000 * 60 * 60 });
+          console.log('Id:' + id)
           res.status(200).json({
             id: id,
             token: token,
