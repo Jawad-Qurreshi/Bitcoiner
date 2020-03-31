@@ -56,7 +56,7 @@ router.get('/ethapi', function (req, res) {
 router.post('/buyer/add', async (req, res) => {
   const body = req.body;
   const email = body.email;
-
+  console.log("body" + body)
   const buyer = new ClientBuyer({
     name: body.name,
     email: body.email,
@@ -67,7 +67,7 @@ router.post('/buyer/add', async (req, res) => {
     limit: body.limit
   });
 
-  Client.findById({ email: email }).exec()
+  Client.findOne({ email: email }).exec()
     .then(client => {
 
       client.reservedDollar += buyer.limit.maximum;
@@ -78,19 +78,24 @@ router.post('/buyer/add', async (req, res) => {
         .then(saved => {
           buyer.save()
             .then(result => {
+             
               res.status(201).json({
                 message: 'Request Posted!',
+                
                 isSuccess: true
               });
             })
             .catch(err => {
+              console.log("1::::" + err)
               res.status(500).json({
                 message: err.message,
+
                 isSuccess: false
               });
             });
         })
         .catch(err => {
+          console.log("2::::" + err)
           res.status(500).json({
             isSuccess: false,
             message: err.message
@@ -98,6 +103,7 @@ router.post('/buyer/add', async (req, res) => {
         });
     })
     .catch(err => {
+      console.log("3::::" + err)
       res.status(500).json({
         isSuccess: false,
         message: err.message

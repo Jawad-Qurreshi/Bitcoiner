@@ -23,7 +23,7 @@ export class BuyertableComponent {
   ethcurrent;
   bitcurrent;
   amountSell: any;
-  mycolor: boolean;
+  mycolor = false ;
 
   ngOnInit() {
     this.formInitializer();
@@ -70,39 +70,37 @@ export class BuyertableComponent {
   @Input() buyers = [];
 
   CalcBitEth(): void {
-    if (this.usdAmount >= this.selectedbuyer.limit.minimum || this.usdAmount <= this.selectedbuyer.limit.minimum) {
-      this.mycolor=false;
-      if (this.selectedbuyer.cryptoType === 'BTC') {
-        this.userservice.gettheBIT().subscribe(
-          resBitData => {
-            this.bitcurrent = resBitData.ticker.BTCUSDT;
-          },
-          err => {
-            this.bitcurrent = 0;
-            console.log("api error in getting bitcoin current", err);
-          }
-        );
-        this.usdAmount = this.amountSell * this.bitcurrent;
-      }
-      else {
-        this.userservice.gettheETH().subscribe(
-          resEthData => {
-            this.ethcurrent = resEthData.ticker.ETHUSDT;
-          },
-          err => {
-            this.ethcurrent = 0;
-            console.log("api error in getting ethereum current", err);
-          }
-        );
-        this.usdAmount = this.amountSell * this.ethcurrent;
-      }
-      this.resertData();
+    if (this.amountSell >= this.selectedbuyer.limit.minimum && this.amountSell <= this.selectedbuyer.limit.maximum) {
+      this.mycolor = false 
     }
     else {
       this.mycolor = true;
     }
-
-  }
+    if (this.selectedbuyer.cryptoType === 'BTC') {
+      this.userservice.gettheBIT().subscribe(
+        resBitData => {
+          this.bitcurrent = resBitData.ticker.BTCUSDT;
+        },
+        err => {
+          this.bitcurrent = 0;
+          console.log("api error in getting bitcoin current", err);
+        }
+      );
+      this.usdAmount = this.amountSell * this.bitcurrent;
+    }
+    else {
+      this.userservice.gettheETH().subscribe(
+        resEthData => {
+          this.ethcurrent = resEthData.ticker.ETHUSDT;
+        },
+        err => {
+          this.ethcurrent = 0;
+          console.log("api error in getting ethereum current", err);
+        }
+      );
+      this.usdAmount = this.amountSell * this.ethcurrent;
+    }
+}
 
   resertData() {
     this.amountSell = 0;

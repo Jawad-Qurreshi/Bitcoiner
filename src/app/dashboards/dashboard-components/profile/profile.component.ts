@@ -82,7 +82,7 @@ export class ProfileComponent implements OnInit {
 
     this.userService.getallsellers().subscribe(
       resSellerData => {
-        this.sellers = resSellerData;
+        this.sellers = resSellerData.result;
       },
       err => {
         console.log("api error in all Seller", err);
@@ -91,7 +91,8 @@ export class ProfileComponent implements OnInit {
 
     this.userService.getallbuyers().subscribe(
       resBuyerData => {
-        this.buyers = resBuyerData;
+        this.buyers = resBuyerData.result;
+        console.log("this is me buyer", this.buyers);
       },
       err => {
         console.log("api error in all Buyer", err);

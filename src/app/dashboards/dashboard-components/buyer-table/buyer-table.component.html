@@ -68,20 +68,39 @@
       <input type="text" disabled class="form-control row" placeholder="{{selectedbuyer?.email}}"
         aria-describedby="basic-addon1">
     </div>
-
-    <h6>Currency Type :</h6>
     <div class="input-group mb-3">
-      <input type="text" *ngIf="selectedbuyer?.cryptoType == 'BTC'" class="form-control row" id="nametext1"
-        placeholder="BitCoin"  aria-describedby="basic-addon1" disabled>
+      <h6>Currency Type :</h6>
+      <div class="input-group mb-3">
+        <input type="text" *ngIf="selectedbuyer?.cryptoType == 'BTC'" class="form-control row" id="nametext1"
+          placeholder="BitCoin" aria-describedby="basic-addon1" disabled>
 
-      <input type="text" *ngIf="selectedbuyer?.cryptoType == 'ETH'" class="form-control row" id="nametext1"
-        placeholder="Ethereum"  aria-describedby="basic-addon1" disabled>
+        <input type="text" *ngIf="selectedbuyer?.cryptoType == 'ETH'" class="form-control row" id="nametext1"
+          placeholder="Ethereum" aria-describedby="basic-addon1" disabled>
+      </div>
+
+      <h6>Price:</h6>
+      <div class="input-group mb-3">
+        <input type="text" disabled class="form-control row" placeholder="{{selectedbuyer?.price}}"
+          aria-describedby="basic-addon1">
+      </div>
     </div>
 
-    <h6>Price:</h6>
+    <h6>Limit: :</h6>
     <div class="input-group mb-3">
-      <input type="text" disabled class="form-control row" placeholder="{{selectedbuyer?.price}}"
-        aria-describedby="basic-addon1">
+      <div class="input-group-append">
+        <input type="text" class="form-control" id="nametext1"
+          placeholder="{{selectedbuyer?.limit.minimum}}" aria-describedby="basic-addon1" disabled>
+      </div>
+      <div class="input-group-append">
+        <span class="input-group-text">Min</span>
+      </div>
+      <div class="input-group-append">
+        <input type="text" disabled class="form-control" placeholder="{{selectedbuyer?.limit.maximum}}"
+          aria-describedby="basic-addon1">
+      </div>
+      <div class="input-group-append">
+        <span class="input-group-text">Max</span>
+      </div>
     </div>
 
     <h6>Description:</h6>
@@ -91,12 +110,13 @@
     </div>
     <h6>Enter the amount in Dollars:</h6>
     <div class="input-group mb-3">
-      <input [ngStyle]="{'background-color': (mycolor) ? 'red' : '#ffffff'}" type="text" [(ngModel)]="amountSell" (ngModelChange)="CalcBitEth()" 
-        class="form-control" placeholder="$0.00" aria-describedby="basic-addon1" formControlName="usdAmount1">
+      <input [ngStyle]="{'background-color': (mycolor) ? 'red' : 'white'}" type="text" [(ngModel)]="amountSell"
+        (ngModelChange)="CalcBitEth()" class="form-control" placeholder="$0.00" aria-describedby="basic-addon1"
+        formControlName="usdAmount1">
 
-        <div class="input-group-append">
-          <span class="input-group-text">USD</span>
-        </div>
+      <div class="input-group-append">
+        <span class="input-group-text">USD</span>
+      </div>
       <input type="text" [(ngModel)]="usdAmount" [ngModelOptions]="{standalone: true}" disabled class="form-control"
         placeholder="0.00" aria-describedby="basic-addon1">
       <div class="input-group-append">
@@ -110,6 +130,7 @@
   </form>
   <ng-template #modalFooter>
     <button nz-button nzType="default" (click)="handleCancel()">Cancel</button>
-    <button nz-button nzType="primary" (click)="handleOk()" [disabled]="amountSell=='0'" [nzLoading]="isConfirmLoading">Confirm Buy</button>
+    <button nz-button nzType="primary" (click)="handleOk()" [disabled]="amountSell=='0'"
+      [nzLoading]="isConfirmLoading">Confirm Buy</button>
   </ng-template>
 </nz-modal>
