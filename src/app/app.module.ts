@@ -17,8 +17,8 @@ import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
 
 
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
-import { SidebarComponent } from './shared/sidebar/sidebar.component';
-import { BreadcrumbComponent } from './shared/breadcrumb/breadcrumb.component';
+//import { SidebarComponent } from './shared/sidebar/sidebar.component';
+//import { BreadcrumbComponent } from './shared/breadcrumb/breadcrumb.component';
 
 import { Approutes } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -45,8 +45,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   declarations: [
     AppComponent,
     SpinnerComponent,
-    BreadcrumbComponent,
-    SidebarComponent
+    // BreadcrumbComponent,
+    // SidebarComponent
   ],
   imports: [
     CommonModule,

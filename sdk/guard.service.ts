@@ -3,10 +3,21 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
-export class GuardService implements CanActivate {
+export class GuardService  {
 
   constructor(private router: Router) { }
 
+  canActivateAdmin(){
+    const token = localStorage.getItem('tokenAdmin');
+    console.log('token', token);
+    if (token) {
+      return true;
+    } else {
+      //this.router.navigateByUrl('../src/app/authentication/login');
+      this.router.navigate(['authentication/Admin']);
+      this.presentAlertConfirm();
+    }
+  }
   canActivate() {
     const token = localStorage.getItem('token');
     console.log('token', token);

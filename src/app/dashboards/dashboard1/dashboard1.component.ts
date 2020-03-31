@@ -39,14 +39,7 @@ export class Dashboard1Component implements OnInit, OnChanges {
       }
     );
 
-    this.userservice.getclientcount().subscribe(
-      resCountData => {
-        this.count = resCountData;
-      },
-      err => {
-        console.log("api error in all clients count", err);
-      }
-    );
+   
     
     this.userservice.getpendingrequests().subscribe(
       resallrequest => {

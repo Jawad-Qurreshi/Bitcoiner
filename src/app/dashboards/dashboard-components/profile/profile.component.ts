@@ -46,9 +46,9 @@ export class ProfileComponent implements OnInit {
   coinType = '';
   coinTypeSend = '';
 
-  amountReceive = 0.0;
-  amountSend = 0.0;
-  amountTrade = 0.0;
+  amountReceive ;
+  amountSend ;
+  amountTrade ;
   addressTo;
   addressFrom;
   addressToSend;
@@ -155,6 +155,7 @@ export class ProfileComponent implements OnInit {
 
   currencyChanged() {
     this.currencyAddress();
+    this.amountChanged();
   }
 
   amountChangedtrade() {
@@ -252,6 +253,7 @@ export class ProfileComponent implements OnInit {
   }
 
   handleCancel(): void {
+    this.resetData();
     this.isVisible = false;
     this.is2ndVisible = false;
   }
@@ -377,6 +379,7 @@ export class ProfileComponent implements OnInit {
   }
 
   resetData() {
+    this.usdAmount = 0;
     this.amountReceive = 0;
     this.amountSend = 0;
     this.coinType = '';

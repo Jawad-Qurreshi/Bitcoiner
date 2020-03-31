@@ -5,8 +5,9 @@ import { Component, Input } from '@angular/core';
   templateUrl: './info-card.component.html'
 })
 export class InfocardComponent {
+  
   constructor() {}
   
-@Input() count;
+@Input() clients = [];
   
 }

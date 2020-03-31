@@ -52,14 +52,14 @@
     <div class="col-lg-8 col-xlg-9 col-md-7">
         <div class="card">
             <ngb-tabset type="pills" class="custom-pills">
-                <ngb-tab title="Buy">
+                <ngb-tab title="Buyer">
                     <ng-template ngbTabContent>
                         <div class="card-body">
                             <app-buyer-table [buyers]="buyers"></app-buyer-table>
                         </div>
                     </ng-template>
                 </ngb-tab>
-                <ngb-tab title="Sell">
+                <ngb-tab title="Seller">
                     <ng-template ngbTabContent>
                         <div class="card-body">
                             <app-seller-table [sellers]="sellers"></app-seller-table>
@@ -111,7 +111,7 @@
                                         </div>
                                         <h6>CryptoType:</h6>
                                         <div class="form-group m-b-30">
-                                            <select [(ngModel)]="cryptoTypeTrade" formControlName="formCryptoType" (ngModelChange)="amountChangedtrade()" class="custom-select mr-sm-2"
+                                            <select [(ngModel)]="cryptoTypeTrade" formControlName="formCryptoType" class="custom-select mr-sm-2"
                                                 id="inlineFormCustomSelect">
                                                 <option value="BTC">Bitcoin</option>
                                                 <option value="ETH">Ethereum</option>
@@ -184,13 +184,13 @@
                     <form class="m-t-30">
                         <div class="form-group m-b-30">
                             <h4 class="card-title">Select Currency</h4>
-                            <select [(ngModel)]="coinTypeSend" class="form-control" id="currencySelector"
+                            <select [(ngModel)]="coinTypeSend" (ngModelChange)="amountChangedSend()" class="form-control" id="currencySelector"
                                 name="currencySelector" placeholder="">
                                 <option value="BTC">Bitcoin</option>
                                 <option value="ETH">Ethereum</option>
                             </select><br>
                             <h4 class="card-title">To</h4>
-                            <input [(ngModel)]="addressToSend" [ngModelOptions]="{standalone: true}" ng-if="selectValues.selcetedValue === 'B'" type="text" class="form-control"
+                            <input [(ngModel)]="addressToSend"  [ngModelOptions]="{standalone: true}" ng-if="selectValues.selcetedValue === 'B'" type="text" class="form-control"
                                 id="nametext" aria-describedby="name" placeholder="Please enter the Address"><br>
                             <h4 class="card-title">Amount</h4>
                             <div class="input-group mb-3">
