@@ -37,19 +37,19 @@ const binance = require('node-binance-api')().options({
   APIKEY: 'https://api.binance.com/api/v3/ticker/price',
   useServerTime: true // If you get timestamp errors, synchronize to server time at startup
 });
-
+//Getting bitcoin price
 router.get('/bitapi', function (req, res) {
   binance.prices('BTCUSDT', (error, ticker) => {
     res.send({
-      ticker
+      ticker: ticker
     });
   });
 });
-
+//Getting ethereium price
 router.get('/ethapi', function (req, res) {
   binance.prices('ETHUSDT', (error, ticker) => {
     res.json({
-      ticker
+      ticker: ticker
     });
   });
 });
@@ -58,17 +58,16 @@ router.get('/ethapi', function (req, res) {
 router.post('/buyer/add', async (req, res) => {
   const body = req.body;
 
-  const newbuyer = new ClientBuyer({
+  const buyer = new ClientBuyer({
     name: body.name,
     cryptoType: body.cryptoType,
     price: body.price,
-    quantity: body.quantity,
     walletAddress: body.walletAddress,
     description: body.description,
-    clientId: body.clientId
+    buyerId: body.clientId
   });
 
-  newbuyer.save()
+  buyer.save()
     .then(result => {
       res.status(201).json({
         message: 'Request Posted!',
@@ -81,7 +80,6 @@ router.post('/buyer/add', async (req, res) => {
         isSuccess: false
       });
     });
-
 });
 
 router.get('/buyer/all', function (req, res) {
@@ -108,6 +106,10 @@ router.delete('/buyer/:id', function (req, res) {
       res.json(deletedBuyer);
     }
   })
+});
+
+router.get('/confirm/buy', (req, res) => {
+
 });
 
 ////////////////////////////Sellers//////////////////////////////////
