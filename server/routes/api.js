@@ -2,6 +2,8 @@
 
 const express = require('express');
 const mongoose = require('mongoose');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 const router = express.Router();
 
 const Client = require('../models/client');
@@ -473,76 +475,91 @@ router.get('/request/pending/:clientId', (req, res) => {
 router.post('/signup', async (req, res) => {
   const body = req.body;
   const email = body.email;
-  const result = await Client.findOne({ email: email });
-  if (!result) // this means result is null
-  {
-    let newClient = new Client({
-      username: body.username,
-      email: body.email,
-      password: body.password,
-      phone: body.phone,
-      address: body.address,
-      btcAddress: '',
-      ethAddress: ''
-    });
-
-
-    var end = {};
-    BtcAddress.find({})
-      .exec(function (err, addresses) {
-        if (err) {
-          console.log('Error while retrieving clients');
-        } else {
-          const length = addresses.length;
-          let val;
-          if (length === 1) {
-            val = 0;
-          } else {
-            val = Math.floor(Math.random() * length + 1) + 1;
-          }
-          end = addresses[val];
-          console.log(val);
-          newClient.btcAddress = end.btcAddress;
-          newClient.ethAddress = end.ethAddress;
-          newClient.save()
-            .then(client => {
-              res.json(client)
-            })
-            .catch(err => {
-              res.json(err);
-            });
-        }
+  const saltRounds = 10;
+  await bcrypt.hash(body.password, saltRounds, async (err, hash) => {
+    const result = await Client.findOne({ email: email });
+    if (!result) // this means result is null
+    {
+      let newClient = new Client({
+        username: body.username,
+        email: body.email,
+        password: hash,
+        phone: body.phone,
+        address: body.address,
+        btcAddress: '',
+        ethAddress: ''
       });
-  }
-  else {
-    res.status(401).json({
-      message: 'User already exists',
-      isSuccess: false
-    });
-  }
+      var end = {};
+      BtcAddress.find({})
+        .exec(function (err, addresses) {
+          if (err) {
+            console.log('Error while retrieving clients');
+          } else {
+            const length = addresses.length;
+            let val = 1;
+            // if (length === 1) {
+            //   val = 0;
+            // } else {
+            //   val = Math.floor(Math.random() * length + 1) + 1;
+            // }
+            end = addresses[val];
+            console.log(val);
+            newClient.btcAddress = end.btcAddress;
+            newClient.ethAddress = end.ethAddress;
+            newClient.save()
+              .then(client => {
+                res.json(client)
+              })
+              .catch(err => {
+                res.json(err);
+              });
+          }
+        });
+    }
+    else {
+      res.status(401).json({
+        message: 'User already exists',
+        isSuccess: false
+      });
+    }
+  });
 });
 
 router.post('/login', async (req, res) => {
   const body = req.body;
   let id;
+  let token;
   const email = body.email;
   const result = await Client.findOne({ email: email });
   if (!result) {
     res.status(401).send({
-      Error: 'This client does not exists. Please signup first'
+      error: 'This client does not exists. Please signup first',
+      isAuthenticated: false
     });
   } else {
-    id = result._id;
-    if (body.password === result.password) {
-
-      res.status(200).json(id);
-      console.log(body.password)
-    } else {
-      res.status(401).send({
-        message: 'Wrong email or Password',
-        isSuccess: true
-      });
-    }
+    bcrypt.compare(body.password, result.password, (err, isMatched) => {
+      if (!err) {
+        if (isMatched) {
+          id = result._id;
+          token = jwt.sign({ email: email }, 'orange', { expiresIn: 1000 * 60 * 60 });
+          res.status(200).json({
+            id: id,
+            token: token,
+            isAuthenticated: true
+          });
+        } else {
+          res.status(401).send({
+            message: 'Wrong email or Password',
+            isAuthenticated: false
+          });
+        }
+      } else {
+        res.status(401).json({
+          message: err.message,
+          isAuthenticated: false
+        });
+      }
+    });
   }
 });
 
