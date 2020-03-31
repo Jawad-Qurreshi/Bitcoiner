@@ -119,17 +119,23 @@
                                             <small id="name" class="form-text text-muted">Select the type of
                                                 currency</small>
                                         </div>
-                                       
-                                        <h6>Please enter total Quantity</h6>
-                                        <div class="form-group">
-                                            <input [(ngModel)]="quantityTrade"  (ngModelChange)="amountChangedtrade()"  formControlName="formquantity" 
-                                                class="form-control" placeholder="0.0"
-                                                aria-describedby="basic-addon1">
-                                            <small id="name" class="form-text text-muted">please enter the quantity of
-                                                the BTC/ETH</small>
+
+                                        <h6>Please enter Min/Max Limit:</h6>
+                                        <div class="input-group mb-3">
+                                            <input type="text" [(ngModel)]="limitMin" 
+                                                formControlName="formLimitMin" class="form-control" placeholder="0.00">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text">Min</span>
+                                            </div>
+                                            <input type="text" [(ngModel)]="limitMax" formControlName="formLimitMax"
+                                              class="form-control" placeholder="$0.00" aria-describedby="basic-addon1">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text">Max</span>
+                                            </div>
                                         </div>
+                                        
                                        
-                                        <h6>Please enter the price of one</h6>
+                                        <h6>Please enter the price:</h6>
                                         <div class="form-group">
                                             <input [(ngModel)]="amountTrade"  (ngModelChange)="amountChangedtrade()"
                                                 class="form-control"  formControlName="formpricePer"
@@ -137,15 +143,6 @@
                                             <small id="name" class="form-text text-muted">please enter the price in
                                                 dollars of per quantity
                                                 BTC/ETH</small>
-                                        </div>
-                                        
-                                        <div class="form-group">
-                                            <input type="text" [ngModelOptions]="{standalone: true}" [(ngModel)]="totalUsdAmount"
-                                                 class="form-control"
-                                                id="nametext1" placeholder="Total Price" disabled>
-                                            <div class="input-group-append">
-                                                <span class="input-group-text">USD</span>
-                                            </div>
                                         </div>
                                         <div class="form-group">
                                             <input type="text" [ngModelOptions]="{standalone: true}" [(ngModel)]="Change"

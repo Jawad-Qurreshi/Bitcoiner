@@ -30,7 +30,7 @@
                 <th>Name</th>
                 <th>Type of currency</th>
                 <th>Price</th>
-                <th>Quantity</th>
+                <th>Limit</th>
                 <th>Change</th>
               </tr>
             </thead>
@@ -39,7 +39,7 @@
                 <td>{{ buyer.name }}</td>
                 <td>{{ buyer.cryptoType }}</td>
                 <td>${{ buyer.price }}</td>
-                <td>{{ buyer.quantity }}</td>
+                <td>{{ buyer.limit.minimum }} - {{ buyer.limit.maximum }} </td>
                 <td>{{ "hi" }}%</td>
                 <td>
                   <button type="button" (click)="showModal(buyer)" class="btn btn-success">Sell</button>
@@ -57,25 +57,59 @@
 
   <form [formGroup]="buydata">
 
-    <div class="form-group row ">
-      <div class="col-12 ">
-        <label>{{selectedbuyer.name}}</label>
-      </div>
+    <h6>Name:</h6>
+    <div class="input-group mb-3">
+      <input type="text" disabled class="form-control row" placeholder="{{selectedbuyer?.name}}"
+        aria-describedby="basic-addon1">
     </div>
 
+    <h6>Email:</h6>
+    <div class="input-group mb-3">
+      <input type="text" disabled class="form-control row" placeholder="{{selectedbuyer?.email}}"
+        aria-describedby="basic-addon1">
+    </div>
 
+    <h6>Currency Type :</h6>
+    <div class="input-group mb-3">
+      <input type="text" *ngIf="selectedbuyer?.cryptoType == 'BTC'" class="form-control row" id="nametext1"
+        placeholder="BitCoin"  aria-describedby="basic-addon1" disabled>
 
-    <div class="form-group row">
-      <div class="col-12 ">
-        <input class="form-control form-control-lg" name="ETH" type="text" placeholder="enter ethereum wallet address"
-          formControlName="AddressETH">
+      <input type="text" *ngIf="selectedbuyer?.cryptoType == 'ETH'" class="form-control row" id="nametext1"
+        placeholder="Ethereum"  aria-describedby="basic-addon1" disabled>
+    </div>
+
+    <h6>Price:</h6>
+    <div class="input-group mb-3">
+      <input type="text" disabled class="form-control row" placeholder="{{selectedbuyer?.price}}"
+        aria-describedby="basic-addon1">
+    </div>
+
+    <h6>Description:</h6>
+    <div class="input-group mb-3">
+      <textarea class="form-control" disabled type="text" rows="3" aria-describedby="basic-addon1"
+        placeholder="{{selectedbuyer?.description}}"></textarea>
+    </div>
+    <h6>Enter the amount in Dollars:</h6>
+    <div class="input-group mb-3">
+      <input [ngStyle]="{'background-color': (mycolor) ? 'red' : '#ffffff'}" type="text" [(ngModel)]="amountSell" (ngModelChange)="CalcBitEth()" 
+        class="form-control" placeholder="$0.00" aria-describedby="basic-addon1" formControlName="usdAmount1">
+
+        <div class="input-group-append">
+          <span class="input-group-text">USD</span>
+        </div>
+      <input type="text" [(ngModel)]="usdAmount" [ngModelOptions]="{standalone: true}" disabled class="form-control"
+        placeholder="0.00" aria-describedby="basic-addon1">
+      <div class="input-group-append">
+        <span *ngIf="selectedbuyer?.cryptoType == 'BTC'" class="input-group-text">Bitcoin</span>
+        <span *ngIf="selectedbuyer?.cryptoType == 'ETH'" class="input-group-text">Etherreum</span>
       </div>
+
     </div>
 
 
   </form>
   <ng-template #modalFooter>
     <button nz-button nzType="default" (click)="handleCancel()">Cancel</button>
-    <button nz-button nzType="primary" (click)="handleOk()" [nzLoading]="isConfirmLoading">Done</button>
+    <button nz-button nzType="primary" (click)="handleOk()" [disabled]="amountSell=='0'" [nzLoading]="isConfirmLoading">Confirm Buy</button>
   </ng-template>
 </nz-modal>

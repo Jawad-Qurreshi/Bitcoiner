@@ -25,12 +25,14 @@ export class ProfileComponent implements OnInit {
     'Buy',
     'Sell'
   ];
+  limitMin: any;
+  limitMax: any;
 
   radioChangeHandler(event: any) {
     this.selectedRequest = event.target.value;
   }
 
-  quantityTrade;
+  
   tradetype;
   totalUsdAmount;
   price;
@@ -124,9 +126,11 @@ export class ProfileComponent implements OnInit {
     this.postTradeData = this.fb.group({
     formTradeType: [ "" ,[Validators.required]],
     formCryptoType: ["" ,[Validators.required]],
-      formquantity: ["", [Validators.required]],
+      formLimitMax: ["", [Validators.required]],
+      formLimitMin: ["", [Validators.required]],
       formdescription: ["", Validators.required],
       formpricePer: ["", Validators.required]
+
     });
   }
 
@@ -163,16 +167,7 @@ export class ProfileComponent implements OnInit {
   }
 
   amountTradeCalc() {
-    if (isNaN(this.amountTrade)) {
-      this.usdAmount = 0;
-    } else {
-      
-      if (this.cryptoTypeTrade === "BTC") {
-        this.totalUsdAmount = this.amountTrade * this.quantityTrade;
-      } else if (this.cryptoTypeTrade === "ETH") {
-        this.totalUsdAmount = this.amountTrade * this.quantityTrade;
-      }
-    }
+    
   }
 
   currencyAddress() {
@@ -336,9 +331,13 @@ export class ProfileComponent implements OnInit {
     if (this.tradetype === "BUY") {
       const body = {
         name: this.singleclient.username,
+        email: this.singleclient.email,
         cryptoType: this.cryptoTypeTrade,
         price: this.amountTrade,
-        quantity: this.quantityTrade,
+        limit:{
+          minimum:this.limitMin,
+          maximum:this.limitMax
+        },
         //walletAddress: receiverAddress,
         description: this.descriptionTrade,
         clientId: this.singleclient._id
@@ -358,9 +357,11 @@ export class ProfileComponent implements OnInit {
         name: this.singleclient.username,
         cryptoType: this.cryptoTypeTrade,
         price: this.amountTrade,
-        quantity: this.quantityTrade,
-        //walletAddress: receiverAddress,
-
+        limit:{
+          minimum:this.limitMin,
+          maximum:this.limitMax
+        },
+        email: this.singleclient.email,
         description: this.descriptionTrade,
         clientId: this.singleclient._id
       }

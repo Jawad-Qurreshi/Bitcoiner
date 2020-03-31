@@ -16,7 +16,11 @@ import { UserService } from "sdk/user.service";
   styleUrls: ["./info-box.component.css"]
 })
 export class InfoBoxComponent implements OnInit, OnChanges, AfterViewInit {
-  constructor(private userservice: UserService) {}
+  constructor(private userservice: UserService) {
+    const x = setInterval(() => {
+      this.ngOnInit();
+    }, 10 * 1000);
+  }
 
   @Input() singleclient: any;
 
@@ -143,6 +147,8 @@ export class InfoBoxComponent implements OnInit, OnChanges, AfterViewInit {
       }
     );
   }
+
+ 
 
   ngAfterViewInit() {
     const chart = c3.generate({

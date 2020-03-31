@@ -79,9 +79,14 @@ export class SellertableComponent {
 
   loading = false;
   public clicked = false;
-  buydata: FormGroup;
+  selldata: FormGroup;
   is2ndVisible = false;
   isOkLoading = false;
+  selectedseller: any;
+  bitcurrent: any;
+  usdAmount: number;
+  amountBuy: any;
+  ethcurrent: number;
   constructor(
     private userservice: UserService,
     private router:Router,
@@ -91,30 +96,37 @@ export class SellertableComponent {
   @Input() sellers = [];
   @Input() singleclient = [];
   
-  sellitem() {
-    this.clicked = true;
-    this.loading = true;
-
-    console.log('my value:' , this.singleclient )
-
-    // this.userservice.userRegister(this.signupData.value).subscribe(
-    //   data => {
-    //     console.log("got response from server", data);
-    //     // alert("Registeration Successfull!");
-    //     // this.loading = false;
-    //     this.message.success("Signup Successful");
-
-    //     this.router.navigate(["/authentication/login"]);
-    //   },
-    //   error => {
-    //     this.clicked = false;
-    //     this.loading = false;
-    //     console.log("error in save button");
-    //     this.message.error("Registeration Failed! User Already Exists");
-    //   }
-    // );
+  CalcBitEth() {
+    if (this.selectedseller.cryptoType === 'BTC'){
+      this.userservice.gettheBIT().subscribe(
+        resBitData => {
+          this.bitcurrent = resBitData.ticker.BTCUSDT;
+        },
+        err => {
+          this.bitcurrent = 0;
+          console.log("api error in getting bitcoin current", err);
+        }
+      );
+      this.usdAmount = this.amountBuy*this.bitcurrent;
+     }
+     else {
+      this.userservice.gettheETH().subscribe(
+        resEthData => {
+          this.ethcurrent = resEthData.ticker.ETHUSDT;
+        },
+        err => {
+          this.ethcurrent = 0;
+          console.log("api error in getting ethereum current", err);
+        }
+      );
+       this.usdAmount = this.amountBuy*this.ethcurrent;
+     }
+      this.resertData();
   }
 
+  resertData(){
+    this.amountBuy = 0;
+  }
 
 
   ngOnInit() {
@@ -122,28 +134,16 @@ export class SellertableComponent {
   }
 
   formInitializer() {
-    this.buydata = this.fb.group({
-      AddressBTC: ["", Validators.required],
-      AddressETH: ["", Validators.required],
+    this.selldata = this.fb.group({
+      usdAmount1: ["", Validators.required],
     });
   }
-  // SaveToDB(){
-  //   this.userservice.postAddresses(this.buydata.value).subscribe(
-  //     data => {
-  //       console.log("got response from server", data);
-  //       // alert("Registeration Successfull!");
-  //       // this.loading = false;
-  //       console.log('succesfully saved data to db');
-  //     },
-  //     error => {
-  //       console.log("error in save button");
-  //     }
-  //   );
-  // }
+
   
-  
-  showModal(): void {
+  showModal(seller): void {
+    this.selectedseller = seller;
     this.is2ndVisible = true;
+    
   }
 
   handleOk(): void {
@@ -155,6 +155,7 @@ export class SellertableComponent {
   }
 
   handleCancel(): void {
+    this.resertData();
     this.is2ndVisible = false;
   }
 
