@@ -35,7 +35,7 @@ export class UserService {
     //return this.http.get(url, credentials);
     return this.http.post(url, credentials);
   }
-  
+
   public deleteMyRequest(id: String): Observable<any> {
     const url = ProjectConfig.getPath() + "/request/delete" + id;
     return this.http.get(url);
@@ -101,10 +101,12 @@ export class UserService {
     const url = ProjectConfig.getPath() + "/request/pending/" + id;
     return this.http.get(url);
   }
-  public getclientcount(): Observable<any> {
-    const url = ProjectConfig.getPath() + "/quantityclients";
-    return this.http.get(url);
+ 
+  public adminLoginPassword(credentials: object): Observable<any> {
+    const url = ProjectConfig.getPath() + "/login/admin";
+    return this.http.post(url, credentials);
   }
+
   public userLogin(credentials: object): Observable<any> {
     const url = ProjectConfig.getPath() + "/login";
     return this.http.post(url, credentials);

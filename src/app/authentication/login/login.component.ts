@@ -3,7 +3,7 @@ import { FormBuilder, Validators } from "@angular/forms";
 
 import { FormGroup } from "@angular/forms";
 import { NzMessageService } from "ng-zorro-antd";
-import { Router, NavigationEnd } from "@angular/router";
+import { Router } from "@angular/router";
 import { UserService } from "sdk/user.service";
 
 @Component({
@@ -34,16 +34,11 @@ export class LoginComponent implements OnInit {
     this.clicked = true;
     try {
       const loginData = this.loginForm.value;
-      console.log("loginData", loginData);
       this.service.userLogin(loginData).subscribe(
         data => {
-          // idd = data;
-          console.log("got response from server", data);
-          localStorage.setItem("token", "mytoken");
-          localStorage.setItem("ID", data);
-          //this.loading = false;
+          localStorage.setItem("token",data.token);
+          localStorage.setItem("ID", data.id);
           this.message.success("Login Successful");
-
           this.router.navigate(["dashboard/dashboard2"]);
         },
         error => {

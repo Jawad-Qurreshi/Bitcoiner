@@ -9,6 +9,7 @@ import { ReactiveFormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 import { SignupComponent } from "./signup/signup.component";
 import {  LockComponent } from './lock/lock.component';
+import { AdminLockComponent } from './Admin-lock/lock.component'
 
 //import { Signup2Component } from './signup2/signup2.component';
 
@@ -20,6 +21,7 @@ import {  LockComponent } from './lock/lock.component';
     NgbModule,
     NgZorroAntdModule
   ],
-  declarations: [NotfoundComponent, LockComponent, LoginComponent, SignupComponent]
+  declarations: [NotfoundComponent,AdminLockComponent, LockComponent, LoginComponent, SignupComponent]
 })
 export class AuthenticationModule {}
+

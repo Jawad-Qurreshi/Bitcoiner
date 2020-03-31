@@ -21,9 +21,20 @@ export class InfoBoxComponent implements OnInit, OnChanges, AfterViewInit {
   @Input() singleclient: any;
 
   TotalWallet = 0;
+  reserveTotalWallet = 0;
+  availableBalance = 0;
+  
   walletBTC = 0;
   walletETH = 0;
   walletDollars = 0;
+  
+  reservewalletBTC = 0;
+  reservewalletETH = 0;
+  reservewalletDollars = 0;
+  
+  reservecalcwalletBTC = 0;
+  reservecalcwalletETH = 0;
+
   newbitcurrent = 0;
   newethcurrent = 0;
   bitcurrent = 0;
@@ -75,35 +86,45 @@ export class InfoBoxComponent implements OnInit, OnChanges, AfterViewInit {
   ngOnChanges() {
     //console.log("this.userdata", this.singleclient);
     this.updateTotalWallet();
+    this.updateTotalReserveWallet();
+    this. calculatedAvailableBalance();
+  }
+  
+  calculatedAvailableBalance(){
+    this.availableBalance = this.TotalWallet -this.reserveTotalWallet ;
+  }
+  updateTotalReserveWallet() {
+    if (this.bitcurrent && this.ethcurrent) {
+      this.reservewalletBTC = +this.singleclient.reservedBtc;
+      this.reservewalletETH = +this.singleclient.reservedEth;
+      this.reservewalletDollars = +this.singleclient.dollar;
+      this.newethcurrent = +this.ethcurrent;
+      this.newbitcurrent = +this.bitcurrent;
+      this.reservecalcwalletBTC = this.reservewalletBTC * this.newbitcurrent;
+      this.reservecalcwalletETH = this.reservewalletETH * this.newethcurrent;
+      this.reserveTotalWallet = this.reservecalcwalletBTC + this.reservecalcwalletETH + this.walletDollars; 
+    }
   }
 
   updateTotalWallet() {
-    //console.log("updateTotalWallet");
-
     if (this.bitcurrent && this.ethcurrent) {
       this.walletBTC = +this.singleclient.btc;
       this.walletETH = +this.singleclient.eth;
       this.walletDollars = +this.singleclient.dollar;
-      
-      
       this.newethcurrent = +this.ethcurrent;
       this.newbitcurrent = +this.bitcurrent;
-
       this.calcwalletBTC = this.walletBTC * this.newbitcurrent;
       this.calcwalletETH = this.walletETH * this.newethcurrent;
-
       this.TotalWallet = this.calcwalletBTC + this.calcwalletETH + this.walletDollars;
-     
     }
   }
   ngOnInit() {
     this.userservice.gettheBIT().subscribe(
       resBitData => {
-        //console.log("resBitData", resBitData);
-
         this.bitcurrent = resBitData.ticker.BTCUSDT;
-      
         this.updateTotalWallet();
+        this.updateTotalReserveWallet();
+        this.calculatedAvailableBalance();
       },
       err => {
         console.log("api error in getting bitcoin current", err);
@@ -112,12 +133,10 @@ export class InfoBoxComponent implements OnInit, OnChanges, AfterViewInit {
 
     this.userservice.gettheETH().subscribe(
       resEthData => {
-        //console.log("resEthData", resEthData);
-
         this.ethcurrent = resEthData.ticker.ETHUSDT;
-        console.log("API this.ethcurrent", this.ethcurrent);
         this.updateTotalWallet();
-        //console.log("Price of ETH: $", this.tickereth);
+        this.updateTotalReserveWallet();
+        this.calculatedAvailableBalance();
       },
       err => {
         console.log("api error in getting ethereum current", err);

@@ -24,7 +24,7 @@ body{
     padding:0;
     margin:0;
     font-family: 'Open Sans', sans-serif;
-    background: url(./images/1.png) repeat;
+   /*  background: url(./images/1.png) repeat; */
     }
     
     h1,h2,h3,h4,h5,h6{
@@ -90,7 +90,7 @@ body{
     }
     .resp-tabs-list {
         list-style: none;
-        margin: 0 0 0em 0;
+        margin: 0 0 2em 0;
         padding: 0;
     }
     .resp-tab-item{
@@ -806,7 +806,7 @@ body{
             font-size: 19px;
         }
         li.resp-tab-item span .pic1, li.resp-tab-item span .pic2, li.resp-tab-item span .pic3, li.resp-tab-item span .pic4 {
-            padding: 12px 0px;
+            padding: 20px 20px;
         }
         li.resp-tab-item span .pic1 {
             background: url(./images/pic2.png) no-repeat 32px 13px #fafafa !important;

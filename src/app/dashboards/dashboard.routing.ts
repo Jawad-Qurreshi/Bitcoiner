@@ -18,7 +18,8 @@ export const DashboardRoutes: Routes = [
             { title: 'Dashboard', url: '/dashboard' },
             { title: 'Dashboard 1' }
           ]
-        }
+        },
+        canActivate: [GuardService]
       },
       {
         path: 'dashboard2',
@@ -30,7 +31,7 @@ export const DashboardRoutes: Routes = [
             { title: 'Dashboard 2' }
           ]
         },
-        //canActivate: [GuardService]
+        canActivate: [GuardService]
       },
       {
         path: 'dashboard3',

@@ -1,11 +1,12 @@
 import { CanActivate, Router } from '@angular/router';
+import { NzMessageService } from "ng-zorro-antd";
 import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
-export class GuardService implements CanActivate {
+export class GuardService  {
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private message: NzMessageService,) { }
 
   canActivate() {
     const token = localStorage.getItem('token');
@@ -13,29 +14,11 @@ export class GuardService implements CanActivate {
     if (token) {
       return true;
     } else {
-      //this.router.navigateByUrl('../src/app/authentication/login');
       this.router.navigate(['authentication/login']);
       this.presentAlertConfirm();
     }
   }
   async presentAlertConfirm() {
-    // const alert = await this.alertController.create({
-    //   header: 'Error!',
-    //   message: 'Please Login to continue!',
-    //   buttons: [{
-    //     text: 'Okay',
-    //     role: 'exit',
-    //     cssClass: 'secondary',
-    //     handler: (blah) => { }
-    //   },{
-    //     text: 'Cancel',
-    //     role: 'cancel',
-    //     cssClass: 'secondary',
-    //     handler: (blah) => { }
-    //   }
-    // ]
-    // });
-    // await alert.present();
-    alert('Please login first');
+    this.message.error("Please Login first");
    }
 }
