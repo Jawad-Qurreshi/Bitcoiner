@@ -87,6 +87,7 @@ export class SellertableComponent {
   usdAmount: number;
   amountBuy: any;
   ethcurrent: number;
+  mycolor: boolean;
   constructor(
     private userservice: UserService,
     private router:Router,
@@ -97,6 +98,13 @@ export class SellertableComponent {
   @Input() singleclient = [];
   
   CalcBitEth() {
+    if (this.amountBuy >= this.selectedseller.limit.minimum && this.amountBuy <= this.selectedseller.limit.maximum) {
+      this.mycolor = false 
+    }
+    else {
+      this.mycolor = true;
+    }
+
     if (this.selectedseller.cryptoType === 'BTC'){
       this.userservice.gettheBIT().subscribe(
         resBitData => {
