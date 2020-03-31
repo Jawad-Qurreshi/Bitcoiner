@@ -17,6 +17,7 @@ export class BuyertableComponent {
 
   is2ndVisible = false;
   isOkLoading = false;
+  selectedbuyer;
 
   ngOnInit() {
     this.formInitializer();
@@ -43,7 +44,8 @@ export class BuyertableComponent {
   // }
   
   
-  showModal(): void {
+  showModal(buyer): void {
+    this.selectedbuyer = buyer
     this.is2ndVisible = true;
   }
 
