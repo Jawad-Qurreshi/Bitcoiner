@@ -109,6 +109,7 @@ router.get('/buyer/all', function (req, res) {
   ClientBuyer.find({})
     .exec()
     .then(result => {
+
       res.status(200).json({
         result: result,
         isSuccess: true
@@ -201,7 +202,9 @@ router.get('/seller/all', function (req, res) {
       if (err) {
         console.log('Error while retrieving All seller in api.js');
       } else {
-        res.json(ClientSeller);
+        res.json({
+          result: ClientSeller
+        });
       }
     });
 })
@@ -348,7 +351,7 @@ router.get('/request/pending/all', (req, res) => {
 //Client's Requests routes
 router.post('/request/add', (req, res) => {
   const body = req.body;
-  //console.log(body)
+  
 
   const request = new Request({
     username: body.username,
@@ -376,6 +379,7 @@ router.post('/request/add', (req, res) => {
           if (body.amount < btcCredit) {
             const storedRequest = await request.save();
             client.btc -= body.amount;
+            client.reservedBtc += body.amount;
             client.clientRequest.push(storedRequest._id);
             client.save()
               .then(client => {
@@ -402,6 +406,7 @@ router.post('/request/add', (req, res) => {
           if (body.amount < ethCredit) {
             const storedRequest = await request.save();
             client.eth -= body.amount;
+            client.reservedEth += body.amount;
             client.clientRequest.push(storedRequest._id);
             client.save()
               .then(client => {
@@ -462,23 +467,29 @@ router.delete('/request/:requestId', async (req, res) => {
         client.reservedBtc -= request.amount;
       else
         client.reservedEth -= request.amount;
-    } else {
-      
-
     }
+
+    clientRequests.splice(clientRequests.indexOf(request._id), 1);
+
+    request.remove()
+      .then(async removed => {
+
+        await client.save();
+
+      })
+      .catch(err => {
+        res.status(500).json({
+          isSuccess: false,
+          message: err.message
+        });
+      });
+
   } else {
-    res.status(400).json({
+    return res.status(400).json({
       isSuccess: false,
       message: 'ALREADY_APPROVED'
     });
-
   }
-
-  clientRequests.splice(clientRequests.indexOf(request._id), 1);
-  await request.remove();
-
-
-
 });
 router.get('/request/approved/:clientId', (req, res) => {
   const clientId = req.params.clientId;
