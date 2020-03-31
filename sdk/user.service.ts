@@ -37,8 +37,8 @@ export class UserService {
   }
 
   public deleteMyRequest(id: String): Observable<any> {
-    const url = ProjectConfig.getPath() + "/request/delete" + id;
-    return this.http.get(url);
+    const url = ProjectConfig.getPath() + "/request/" + id;
+    return this.http.delete(url);
   }
 
 

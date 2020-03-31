@@ -4,6 +4,9 @@ const express = require('express');
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const nodemailer = require('nodemailer');
+
+
 const router = express.Router();
 
 const Client = require('../models/client');
@@ -11,7 +14,7 @@ const Request = require('../models/requests');
 const ClientSeller = require('../models/clientSeller');
 const ClientBuyer = require('../models/clientBuyer');
 const BtcAddress = require('../models/btcaddress');
-const nodemailer = require('nodemailer');
+
 
 //const db = "mongodb://localhost:27017/bitcoinerDB";
 const db = "mongodb+srv://mybitcoiner:123456789db@cluster0-8jh11.mongodb.net/test?retryWrites=true&w=majority"
@@ -26,11 +29,6 @@ mongoose.connect(db, { useUnifiedTopology: true, useNewUrlParser: true }, functi
 });
 
 
-
-router.get('/allclients', async (req, res) => {
-
-  const allClients = await Client.find({}).exec();
-});
 
 ///////////////////////////////////BIT API/////////////////////////////////////
 const binance = require('node-binance-api')().options({
@@ -57,22 +55,62 @@ router.get('/ethapi', function (req, res) {
 ////////////////////////////Buyers////////////////////////////////
 router.post('/buyer/add', async (req, res) => {
   const body = req.body;
+  const email = body.email;
 
   const buyer = new ClientBuyer({
     name: body.name,
     email: body.email,
     cryptoType: body.cryptoType,
     price: body.price,
-    limit: body.limit,
     walletAddress: body.walletAddress,
     description: body.description,
-    clientId: body.clientId
+    limit: body.limit
   });
 
-  buyer.save()
+  Client.findById({ email: email }).exec()
+    .then(client => {
+
+      client.reservedDollar += buyer.limit.maximum;
+      client.dollar -= buyer.limit.maximum;
+      buyer.clientId = client._id;
+
+      client.save()
+        .then(saved => {
+          buyer.save()
+            .then(result => {
+              res.status(201).json({
+                message: 'Request Posted!',
+                isSuccess: true
+              });
+            })
+            .catch(err => {
+              res.status(500).json({
+                message: err.message,
+                isSuccess: false
+              });
+            });
+        })
+        .catch(err => {
+          res.status(500).json({
+            isSuccess: false,
+            message: err.message
+          });
+        });
+    })
+    .catch(err => {
+      res.status(500).json({
+        isSuccess: false,
+        message: err.message
+      });
+    });
+});
+
+router.get('/buyer/all', function (req, res) {
+  ClientBuyer.find({})
+    .exec()
     .then(result => {
-      res.status(201).json({
-        message: 'Request Posted!',
+      res.status(200).json({
+        result: result,
         isSuccess: true
       });
     })
@@ -80,24 +118,9 @@ router.post('/buyer/add', async (req, res) => {
       res.status(500).json({
         message: err.message,
         isSuccess: false
-      });
-    });
-});
-
-router.get('/buyer/all', function (req, res) {
-
-  ClientBuyer.find({})
-    .exec()
-    .then(result => {
-      res.status(200).json(result); //Dislaimer: Don't Change
-    })
-    .catch(err => {
-      res.status(500).json({
-        message: err.message,
-        isSuccess: false
       })
     });
-})
+});
 
 router.delete('/buyer/:id', function (req, res) {
   console.log('Deleting a buyer');
@@ -111,7 +134,6 @@ router.delete('/buyer/:id', function (req, res) {
 });
 
 router.post('/confirm/buy', (req, res) => {
-
 });
 
 ////////////////////////////Sellers//////////////////////////////////
@@ -426,17 +448,37 @@ router.post('/request/add', (req, res) => {
       });
     });
 });
-router.delete('/request/:id', (req, res) => {
-  console.log('Deleting a client request');
-  Request.findByIdAndRemove(req.params.id, function (err, deletedRequest) {
-    if (err) {
-      res.status(500).send("Error deleting client request")
+router.delete('/request/:requestId', async (req, res) => {
+  const requestId = req.params.requestId;
+  const request = await Request.findById({ _id: requestId });
+  const client = await Client.findById({ _id: request.clientId });
+  const clientRequests = client.clientRequest;
+
+  if (request.status === 'Under Process') {
+
+    if (request.requestType === 'Send') {
+
+      if (request.cryptoType === 'BTC')
+        client.reservedBtc -= request.amount;
+      else
+        client.reservedEth -= request.amount;
     } else {
-      res.status(200).json({
-        isSuccess: true
-      });
+      
+
     }
-  })
+  } else {
+    res.status(400).json({
+      isSuccess: false,
+      message: 'ALREADY_APPROVED'
+    });
+
+  }
+
+  clientRequests.splice(clientRequests.indexOf(request._id), 1);
+  await request.remove();
+
+
+
 });
 router.get('/request/approved/:clientId', (req, res) => {
   const clientId = req.params.clientId;

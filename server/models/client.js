@@ -17,7 +17,7 @@ const Client = new Schema({
     reservedDollar: { type: Intl, default: 0 },
     btcAddress: String,
     ethAddress: String,
-    clientRequest: [{ type: mongoose.Schema.Types.ObjectId, ref: 'clientrequests' }]
+    clientRequest: [{ type: mongoose.Schema.Types.ObjectId, ref: 'request' }]
 });
 
 module.exports = mongoose.model('client', Client, 'clients');
