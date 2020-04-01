@@ -1,4 +1,4 @@
 
 module.exports = {
-    secrert: 'mango.people',
+    secret: 'mango.people',
 }

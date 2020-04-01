@@ -16,6 +16,9 @@ const ClientBuyer = require('../models/clientBuyer');
 const BtcAddress = require('../models/btcaddress');
 const config = require('../config');
 
+//Check User middleware
+const user = require('../middlewares/user-middlware');
+
 
 //const db = "mongodb://localhost:27017/bitcoinerDB";
 const db = "mongodb+srv://mybitcoiner:123456789db@cluster0-8jh11.mongodb.net/test?retryWrites=true&w=majority"
@@ -54,7 +57,7 @@ router.get('/ethapi', function (req, res) {
 });
 
 ////////////////////////////Buyers////////////////////////////////
-router.post('/buyer/add', async (req, res) => {
+router.post('/buyer/add', user.checAuth, async (req, res) => {
   const body = req.body;
   const email = body.email;
   const limit = body.limit;
@@ -115,7 +118,7 @@ router.post('/buyer/add', async (req, res) => {
     });
 });
 
-router.get('/buyer/all', function (req, res) {
+router.get('/buyer/all', user.checAuth, function (req, res) {
   ClientBuyer.find({})
     .exec()
     .then(result => {
@@ -133,7 +136,7 @@ router.get('/buyer/all', function (req, res) {
     });
 });
 
-router.delete('/buyer/:id', function (req, res) {
+router.delete('/buyer/:id', user.checAuth, function (req, res) {
   console.log('Deleting a buyer');
   ClientBuyer.findByIdAndRemove(req.params.id, function (err, deletedBuyer) {
     if (err) {
@@ -144,11 +147,11 @@ router.delete('/buyer/:id', function (req, res) {
   })
 });
 
-router.post('/confirm/buy', (req, res) => {
+router.post('/confirm/buy', user.checAuth, (req, res) => {
 });
 
 ////////////////////////////Sellers//////////////////////////////////
-router.post('/seller/add', async (req, res) => {
+router.post('/seller/add', user.checAuth, async (req, res) => {
   const body = req.body;
   const clientId = body.clientId;
   const limit = req.body.limit;
@@ -210,7 +213,7 @@ router.post('/seller/add', async (req, res) => {
     });
 });
 
-router.get('/seller/all', function (req, res) {
+router.get('/seller/all', user.checAuth, function (req, res) {
   ClientSeller.find({})
     .exec(function (err, ClientSeller) {
       if (err) {
@@ -223,7 +226,7 @@ router.get('/seller/all', function (req, res) {
     });
 })
 
-router.delete('/seller/:id', function (req, res) {
+router.delete('/seller/:id', user.checAuth, function (req, res) {
   console.log('Deleting a client');
   ClientSeller.findByIdAndRemove(req.params.id, function (err, deletedSeller) {
     if (err) {
@@ -234,11 +237,11 @@ router.delete('/seller/:id', function (req, res) {
   })
 })
 
-router.post('/confirm/sell', (req, res) => {
+router.post('/confirm/sell', user.checAuth, (req, res) => {
 
 });
 
-router.post('/sendmail', async (req, res) => {
+router.post('/sendmail', user.checAuth, async (req, res) => {
   try {
     const body = req.body;
     let pass = "";
@@ -285,7 +288,7 @@ router.post('/sendmail', async (req, res) => {
 
 //Admin's requests routes
 //This approves a request
-router.put('/request/approve/:id', async function (req, res) {
+router.put('/request/approve/:id', user.checAuth, async function (req, res) {
   Request.findById({ _id: req.params.id }).exec()
     .then(async request => {
       if (request.status === 'Under Process') {
@@ -325,7 +328,7 @@ router.put('/request/approve/:id', async function (req, res) {
       console.log(err)
     });
 });
-router.get('/request/approved/all', (req, res) => {
+router.get('/request/approved/all', user.checAuth, (req, res) => {
 
   Request.find({ status: "Approved" })
     .select('-__v -clientId')
@@ -343,7 +346,7 @@ router.get('/request/approved/all', (req, res) => {
       });
     });
 });
-router.get('/request/pending/all', (req, res) => {
+router.get('/request/pending/all', user.checAuth, (req, res) => {
 
   Request.find({ status: 'Under Process' })
     .select('-__v -clientId -approvedAt')
@@ -363,7 +366,7 @@ router.get('/request/pending/all', (req, res) => {
 });
 
 //Client's Requests routes
-router.post('/request/add', (req, res) => {
+router.post('/request/add', user.checAuth, (req, res) => {
   const body = req.body;
 
 
@@ -467,7 +470,7 @@ router.post('/request/add', (req, res) => {
       });
     });
 });
-router.delete('/request/:requestId', async (req, res) => {
+router.delete('/request/:requestId', user.checAuth, async (req, res) => {
   const requestId = req.params.requestId;
   const request = await Request.findById({ _id: requestId });
   const client = await Client.findById({ _id: request.clientId });
@@ -505,7 +508,7 @@ router.delete('/request/:requestId', async (req, res) => {
     });
   }
 });
-router.get('/request/approved/:clientId', (req, res) => {
+router.get('/request/approved/:clientId', user.checAuth, (req, res) => {
   const clientId = req.params.clientId;
   Request.find({ clientId: clientId, status: 'Approved' })
     .select('-__v -clientId')
@@ -523,7 +526,7 @@ router.get('/request/approved/:clientId', (req, res) => {
       });
     });
 });
-router.get('/request/pending/:clientId', (req, res) => {
+router.get('/request/pending/:clientId', user.checAuth, (req, res) => {
   const clientId = req.params.clientId;
 
   Request.find({ clientId: clientId, status: 'Under Process' })
@@ -635,7 +638,7 @@ router.post('/login', async (req, res) => {
   }
 });
 
-router.post('/address/add', async (req, res) => {
+router.post('/address/add', user.checAuth, async (req, res) => {
   const body = req.body;
   const btcAddress = body.btcAddress;
   const ethAddress = body.ethAddress;
@@ -675,7 +678,7 @@ router.post('/address/add', async (req, res) => {
   }
 });
 
-router.get('/address/all', function (req, res) {
+router.get('/address/all', user.checAuth, function (req, res) {
 
   BtcAddress.find({})
     .exec(function (err, btcaddresses) {
@@ -688,7 +691,7 @@ router.get('/address/all', function (req, res) {
 });
 
 ////////////////////////////////Clients///////////////////////////////////////////
-router.put('/client/:id', function (req, res) {
+router.put('/client/:id', user.checAuth, function (req, res) {
   console.log('update a client');
   Client.findByIdAndUpdate(req.params.id, {
     $set: {
@@ -713,7 +716,7 @@ router.put('/client/:id', function (req, res) {
     });
 })
 
-router.delete('/client/:id', function (req, res) {
+router.delete('/client/:id', user.checAuth, function (req, res) {
   console.log('Deleting a client');
   Client.findByIdAndRemove(req.params.id, function (err, deletedClient) {
     if (err) {
@@ -724,7 +727,7 @@ router.delete('/client/:id', function (req, res) {
   })
 })
 
-router.get('/clients', function (req, res) {
+router.get('/client/all', user.checAuth, function (req, res) {
 
   Client.find({})
     .exec(function (err, clients) {
@@ -736,7 +739,7 @@ router.get('/clients', function (req, res) {
     });
 });
 
-router.get('/client/:id', function (req, res) {
+router.get('/client/:id', user.checAuth, function (req, res) {
   const userid = req.params.id;
   Client.findById(userid)
     .exec(function (err, client) {
@@ -746,20 +749,6 @@ router.get('/client/:id', function (req, res) {
         res.status(200).json(client);
       }
     });
-});
-
-router.get('/singleclient/:id', function (req, res) {
-  // console.log('get request of single clients');
-  Client.find({})
-    .exec(function (err, clients) {
-      if (err) {
-        console.log('Error while retrieving clients');
-      } else {
-        res.json(clients);
-      }
-    });
-  // console.log('allClients', allClients);
-  // res.send(allClients);
 });
 
 module.exports = router;
