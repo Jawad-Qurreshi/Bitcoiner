@@ -78,10 +78,10 @@ router.post('/buyer/add', async (req, res) => {
         .then(saved => {
           buyer.save()
             .then(result => {
-             
+
               res.status(201).json({
                 message: 'Request Posted!',
-                
+
                 isSuccess: true
               });
             })
@@ -357,7 +357,7 @@ router.get('/request/pending/all', (req, res) => {
 //Client's Requests routes
 router.post('/request/add', (req, res) => {
   const body = req.body;
-  
+
 
   const request = new Request({
     username: body.username,
@@ -384,8 +384,8 @@ router.post('/request/add', (req, res) => {
 
           if (body.amount < btcCredit) {
             const storedRequest = await request.save();
-            client.btc -= body.amount;
-            client.reservedBtc += body.amount;
+            client.btc -= parseFloat(body.amount);
+            client.reservedBtc += parseFloat(body.amount);
             client.clientRequest.push(storedRequest._id);
             client.save()
               .then(client => {
@@ -411,8 +411,8 @@ router.post('/request/add', (req, res) => {
 
           if (body.amount < ethCredit) {
             const storedRequest = await request.save();
-            client.eth -= body.amount;
-            client.reservedEth += body.amount;
+            client.eth -= parseFloat(body.amount);
+            client.reservedEth += parseFloat(body.amount);
             client.clientRequest.push(storedRequest._id);
             client.save()
               .then(client => {
