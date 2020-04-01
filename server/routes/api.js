@@ -59,6 +59,7 @@ router.post('/buyer/add', async (req, res) => {
   const limit = body.limit;
   limit.minimum = parseFloat(limit.minimum);
   limit.maximum = parseFloat(limit.maximum);
+  
   const buyer = new ClientBuyer({
     name: body.name,
     email: body.email,
@@ -66,7 +67,7 @@ router.post('/buyer/add', async (req, res) => {
     price: body.price,
     walletAddress: body.walletAddress,
     description: body.description,
-    limit: body.limit
+    limit: limit
   });
 
   Client.findOne({ email: email }).exec()
