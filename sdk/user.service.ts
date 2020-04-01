@@ -124,7 +124,7 @@ export class UserService {
   public updateRequestApproved(id: String): Observable<any> {
     const url = ProjectConfig.getPath() + "/request/approve/" + id;
 
-    return this.http.put(url , this.options);
+    return this.http.put(url ,null, this.options);
   }
   
   public setethaddreser(credentials: object): Observable<any> {
