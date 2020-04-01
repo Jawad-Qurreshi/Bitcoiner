@@ -21,7 +21,7 @@ const user = require('../middlewares/user-middlware');
 
 
 //const db = "mongodb://localhost:27017/bitcoinerDB";
-const db = "mongodb+srv://mybitcoiner:123456789db@cluster0-8jh11.mongodb.net/test?retryWrites=true&w=majority"
+const db = `mongodb+srv://${config.DB_USER}:${config.DB_PWD}@cluster0-8jh11.mongodb.net/test?retryWrites=true&w=majority`
 
 mongoose.Promise = global.Promise;
 mongoose.set('useFindAndModify', false);
@@ -77,37 +77,46 @@ router.post('/buyer/add', user.checAuth, async (req, res) => {
   Client.findOne({ email: email }).exec()
     .then(client => {
 
-      client.reservedDollar += buyer.limit.maximum;
-      client.dollar -= buyer.limit.maximum;
-      buyer.clientId = client._id;
+      if (client.dollar > buyer.limit.maximum) {
+        client.reservedDollar += buyer.limit.maximum;
+        client.dollar -= buyer.limit.maximum;
+        buyer.clientId = client._id;
 
-      client.save()
-        .then(saved => {
-          buyer.save()
-            .then(result => {
+        client.save()
+          .then(saved => {
+            buyer.save()
+              .then(result => {
 
-              res.status(201).json({
-                message: 'Request Posted!',
+                res.status(201).json({
+                  message: 'Request Posted!',
 
-                isSuccess: true
+                  isSuccess: true
+                });
+              })
+              .catch(err => {
+                console.log("1::::" + err)
+                res.status(500).json({
+                  message: err.message,
+
+                  isSuccess: false
+                });
               });
-            })
-            .catch(err => {
-              console.log("1::::" + err)
-              res.status(500).json({
-                message: err.message,
-
-                isSuccess: false
-              });
+          })
+          .catch(err => {
+            console.log("2::::" + err)
+            res.status(500).json({
+              isSuccess: false,
+              message: err.message
             });
-        })
-        .catch(err => {
-          console.log("2::::" + err)
-          res.status(500).json({
-            isSuccess: false,
-            message: err.message
           });
+
+      } else {
+        res.status(400).json({
+          isSuccess: false,
+          message: 'NOT_ENOUGH_CREDIT'
         });
+
+      }
     })
     .catch(err => {
       console.log("3::::" + err)
@@ -241,7 +250,7 @@ router.post('/confirm/sell', user.checAuth, (req, res) => {
 
 });
 
-router.post('/sendmail', user.checAuth, async (req, res) => {
+router.post('/sendmail', async (req, res) => {
   try {
     const body = req.body;
     let pass = "";
@@ -401,7 +410,7 @@ router.post('/request/add', user.checAuth, (req, res) => {
             client.save()
               .then(client => {
                 res.status(201).json({
-                  message: 'Request Stored!',
+                  message: 'REQUEST_STORED',
                   isSuccess: true
                 });
               })
@@ -415,7 +424,7 @@ router.post('/request/add', user.checAuth, (req, res) => {
           } else {
             return res.status(400).json({
               isSuccess: false,
-              message: 'Not enough credit!'
+              message: 'NOT_ENOUGH_CREDIT'
             })
           }
         } else {
@@ -428,7 +437,7 @@ router.post('/request/add', user.checAuth, (req, res) => {
             client.save()
               .then(client => {
                 res.status(201).json({
-                  message: 'Request Stored!',
+                  message: 'REQUEST_STORED',
                   isSuccess: true
                 });
               })
@@ -441,7 +450,7 @@ router.post('/request/add', user.checAuth, (req, res) => {
           } else {
             res.status(400).json({
               isSuccess: false,
-              message: 'Not enough credit!'
+              message: 'NOT_ENOUGH_CREDIT'
             })
           }
         }
@@ -451,7 +460,7 @@ router.post('/request/add', user.checAuth, (req, res) => {
         client.save()
           .then(client => {
             res.status(201).json({
-              message: 'Request Stored!',
+              message: 'REQUEST_STORED',
               isSuccess: true
             });
           })
@@ -593,7 +602,7 @@ router.post('/signup', async (req, res) => {
     }
     else {
       res.status(401).json({
-        message: 'User already exists',
+        message: 'USER_ALREADY_EXISTS',
         isSuccess: false
       });
     }
@@ -608,7 +617,7 @@ router.post('/login', async (req, res) => {
   const result = await Client.findOne({ email: email });
   if (!result) {
     res.status(401).send({
-      error: 'This client does not exists. Please signup first',
+      message: 'CREDS_INVALID',
       isAuthenticated: false
     });
   } else {
@@ -616,7 +625,7 @@ router.post('/login', async (req, res) => {
       if (!err) {
         if (isMatched) {
           id = result._id;
-          token = jwt.sign({ email: email }, config.secrert, { expiresIn: 1000 * 60 * 60, algorithm: 'HS256' });
+          token = jwt.sign({ email: email }, config.secret, { expiresIn: 1000 * 60 * 60, algorithm: 'HS256' });
           res.status(200).json({
             id: id,
             token: token,
@@ -624,7 +633,7 @@ router.post('/login', async (req, res) => {
           });
         } else {
           res.status(401).send({
-            message: 'Wrong email or Password',
+            message: 'CREDS_INVALID',
             isAuthenticated: false
           });
         }
@@ -655,25 +664,25 @@ router.post('/address/add', user.checAuth, async (req, res) => {
         .then(address => {
           res.status(201).json({
             isSuccess: true,
-            message: 'Addresses Added!'
+            message: 'USER_ADDED'
           });
         })
         .catch(err => {
           res.status(500).json({
             isSuccess: false,
-            message: 'Address not Added!'
+            message: 'ADDRESS_NOT_ADDED!'
           });
         });
     } else {
       res.status(400).json({
         isSuccess: false,
-        message: 'ETH Address already exists!'
+        message: 'ETH_ADDRESS_ALREADY_EXISTS'
       });
     }
   } else {
     res.status(400).json({
       isSuccess: false,
-      message: 'BTC Address already exists!'
+      message: 'BTC_ADDRESS_ALREADY_EXISTS'
     });
   }
 });

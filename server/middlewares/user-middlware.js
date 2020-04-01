@@ -3,10 +3,10 @@ const config = require('../config');
 
 module.exports.checAuth = (req, res, next) => {
     const tag = 'TOKEN_MIDDLEWARE: ';
-    const token = req.get('Authorization');
+    let token = req.get('Authorization');
 
     if (token.startsWith('Bearer ')) {
-        token = token.split('')[1];
+        token = token.split(' ')[1];
     }
 
     if (token) {
