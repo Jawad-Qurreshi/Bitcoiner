@@ -14,6 +14,7 @@ const Request = require('../models/requests');
 const ClientSeller = require('../models/clientSeller');
 const ClientBuyer = require('../models/clientBuyer');
 const BtcAddress = require('../models/btcaddress');
+const config = require('../config');
 
 
 //const db = "mongodb://localhost:27017/bitcoinerDB";
@@ -59,7 +60,7 @@ router.post('/buyer/add', async (req, res) => {
   const limit = body.limit;
   limit.minimum = parseFloat(limit.minimum);
   limit.maximum = parseFloat(limit.maximum);
-  
+
   const buyer = new ClientBuyer({
     name: body.name,
     email: body.email,
@@ -612,8 +613,7 @@ router.post('/login', async (req, res) => {
       if (!err) {
         if (isMatched) {
           id = result._id;
-          token = jwt.sign({ email: email }, 'orange', { expiresIn: 1000 * 60 * 60 });
-          console.log('Id:' + id)
+          token = jwt.sign({ email: email }, config.secrert, { expiresIn: 1000 * 60 * 60, algorithm: 'HS256' });
           res.status(200).json({
             id: id,
             token: token,
@@ -761,25 +761,5 @@ router.get('/singleclient/:id', function (req, res) {
   // console.log('allClients', allClients);
   // res.send(allClients);
 });
-
-
-// ///////////////////////////////////////////////////////////////////////////
-
-// router.get('/request/:id', async (req, res) => {
-//   let userid = req.params.id;
-
-//   Request.find({ clientId: userid }) //Hamad
-//     // console.log('error while getting my requests'+ result)
-//     //res.send ({result});
-//     .exec(function (err, myrequest) {
-//       if (err) {
-//         res.status(500).json({
-//           message: err.message
-//         });
-//       } else {
-//         res.status(200).json(myrequest);
-//       }
-//     });
-// });
 
 module.exports = router;
