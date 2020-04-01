@@ -6,9 +6,9 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const nodemailer = require('nodemailer');
 
-
+//Initializing
 const router = express.Router();
-
+//Models
 const Client = require('../models/client');
 const Request = require('../models/requests');
 const ClientSeller = require('../models/clientSeller');
@@ -48,7 +48,7 @@ router.get('/bitapi', function (req, res) {
   });
 });
 //Getting ethereium price
-router.get('/ethapi', function (req, res) {
+router.get('/ethapi', user.checAuth, function (req, res) {
   binance.prices('ETHUSDT', (error, ticker) => {
     res.json({
       ticker: ticker
