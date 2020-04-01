@@ -31,8 +31,8 @@
                               <th>Name</th>
                               <th>Type of currency</th>
                               <th>Price</th>
-                              <!-- <th>Limit</th>
-                              <th>Change</th> -->
+                              <th>Limit</th>
+                              <th>Change</th>
                           </tr>
                       </thead>
                       <tbody>
@@ -46,8 +46,8 @@
                               <td>{{ seller.name }}</td>
                               <td>{{ seller.cryptoType }}</td>
                               <td>${{ seller.price }}</td>
-                              <!-- <td>{{ seller.Limit }}</td>
-                              <td>{{ seller.Change }}%</td> -->
+                              <td>${{ seller.limit.minimum }} - ${{ seller.limit.maximum }}</td>
+                              <td>Hi %</td>
                               <td>
                                 <button type="button" (click)="showModal(seller)"
                                 class="btn btn-success">Buy</button>
@@ -92,9 +92,27 @@
   
       <h6>Price:</h6>
       <div class="input-group mb-3">
-        <input type="text" disabled class="form-control row" placeholder="{{selectedseller?.price}}"
+        <input type="text" disabled class="form-control " placeholder="{{selectedseller?.price}}"
           aria-describedby="basic-addon1">
       </div>
+
+      <h6>Limit: :</h6>
+    <div class="input-group mb-3">
+      <div class="input-group-append">
+        <input type="text" class="form-control" id="nametext1"
+          placeholder="{{selectedseller?.limit.minimum}}" aria-describedby="basic-addon1" disabled>
+      </div>
+      <div class="input-group-append">
+        <span class="input-group-text">Min</span>
+      </div>
+      <div class="input-group-append">
+        <input type="text" disabled class="form-control" placeholder="{{selectedseller?.limit.maximum}}"
+          aria-describedby="basic-addon1">
+      </div>
+      <div class="input-group-append">
+        <span class="input-group-text">Max</span>
+      </div>
+    </div>
   
       <h6>Description:</h6>
       <div class="input-group mb-3">
@@ -103,7 +121,7 @@
       </div>
       <h6>Enter the amount in Dollars:</h6>
       <div class="input-group mb-3">
-        <input type="text" [(ngModel)]="amountBuy" (ngModelChange)="CalcBitEth()" 
+        <input type="text" [ngStyle]="{'background-color': (mycolor) ? 'red' : 'white'}" [(ngModel)]="amountBuy" (ngModelChange)="CalcBitEth()" 
           class="form-control" placeholder="$0.00" aria-describedby="basic-addon1" formControlName="usdAmount1">
           <div class="input-group-append">
             <span class="input-group-text">USD</span>

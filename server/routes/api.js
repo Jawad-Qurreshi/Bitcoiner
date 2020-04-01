@@ -149,6 +149,7 @@ router.post('/seller/add', async (req, res) => {
   const clientId = body.clientId;
   const seller = new ClientSeller({
     name: body.name,
+    limit: body.limit,
     email: body.email,
     cryptoType: body.cryptoType,
     price: body.price,
@@ -157,7 +158,7 @@ router.post('/seller/add', async (req, res) => {
     quantity: body.quantity,
     clientId: clientId
   });
-
+  console.log("this is body of seller" + seller);
   Client.findById({ _id: clientId })
     .exec()
     .then(client => {

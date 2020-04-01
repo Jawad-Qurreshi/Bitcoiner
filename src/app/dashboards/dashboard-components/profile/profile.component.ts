@@ -83,6 +83,7 @@ export class ProfileComponent implements OnInit {
     this.userService.getallsellers().subscribe(
       resSellerData => {
         this.sellers = resSellerData.result;
+        console.log("this is me seller", this.sellers);
       },
       err => {
         console.log("api error in all Seller", err);
@@ -343,7 +344,6 @@ export class ProfileComponent implements OnInit {
         description: this.descriptionTrade,
         clientId: this.singleclient._id
       }
-      
       this.userService.addOneBuyer(body).subscribe(
         data => {
           this.message.success("Buying request send!");
@@ -366,7 +366,6 @@ export class ProfileComponent implements OnInit {
         description: this.descriptionTrade,
         clientId: this.singleclient._id
       }
-      
       this.userService.addOneSeller(body).subscribe(
         data => {
           console.log("got response from server", data);
