@@ -6,9 +6,9 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const nodemailer = require('nodemailer');
 
-
+//Initializing
 const router = express.Router();
-
+//Models
 const Client = require('../models/client');
 const Request = require('../models/requests');
 const ClientSeller = require('../models/clientSeller');
@@ -16,9 +16,12 @@ const ClientBuyer = require('../models/clientBuyer');
 const BtcAddress = require('../models/btcaddress');
 const config = require('../config');
 
+//Check User middleware
+const user = require('../middlewares/user-middlware');
+
 
 //const db = "mongodb://localhost:27017/bitcoinerDB";
-const db = "mongodb+srv://mybitcoiner:123456789db@cluster0-8jh11.mongodb.net/test?retryWrites=true&w=majority"
+const db = `mongodb+srv://${config.DB_USER}:${config.DB_PWD}@cluster0-8jh11.mongodb.net/test?retryWrites=true&w=majority`
 
 mongoose.Promise = global.Promise;
 mongoose.set('useFindAndModify', false);
@@ -45,7 +48,7 @@ router.get('/bitapi', function (req, res) {
   });
 });
 //Getting ethereium price
-router.get('/ethapi', function (req, res) {
+router.get('/ethapi', user.checAuth, function (req, res) {
   binance.prices('ETHUSDT', (error, ticker) => {
     res.json({
       ticker: ticker
@@ -54,7 +57,7 @@ router.get('/ethapi', function (req, res) {
 });
 
 ////////////////////////////Buyers////////////////////////////////
-router.post('/buyer/add', async (req, res) => {
+router.post('/buyer/add', user.checAuth, async (req, res) => {
   const body = req.body;
   const email = body.email;
   const limit = body.limit;
@@ -74,37 +77,46 @@ router.post('/buyer/add', async (req, res) => {
   Client.findOne({ email: email }).exec()
     .then(client => {
 
-      client.reservedDollar += buyer.limit.maximum;
-      client.dollar -= buyer.limit.maximum;
-      buyer.clientId = client._id;
+      if (client.dollar > buyer.limit.maximum) {
+        client.reservedDollar += buyer.limit.maximum;
+        client.dollar -= buyer.limit.maximum;
+        buyer.clientId = client._id;
 
-      client.save()
-        .then(saved => {
-          buyer.save()
-            .then(result => {
+        client.save()
+          .then(saved => {
+            buyer.save()
+              .then(result => {
 
-              res.status(201).json({
-                message: 'Request Posted!',
+                res.status(201).json({
+                  message: 'Request Posted!',
 
-                isSuccess: true
+                  isSuccess: true
+                });
+              })
+              .catch(err => {
+                console.log("1::::" + err)
+                res.status(500).json({
+                  message: err.message,
+
+                  isSuccess: false
+                });
               });
-            })
-            .catch(err => {
-              console.log("1::::" + err)
-              res.status(500).json({
-                message: err.message,
-
-                isSuccess: false
-              });
+          })
+          .catch(err => {
+            console.log("2::::" + err)
+            res.status(500).json({
+              isSuccess: false,
+              message: err.message
             });
-        })
-        .catch(err => {
-          console.log("2::::" + err)
-          res.status(500).json({
-            isSuccess: false,
-            message: err.message
           });
+
+      } else {
+        res.status(400).json({
+          isSuccess: false,
+          message: 'NOT_ENOUGH_CREDIT'
         });
+
+      }
     })
     .catch(err => {
       console.log("3::::" + err)
@@ -115,7 +127,7 @@ router.post('/buyer/add', async (req, res) => {
     });
 });
 
-router.get('/buyer/all', function (req, res) {
+router.get('/buyer/all', user.checAuth, function (req, res) {
   ClientBuyer.find({})
     .exec()
     .then(result => {
@@ -133,7 +145,7 @@ router.get('/buyer/all', function (req, res) {
     });
 });
 
-router.delete('/buyer/:id', function (req, res) {
+router.delete('/buyer/:id', user.checAuth, function (req, res) {
   console.log('Deleting a buyer');
   ClientBuyer.findByIdAndRemove(req.params.id, function (err, deletedBuyer) {
     if (err) {
@@ -144,11 +156,11 @@ router.delete('/buyer/:id', function (req, res) {
   })
 });
 
-router.post('/confirm/buy', (req, res) => {
+router.post('/confirm/buy', user.checAuth, (req, res) => {
 });
 
 ////////////////////////////Sellers//////////////////////////////////
-router.post('/seller/add', async (req, res) => {
+router.post('/seller/add', user.checAuth, async (req, res) => {
   const body = req.body;
   const clientId = body.clientId;
   const limit = req.body.limit;
@@ -210,7 +222,7 @@ router.post('/seller/add', async (req, res) => {
     });
 });
 
-router.get('/seller/all', function (req, res) {
+router.get('/seller/all', user.checAuth, function (req, res) {
   ClientSeller.find({})
     .exec(function (err, ClientSeller) {
       if (err) {
@@ -223,7 +235,7 @@ router.get('/seller/all', function (req, res) {
     });
 })
 
-router.delete('/seller/:id', function (req, res) {
+router.delete('/seller/:id', user.checAuth, function (req, res) {
   console.log('Deleting a client');
   ClientSeller.findByIdAndRemove(req.params.id, function (err, deletedSeller) {
     if (err) {
@@ -234,7 +246,7 @@ router.delete('/seller/:id', function (req, res) {
   })
 })
 
-router.post('/confirm/sell', (req, res) => {
+router.post('/confirm/sell', user.checAuth, (req, res) => {
 
 });
 
@@ -285,7 +297,7 @@ router.post('/sendmail', async (req, res) => {
 
 //Admin's requests routes
 //This approves a request
-router.put('/request/approve/:id', async function (req, res) {
+router.put('/request/approve/:id', user.checAuth, async function (req, res) {
   Request.findById({ _id: req.params.id }).exec()
     .then(async request => {
       if (request.status === 'Under Process') {
@@ -325,7 +337,7 @@ router.put('/request/approve/:id', async function (req, res) {
       console.log(err)
     });
 });
-router.get('/request/approved/all', (req, res) => {
+router.get('/request/approved/all', user.checAuth, (req, res) => {
 
   Request.find({ status: "Approved" })
     .select('-__v -clientId')
@@ -343,7 +355,7 @@ router.get('/request/approved/all', (req, res) => {
       });
     });
 });
-router.get('/request/pending/all', (req, res) => {
+router.get('/request/pending/all', user.checAuth, (req, res) => {
 
   Request.find({ status: 'Under Process' })
     .select('-__v -clientId -approvedAt')
@@ -363,7 +375,7 @@ router.get('/request/pending/all', (req, res) => {
 });
 
 //Client's Requests routes
-router.post('/request/add', (req, res) => {
+router.post('/request/add', user.checAuth, (req, res) => {
   const body = req.body;
 
 
@@ -398,7 +410,7 @@ router.post('/request/add', (req, res) => {
             client.save()
               .then(client => {
                 res.status(201).json({
-                  message: 'Request Stored!',
+                  message: 'REQUEST_STORED',
                   isSuccess: true
                 });
               })
@@ -412,7 +424,7 @@ router.post('/request/add', (req, res) => {
           } else {
             return res.status(400).json({
               isSuccess: false,
-              message: 'Not enough credit!'
+              message: 'NOT_ENOUGH_CREDIT'
             })
           }
         } else {
@@ -425,7 +437,7 @@ router.post('/request/add', (req, res) => {
             client.save()
               .then(client => {
                 res.status(201).json({
-                  message: 'Request Stored!',
+                  message: 'REQUEST_STORED',
                   isSuccess: true
                 });
               })
@@ -438,7 +450,7 @@ router.post('/request/add', (req, res) => {
           } else {
             res.status(400).json({
               isSuccess: false,
-              message: 'Not enough credit!'
+              message: 'NOT_ENOUGH_CREDIT'
             })
           }
         }
@@ -448,7 +460,7 @@ router.post('/request/add', (req, res) => {
         client.save()
           .then(client => {
             res.status(201).json({
-              message: 'Request Stored!',
+              message: 'REQUEST_STORED',
               isSuccess: true
             });
           })
@@ -467,7 +479,7 @@ router.post('/request/add', (req, res) => {
       });
     });
 });
-router.delete('/request/:requestId', async (req, res) => {
+router.delete('/request/:requestId', user.checAuth, async (req, res) => {
   const requestId = req.params.requestId;
   const request = await Request.findById({ _id: requestId });
   const client = await Client.findById({ _id: request.clientId });
@@ -505,7 +517,7 @@ router.delete('/request/:requestId', async (req, res) => {
     });
   }
 });
-router.get('/request/approved/:clientId', (req, res) => {
+router.get('/request/approved/:clientId', user.checAuth, (req, res) => {
   const clientId = req.params.clientId;
   Request.find({ clientId: clientId, status: 'Approved' })
     .select('-__v -clientId')
@@ -523,7 +535,7 @@ router.get('/request/approved/:clientId', (req, res) => {
       });
     });
 });
-router.get('/request/pending/:clientId', (req, res) => {
+router.get('/request/pending/:clientId', user.checAuth, (req, res) => {
   const clientId = req.params.clientId;
 
   Request.find({ clientId: clientId, status: 'Under Process' })
@@ -590,7 +602,7 @@ router.post('/signup', async (req, res) => {
     }
     else {
       res.status(401).json({
-        message: 'User already exists',
+        message: 'USER_ALREADY_EXISTS',
         isSuccess: false
       });
     }
@@ -605,7 +617,7 @@ router.post('/login', async (req, res) => {
   const result = await Client.findOne({ email: email });
   if (!result) {
     res.status(401).send({
-      error: 'This client does not exists. Please signup first',
+      message: 'CREDS_INVALID',
       isAuthenticated: false
     });
   } else {
@@ -613,7 +625,7 @@ router.post('/login', async (req, res) => {
       if (!err) {
         if (isMatched) {
           id = result._id;
-          token = jwt.sign({ email: email }, config.secrert, { expiresIn: 1000 * 60 * 60, algorithm: 'HS256' });
+          token = jwt.sign({ email: email }, config.secret, { expiresIn: 1000 * 60 * 60, algorithm: 'HS256' });
           res.status(200).json({
             id: id,
             token: token,
@@ -621,7 +633,7 @@ router.post('/login', async (req, res) => {
           });
         } else {
           res.status(401).send({
-            message: 'Wrong email or Password',
+            message: 'CREDS_INVALID',
             isAuthenticated: false
           });
         }
@@ -635,7 +647,7 @@ router.post('/login', async (req, res) => {
   }
 });
 
-router.post('/address/add', async (req, res) => {
+router.post('/address/add', user.checAuth, async (req, res) => {
   const body = req.body;
   const btcAddress = body.btcAddress;
   const ethAddress = body.ethAddress;
@@ -652,30 +664,30 @@ router.post('/address/add', async (req, res) => {
         .then(address => {
           res.status(201).json({
             isSuccess: true,
-            message: 'Addresses Added!'
+            message: 'USER_ADDED'
           });
         })
         .catch(err => {
           res.status(500).json({
             isSuccess: false,
-            message: 'Address not Added!'
+            message: 'ADDRESS_NOT_ADDED!'
           });
         });
     } else {
       res.status(400).json({
         isSuccess: false,
-        message: 'ETH Address already exists!'
+        message: 'ETH_ADDRESS_ALREADY_EXISTS'
       });
     }
   } else {
     res.status(400).json({
       isSuccess: false,
-      message: 'BTC Address already exists!'
+      message: 'BTC_ADDRESS_ALREADY_EXISTS'
     });
   }
 });
 
-router.get('/address/all', function (req, res) {
+router.get('/address/all', user.checAuth, function (req, res) {
 
   BtcAddress.find({})
     .exec(function (err, btcaddresses) {
@@ -688,7 +700,7 @@ router.get('/address/all', function (req, res) {
 });
 
 ////////////////////////////////Clients///////////////////////////////////////////
-router.put('/client/:id', function (req, res) {
+router.put('/client/:id', user.checAuth, function (req, res) {
   console.log('update a client');
   Client.findByIdAndUpdate(req.params.id, {
     $set: {
@@ -713,7 +725,7 @@ router.put('/client/:id', function (req, res) {
     });
 })
 
-router.delete('/client/:id', function (req, res) {
+router.delete('/client/:id', user.checAuth, function (req, res) {
   console.log('Deleting a client');
   Client.findByIdAndRemove(req.params.id, function (err, deletedClient) {
     if (err) {
@@ -724,7 +736,7 @@ router.delete('/client/:id', function (req, res) {
   })
 })
 
-router.get('/clients', function (req, res) {
+router.get('/client/all', user.checAuth, function (req, res) {
 
   Client.find({})
     .exec(function (err, clients) {
@@ -736,7 +748,7 @@ router.get('/clients', function (req, res) {
     });
 });
 
-router.get('/client/:id', function (req, res) {
+router.get('/client/:id', user.checAuth, function (req, res) {
   const userid = req.params.id;
   Client.findById(userid)
     .exec(function (err, client) {
@@ -746,20 +758,6 @@ router.get('/client/:id', function (req, res) {
         res.status(200).json(client);
       }
     });
-});
-
-router.get('/singleclient/:id', function (req, res) {
-  // console.log('get request of single clients');
-  Client.find({})
-    .exec(function (err, clients) {
-      if (err) {
-        console.log('Error while retrieving clients');
-      } else {
-        res.json(clients);
-      }
-    });
-  // console.log('allClients', allClients);
-  // res.send(allClients);
 });
 
 module.exports = router;
