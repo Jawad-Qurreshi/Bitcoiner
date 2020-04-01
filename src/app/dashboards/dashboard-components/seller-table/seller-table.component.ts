@@ -98,10 +98,16 @@ export class SellertableComponent {
   @Input() singleclient = [];
   
   CalcBitEth() {
-    if (this.amountBuy >= this.selectedseller.limit.minimum && this.amountBuy <= this.selectedseller.limit.maximum) {
+    if ( parseFloat(this.amountBuy)  >= this.selectedseller.limit.minimum && parseFloat(this.amountBuy) <= this.selectedseller.limit.maximum) {
       this.mycolor = false 
+      // console.log("this is amountbuy in true condition" + this.amountBuy)
+      // console.log("this is amountbuy in true min" + this.selectedseller.limit.minimum)
+      // console.log("this is amountbuy in true max" + this.selectedseller.limit.maximum)
     }
     else {
+      // console.log("this is amountbuy in false condition" + this.amountBuy)
+      // console.log("this is amountbuy in false min" + this.selectedseller.limit.minimum)
+      // console.log("this is amountbuy in false max" + this.selectedseller.limit.maximum)
       this.mycolor = true;
     }
 

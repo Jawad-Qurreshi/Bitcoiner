@@ -22,8 +22,8 @@ export class BuyertableComponent {
   selectedbuyer;
   ethcurrent;
   bitcurrent;
-  amountSell: any;
-  mycolor = false ;
+  amountSell;
+  mycolor = false;
 
   ngOnInit() {
     this.formInitializer();
@@ -70,10 +70,16 @@ export class BuyertableComponent {
   @Input() buyers = [];
 
   CalcBitEth(): void {
-    if (this.amountSell >= this.selectedbuyer.limit.minimum && this.amountSell <= this.selectedbuyer.limit.maximum) {
-      this.mycolor = false 
+    if (parseFloat(this.amountSell) >= this.selectedbuyer.limit.minimum && parseFloat(this.amountSell) <= this.selectedbuyer.limit.maximum) {
+      this.mycolor = false
+      console.log("this is amountbuy in true condition" + this.amountSell)
+      console.log("this is amountbuy in true min" + this.selectedbuyer.limit.minimum)
+      console.log("this is amountbuy in true max" + this.selectedbuyer.limit.maximum)
     }
     else {
+      console.log("this is amountbuy in false condition" + this.amountSell)
+      console.log("this is amountbuy in false min" + this.selectedbuyer.limit.minimum)
+      console.log("this is amountbuy in false max" + this.selectedbuyer.limit.maximum)
       this.mycolor = true;
     }
     if (this.selectedbuyer.cryptoType === 'BTC') {
@@ -100,7 +106,7 @@ export class BuyertableComponent {
       );
       this.usdAmount = this.amountSell * this.ethcurrent;
     }
-}
+  }
 
   resertData() {
     this.amountSell = 0;

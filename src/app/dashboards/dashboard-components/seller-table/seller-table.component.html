@@ -71,13 +71,13 @@
 
       <h6>Name:</h6>
       <div class="input-group mb-3">
-        <input type="text" disabled class="form-control row" placeholder="{{selectedseller?.name}}"
+        <input type="text" disabled class="form-control " placeholder="{{selectedseller?.name}}"
           aria-describedby="basic-addon1">
       </div>
   
       <h6>Email:</h6>
       <div class="input-group mb-3">
-        <input type="text" disabled class="form-control row" placeholder="{{selectedseller?.email}}"
+        <input type="text" disabled class="form-control " placeholder="{{selectedseller?.email}}"
           aria-describedby="basic-addon1">
       </div>
   
@@ -121,7 +121,7 @@
       </div>
       <h6>Enter the amount in Dollars:</h6>
       <div class="input-group mb-3">
-        <input type="text" [ngStyle]="{'background-color': (mycolor) ? 'red' : 'white'}" [(ngModel)]="amountBuy" (ngModelChange)="CalcBitEth()" 
+        <input type="text" [ngStyle]="{'background-color': (mycolor) ? '#B22222' : 'white'}" [(ngModel)]="amountBuy" (ngModelChange)="CalcBitEth()" 
           class="form-control" placeholder="$0.00" aria-describedby="basic-addon1" formControlName="usdAmount1">
           <div class="input-group-append">
             <span class="input-group-text">USD</span>
