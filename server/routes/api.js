@@ -56,7 +56,9 @@ router.get('/ethapi', function (req, res) {
 router.post('/buyer/add', async (req, res) => {
   const body = req.body;
   const email = body.email;
-  console.log("body" + body)
+  const limit = body.limit;
+  limit.minimum = parseFloat(limit.minimum);
+  limit.maximum = parseFloat(limit.maximum);
   const buyer = new ClientBuyer({
     name: body.name,
     email: body.email,
@@ -147,9 +149,12 @@ router.post('/confirm/buy', (req, res) => {
 router.post('/seller/add', async (req, res) => {
   const body = req.body;
   const clientId = body.clientId;
+  const limit = req.body.limit;
+  limit.minimum = parseFloat(limit.minimum);
+  limit.maximum = parseFloat(limit.maximum);
   const seller = new ClientSeller({
     name: body.name,
-    limit: body.limit,
+    limit: limit,
     email: body.email,
     cryptoType: body.cryptoType,
     price: body.price,
@@ -367,7 +372,7 @@ router.post('/request/add', (req, res) => {
     from: body.from,
     requestType: body.requestType,
     cryptoType: body.cryptoType,
-    amount: body.amount,
+    amount: parseFloat(body.amount),
     description: body.description,
     status: 'Under Process',
     clientId: ''
@@ -757,23 +762,23 @@ router.get('/singleclient/:id', function (req, res) {
 });
 
 
-///////////////////////////////////////////////////////////////////////////
+// ///////////////////////////////////////////////////////////////////////////
 
-router.get('/request/:id', async (req, res) => {
-  let userid = req.params.id;
+// router.get('/request/:id', async (req, res) => {
+//   let userid = req.params.id;
 
-  Request.find({ clientId: userid }) //Hamad
-    // console.log('error while getting my requests'+ result)
-    //res.send ({result});
-    .exec(function (err, myrequest) {
-      if (err) {
-        res.status(500).json({
-          message: err.message
-        });
-      } else {
-        res.status(200).json(myrequest);
-      }
-    });
-});
+//   Request.find({ clientId: userid }) //Hamad
+//     // console.log('error while getting my requests'+ result)
+//     //res.send ({result});
+//     .exec(function (err, myrequest) {
+//       if (err) {
+//         res.status(500).json({
+//           message: err.message
+//         });
+//       } else {
+//         res.status(200).json(myrequest);
+//       }
+//     });
+// });
 
 module.exports = router;
