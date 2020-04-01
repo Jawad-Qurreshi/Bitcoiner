@@ -146,7 +146,6 @@ router.get('/buyer/all', user.checAuth, function (req, res) {
 });
 
 router.delete('/buyer/:id', user.checAuth, function (req, res) {
-  console.log('Deleting a buyer');
   ClientBuyer.findByIdAndRemove(req.params.id, function (err, deletedBuyer) {
     if (err) {
       res.send("Error deleting buyer")
@@ -308,6 +307,14 @@ router.put('/request/approve/:id', user.checAuth, async function (req, res) {
             client.save();
           } else {
             client.eth += parseFloat(request.amount);
+            client.save();
+          }
+        } else {
+          if (request.cryptoType === 'BTC') {
+            client.reservedBtc -= parseFloat(request.amount);
+            client.save();
+          } else {
+            client.reservedEth -= parseFloat(request.amount);
             client.save();
           }
         }
