@@ -69,7 +69,7 @@ export class UserService {
     return this.http.get(url , this.options);
   }
   public getallclients(): Observable<any> {
-    const url = ProjectConfig.getPath() + "/clients/all";
+    const url = ProjectConfig.getPath() + "/client/all";
     //return this.http.get(url, credentials);
     return this.http.get(url , this.options);
   }
