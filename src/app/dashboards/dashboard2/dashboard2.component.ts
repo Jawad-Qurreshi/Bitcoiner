@@ -37,8 +37,12 @@ export class Dashboard2Component implements AfterViewInit {
     // );
 
      this.userservice.getmypendingrequest(id).subscribe(
-       getmypenreq => {
-        this.myPendingRequests = getmypenreq.requests;
+       response => {
+         if(response.message === 'TOKEN_INVALID' || response.message === 'TOKEN_NOT_SUPPLIED'){
+          
+         }else{
+          this.myPendingRequests = response.requests;
+         }
        },
        err => {
         console.log("api error in my request retreaval", err);
