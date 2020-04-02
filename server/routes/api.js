@@ -777,10 +777,36 @@ router.post('/admin/authenticate', (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
 
-
+  Admin.findOne({ username: username })
+    .then(admin => {
+      bcrypt.compare(password, admin.password, (err, isMatched) => {
+        if (!err) {
+          if (isMatched) {
+            const token = jwt.sign({ username: admin.username }, config.adminSecret, { expiresIn: '1d', algorithm: 'HS256' });
+            res.status(200).json({
+              isAuthenticated: true,
+              token: token
+            })
+          } else {
+            res.status(401).json({
+              isAuthenticated: false,
+              message: 'CREDS_INVALID'
+            });
+          }
+        } else {
+          res.status(500).json({
+            isAuthenticated: false,
+            message: 'INTERNAL_ERROR'
+          });
+        }
+      });
+    })
+    .catch(err => {
+      res.status(500).json({
+        isAuthenticated: false,
+        message: 'INTERNAL_ERROR'
+      });
+    });
 });
-
-
-
 
 module.exports = router;
