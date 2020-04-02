@@ -4,38 +4,46 @@ const express = require('express');
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const nodemailer = require('nodemailer');
 
-//Initializing
-const router = express.Router();
+
 //Models
 const Client = require('../models/client');
 const Request = require('../models/requests');
 const ClientSeller = require('../models/clientSeller');
 const ClientBuyer = require('../models/clientBuyer');
 const BtcAddress = require('../models/btcaddress');
-const Admin = require('../models/admin');
 //Configuration file
-
 const config = require('../config');
-
+//Mailer
+const mailer = require('../mailer');
 //Check User middleware
 const user = require('../middlewares/user-middlware');
+//Controllers
+const adminController = require('../controllers/admin-controllers/admin-controller');
 
 
+//Initializing
+const router = express.Router();
 //const db = "mongodb://localhost:27017/bitcoinerDB";
-const db = `mongodb+srv://${config.DB_USER}:${config.DB_PWD}@cluster0-8jh11.mongodb.net/test?retryWrites=true&w=majority`
-
+const db = `mongodb+srv://${config.db.USER}:${config.db.PWD}@cluster0-8jh11.mongodb.net/test?retryWrites=true&w=majority`
 mongoose.Promise = global.Promise;
 mongoose.set('useFindAndModify', false);
-
 mongoose.connect(db, { useUnifiedTopology: true, useNewUrlParser: true }, function (err) {
   if (err) {
     console.error("Error ! " + err);
   }
 });
 
+///////////////////////Password//////////////////////
 
+router.post('/user/recovery/password', (req, res) => {
+  const to = req.body.email;
+  mailer.sendPasswordRecoveryEmail(to);
+  res.status(200).json({
+    isSuccess: true,
+    message: 'MAIL_SENT'
+  })
+});
 
 ///////////////////////////////////BIT API/////////////////////////////////////
 const binance = require('node-binance-api')().options({
@@ -250,49 +258,6 @@ router.delete('/seller/:id', user.checAuth, function (req, res) {
 
 router.post('/confirm/sell', user.checAuth, (req, res) => {
 
-});
-
-router.post('/sendmail', async (req, res) => {
-  try {
-    const body = req.body;
-    let pass = "";
-    console.log("my client email", body.email);
-    const result = await Client.findOne({ "Email": body.email });
-    if (!result) {
-      res.status(401).send({
-        Error: 'This user doesnot exists. Please signup first'
-      });
-    }
-    else {
-      pass = result.Password;
-      var transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-          user: 'moviecon3327@gmail.com',
-          pass: '03105593105'
-        }
-      });
-      var mailOptions = {
-        from: 'moviecon3327@gmail.com',
-        to: body.email,
-        subject: 'Password Recovery Movie-Con',
-        html: `<h1>Hello</h1><p>Thanks a lot for using Bitcoiner, your password is: ${pass} </p> <h2>regards:</h2> <p>Bitcoiner</p>`
-      };
-      transporter.sendMail(mailOptions, function (error, info) {
-
-        if (error) {
-          console.log(error);
-          res.send({ message: 'we got a problem' });
-        } else {
-          console.log('Email sent: ' + info.response);
-          res.send({ message: 'successfull!' });
-        }
-      });
-    }
-  }
-  catch (ex) {
-    console.log('ex', ex)
-  }
 });
 
 /////////////////////////All requests////////////////////////////////////////
@@ -597,11 +562,11 @@ router.post('/signup', async (req, res) => {
             //   val = Math.floor(Math.random() * length + 1) + 1;
             // }
             end = addresses[val];
-            console.log(val);
             newClient.btcAddress = end.btcAddress;
             newClient.ethAddress = end.ethAddress;
             newClient.save()
               .then(client => {
+                mailer.sendVerificationMail(client.email);
                 res.json(client)
               })
               .catch(err => {
@@ -635,7 +600,7 @@ router.post('/login', async (req, res) => {
       if (!err) {
         if (isMatched) {
           id = result._id;
-          token = jwt.sign({ email: email }, config.secret, { expiresIn: 1000 * 60 * 60, algorithm: 'HS256' });
+          token = jwt.sign({ email: email }, config.secret.USER, { expiresIn: 1000 * 60 * 60, algorithm: 'HS256' });
           res.status(200).json({
             id: id,
             token: token,
@@ -773,40 +738,8 @@ router.get('/client/:id', user.checAuth, function (req, res) {
 
 ////////////////////////////ADMIN/////////////////////////
 
-router.post('/admin/authenticate', (req, res) => {
-  const username = req.body.username;
-  const password = req.body.password;
+router.post('/admin/authenticate', adminController.checkAdminAuth);
 
-  Admin.findOne({ username: username })
-    .then(admin => {
-      bcrypt.compare(password, admin.password, (err, isMatched) => {
-        if (!err) {
-          if (isMatched) {
-            const token = jwt.sign({ username: admin.username }, config.adminSecret, { expiresIn: '1d', algorithm: 'HS256' });
-            res.status(200).json({
-              isAuthenticated: true,
-              token: token
-            })
-          } else {
-            res.status(401).json({
-              isAuthenticated: false,
-              message: 'CREDS_INVALID'
-            });
-          }
-        } else {
-          res.status(500).json({
-            isAuthenticated: false,
-            message: 'INTERNAL_ERROR'
-          });
-        }
-      });
-    })
-    .catch(err => {
-      res.status(500).json({
-        isAuthenticated: false,
-        message: 'INTERNAL_ERROR'
-      });
-    });
-});
+router.put('/admin/verify/user/:userId', adminController.verifyUser);
 
 module.exports = router;
