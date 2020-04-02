@@ -740,6 +740,6 @@ router.get('/client/:id', user.checAuth, function (req, res) {
 
 router.post('/admin/authenticate', adminController.checkAdminAuth);
 
-router.put('/admin/verify/user/:userId', adminController.verifyUser);
+router.put('/admin/verify/user/:userId', user.checkAdminAuth, adminController.verifyUser);
 
 module.exports = router;
