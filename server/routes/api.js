@@ -14,6 +14,9 @@ const Request = require('../models/requests');
 const ClientSeller = require('../models/clientSeller');
 const ClientBuyer = require('../models/clientBuyer');
 const BtcAddress = require('../models/btcaddress');
+const Admin = require('../models/admin');
+//Configuration file
+
 const config = require('../config');
 
 //Check User middleware
@@ -766,5 +769,18 @@ router.get('/client/:id', user.checAuth, function (req, res) {
       }
     });
 });
+
+
+////////////////////////////ADMIN/////////////////////////
+
+router.post('/admin/authenticate', (req, res) => {
+  const username = req.body.username;
+  const password = req.body.password;
+
+
+});
+
+
+
 
 module.exports = router;
