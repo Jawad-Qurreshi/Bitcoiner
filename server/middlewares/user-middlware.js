@@ -12,7 +12,7 @@ module.exports.checAuth = (req, res, next) => {
 
     if (token) {
 
-        jwt.verify(token, config.secret, (err, decoded) => {
+        jwt.verify(token, config.secret.USER, (err, decoded) => {
 
             if (!err) {
                 req.decoded = decoded;

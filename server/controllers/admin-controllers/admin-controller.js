@@ -38,10 +38,10 @@ module.exports.checkAdminAuth = (req, res) => {
 };
 
 
-module.exports.verifyUser = async (req, res) => {
+module.exports.verifyUser = (req, res) => {
   const userId = req.params.userId
   Client.findById({ _id: userId }).exec()
-    .then(client => {
+    .then(async client => {
       client.isVerified = true;
       await client.save();
       res.status(200).json({

@@ -256,8 +256,50 @@ router.delete('/seller/:id', user.checAuth, function (req, res) {
   })
 })
 
-router.post('/confirm/sell', user.checAuth, (req, res) => {
+router.post('/confirm/sell', user.checAuth, async (req, res) => {
+  const body = req.body;
+  const dollar = body.dollar;
+  const totalCurrencyAmount = parseFloat(body.amount);
+  const buyPostId = body.id;
+  const buyPost = await ClientBuyer.findById({ _id: buyPostId });
+  const buyerID = buyPost.clientId;
+  const sellerId = req.decoded.userid;
+  const buyer = await Client.findById({ _id: buyerID });
+  const seller = await Client.findById({ _id: sellerId });
 
+  if (buyPost.cryptoType === 'BTC') {
+    if (seller.btc > totalCurrencyAmount) {
+      seller.btc -= totalCurrencyAmount;
+      seller.dollar += dollar;
+      buyer.reservedDollar -= dollar;
+      buyer.btc += totalCurrencyAmount;
+      res.status(200).json({
+        isSuccess: true,
+        message: 'TRANSACTION_DONE'
+      });
+    } else {
+      res.status(400).json({
+        isSuccess: false,
+        message: 'NOT_ENOUGH_CREDIT'
+      });
+    }
+  } else {
+    if (seller.eth > totalCurrencyAmount) {
+      seller.eth -= totalCurrencyAmount;
+      seller.dollar += dollar;
+      buyer.reservedDollar -= dollar;
+      buyer.eth += totalCurrencyAmount;
+      res.status(200).json({
+        isSuccess: true,
+        message: 'TRANSACTION_DONE'
+      });
+    } else {
+      res.status(400).json({
+        isSuccess: false,
+        message: 'NOT_ENOUGH_CREDIT'
+      });
+    }
+  }
 });
 
 /////////////////////////All requests////////////////////////////////////////
@@ -600,7 +642,7 @@ router.post('/login', async (req, res) => {
       if (!err) {
         if (isMatched) {
           id = result._id;
-          token = jwt.sign({ email: email }, config.secret.USER, { expiresIn: 1000 * 60 * 60, algorithm: 'HS256' });
+          token = jwt.sign({ userid: result._id }, config.secret.USER, { expiresIn: 1000 * 60 * 60, algorithm: 'HS256' });
           res.status(200).json({
             id: id,
             token: token,
