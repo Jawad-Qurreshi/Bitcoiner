@@ -138,7 +138,6 @@ router.post('/buyer/add', user.checAuth, async (req, res) => {
       });
     });
 });
-
 router.get('/buyer/all', user.checAuth, function (req, res) {
   ClientBuyer.find({})
     .exec()
@@ -156,7 +155,6 @@ router.get('/buyer/all', user.checAuth, function (req, res) {
       })
     });
 });
-
 router.delete('/buyer/:id', user.checAuth, function (req, res) {
   ClientBuyer.findByIdAndRemove(req.params.id, function (err, deletedBuyer) {
     if (err) {
@@ -166,7 +164,6 @@ router.delete('/buyer/:id', user.checAuth, function (req, res) {
     }
   })
 });
-
 router.post('/confirm/buy', user.checAuth, (req, res) => {
 });
 
@@ -231,7 +228,6 @@ router.post('/seller/add', user.checAuth, async (req, res) => {
       });
     });
 });
-
 router.get('/seller/all', user.checAuth, function (req, res) {
   ClientSeller.find({})
     .exec(function (err, ClientSeller) {
@@ -244,7 +240,6 @@ router.get('/seller/all', user.checAuth, function (req, res) {
       }
     });
 })
-
 router.delete('/seller/:id', user.checAuth, function (req, res) {
   console.log('Deleting a client');
   ClientSeller.findByIdAndRemove(req.params.id, function (err, deletedSeller) {
@@ -255,7 +250,6 @@ router.delete('/seller/:id', user.checAuth, function (req, res) {
     }
   })
 })
-
 router.post('/confirm/sell', user.checAuth, async (req, res) => {
   const body = req.body;
   const dollar = parseFloat(body.dollar);
@@ -638,7 +632,6 @@ router.post('/signup', async (req, res) => {
     }
   });
 });
-
 router.post('/login', async (req, res) => {
   const body = req.body;
   let id;
@@ -676,7 +669,6 @@ router.post('/login', async (req, res) => {
     });
   }
 });
-
 router.post('/address/add', user.checAuth, async (req, res) => {
   const body = req.body;
   const btcAddress = body.btcAddress;
@@ -716,7 +708,6 @@ router.post('/address/add', user.checAuth, async (req, res) => {
     });
   }
 });
-
 router.get('/address/all', user.checAuth, function (req, res) {
 
   BtcAddress.find({})
@@ -754,7 +745,6 @@ router.put('/client/:id', user.checAuth, function (req, res) {
       }
     });
 })
-
 router.delete('/client/:id', user.checAuth, function (req, res) {
   console.log('Deleting a client');
   Client.findByIdAndRemove(req.params.id, function (err, deletedClient) {
@@ -765,7 +755,6 @@ router.delete('/client/:id', user.checAuth, function (req, res) {
     }
   })
 })
-
 router.get('/client/all', user.checAuth, function (req, res) {
 
   Client.find({})
@@ -777,7 +766,6 @@ router.get('/client/all', user.checAuth, function (req, res) {
       }
     });
 });
-
 router.get('/client/:id', user.checAuth, function (req, res) {
   const userid = req.params.id;
   Client.findById(userid)
