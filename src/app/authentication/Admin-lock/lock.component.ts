@@ -34,7 +34,7 @@ export class AdminLockComponent {
       const loginData = this.adminForm.value;
        this.userservice.adminLogin(loginData).subscribe(
          response=>{
-           localStorage.setItem("token",response.token)
+           localStorage.setItem("Admintoken",response.token)
           this.message.success("Login Successful");
           this.clicked = false;
           this.router.navigate(["dashboard/dashboard1"]);

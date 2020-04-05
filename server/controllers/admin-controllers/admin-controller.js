@@ -5,14 +5,13 @@ const bcrypt = require('bcrypt')
 module.exports.checkAdminAuth = (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
-
   Admin.findOne({username })
     .then(admin => {
       console.log(admin)
       bcrypt.compare(password, admin.password, (err, isMatched) => {
         if (!err) {
           if (isMatched) {
-            const token = jwt.sign({ username: admin.username, role: config.role.ADMIN_ROLE }, config.secret.ADMIN, { expiresIn: '1d', algorithm: 'HS256' });
+            const token = jwt.sign({ username: admin.username, role: config.role.ADMIN_ROLE }, config.secret.USER, { expiresIn: '1d', algorithm: 'HS256' });
             res.status(200).json({
               isAuthenticated: true,
               token: token
