@@ -1,12 +1,14 @@
 const config = require('../../config');
-const Client = require('../../models/client');
+const Admin = require('../../models/admin');
+const bcrypt = require('bcrypt')
 
 module.exports.checkAdminAuth = (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
 
-  Admin.findOne({ username: username })
+  Admin.findOne({username })
     .then(admin => {
+      console.log(admin)
       bcrypt.compare(password, admin.password, (err, isMatched) => {
         if (!err) {
           if (isMatched) {
@@ -22,6 +24,7 @@ module.exports.checkAdminAuth = (req, res) => {
             });
           }
         } else {
+          console.log(err);
           res.status(500).json({
             isAuthenticated: false,
             message: 'INTERNAL_ERROR'
@@ -30,6 +33,7 @@ module.exports.checkAdminAuth = (req, res) => {
       });
     })
     .catch(err => {
+      console.log(err);
       res.status(500).json({
         isAuthenticated: false,
         message: 'INTERNAL_ERROR'
