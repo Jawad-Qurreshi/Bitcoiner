@@ -57,6 +57,11 @@ export class UserService {
     const url = ProjectConfig.getPath() + "/seller/" + id;
     return this.http.get(url ,this.options);
   }
+
+  public confirmSell(credentials : object): Observable<any>{
+      const url = ProjectConfig.getPath() + "/confirm/sell";
+      return this.http.post(url,credentials,this.options)
+  }
   
   public getapprovedrequests(): Observable<any> {
     const url = ProjectConfig.getPath() + "/request/approved/all";

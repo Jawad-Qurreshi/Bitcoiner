@@ -188,7 +188,6 @@ router.post('/seller/add', user.checAuth, async (req, res) => {
     quantity: body.quantity,
     clientId: clientId
   });
-  console.log("this is body of seller" + seller);
   Client.findById({ _id: clientId })
     .exec()
     .then(client => {
@@ -259,7 +258,7 @@ router.delete('/seller/:id', user.checAuth, function (req, res) {
 
 router.post('/confirm/sell', user.checAuth, async (req, res) => {
   const body = req.body;
-  const dollar = parseFloat(body.dollar);
+  const dollar = body.dollar;
   const totalCurrencyAmount = parseFloat(body.amount);
   const buyPostId = body.id;
   let buyerID;
