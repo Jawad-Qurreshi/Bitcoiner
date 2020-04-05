@@ -48,6 +48,11 @@ export class UserService {
     return this.http.delete(url ,this.options);
   }
 
+  public adminLogin(credential : object): Observable<any>{
+    const url = ProjectConfig.getPath() + "/admin/authenticate"
+ return this.http.post(url,credential,this.options)
+  }
+
 
   public deleteBuyer(id: String): Observable<any> {
     const url = ProjectConfig.getPath() + "/buyer/" + id;

@@ -11,11 +11,12 @@ import { Router } from "@angular/router";
 })
 export class AdminLockComponent {
   clicked: boolean;
-  adminPasswordForm: FormGroup;
+  adminForm: FormGroup;
   constructor(private formBuilder: FormBuilder,
-    private service: UserService,
+    private userservice: UserService,
     private message: NzMessageService,
     private router: Router
+  
   ) { }
 
   ngOnInit() {
@@ -23,32 +24,25 @@ export class AdminLockComponent {
   }
 
   formInitializer() {
-    this.adminPasswordForm = this.formBuilder.group({
-      password: [null, [Validators.required, Validators.email]]
+    this.adminForm = this.formBuilder.group({
+      username: ["",Validators.required],
+      password: ["", [Validators.required, Validators.minLength(6)]]
     });
   }
   login() :void {
-    //try {
-      this.message.success("Login Successful");
-      this.clicked = false;
-      this.router.navigate(["dashboard/dashboard1"]);
-    //   this.clicked = true;
-    //   const password = this.adminPasswordForm.value;
-    //   this.service.adminLoginPassword(password).subscribe(
-    //     data => {
-    //       this.message.success("Login Successful");
-    //       this.clicked = false;
-    //       this.router.navigate(["dashboard/dashboard1"]);
-    //     },
-    //     error => {
-    //       console.log('error', error);
-    //       this.message.success("Login Unsuccessful");
-    //       this.clicked = false;
-    //     }
-    //   );
-    // } catch (ex) {
-    //   console.log('ex', ex);
-    // }
-
+    this.clicked = true;
+      const loginData = this.adminForm.value;
+       this.userservice.adminLogin(loginData).subscribe(
+         response=>{
+           localStorage.setItem("token",response.token)
+          this.message.success("Login Successful");
+          this.clicked = false;
+          this.router.navigate(["dashboard/dashboard1"]);
+         },
+         err => {
+          this.message.success("Invalid Username or password");
+          this.clicked = false;
+         }
+       )
   }
 }
