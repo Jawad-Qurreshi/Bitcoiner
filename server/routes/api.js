@@ -273,12 +273,23 @@ router.post('/confirm/sell', user.checAuth, async (req, res) => {
           seller.dollar += dollar;
           buyer.reservedDollar -= dollar;
           buyer.btc += totalCurrencyAmount;
-          await buyer.save();
-          await seller.save();
-          res.status(200).json({
-            isSuccess: true,
-            message: 'TRANSACTION_DONE'
-          });
+          buyer.save()
+            .then(buyer => {
+              seller.save()
+                .then(seller => {
+                  res.status(200).json({
+                    isSuccess: true,
+                    message: 'TRANSACTION_DONE'
+                  });
+                })
+                .catch( err => {
+                  console.log(err)
+                });
+            })
+            .catch( err => {
+              console.log(err)
+            });
+
         } else {
           res.status(400).json({
             isSuccess: false,
