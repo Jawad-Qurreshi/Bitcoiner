@@ -258,7 +258,7 @@ router.delete('/seller/:id', user.checAuth, function (req, res) {
 
 router.post('/confirm/sell', user.checAuth, async (req, res) => {
   const body = req.body;
-  const dollar = body.dollar;
+  const dollar = parseFloat(body.dollar);
   const totalCurrencyAmount = parseFloat(body.amount);
   const buyPostId = body.id;
   let buyerID;
