@@ -14,7 +14,7 @@ const ClientSeller = require('../models/clientSeller');
 const ClientBuyer = require('../models/clientBuyer');
 const BtcAddress = require('../models/btcaddress');
 //Configuration file
-const config = require('../');
+const config = require('../config');
 //Mailer
 const mailer = require('../mailer');
 //Check User middleware

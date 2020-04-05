@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const config = require('../config');
+const encrypter = require('../encryption');
 const Client = require('../models/client');
 
 module.exports.checAuth = (req, res, next) => {
