@@ -12,7 +12,6 @@ const Client = require('../models/client');
 const Request = require('../models/requests');
 const ClientSeller = require('../models/clientSeller');
 const ClientBuyer = require('../models/clientBuyer');
-const BtcAddress = require('../models/btcaddress');
 //Configuration file
 const config = require('../config');
 //Mailer

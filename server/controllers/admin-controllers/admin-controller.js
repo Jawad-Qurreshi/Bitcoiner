@@ -1,6 +1,7 @@
 const config = require('../../config');
 const Admin = require('../../models/admin');
 const bcrypt = require('bcrypt');
+//const BtcAddress = require('../../models/BtcAddress');
 const jwt = require('jsonwebtoken');
 
 module.exports.checkAdminAuth = (req, res) => {
