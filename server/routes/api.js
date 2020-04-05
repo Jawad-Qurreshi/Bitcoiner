@@ -14,7 +14,7 @@ const ClientSeller = require('../models/clientSeller');
 const ClientBuyer = require('../models/clientBuyer');
 const BtcAddress = require('../models/btcaddress');
 //Configuration file
-const config = require('../');
+const config = require('../config');
 //Mailer
 const mailer = require('../mailer');
 //Check User middleware
@@ -259,7 +259,7 @@ router.delete('/seller/:id', user.checAuth, function (req, res) {
 
 router.post('/confirm/sell', user.checAuth, async (req, res) => {
   const body = req.body;
-  const dollar = parseFloat(body.dollar);
+  const dollar = body.dollar;
   const totalCurrencyAmount = parseFloat(body.amount);
   const buyPostId = body.id;
   let buyerID;

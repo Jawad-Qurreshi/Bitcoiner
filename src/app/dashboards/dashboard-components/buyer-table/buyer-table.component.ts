@@ -23,6 +23,8 @@ export class BuyertableComponent {
   ethcurrent;
   bitcurrent;
   amountSell;
+  selectedMin =0 ;
+  selectedMax = 0;
   mycolor = false;
 
   ngOnInit() {
@@ -31,7 +33,11 @@ export class BuyertableComponent {
 
   formInitializer() {
     this.buydata = this.fb.group({
-      usdAmount1: ["", Validators.required],
+      usdAmount1: ["", 
+      Validators.required,
+      // Validators.min(this.selectedMin),
+      // Validators.max(this.selectedMax)
+    ],
     });
   }
   // SaveToDB(){
@@ -50,11 +56,30 @@ export class BuyertableComponent {
 
 
   showModal(buyer): void {
+
     this.selectedbuyer = buyer
+    // this.selectedMax = this.selectedbuyer.limit.maximum;
+    // this.selectedMin = this.selectedbuyer.limit.minimum;
     this.is2ndVisible = true;
+   // this.formInitializer();
   }
 
   handleOk(): void {
+    console.log("this ioss me on " + this.selectedbuyer._id );
+    const body = {
+      dollar : this.amountSell,
+      id : this.selectedbuyer._id,
+      amount : this.usdAmount
+    }
+    console.log();
+    this.userservice.confirmSell(body).subscribe(
+      response => {
+           console.log("transaction done" + response.message);
+      },
+      err => {
+        console.log("transaction not done" + err.message);
+      }
+    )
     this.isOkLoading = true;
     setTimeout(() => {
       this.is2ndVisible = false;
@@ -72,39 +97,33 @@ export class BuyertableComponent {
   CalcBitEth(): void {
     if (parseFloat(this.amountSell) >= this.selectedbuyer.limit.minimum && parseFloat(this.amountSell) <= this.selectedbuyer.limit.maximum) {
       this.mycolor = false
-      console.log("this is amountbuy in true condition" + this.amountSell)
-      console.log("this is amountbuy in true min" + this.selectedbuyer.limit.minimum)
-      console.log("this is amountbuy in true max" + this.selectedbuyer.limit.maximum)
     }
     else {
-      console.log("this is amountbuy in false condition" + this.amountSell)
-      console.log("this is amountbuy in false min" + this.selectedbuyer.limit.minimum)
-      console.log("this is amountbuy in false max" + this.selectedbuyer.limit.maximum)
       this.mycolor = true;
     }
     if (this.selectedbuyer.cryptoType === 'BTC') {
-      this.userservice.gettheBIT().subscribe(
-        resBitData => {
-          this.bitcurrent = resBitData.ticker.BTCUSDT;
-        },
-        err => {
-          this.bitcurrent = 0;
-          console.log("api error in getting bitcoin current", err);
-        }
-      );
-      this.usdAmount = this.amountSell * this.bitcurrent;
+      // this.userservice.gettheBIT().subscribe(
+      //   resBitData => {
+      //     this.bitcurrent = resBitData.ticker.BTCUSDT;
+      //   },
+      //   err => {
+      //     this.bitcurrent = 0;
+      //     console.log("api error in getting bitcoin current", err);
+      //   }
+      // );
+      this.usdAmount = this.amountSell / this.selectedbuyer.price;
     }
     else {
-      this.userservice.gettheETH().subscribe(
-        resEthData => {
-          this.ethcurrent = resEthData.ticker.ETHUSDT;
-        },
-        err => {
-          this.ethcurrent = 0;
-          console.log("api error in getting ethereum current", err);
-        }
-      );
-      this.usdAmount = this.amountSell * this.ethcurrent;
+      // this.userservice.gettheETH().subscribe(
+      //   resEthData => {
+      //     this.ethcurrent = resEthData.ticker.ETHUSDT;
+      //   },
+      //   err => {
+      //     this.ethcurrent = 0;
+      //     console.log("api error in getting ethereum current", err);
+      //   }
+      // );
+      this.usdAmount = this.amountSell / this.selectedbuyer.price;
     }
   }
 
