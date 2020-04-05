@@ -34,11 +34,9 @@ export class DatatableComponent implements OnChanges {
     setTimeout(() => {
       this.loadingIndicator = false;
     }, 1500);
-    console.log(" this.clients", this.clients);
   }
 
   ngOnChanges() {
-    console.log("onchanges called", this.clients);
     this.setTableData();
   }
 
