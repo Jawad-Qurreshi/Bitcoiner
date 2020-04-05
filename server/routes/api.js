@@ -273,20 +273,24 @@ router.post('/confirm/sell', user.checAuth, async (req, res) => {
           seller.dollar += dollar;
           buyer.reservedDollar -= dollar;
           buyer.btc += totalCurrencyAmount;
+          //Clearing the remaining reserved dollars due to buy post
+          buyer.reservedDollar -= parseFloat(buyPost.limit.maximum - dollar);
           buyer.save()
             .then(buyer => {
               seller.save()
                 .then(seller => {
+                  // removing the post when the transaction is done
+                  buyPost.remove();
                   res.status(200).json({
                     isSuccess: true,
                     message: 'TRANSACTION_DONE'
                   });
                 })
-                .catch( err => {
+                .catch(err => {
                   console.log(err)
                 });
             })
-            .catch( err => {
+            .catch(err => {
               console.log(err)
             });
 
@@ -298,14 +302,31 @@ router.post('/confirm/sell', user.checAuth, async (req, res) => {
         }
       } else {
         if (seller.eth > totalCurrencyAmount) {
+          //Transaction logic
           seller.eth -= totalCurrencyAmount;
           seller.dollar += dollar;
           buyer.reservedDollar -= dollar;
           buyer.eth += totalCurrencyAmount;
-          res.status(200).json({
-            isSuccess: true,
-            message: 'TRANSACTION_DONE'
-          });
+          //Clearing the remaining reserved dollars due to buy post
+          buyer.reservedDollar -= parseFloat(buyPost.limit.maximum - dollar);
+          buyer.save()
+            .then(buyer => {
+              seller.save()
+                .then(seller => {
+                  //Deleting the post on which transaction is done
+                  buyPost.remove();
+                  res.status(200).json({
+                    isSuccess: true,
+                    message: 'TRANSACTION_DONE'
+                  });
+                })
+                .catch(err => {
+                  console.log(err)
+                });
+            })
+            .catch(err => {
+              console.log(err)
+            });
         } else {
           res.status(400).json({
             isSuccess: false,
