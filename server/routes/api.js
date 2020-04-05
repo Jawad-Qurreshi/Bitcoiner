@@ -21,6 +21,8 @@ const mailer = require('../mailer');
 const user = require('../middlewares/user-middlware');
 //Controllers
 const adminController = require('../controllers/admin-controllers/admin-controller');
+const buyController = require('../controllers/user-controllers/user-buy-controller');
+const userController = require('../controllers/user-controllers/user-controller');
 
 
 //Initializing
@@ -164,8 +166,8 @@ router.delete('/buyer/:id', user.checAuth, function (req, res) {
     }
   })
 });
-router.post('/confirm/buy', user.checAuth, (req, res) => {
-});
+router.post('/confirm/sell', user.checAuth, buyController.confirm_sale);
+
 
 ////////////////////////////Sellers//////////////////////////////////
 router.post('/seller/add', user.checAuth, async (req, res) => {
@@ -250,12 +252,8 @@ router.delete('/seller/:id', user.checAuth, function (req, res) {
     }
   })
 })
-router.post('/confirm/sell', user.checAuth, async (req, res) => {
-  const body = req.body;
-  
-  
+router.post('/confirm/buy', user.checAuth, (req, res) => {
 });
-
 /////////////////////////All requests////////////////////////////////////////
 
 //Admin's requests routes
@@ -345,7 +343,7 @@ router.get('/request/pending/all', user.checAuth, (req, res) => {
     });
 });
 
-//Client's Requests routes
+////////////////////Client's Requests routes
 router.post('/request/add', user.checAuth, (req, res) => {
   const body = req.body;
 
@@ -527,145 +525,16 @@ router.get('/request/pending/:clientId', user.checAuth, (req, res) => {
 });
 ///////////////////////////login   Signup////////////////////////////////////
 
-router.post('/signup', async (req, res) => {
-  const body = req.body;
-  const email = body.email;
-  const saltRounds = 10;
-  await bcrypt.hash(body.password, saltRounds, async (err, hash) => {
-    const result = await Client.findOne({ email: email });
-    if (!result) // this means result is null
-    {
-      let newClient = new Client({
-        username: body.username,
-        email: body.email,
-        password: hash,
-        phone: body.phone,
-        address: body.address,
-        btcAddress: '',
-        ethAddress: ''
-      });
-      var end = {};
-      BtcAddress.find({})
-        .exec(function (err, addresses) {
-          if (err) {
-            console.log('Error while retrieving clients');
-          } else {
-            const length = addresses.length;
-            let val = 1;
-            // if (length === 1) {
-            //   val = 0;
-            // } else {
-            //   val = Math.floor(Math.random() * length + 1) + 1;
-            // }
-            end = addresses[val];
-            newClient.btcAddress = end.btcAddress;
-            newClient.ethAddress = end.ethAddress;
-            newClient.save()
-              .then(client => {
-                mailer.sendVerificationMail(client.email);
-                res.json(client)
-              })
-              .catch(err => {
-                res.json(err);
-              });
-          }
-        });
-    }
-    else {
-      res.status(401).json({
-        message: 'USER_ALREADY_EXISTS',
-        isSuccess: false
-      });
-    }
-  });
-});
-router.post('/login', async (req, res) => {
-  const body = req.body;
-  let id;
-  let token;
-  const email = body.email;
-  const result = await Client.findOne({ email: email });
-  if (!result) {
-    res.status(401).send({
-      message: 'CREDS_INVALID',
-      isAuthenticated: false
-    });
-  } else {
-    bcrypt.compare(body.password, result.password, (err, isMatched) => {
-      if (!err) {
-        if (isMatched) {
-          id = result._id;
-          token = jwt.sign({ userid: result._id }, config.secret.USER, { expiresIn: 1000 * 60 * 60, algorithm: 'HS256' });
-          res.status(200).json({
-            id: id,
-            token: token,
-            isAuthenticated: true
-          });
-        } else {
-          res.status(401).send({
-            message: 'CREDS_INVALID',
-            isAuthenticated: false
-          });
-        }
-      } else {
-        res.status(401).json({
-          message: err.message,
-          isAuthenticated: false
-        });
-      }
-    });
-  }
-});
-router.post('/address/add', user.checAuth, async (req, res) => {
-  const body = req.body;
-  const btcAddress = body.btcAddress;
-  const ethAddress = body.ethAddress;
-  const btc = await BtcAddress.findOne({ btcAddress: btcAddress });
-  const eth = await BtcAddress.findOne({ ethAddress: ethAddress });
-  if (!btc) {
-    if (!eth) {
-      const address = new BtcAddress({
-        btcAddress: btcAddress,
-        ethAddress: ethAddress
-      });
+router.post('/signup', userController.signUp);
 
-      address.save()
-        .then(address => {
-          res.status(201).json({
-            isSuccess: true,
-            message: 'USER_ADDED'
-          });
-        })
-        .catch(err => {
-          res.status(500).json({
-            isSuccess: false,
-            message: 'ADDRESS_NOT_ADDED!'
-          });
-        });
-    } else {
-      res.status(400).json({
-        isSuccess: false,
-        message: 'ETH_ADDRESS_ALREADY_EXISTS'
-      });
-    }
-  } else {
-    res.status(400).json({
-      isSuccess: false,
-      message: 'BTC_ADDRESS_ALREADY_EXISTS'
-    });
-  }
-});
-router.get('/address/all', user.checAuth, function (req, res) {
+router.post('/login', userController.logIn);
 
-  BtcAddress.find({})
-    .exec(function (err, btcaddresses) {
-      if (err) {
-        console.log('Error while retrieving address');
-      } else {
-        res.status(200).json(btcaddresses);
-      }
-    });
-});
+router.post('/user/update', userController.updateUser);
+
+///////////////////////Currencey Address//////////////
+
+router.post('/address/add', user.checAuth, adminController.addAddress);
+router.get('/address/all', user.checAuth, adminController.getAllAddress);
 
 ////////////////////////////////Clients///////////////////////////////////////////
 router.put('/client/:id', user.checAuth, function (req, res) {
@@ -727,6 +596,8 @@ router.get('/client/:id', user.checAuth, function (req, res) {
 
 
 ////////////////////////////ADMIN/////////////////////////
+
+router.post('/admin/create', adminController.createAdmin);
 
 router.post('/admin/authenticate', adminController.checkAdminAuth);
 
