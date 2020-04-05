@@ -5,6 +5,7 @@ module.exports = {
         PWD: '123456789db',
     },
     PORT: 3004,
+    key : '@qwerty#9032**',
     secret: {
         USER: 'mango.people',
         ADMIN: 'webmaster',
@@ -17,4 +18,5 @@ module.exports = {
         USER: 'moviecon3327@gmail.com',
         PASS: '03105593105'
     }
+    
 }

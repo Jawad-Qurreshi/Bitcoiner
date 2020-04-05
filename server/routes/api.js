@@ -4,6 +4,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const encrypter = require('../encryption');
 
 
 //Models
@@ -258,48 +259,61 @@ router.delete('/seller/:id', user.checAuth, function (req, res) {
 
 router.post('/confirm/sell', user.checAuth, async (req, res) => {
   const body = req.body;
-  const dollar = body.dollar;
+  const dollar = parseFloat(body.dollar);
   const totalCurrencyAmount = parseFloat(body.amount);
   const buyPostId = body.id;
-  const buyPost = await ClientBuyer.findById({ _id: buyPostId });
-  const buyerID = buyPost.clientId;
-  const sellerId = req.decoded.userid;
-  const buyer = await Client.findById({ _id: buyerID });
-  const seller = await Client.findById({ _id: sellerId });
+  let buyerID;
+  let sellerId
+  let buyer;
+  let seller;
 
-  if (buyPost.cryptoType === 'BTC') {
-    if (seller.btc > totalCurrencyAmount) {
-      seller.btc -= totalCurrencyAmount;
-      seller.dollar += dollar;
-      buyer.reservedDollar -= dollar;
-      buyer.btc += totalCurrencyAmount;
-      res.status(200).json({
-        isSuccess: true,
-        message: 'TRANSACTION_DONE'
-      });
-    } else {
-      res.status(400).json({
-        isSuccess: false,
-        message: 'NOT_ENOUGH_CREDIT'
-      });
-    }
-  } else {
-    if (seller.eth > totalCurrencyAmount) {
-      seller.eth -= totalCurrencyAmount;
-      seller.dollar += dollar;
-      buyer.reservedDollar -= dollar;
-      buyer.eth += totalCurrencyAmount;
-      res.status(200).json({
-        isSuccess: true,
-        message: 'TRANSACTION_DONE'
-      });
-    } else {
-      res.status(400).json({
-        isSuccess: false,
-        message: 'NOT_ENOUGH_CREDIT'
-      });
-    }
-  }
+
+  ClientBuyer.findOne({ _id: buyPostId }).exec()
+    .then(async buyPost => {
+      buyerID = buyPost.clientId;
+      sellerId = req.decoded.userid;
+      buyer = await Client.findOne({ _id: buyerID }).exec();
+      seller = await Client.findOne({ _id: sellerId }).exec();
+      if (buyPost.cryptoType === 'BTC') {
+        if (seller.btc > totalCurrencyAmount) {
+          seller.btc -= totalCurrencyAmount;
+          seller.dollar += dollar;
+          buyer.reservedDollar -= dollar;
+          buyer.btc += totalCurrencyAmount;
+          await buyer.save();
+          await seller.save();
+          res.status(200).json({
+            isSuccess: true,
+            message: 'TRANSACTION_DONE'
+          });
+        } else {
+          res.status(400).json({
+            isSuccess: false,
+            message: 'NOT_ENOUGH_CREDIT'
+          });
+        }
+      } else {
+        if (seller.eth > totalCurrencyAmount) {
+          seller.eth -= totalCurrencyAmount;
+          seller.dollar += dollar;
+          buyer.reservedDollar -= dollar;
+          buyer.eth += totalCurrencyAmount;
+          res.status(200).json({
+            isSuccess: true,
+            message: 'TRANSACTION_DONE'
+          });
+        } else {
+          res.status(400).json({
+            isSuccess: false,
+            message: 'NOT_ENOUGH_CREDIT'
+          });
+        }
+      }
+
+    })
+    .catch(err => {
+      console.log(err);
+    });
 });
 
 /////////////////////////All requests////////////////////////////////////////
