@@ -71,6 +71,7 @@ export class ProfileComponent implements OnInit {
   saveReceivedLoading = false;
   saveSendLoading = false;
 
+
   constructor(
     private fb: FormBuilder,
     private message: NzMessageService,
@@ -169,7 +170,19 @@ export class ProfileComponent implements OnInit {
   }
 
   amountTradeCalc() {
-    
+    if(this.cryptoTypeTrade === 'BTC'){
+        const amountradeadded = this.amountTrade;
+        const btc = this.bitcurrent;;
+       this.Change = ((amountradeadded/btc)*100)-100
+    }
+    else if(this.cryptoTypeTrade === 'ETH'){
+      const amountradeadded = this.amountTrade;
+      const eth = this.ethcurrent;;
+     this.Change = ((amountradeadded/eth)*100)-100
+    }
+    else{
+      this.Change = 0
+    }
   }
 
   currencyAddress() {

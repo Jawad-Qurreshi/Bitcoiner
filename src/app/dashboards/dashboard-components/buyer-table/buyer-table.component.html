@@ -40,7 +40,17 @@
                 <td>{{ buyer.cryptoType }}</td>
                 <td>${{ buyer.price }}</td>
                 <td>{{ buyer.limit.minimum }} - {{ buyer.limit.maximum }} </td>
-                <td>{{ "0" }}%</td>
+                <!-- <td *ngif = "buyer.changeValue > 0">
+                    <i class="mdi mdi-arrow-up"></i>
+                            {{ buyer.changeValue }}%</td>
+                <td>
+                <td *ngif = "buyer.changeValue < 0">
+                    <i class="mdi mdi-arrow-down"></i>
+                            {{ buyer.changeValue }}%</td>
+                <td> -->
+                  <!-- <td *ngif = "buyer.changeValue == 0"> -->
+                   <td>
+                            {{ buyer.changeValue }}%</td>
                 <td>
                   <button type="button" (click)="showModal(buyer)" class="btn btn-success">Sell</button>
                 </td>

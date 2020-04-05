@@ -29,6 +29,42 @@ export class BuyertableComponent {
 
   ngOnInit() {
     this.formInitializer();
+    this.calcCurrentBTC();
+    this.buyers.forEach((e)=>{
+      console.log("this is buyer"+e.name)
+      if(e.cryptoType === 'BTC'){
+        const amountradeadded = e.price;
+        const btc = this.bitcurrent;;
+        e.changeValue = ((amountradeadded/btc)*100)-100
+      }
+      else{
+        const amountradeadded = e.price;
+        const eth = this.ethcurrent;;
+         e.changeValue = ((amountradeadded/eth)*100)-100
+      }
+      
+    }
+    )
+    
+  }
+
+  calcCurrentBTC(){
+      this.userservice.gettheBIT().subscribe(
+        response => {
+          this.bitcurrent=response.ticker.BTCUSDT
+        },
+        err => {
+          console.log("Unable to get bitcoins" + err)
+        }
+      )
+      this.userservice.gettheBIT().subscribe(
+        response => {
+          this.ethcurrent=response.ticker.ETHUSDT
+        },
+        err => {
+          console.log("Unable to get ETH" + err)
+        }
+      )
   }
 
   formInitializer() {
@@ -40,21 +76,7 @@ export class BuyertableComponent {
     ],
     });
   }
-  // SaveToDB(){
-  //   this.userservice.postAddresses(this.buydata.value).subscribe(
-  //     data => {
-  //       console.log("got response from server", data);
-  //       // alert("Registeration Successfull!");
-  //       // this.loading = false;
-  //       console.log('succesfully saved data to db');
-  //     },
-  //     error => {
-  //       console.log("error in save button");
-  //     }
-  //   );
-  // }
-
-
+  
   showModal(buyer): void {
 
     this.selectedbuyer = buyer
@@ -65,7 +87,7 @@ export class BuyertableComponent {
   }
 
   handleOk(): void {
-    console.log("this ioss me on " + this.selectedbuyer._id );
+    
     const body = {
       dollar : this.amountSell,
       id : this.selectedbuyer._id,
@@ -102,27 +124,9 @@ export class BuyertableComponent {
       this.mycolor = true;
     }
     if (this.selectedbuyer.cryptoType === 'BTC') {
-      // this.userservice.gettheBIT().subscribe(
-      //   resBitData => {
-      //     this.bitcurrent = resBitData.ticker.BTCUSDT;
-      //   },
-      //   err => {
-      //     this.bitcurrent = 0;
-      //     console.log("api error in getting bitcoin current", err);
-      //   }
-      // );
       this.usdAmount = this.amountSell / this.selectedbuyer.price;
     }
     else {
-      // this.userservice.gettheETH().subscribe(
-      //   resEthData => {
-      //     this.ethcurrent = resEthData.ticker.ETHUSDT;
-      //   },
-      //   err => {
-      //     this.ethcurrent = 0;
-      //     console.log("api error in getting ethereum current", err);
-      //   }
-      // );
       this.usdAmount = this.amountSell / this.selectedbuyer.price;
     }
   }
