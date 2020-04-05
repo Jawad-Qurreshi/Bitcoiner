@@ -188,7 +188,6 @@ router.post('/seller/add', user.checAuth, async (req, res) => {
     quantity: body.quantity,
     clientId: clientId
   });
-  console.log("this is body of seller" + seller);
   Client.findById({ _id: clientId })
     .exec()
     .then(client => {
