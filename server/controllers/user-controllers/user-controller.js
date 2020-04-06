@@ -136,7 +136,7 @@ module.exports.getClientPosts = (req, res) => {
     const clientId = req.decoded.userid;
     let posts;
 
-    ClientSeller.findOne({ clientId: clientId })
+    ClientSeller.find({ clientId: clientId })
         .then(sellPosts => {
             if (sellPosts) {
                 sellPosts.forEach(post => {
@@ -144,7 +144,7 @@ module.exports.getClientPosts = (req, res) => {
                     posts.push(post);
                 });
             }
-            ClientBuyer.findOne({ clientId: clientId })
+            ClientBuyer.find({ clientId: clientId })
                 .then(buyPosts => {
                     buyPosts.forEach(post => {
                         post.type = 'Buy';
