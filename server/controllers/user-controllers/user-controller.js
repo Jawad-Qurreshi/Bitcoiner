@@ -1,5 +1,7 @@
 const Client = require('../../models/client');
 const BtcAddress = require('../../models/btc-address');
+const ClientSeller = require('../../models/clientSeller');
+const ClientBuyer = require('../../models/clientBuyer');
 const config = require('../../config');
 
 const jwt = require('jsonwebtoken');
@@ -126,4 +128,62 @@ module.exports.logIn = async (req, res) => {
             }
         });
     }
+}
+
+// Buye/sell posts
+
+module.exports.getClientPosts = (req, res) => {
+    const clientId = req.decoded.userid;
+    let posts;
+
+    ClientSeller.findOne({ clientId: clientId })
+        .then(sellPosts => {
+            if (sellPosts) {
+                sellPosts.forEach(post => {
+                    post.type = 'Sell';
+                    posts.push(post);
+                });
+            }
+            ClientBuyer.findOne({ clientId: clientId })
+                .then(buyPosts => {
+                    buyPosts.forEach(post => {
+                        post.type = 'Buy';
+                        posts.push(post);
+                    });
+                    res.status(200).json({
+                        isSuccess: true,
+                        posts: posts
+                    });
+                })
+                .catch(err => {
+                    res.status(500).json({
+                        isSuccess: true,
+                        message: 'INTERNAL_ERROR'
+                    });
+                });
+        })
+        .catch(err => {
+            res.status(500).json({
+                isSuccess: true,
+                message: 'INTERNAL_ERROR'
+            });
+        });
+}
+
+module.exports.deletePost = (req, res) => {
+    const postId = req.params.postId;
+
+    ClientSeller.findOne()
+        .then(post => {
+            if (!post) {
+                ClientBuyer
+
+            } else {
+                post.remove()
+                    .then()
+                    .catch();
+            }
+        })
+        .catch();
+
 }

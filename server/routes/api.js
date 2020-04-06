@@ -21,6 +21,7 @@ const user = require('../middlewares/user-middlware');
 //Controllers
 const adminController = require('../controllers/admin-controllers/admin-controller');
 const buyController = require('../controllers/user-controllers/user-buy-controller');
+const sellController = require('../controllers/user-controllers/user-sell-controller');
 const userController = require('../controllers/user-controllers/user-controller');
 
 
@@ -73,12 +74,12 @@ router.get('/ethapi', user.checAuth, function (req, res) {
 router.post('/buyer/add', user.checAuth, async (req, res) => {
   const body = req.body;
   const limit = body.limit;
+  const clientId = req.decoded.userid;
   limit.minimum = parseFloat(limit.minimum);
   limit.maximum = parseFloat(limit.maximum);
 
   const buyer = new ClientBuyer({
     name: body.name,
-    email: body.email,
     cryptoType: body.cryptoType,
     price: body.price,
     walletAddress: body.walletAddress,
@@ -86,7 +87,7 @@ router.post('/buyer/add', user.checAuth, async (req, res) => {
     limit: limit
   });
 
-  Client.findOne({ email: email }).exec()
+  Client.findOne({ _id: clientId }).exec()
     .then(client => {
 
       if (client.dollar > buyer.limit.maximum) {
@@ -247,8 +248,7 @@ router.delete('/seller/:id', user.checAuth, function (req, res) {
     }
   })
 })
-router.post('/confirm/buy', user.checAuth, (req, res) => {
-});
+router.post('/confirm/buy', user.checAuth, sellController.confirmBuy);
 /////////////////////////All requests////////////////////////////////////////
 
 //Admin's requests routes
@@ -531,6 +531,8 @@ router.post('/user/update', userController.updateUser);
 router.post('/address/add', user.checAuth, adminController.addAddress);
 router.get('/address/all', user.checAuth, adminController.getAllAddress);
 
+
+
 ////////////////////////////////Clients///////////////////////////////////////////
 router.put('/client/:id', user.checAuth, function (req, res) {
   console.log('update a client');
@@ -589,6 +591,11 @@ router.get('/client/:id', user.checAuth, function (req, res) {
     });
 });
 
+//////////////////////////// Buy/Sell Posts of Client/////////////////////
+
+router.get('/post/all', user.checAuth, userController.getClientPosts);
+
+router.delete('/post/:postId', user.checAuth, userController.deletePost);
 
 ////////////////////////////ADMIN/////////////////////////
 
