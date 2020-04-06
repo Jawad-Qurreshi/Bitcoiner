@@ -176,12 +176,38 @@ module.exports.deletePost = (req, res) => {
     ClientSeller.findOne()
         .then(post => {
             if (!post) {
-                ClientBuyer
+                ClientBuyer.findOne().exec()
+                    .then(post => {
+                        post.remove()
+                            .then(removed => {
+                                res.status(200).json({
+                                    isSuccess: true
+                                })
+                            })
+                            .catch(err => {
+                                res.status(500).json({
+                                    message: 'INTERNAL_ERROR'
+                                });
+                            });
+                    })
+                    .catch(err => {
+                        res.status(500).json({
+                            message: 'INTERNAL_ERROR'
+                        });
+                    });
 
             } else {
                 post.remove()
-                    .then()
-                    .catch();
+                    .then(removed => {
+                        res.status(200).json({
+                            isSuccess: true
+                        })
+                    })
+                    .catch(err => {
+                        res.status(500).json({
+                            message: 'INTERNAL_ERROR'
+                        });
+                    });
             }
         })
         .catch();
