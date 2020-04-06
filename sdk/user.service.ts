@@ -53,6 +53,21 @@ export class UserService {
  return this.http.post(url,credential,this.options)
   }
 
+  public confirmBuy(credentials : object) : Observable<any>{
+    const url = ProjectConfig.getPath() + "/confirm/buy";
+    return this.http.post(url,credentials,this.options)
+  }
+
+  public getBuyerSeller() : Observable<any>{
+    const url = ProjectConfig.getPath() + '/post/all'
+    return this.http.get(url,this.options)
+  }
+
+  public deletebuySell(id : string) : Observable <any>{
+    const url = ProjectConfig.getPath() + "/post/"+id
+    return this.http.delete(url,this.options)
+  }
+
 
   public deleteBuyer(id: String): Observable<any> {
     const url = ProjectConfig.getPath() + "/buyer/" + id;

@@ -8,7 +8,8 @@ import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 
 @Component({
   selector: "app-seller-table",
-  templateUrl: "./seller-table.component.html"
+  templateUrl: "./seller-table.component.html",
+  styleUrls: ['./seller-table.component.css']
 })
 
 export class SellertableComponent {
@@ -53,6 +54,7 @@ export class SellertableComponent {
 
   resertData(){
     this.amountBuy = 0;
+    this.usdAmount = 0;
   }
 
 
@@ -75,6 +77,20 @@ export class SellertableComponent {
 
   handleOk(): void {
     this.isOkLoading = true;
+    const body = {
+      dollar : this.amountBuy,
+      id : this.selectedseller._id,
+      amount : this.usdAmount
+    }
+    this.userservice.confirmBuy(body).subscribe(
+      response => {
+        this.message.success(response.message)
+      },
+      err => {
+        console.log(err.message)
+      }
+    )
+    this.resertData();
     setTimeout(() => {
       this.is2ndVisible = false;
       this.isOkLoading = false;

@@ -1,0 +1,66 @@
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card bg-light">
+      <div class="card-body">
+        <div class="d-flex no-block align-items-center m-b-10">
+          <h4 class="card-title">My Buy/Sell request</h4>
+        </div>
+        <div class="table-responsive" [perfectScrollbar]="config">
+          <table class="table bg-white table-bordered nowrap display">
+            <thead>
+              <tr>
+                <th>Type</th>
+                <th>Type of currency</th>
+                <th>Price</th>
+                <th>Limit</th>
+                <th>Change</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let buyerSeller of buyerSellers">
+                <td>{{ buyerSeller.type }}</td>
+                <td>{{ buyerSeller.cryptoType }}</td>
+                <td>${{ buyerSeller.price }}</td>
+                <td>{{ buyerSeller.limit.minimum }} - {{ buyer.limit.maximum }} </td>
+                <td>
+                  
+                  <span *ngIf="buyerSeller.changeValue > 0">
+                    <i class="mdi mdi-arrow-up"></i>
+                    {{ buyerSeller.changeValue | number : '1.2-2'}}%
+                  </span>
+
+                  <span *ngIf="buyerSeller.changeValue < 0">
+                    <i class="mdi mdi-arrow-down"></i>
+                    {{ buyerSeller.changeValue | number : '1.2-2'}}%
+                  </span>
+
+                  <span *ngIf="buyerSeller.changeValue == 0">
+                    {{ buyerSeller.changeValue | number : '1.2-2'}}%
+                  </span>
+                </td>
+                <td>
+                  <button type="button" (click)="showModal(buyerSeller)" class="btn btn-success">Delete</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<nz-modal [(nzVisible)]="is2ndVisible" nzTitle="Confirm Delete" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()"
+  [nzOkLoading]="isOkLoading" [nzFooter]="modalFooter">
+
+  <form [formGroup]="buydata">
+
+    <h6>Are you sure you want to delete</h6>
+  
+  </form>
+  <ng-template #modalFooter>
+    <button nz-button nzType="default" (click)="handleCancel()">Cancel</button>
+    <button nz-button nzType="primary"  (click)="handleOk()"
+      [nzLoading]="isConfirmLoading">Confirm Delete</button>
+  </ng-template>
+</nz-modal>
