@@ -1,5 +1,6 @@
 const Client = require('../../models/client');
 const BtcAddress = require('../../models/btc-address');
+const config = require('../../config');
 
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');

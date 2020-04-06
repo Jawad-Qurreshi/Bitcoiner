@@ -72,7 +72,6 @@ router.get('/ethapi', user.checAuth, function (req, res) {
 ////////////////////////////Buyers////////////////////////////////
 router.post('/buyer/add', user.checAuth, async (req, res) => {
   const body = req.body;
-  const email = body.email;
   const limit = body.limit;
   limit.minimum = parseFloat(limit.minimum);
   limit.maximum = parseFloat(limit.maximum);
@@ -171,37 +170,35 @@ router.post('/confirm/sell', user.checAuth, buyController.confirm_sale);
 ////////////////////////////Sellers//////////////////////////////////
 router.post('/seller/add', user.checAuth, async (req, res) => {
   const body = req.body;
-  const clientId = body.clientId;
+  const clientId = req.decoded.userid;
   const limit = req.body.limit;
   limit.minimum = parseFloat(limit.minimum);
   limit.maximum = parseFloat(limit.maximum);
   const seller = new ClientSeller({
     name: body.name,
     limit: limit,
-    email: body.email,
+    amount: body.amount,
     cryptoType: body.cryptoType,
     price: body.price,
     sellerId: body.clientId,
     description: body.description,
-    quantity: body.quantity,
     clientId: clientId
   });
   Client.findById({ _id: clientId })
     .exec()
     .then(client => {
       if (body.cryptoType === 'BTC') {
-        client.btc -= parseFloat(body.quantity);
-        client.reservedBtc += parseFloat(body.quantity);
-        console.log
+        client.btc -= parseFloat(body.amount);
+        client.reservedBtc += parseFloat(body.amount);
       } else {
-        client.eth -= parseFloat(body.quantity);
-        client.reservedEth += parseFloat(body.quantity);
+        client.eth -= parseFloat(body.amount);
+        client.reservedEth += parseFloat(body.amount);
       }
       client.save()
         .then(client => {
           console.log(client);
           seller.save()
-            .then(seller => {
+            .then(sellPost => {
               res.status(201).json({
                 isSuccess: true,
                 message: 'Sell Posted!'
@@ -242,7 +239,6 @@ router.get('/seller/all', user.checAuth, function (req, res) {
     });
 })
 router.delete('/seller/:id', user.checAuth, function (req, res) {
-  console.log('Deleting a client');
   ClientSeller.findByIdAndRemove(req.params.id, function (err, deletedSeller) {
     if (err) {
       res.send("Error deleting client")
