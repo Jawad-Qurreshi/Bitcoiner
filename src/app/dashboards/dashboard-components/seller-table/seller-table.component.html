@@ -50,16 +50,16 @@
                               <td> 
                                 <span *ngIf="seller.changeValue > 0">
                                 <i class="mdi mdi-arrow-up"></i>
-                                {{ buyer.changeValue | number : '1.2-2'}}%
+                                {{ seller.changeValue | number : '1.2-2'}}%
                               </span>
             
                               <span *ngIf="seller.changeValue < 0">
                                 <i class="mdi mdi-arrow-down"></i>
-                                {{ buyer.changeValue | number : '1.2-2'}}%
+                                {{ seller.changeValue | number : '1.2-2'}}%
                               </span>
             
                               <span *ngIf="seller.changeValue == 0">
-                                {{ buyer.changeValue | number : '1.2-2'}}%
+                                {{ seller.changeValue | number : '1.2-2'}}%
                               </span></td>
                               <td>
                                 <button type="button" (click)="showModal(seller)"

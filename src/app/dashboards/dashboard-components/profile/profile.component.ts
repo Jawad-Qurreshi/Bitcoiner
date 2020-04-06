@@ -36,6 +36,7 @@ export class ProfileComponent implements OnInit {
   tradetype;
   totalUsdAmount;
   price;
+  amount;
   walletAddress;
   cryptoTypeTrade;
   descriptionTrade;
@@ -347,7 +348,7 @@ export class ProfileComponent implements OnInit {
   }
 
   confirm(): void {
-
+    
     if (this.tradetype === "BUY") {
       const body = {
         name: this.singleclient.username,
@@ -358,7 +359,6 @@ export class ProfileComponent implements OnInit {
           minimum: this.limitMin,
           maximum: this.limitMax
         },
-        //walletAddress: receiverAddress,
         description: this.descriptionTrade,
         clientId: this.singleclient._id
       }
@@ -372,6 +372,12 @@ export class ProfileComponent implements OnInit {
       )
     }
     else if (this.tradetype === "SELL") {
+      if(this.cryptoTypeTrade == "BTC"){
+         this.amount = this.limitMax/this.bitcurrent
+      }
+      else {
+        this.amount = this.limitMax/this.ethcurrent
+      }
       const body = {
         name: this.singleclient.username,
         cryptoType: this.cryptoTypeTrade,
@@ -380,9 +386,9 @@ export class ProfileComponent implements OnInit {
           minimum: this.limitMin,
           maximum: this.limitMax
         },
-        email: this.singleclient.email,
+        amount: this.amount,
+     
         description: this.descriptionTrade,
-        clientId: this.singleclient._id
       }
       this.userService.addOneSeller(body).subscribe(
         data => {

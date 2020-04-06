@@ -72,10 +72,11 @@ export class BuyertableComponent {
       this.is2ndVisible = false;
       this.isOkLoading = false;
     }, 100);
+    this.resertData();
   }
 
   handleCancel(): void {
-    this.resertData;
+    this.resertData();
     this.is2ndVisible = false;
   }
 
