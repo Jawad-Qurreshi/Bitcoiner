@@ -40,7 +40,29 @@
                 <td>{{ buyer.cryptoType }}</td>
                 <td>${{ buyer.price }}</td>
                 <td>{{ buyer.limit.minimum }} - {{ buyer.limit.maximum }} </td>
-                <td>{{ "0" }}%</td>
+                <td>
+                  
+                  <span *ngIf="buyer.changeValue > 0">
+                    <i class="mdi mdi-arrow-up"></i>
+                    {{ buyer.changeValue | number : '1.2-2'}}%
+                  </span>
+
+                  <span *ngIf="buyer.changeValue < 0">
+                    <i class="mdi mdi-arrow-down"></i>
+                    {{ buyer.changeValue | number : '1.2-2'}}%
+                  </span>
+
+                  <span *ngIf="buyer.changeValue == 0">
+                    {{ buyer.changeValue | number : '1.2-2'}}%
+                  </span>
+
+                  <!-- <span >
+                    <i class="mdi mdi-arrow-up"></i>
+                    {{ buyer.changeValue }}%
+                  </span> -->
+                
+                 <!-- {{ buyer.changeValue }}% -->
+                </td>
                 <td>
                   <button type="button" (click)="showModal(buyer)" class="btn btn-success">Sell</button>
                 </td>
@@ -88,8 +110,8 @@
     <h6>Limit:</h6>
     <div class="input-group mb-3">
       <div class="input-group-append">
-        <input type="text" class="form-control" id="nametext1"
-          placeholder="{{selectedbuyer?.limit.minimum}}" aria-describedby="basic-addon1" disabled>
+        <input type="text" class="form-control" id="nametext1" placeholder="{{selectedbuyer?.limit.minimum}}"
+          aria-describedby="basic-addon1" disabled>
       </div>
       <div class="input-group-append">
         <span class="input-group-text">Min</span>
@@ -130,6 +152,7 @@
   </form>
   <ng-template #modalFooter>
     <button nz-button nzType="default" (click)="handleCancel()">Cancel</button>
-    <button nz-button nzType="primary" [disabled]="buydata.invalid" (click)="handleOk()" [nzLoading]="isConfirmLoading">Confirm Buy</button>
+    <button nz-button nzType="primary" [disabled]="buydata.invalid" (click)="handleOk()"
+      [nzLoading]="isConfirmLoading">Confirm Buy</button>
   </ng-template>
 </nz-modal>
