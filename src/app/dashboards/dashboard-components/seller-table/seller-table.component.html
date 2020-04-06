@@ -87,12 +87,6 @@
           aria-describedby="basic-addon1">
       </div>
   
-      <h6>Email:</h6>
-      <div class="input-group mb-3">
-        <input type="text" disabled class="form-control " placeholder="{{selectedseller?.email}}"
-          aria-describedby="basic-addon1">
-      </div>
-  
       <h6>Currency Type :</h6>
       <div class="input-group mb-3">
         <input type="text" *ngIf="selectedseller?.cryptoType == 'BTC'" class="form-control" id="nametext1"
@@ -150,6 +144,6 @@
 
 <ng-template #modalFooter>
   <button nz-button nzType="default" (click)="handleCancel()">Cancel</button>
-  <button nz-button nzType="primary" (click)="handleOk()"  [nzLoading]="isConfirmLoading">Done</button>
+  <button nz-button nzType="primary" (click)="handleOk()" [disabled]="selldata.invalid"  [nzLoading]="isConfirmLoading">Done</button>
 </ng-template>
 </nz-modal>

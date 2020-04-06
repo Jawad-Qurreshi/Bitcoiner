@@ -34,3 +34,4 @@ export * from './seller-table/seller-table.component';
 export * from './addressestable/addressestable.component';
 export * from './Approved-client-requests/approved-request.component'
 export * from './Approved-admin-requests/approved-request-admin.component'
+export * from './buySell-table/buySell-table.component'

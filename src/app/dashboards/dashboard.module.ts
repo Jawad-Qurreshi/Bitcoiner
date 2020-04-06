@@ -23,6 +23,7 @@ import { Dashboard2Component } from './dashboard2/dashboard2.component';
 import { Dashboard3Component } from './dashboard3/dashboard3.component';
 
 import {
+  BuySelltableComponent,
   InfocardComponent,
   ChatComponent,
   CommentComponent,
@@ -84,6 +85,7 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
     InfocardComponent,
     BuyertableComponent,
     ChatComponent,
+    BuySelltableComponent,
     ProfileComponent,
     CommentComponent,
     NavigationComponent,

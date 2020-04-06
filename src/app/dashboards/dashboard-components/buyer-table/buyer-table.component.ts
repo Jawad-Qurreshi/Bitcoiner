@@ -5,7 +5,8 @@ import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 
 @Component({
   selector: "app-buyer-table",
-  templateUrl: "./buyer-table.component.html"
+  templateUrl: "./buyer-table.component.html",
+  styleUrls: ['./buyer-table.component.css']
 })
 
 export class BuyertableComponent {

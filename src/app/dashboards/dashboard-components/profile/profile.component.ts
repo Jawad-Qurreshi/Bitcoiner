@@ -352,7 +352,6 @@ export class ProfileComponent implements OnInit {
     if (this.tradetype === "BUY") {
       const body = {
         name: this.singleclient.username,
-        email: this.singleclient.email,
         cryptoType: this.cryptoTypeTrade,
         price: this.amountTrade,
         limit: {
