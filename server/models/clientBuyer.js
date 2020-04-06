@@ -4,7 +4,6 @@ const Schema = mongoose.Schema;
 
 const ClientBuyer = new Schema({
     name: String,
-    email: String,
     cryptoType: String,
     price: Intl,
     limit: {

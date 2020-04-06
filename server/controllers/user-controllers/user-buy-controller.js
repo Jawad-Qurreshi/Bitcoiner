@@ -4,21 +4,38 @@ const BuyPost = require('../../models/clientBuyer');
 module.exports.confirm_sale = async (req, res) => {
     const body = req.body;
     const postId = body.id;
-    const sellerId = req.decoded.userId;
-    let buyer, seller;
-
-    seller = await Client.findOne({ _id: sellerId }).exec();
+    const sellerId = req.decoded.userid;
 
     BuyPost.findOne({ _id: postId }).exec()
-        .then(async buyPost => {
-            const buyerId = buyPost._id;
-            buyer = await Client.findOne({ _id: buyerId }).exec();
-            performTransaction()
-                .then(() => {
-                    res.status(200).json({
-                        isSuccess: true,
-                        message: 'TRANSACTION_DONE'
-                    });
+        .then(buyPost => {
+            const buyerId = buyPost.clientId;
+
+            Client.findOne({ _id: sellerId }).exec()
+                .then(seller => {
+                    Client.findOne({ _id: buyerId }).exec()
+                        .then(buyer => {
+                            performTransaction(buyer, seller, buyPost, body)
+                                .then(() => {
+                                    res.status(200).json({
+                                        isSuccess: true,
+                                        message: 'TRANSACTION_DONE'
+                                    });
+                                })
+                                .catch(err => {
+                                    console.log(err);
+                                    res.status(500).json({
+                                        isSuccess: false,
+                                        message: 'INTERNAL_ERROR'
+                                    });
+                                });
+                        })
+                        .catch(err => {
+                            console.log(err);
+                            res.status(500).json({
+                                isSuccess: false,
+                                message: 'INTERNAL_ERROR'
+                            });
+                        })
                 })
                 .catch(err => {
                     console.log(err);
@@ -26,7 +43,8 @@ module.exports.confirm_sale = async (req, res) => {
                         isSuccess: false,
                         message: 'INTERNAL_ERROR'
                     });
-                });
+                })
+
         })
         .catch(err => {
             console.log(err);
@@ -35,7 +53,6 @@ module.exports.confirm_sale = async (req, res) => {
                 message: 'INTERNAL_ERROR'
             });
         });
-
 }
 
 const performTransaction = (buyer, seller, post, body) => {
