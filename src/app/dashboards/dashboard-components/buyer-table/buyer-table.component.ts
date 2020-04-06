@@ -29,43 +29,8 @@ export class BuyertableComponent {
 
   ngOnInit() {
     this.formInitializer();
-    this.calcCurrentBTC();
-    this.buyers.forEach((e)=>{
-      console.log("this is buyer"+e.name)
-      if(e.cryptoType === 'BTC'){
-        const amountradeadded = e.price;
-        const btc = this.bitcurrent;;
-        e.changeValue = ((amountradeadded/btc)*100)-100
-      }
-      else{
-        const amountradeadded = e.price;
-        const eth = this.ethcurrent;;
-         e.changeValue = ((amountradeadded/eth)*100)-100
-      }
-      
-    }
-    )
-    
   }
 
-  calcCurrentBTC(){
-      this.userservice.gettheBIT().subscribe(
-        response => {
-          this.bitcurrent=response.ticker.BTCUSDT
-        },
-        err => {
-          console.log("Unable to get bitcoins" + err)
-        }
-      )
-      this.userservice.gettheBIT().subscribe(
-        response => {
-          this.ethcurrent=response.ticker.ETHUSDT
-        },
-        err => {
-          console.log("Unable to get ETH" + err)
-        }
-      )
-  }
 
   formInitializer() {
     this.buydata = this.fb.group({

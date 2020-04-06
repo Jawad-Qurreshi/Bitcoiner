@@ -32,7 +32,7 @@ export class ProfileComponent implements OnInit {
     this.selectedRequest = event.target.value;
   }
 
-  
+
   tradetype;
   totalUsdAmount;
   price;
@@ -48,9 +48,9 @@ export class ProfileComponent implements OnInit {
   coinType = '';
   coinTypeSend = '';
 
-  amountReceive ;
-  amountSend ;
-  amountTrade ;
+  amountReceive;
+  amountSend;
+  amountTrade;
   addressTo;
   addressFrom;
   addressToSend;
@@ -80,55 +80,86 @@ export class ProfileComponent implements OnInit {
   ) { }
   ngOnInit() {
     this.formInitializer();
+    this.getBitcoin();    
+  }
 
-    this.userService.getallsellers().subscribe(
-      resSellerData => {
-        this.sellers = resSellerData.result;
-        console.log("this is me seller", this.sellers);
-      },
-      err => {
-        console.log("api error in all Seller", err);
-      }
-    );
-
-    this.userService.getallbuyers().subscribe(
-      resBuyerData => {
-        this.buyers = resBuyerData.result;
-        console.log("this is me buyer", this.buyers);
-      },
-      err => {
-        console.log("api error in all Buyer", err);
-      }
-    );
+  getBitcoin() {
     this.userService.gettheBIT().subscribe(
       resBitData => {
-        //console.log("resBitData", resBitData);
-
         this.bitcurrent = resBitData.ticker.BTCUSDT;
-        //console.log("API this.ethcurrent", this.bitcurrent);
+        this.getEther();
       },
       err => {
         console.log("api error in getting bitcoin current", err);
       }
     );
-
+  }
+  getEther() {
     this.userService.gettheETH().subscribe(
       resEthData => {
-        //console.log("resEthData", resEthData);
         this.ethcurrent = resEthData.ticker.ETHUSDT;
-        //console.log("API this.ethcurrent", this.ethcurrent);
-        //console.log("Price of ETH: $", this.tickereth);
+        this.getBuyers();
+        this.getSeller();
       },
       err => {
         console.log("api error in getting ethereum current", err);
       }
     );
   }
+  getBuyers(){
+    this.userService.getallbuyers().subscribe(
+      resBuyerData => {
+        this.buyers = resBuyerData.result;
+        this.buyers.forEach((e) => {
+
+          if (e.cryptoType === 'BTC') {
+            const amountradeadded = +e.price;
+            const btc = parseFloat(this.bitcurrent);
+            e.changeValue = ((amountradeadded / btc) * 100) - 100
+          }
+          else {
+            const amountradeadded = parseFloat(e.price);
+            const eth = parseFloat(this.ethcurrent);
+            e.changeValue = ((amountradeadded / eth) * 100) - 100
+          }
+        }
+        )
+      },
+      err => {
+        console.log("api error in all Buyer", err);
+      }
+    );
+  }
+
+  getSeller(){
+    this.userService.getallsellers().subscribe(
+      resSellerData => {
+        this.sellers = resSellerData.result;
+        this.sellers.forEach((e) => {
+
+          if (e.cryptoType === 'BTC') {
+            const amountradeadded = +e.price;
+            const btc = parseFloat(this.bitcurrent);
+            e.changeValue = ((amountradeadded / btc) * 100) - 100
+          }
+          else {
+            const amountradeadded = parseFloat(e.price);
+            const eth = parseFloat(this.ethcurrent);
+            e.changeValue = ((amountradeadded / eth) * 100) - 100
+          }
+        }
+        )
+      },
+      err => {
+        console.log("api error in all Seller", err);
+      }
+    );
+  }
 
   formInitializer() {
     this.postTradeData = this.fb.group({
-    formTradeType: [ "" ,[Validators.required]],
-    formCryptoType: ["" ,[Validators.required]],
+      formTradeType: ["", [Validators.required]],
+      formCryptoType: ["", [Validators.required]],
       formLimitMax: ["", [Validators.required]],
       formLimitMin: ["", [Validators.required]],
       formdescription: ["", Validators.required],
@@ -151,40 +182,34 @@ export class ProfileComponent implements OnInit {
     this.isVisible = false;
     this.is2ndVisible = true;
   }
-
   amountChangedSend() {
     this.calculateUsdAmountSend();
   }
-
   amountChanged() {
     this.calculateUsdAmountReceive();
   }
-
   currencyChanged() {
     this.currencyAddress();
     this.amountChanged();
   }
-
   amountChangedtrade() {
     this.amountTradeCalc();
   }
-
   amountTradeCalc() {
-    if(this.cryptoTypeTrade === 'BTC'){
-        const amountradeadded = this.amountTrade;
-        const btc = this.bitcurrent;;
-       this.Change = ((amountradeadded/btc)*100)-100
+    if (this.cryptoTypeTrade === 'BTC') {
+      const amountradeadded = this.amountTrade;
+      const btc = this.bitcurrent;;
+      this.Change = ((amountradeadded / btc) * 100) - 100
     }
-    else if(this.cryptoTypeTrade === 'ETH'){
+    else if (this.cryptoTypeTrade === 'ETH') {
       const amountradeadded = this.amountTrade;
       const eth = this.ethcurrent;;
-     this.Change = ((amountradeadded/eth)*100)-100
+      this.Change = ((amountradeadded / eth) * 100) - 100
     }
-    else{
+    else {
       this.Change = 0
     }
   }
-
   currencyAddress() {
     if (this.coinType === "BTC") {
       this.addressTo = this.singleclient.btcAddress;
@@ -194,7 +219,6 @@ export class ProfileComponent implements OnInit {
       this.message.error("Please select currency");
     }
   }
-
   calculateUsdAmountReceive() {
     //console.log("singleclient", this.singleclient);
     if (isNaN(this.amountReceive)) {
@@ -208,7 +232,6 @@ export class ProfileComponent implements OnInit {
       }
     }
   }
-
   calculateUsdAmountSend() {
     //console.log("singleclient", this.singleclient);
     if (isNaN(this.amountSend)) {
@@ -224,25 +247,7 @@ export class ProfileComponent implements OnInit {
       }
     }
   }
-
   handlesenderOk(): void {
-    // var id =localStorage.getItem('ID');
-    // this.userService.sendrequest(id,this.senderform.value).subscribe(
-    //   data => {
-    //     console.log("got response from server", data);
-    //     // alert("Registeration Successfull!");
-    //     // this.loading = false;
-    //     this.message.success("Payment succeded");
-
-    //     this.router.navigate(["/authentication/login"]);
-    //   },
-    //   error => {
-    //     // this.clicked = false;
-    //     // this.loading = false;
-    //     // console.log("error in save button");
-    //      this.message.error("Unable to pay");
-    //   }
-    // );
     this.isOkLoading = true;
     setTimeout(() => {
       this.isVisible = false;
@@ -342,16 +347,16 @@ export class ProfileComponent implements OnInit {
   }
 
   confirm(): void {
-   
+
     if (this.tradetype === "BUY") {
       const body = {
         name: this.singleclient.username,
         email: this.singleclient.email,
         cryptoType: this.cryptoTypeTrade,
         price: this.amountTrade,
-        limit:{
-          minimum:this.limitMin,
-          maximum:this.limitMax
+        limit: {
+          minimum: this.limitMin,
+          maximum: this.limitMax
         },
         //walletAddress: receiverAddress,
         description: this.descriptionTrade,
@@ -361,7 +366,7 @@ export class ProfileComponent implements OnInit {
         data => {
           this.message.success("Buying request send!");
           this.resetData();
-        },error => {
+        }, error => {
           this.message.error("Unable to set Buying request");
         }
       )
@@ -371,9 +376,9 @@ export class ProfileComponent implements OnInit {
         name: this.singleclient.username,
         cryptoType: this.cryptoTypeTrade,
         price: this.amountTrade,
-        limit:{
-          minimum:this.limitMin,
-          maximum:this.limitMax
+        limit: {
+          minimum: this.limitMin,
+          maximum: this.limitMax
         },
         email: this.singleclient.email,
         description: this.descriptionTrade,
@@ -384,7 +389,7 @@ export class ProfileComponent implements OnInit {
           console.log("got response from server", data);
           this.message.success("Selling request send!");
           this.resetData();
-        },error => {
+        }, error => {
           this.message.error("Unable to set Selling request");
         }
       )

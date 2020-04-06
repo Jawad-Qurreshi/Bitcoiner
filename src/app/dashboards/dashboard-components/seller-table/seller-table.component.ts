@@ -1,67 +1,4 @@
-// import { Component, OnChanges, ViewChild } from "@angular/core";
-
-// import { Input } from "@angular/core";
-
-// declare var require: any;
-// const data: any = require("./company.json");
-
-// @Component({
-//   selector: "app-seller-table",
-//   templateUrl: "./seller-table.component.html",
-//   styleUrls: ["./seller-table.css"]
-// })
-// export class SellertableComponent implements OnChanges {
-//   editing = {};
-//   rows = [];
-//  // temp = [...data];
-
-//   loadingIndicator = true;
-//   reorderable = true;
-
-//   columns = [
-//     { prop: "Name" },
-//     { prop: "Type_of_currency",name:"Type of currency" },
-//     { prop: "Price" },
-//     { prop: "Change" }   
-//   ];
-
-//   
-
-//   @ViewChild(SellertableComponent, { static: false }) table: SellertableComponent;
-//   constructor() {
-//     this.rows = data;
-//   //  this.temp = [...data];
-//     setTimeout(() => {
-//       this.loadingIndicator = false;
-//     }, 1500);
-//     console.log(" this.buyers", this.seller);
-//   }
-
-//   ngOnChanges() {
-//     console.log("onchanges called", this.seller);
-//     this.setTableData();
-//   }
-
-//   setTableData() {
-//     this.rows = this.seller;
-//   }
-
-//   updateFilter(event) {
-//     const val = event.target.value.toLowerCase();
-
-//     // filter our data
-//     const temp = this.seller.filter(function(d) {
-//       return d.Name.toLowerCase().indexOf(val) !== -1 || !val;
-//     });
-
-//     // update the rows
-//     this.rows = temp;
-//     // Whenever the filter changes, always go back to the first page
-//     this.table = data;
-//     //this.setTableData();
-//   }
-// }
-
+import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router'
 import { Component, Input } from '@angular/core';
 import { UserService } from 'sdk/user.service';
@@ -85,6 +22,7 @@ export class SellertableComponent {
   selectedseller: any;
   bitcurrent: any;
   usdAmount: number;
+  priceSell;
   amountBuy: any;
   ethcurrent: number;
   mycolor: boolean;
@@ -100,40 +38,15 @@ export class SellertableComponent {
   CalcBitEth() {
     if ( parseFloat(this.amountBuy)  >= this.selectedseller.limit.minimum && parseFloat(this.amountBuy) <= this.selectedseller.limit.maximum) {
       this.mycolor = false 
-      // console.log("this is amountbuy in true condition" + this.amountBuy)
-      // console.log("this is amountbuy in true min" + this.selectedseller.limit.minimum)
-      // console.log("this is amountbuy in true max" + this.selectedseller.limit.maximum)
     }
     else {
-      // console.log("this is amountbuy in false condition" + this.amountBuy)
-      // console.log("this is amountbuy in false min" + this.selectedseller.limit.minimum)
-      // console.log("this is amountbuy in false max" + this.selectedseller.limit.maximum)
       this.mycolor = true;
     }
-
     if (this.selectedseller.cryptoType === 'BTC'){
-      this.userservice.gettheBIT().subscribe(
-        resBitData => {
-          this.bitcurrent = resBitData.ticker.BTCUSDT;
-        },
-        err => {
-          this.bitcurrent = 0;
-          console.log("api error in getting bitcoin current", err);
-        }
-      );
-      this.usdAmount = this.amountBuy*this.bitcurrent;
+      this.usdAmount = this.amountBuy / this.selectedseller.price;
      }
      else {
-      this.userservice.gettheETH().subscribe(
-        resEthData => {
-          this.ethcurrent = resEthData.ticker.ETHUSDT;
-        },
-        err => {
-          this.ethcurrent = 0;
-          console.log("api error in getting ethereum current", err);
-        }
-      );
-       this.usdAmount = this.amountBuy*this.ethcurrent;
+       this.usdAmount = this.amountBuy*this.selectedseller.price;
      }
       this.resertData();
   }

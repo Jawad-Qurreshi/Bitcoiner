@@ -47,13 +47,25 @@
                               <td>{{ seller.cryptoType }}</td>
                               <td>${{ seller.price }}</td>
                               <td>${{ seller.limit.minimum }} - ${{ seller.limit.maximum }}</td>
-                              <td>Hi %</td>
+                              <td> 
+                                <span *ngIf="seller.changeValue > 0">
+                                <i class="mdi mdi-arrow-up"></i>
+                                {{ buyer.changeValue | number : '1.2-2'}}%
+                              </span>
+            
+                              <span *ngIf="seller.changeValue < 0">
+                                <i class="mdi mdi-arrow-down"></i>
+                                {{ buyer.changeValue | number : '1.2-2'}}%
+                              </span>
+            
+                              <span *ngIf="seller.changeValue == 0">
+                                {{ buyer.changeValue | number : '1.2-2'}}%
+                              </span></td>
                               <td>
                                 <button type="button" (click)="showModal(seller)"
                                 class="btn btn-success">Buy</button>
                               </td>
-                          </tr>
-                          
+                          </tr>  
                       </tbody>
                   </table>
               </div>
@@ -92,7 +104,7 @@
   
       <h6>Price:</h6>
       <div class="input-group mb-3">
-        <input type="text" disabled class="form-control " placeholder="{{selectedseller?.price}}"
+        <input type="text" disabled class="form-control"  placeholder="{{selectedseller?.price}}"
           aria-describedby="basic-addon1">
       </div>
 
