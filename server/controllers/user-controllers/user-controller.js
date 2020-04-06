@@ -150,19 +150,23 @@ module.exports.getClientPosts = (req, res) => {
                         post.type = 'Buy';
                         posts.push(post);
                     });
+                    console.log("this is postys" + posts)
                     res.status(200).json({
                         isSuccess: true,
                         posts: posts
                     });
                 })
                 .catch(err => {
+                    console.log("1:" + err)
                     res.status(500).json({
                         isSuccess: true,
                         message: 'INTERNAL_ERROR'
+
                     });
                 });
         })
         .catch(err => {
+            console.log("2:" + err)
             res.status(500).json({
                 isSuccess: true,
                 message: 'INTERNAL_ERROR'
