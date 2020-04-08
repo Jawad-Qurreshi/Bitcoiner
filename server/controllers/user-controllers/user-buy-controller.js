@@ -53,7 +53,7 @@ module.exports.confirm_sale = async (req, res) => {
                 message: 'INTERNAL_ERROR'
             });
         });
-}
+};
 
 const performTransaction = (buyer, seller, post, body) => {
     return new Promise(async (resolve, reject) => {
@@ -74,7 +74,7 @@ const performTransaction = (buyer, seller, post, body) => {
                             .then(saved => {
                                 post.remove()
                                     .then(removed => {
-                                        resolve();
+                                        resolve(removed);
                                     })
                                     .catch(err => {
                                         reject(err);
@@ -131,4 +131,4 @@ const performTransaction = (buyer, seller, post, body) => {
             }
         }
     });
-}
+};

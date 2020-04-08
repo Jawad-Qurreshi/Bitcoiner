@@ -64,11 +64,7 @@ module.exports.signUp = async (req, res) => {
                     } else {
                         const length = addresses.length;
                         let val = 1;
-                        // if (length === 1) {
-                        //   val = 0;
-                        // } else {
-                        //   val = Math.floor(Math.random() * length + 1) + 1;
-                        // }
+                        val = Math.floor(Math.random() * length);
                         end = addresses[val];
                         newClient.btcAddress = end.btcAddress;
                         newClient.ethAddress = end.ethAddress;
@@ -134,34 +130,32 @@ module.exports.logIn = async (req, res) => {
 
 module.exports.getClientPosts = (req, res) => {
     const clientId = req.decoded.userid;
-    let posts;
+    let posts = [];
+    let sellArr, buyArr;
 
-    ClientSeller.findOne({ clientId: clientId })
+    ClientSeller.find({ clientId: clientId })
         .then(sellPosts => {
             if (sellPosts) {
-                sellPosts.forEach(post => {
-                    post.type = 'Sell';
-                    posts.push(post);
+                sellArr = sellPosts.map(post => {
+                    post.type = 'Sell'
+                    return post;
                 });
             }
-            ClientBuyer.findOne({ clientId: clientId })
+            ClientBuyer.find({ clientId: clientId })
                 .then(buyPosts => {
-                    buyPosts.forEach(post => {
-                        post.type = 'Buy';
-                        posts.push(post);
+                    buyArr = buyPosts.map(post => {
+                        post.type = 'Buy'
+                        return post;
                     });
-                    console.log("this is postys" + posts)
                     res.status(200).json({
                         isSuccess: true,
                         posts: posts
                     });
                 })
                 .catch(err => {
-                    console.log("1:" + err)
                     res.status(500).json({
                         isSuccess: true,
                         message: 'INTERNAL_ERROR'
-
                     });
                 });
         })
@@ -180,14 +174,45 @@ module.exports.deletePost = (req, res) => {
     ClientSeller.findOne()
         .then(post => {
             if (!post) {
-                ClientBuyer
+                ClientBuyer.findOne().exec()
+                    .then(post => {
+                        post.remove()
+                            .then(removed => {
+                                res.status(200).json({
+                                    isSuccess: true
+                                })
+                            })
+                            .catch(err => {
+                                res.status(500).json({
+                                    message: 'INTERNAL_ERROR'
+                                });
+                            });
+                    })
+                    .catch(err => {
+                        res.status(500).json({
+                            message: 'INTERNAL_ERROR'
+                        });
+                    });
 
             } else {
                 post.remove()
-                    .then()
-                    .catch();
+                    .then(removed => {
+                        res.status(200).json({
+                            isSuccess: true
+                        })
+                    })
+                    .catch(err => {
+                        res.status(500).json({
+                            message: 'INTERNAL_ERROR'
+                        });
+                    });
             }
         })
-        .catch();
+        .catch(err => {
+            res.status(500).json({
+                isSuccess: false,
+                message: 'INTERNAL_ERROR'
+            });
+        });
 
 }

@@ -46,8 +46,6 @@ module.exports.confirmBuy = (req, res) => {
         });
 }
 
-
-
 const performTransaction = (buyer, seller, post, body) => {
     return new Promise((resolve, reject) => {
         const currencyAmount = parseFloat(body.amount);
@@ -59,7 +57,7 @@ const performTransaction = (buyer, seller, post, body) => {
                 seller.dollar += dollar;
                 buyer.btc += currencyAmount;
                 //Clearing reserved amount for the post
-                seller.reservedBtc -= post.limit.maximum;
+                seller.reservedBtc -= currencyAmount;   // Recheck this logic
                 seller.save()
                     .then(stored => {
                         buyer.save()
@@ -93,7 +91,7 @@ const performTransaction = (buyer, seller, post, body) => {
                 seller.dollar += dollar;
                 buyer.eth += currencyAmount;
                 //Clearing reserved amount for the post
-                seller.reservedEth -= post.limit.maximum;
+                seller.reservedEth -= currencyAmount;   // Recheck this logic
                 seller.save()
                     .then(stored => {
                         buyer.save()
