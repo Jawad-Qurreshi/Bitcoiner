@@ -26,10 +26,10 @@ const userRequestController = require('../controllers/user-controllers/user-requ
 //Initializing
 const router = express.Router();
 //const db = "mongodb://localhost:27017/bitcoinerDB";
-const db = `mongodb+srv://${config.db.USER}:${config.db.PWD}@cluster0-8jh11.mongodb.net/test?retryWrites=true&w=majority`
+const dbUrl = `mongodb+srv://${config.db.USER}:${config.db.PWD}@cluster0-8jh11.mongodb.net/test?retryWrites=true&w=majority`
 mongoose.Promise = global.Promise;
 mongoose.set('useFindAndModify', false);
-mongoose.connect(db, { useUnifiedTopology: true, useNewUrlParser: true }, function (err) {
+mongoose.connect(dbUrl, { useUnifiedTopology: true, useNewUrlParser: true }, function (err) {
   if (err) {
     console.error("Error ! " + err);
   }
@@ -67,7 +67,6 @@ router.get('/ethapi', user.checAuth, function (req, res) {
     });
   });
 });
-
 ////////////////////////////Buyers////////////////////////////////
 router.post('/buyer/add', user.checAuth, async (req, res) => {
   const body = req.body;
@@ -164,8 +163,6 @@ router.delete('/buyer/:id', user.checAuth, function (req, res) {
   })
 });
 router.post('/confirm/sell', user.checAuth, buyController.confirm_sale);
-
-
 ////////////////////////////Sellers//////////////////////////////////
 router.post('/seller/add', user.checAuth, async (req, res) => {
   const body = req.body;
@@ -247,9 +244,92 @@ router.delete('/seller/:id', user.checAuth, function (req, res) {
   })
 })
 router.post('/confirm/buy', user.checAuth, sellController.confirmBuy);
-/////////////////////////All requests////////////////////////////////////////
+////////////////////Client's Requests routes/////////////
+router.post('/request/add', user.checAuth, userRequestController.addRequest);
+router.delete('/request/:requestId', user.checAuth, userRequestController.deleteRequest);
+router.get('/request/approved/:clientId', user.checAuth, userRequestController.getApprovedRequests);
+router.get('/request/pending/:clientId', user.checAuth, userRequestController.getPendingRequests);
+///////////////////////////login   Signup////////////////////////////////////
+router.post('/signup', userController.signUp);
+router.post('/login', userController.logIn);
+router.post('/user/update', userController.updateUser);
+///////////////////////Currencey Address//////////////
+router.post('/address/add', user.checAuth, adminController.addAddress);
+router.get('/address/all', user.checAuth, adminController.getAllAddress);
+////////////////////////////////Clients///////////////////////////////////////////
+router.put('/client/:id', user.checAuth, function (req, res) {
+  console.log('update a client');
+  Client.findByIdAndUpdate(req.params.id, {
+    $set: {
+      // username: req.body.username,
+      // email: req.body.email,
+      // password: req.body.password,
+      // phone: req.body.phone,
+      // //DOB: req.body.DOB,
+      // Address: req.body.Address,
+
+    }
+  },
+    {
+      new: true
+    },
+    function (err, updatedClient) {
+      if (err) {
+        res.send("Error updating client")
+      } else {
+        res.json(updatedClient);
+      }
+    });
+})
+router.delete('/client/:id', user.checAuth, function (req, res) {
+  console.log('Deleting a client');
+  Client.findByIdAndRemove(req.params.id, function (err, deletedClient) {
+    if (err) {
+      res.send("Error deleting client")
+    } else {
+      res.json(deletedClient);
+    }
+  })
+})
+router.get('/client/all', user.checAuth, function (req, res) {
+
+  Client.find({})
+    .exec(function (err, clients) {
+      if (err) {
+        console.log('Error while retrieving clients');
+      } else {
+        res.json(clients);
+      }
+    });
+});
+router.get('/client/:id', user.checAuth, function (req, res) {
+  const userid = req.params.id;
+  Client.findById(userid)
+    .exec(function (err, client) {
+      if (err) {
+        // console.log('Error while retrieving video');
+      } else {
+        res.status(200).json(client);
+      }
+    });
+});
+
+//////////////////////////// Buy/Sell Posts of Client/////////////////////
+
+router.get('/post/all', user.checAuth, userController.getClientPosts);
+
+router.delete('/post/:postId', user.checAuth, userController.deletePost);
+
+////////////////////////////ADMIN/////////////////////////
+
+router.post('/admin/create', adminController.createAdmin);
+
+router.post('/admin/authenticate', adminController.checkAdminAuth);
+
+router.put('/admin/verify/user/:userId', user.checkAdminAuth, adminController.verifyUser);
 
 //Admin's requests routes
+
 //This approves a request
 router.put('/request/approve/:id', user.checAuth, async function (req, res) {
   Request.findById({ _id: req.params.id }).exec()
@@ -335,100 +415,5 @@ router.get('/request/pending/all', user.checAuth, (req, res) => {
       });
     });
 });
-
-////////////////////Client's Requests routes
-router.post('/request/add', user.checAuth, userRequestController.addRequest);
-
-router.delete('/request/:requestId', user.checAuth, userRequestController.deleteRequest);
-
-router.get('/request/approved/:clientId', user.checAuth, userRequestController.getApprovedRequests);
-
-router.get('/request/pending/:clientId', user.checAuth, userRequestController.getPendingRequests);
-///////////////////////////login   Signup////////////////////////////////////
-
-router.post('/signup', userController.signUp);
-
-router.post('/login', userController.logIn);
-
-router.post('/user/update', userController.updateUser);
-
-///////////////////////Currencey Address//////////////
-
-router.post('/address/add', user.checAuth, adminController.addAddress);
-router.get('/address/all', user.checAuth, adminController.getAllAddress);
-
-
-
-////////////////////////////////Clients///////////////////////////////////////////
-router.put('/client/:id', user.checAuth, function (req, res) {
-  console.log('update a client');
-  Client.findByIdAndUpdate(req.params.id, {
-    $set: {
-      // username: req.body.username,
-      // email: req.body.email,
-      // password: req.body.password,
-      // phone: req.body.phone,
-      // //DOB: req.body.DOB,
-      // Address: req.body.Address,
-
-    }
-  },
-    {
-      new: true
-    },
-    function (err, updatedClient) {
-      if (err) {
-        res.send("Error updating client")
-      } else {
-        res.json(updatedClient);
-      }
-    });
-})
-router.delete('/client/:id', user.checAuth, function (req, res) {
-  console.log('Deleting a client');
-  Client.findByIdAndRemove(req.params.id, function (err, deletedClient) {
-    if (err) {
-      res.send("Error deleting client")
-    } else {
-      res.json(deletedClient);
-    }
-  })
-})
-router.get('/client/all', user.checAuth, function (req, res) {
-
-  Client.find({})
-    .exec(function (err, clients) {
-      if (err) {
-        console.log('Error while retrieving clients');
-      } else {
-        res.json(clients);
-      }
-    });
-});
-router.get('/client/:id', user.checAuth, function (req, res) {
-  const userid = req.params.id;
-  Client.findById(userid)
-    .exec(function (err, client) {
-      if (err) {
-        // console.log('Error while retrieving video');
-      } else {
-        res.status(200).json(client);
-      }
-    });
-});
-
-//////////////////////////// Buy/Sell Posts of Client/////////////////////
-
-router.get('/post/all', user.checAuth, userController.getClientPosts);
-
-router.delete('/post/:postId', user.checAuth, userController.deletePost);
-
-////////////////////////////ADMIN/////////////////////////
-
-router.post('/admin/create', adminController.createAdmin);
-
-router.post('/admin/authenticate', adminController.checkAdminAuth);
-
-router.put('/admin/verify/user/:userId', user.checkAdminAuth, adminController.verifyUser);
 
 module.exports = router;
