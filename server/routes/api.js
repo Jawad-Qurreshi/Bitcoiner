@@ -2,9 +2,6 @@
 
 const express = require('express');
 const mongoose = require('mongoose');
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
-const encrypter = require('../encryption');
 
 
 //Models
@@ -46,7 +43,7 @@ router.post('/user/recovery/password', (req, res) => {
   res.status(200).json({
     isSuccess: true,
     message: 'MAIL_SENT'
-  })
+  });
 });
 
 ///////////////////////////////////BIT API/////////////////////////////////////
