@@ -18,28 +18,28 @@ module.exports.confirmBuy = (req, res) => {
                                     });
                                 })
                                 .catch(err => {
-                                    res.status().json({
+                                    res.status(500).json({
                                         isSuccess: false,
                                         message: 'INTERNAL_ERROR'
                                     });
                                 });
                         })
                         .catch(err => {
-                            res.status().json({
+                            res.status(500).json({
                                 isSuccess: false,
                                 message: 'INTERNAL_ERROR'
                             });
                         });
                 })
                 .catch(err => {
-                    res.status().json({
+                    res.status(500).json({
                         isSuccess: false,
                         message: 'INTERNAL_ERROR'
                     });
                 });
         })
         .catch(err => {
-            res.status().json({
+            res.status(500).json({
                 isSuccess: false,
                 message: 'INTERNAL_ERROR'
             });
@@ -51,74 +51,82 @@ const performTransaction = (buyer, seller, post, body) => {
         const currencyAmount = parseFloat(body.amount);
         const dollar = parseFloat(body.dollar);
         if (post.cryptoType === 'BTC') {
-            if (buyer.dollar >= dollar) {
-                ///////
-                buyer.dollar = buyer.dollar - dollar;
-                console.log(buyer.dollar);
-                seller.dollar = buyer.dollar + dollar;
-                console.log(seller.dollar);
-                buyer.btc += currencyAmount;
-                //Clearing reserved amount for the post
-                seller.reservedBtc -= currencyAmount;   // Recheck this logic
-                seller.save()
-                    .then(stored => {
-                        buyer.save()
-                            .then(stored => {
-                                post.remove()
-                                    .then(removed => {
-                                        resolve(removed);
-                                    })
-                                    .catch(err => {
-                                        reject(err);
-                                    });
-                            })
-                            .catch(err => {
-                                reject(err);
-                            });
-                    })
-                    .catch(err => {
-                        reject(err);
+            if (seller.btc > currencyAmount) {
+                if (buyer.dollar > dollar) {
+                    ///////
+                    buyer.dollar -= dollar;
+                    seller.dollar += dollar;
+                    seller.btc -= currencyAmount;
+                    buyer.btc += currencyAmount;
+                    seller.save()
+                        .then(stored => {
+                            buyer.save()
+                                .then(stored => {
+                                    post.remove()
+                                        .then(removed => {
+                                            resolve(removed);
+                                        })
+                                        .catch(err => {
+                                            reject(err);
+                                        });
+                                })
+                                .catch(err => {
+                                    reject(err);
+                                });
+                        })
+                        .catch(err => {
+                            reject(err);
+                        });
+                } else {
+                    res.status(400).json({
+                        isSuccess: false,
+                        message: 'NOT_ENOUGH_CREDIT_BUYER'
                     });
+                }
             } else {
                 res.status(400).json({
                     isSuccess: false,
-                    message: 'NOT_ENOUGH_CREDIT'
+                    message: 'NOT_ENOUGH_CREDIT_SELLER'
                 });
             }
+
         } else {
-            //post.cryptoType === 'ETH'
-            if (buyer.dollar >= dollar) {
-                ///////
-                buyer.dollar -= dollar;
-                seller.dollar += dollar;
-                console.log(seller.dollar);
-                console.log(buyer.dollar);
-                buyer.eth += currencyAmount;
-                //Clearing reserved amount for the post
-                seller.reservedEth -= currencyAmount;   // Recheck this logic
-                seller.save()
-                    .then(stored => {
-                        buyer.save()
-                            .then(stored => {
-                                post.remove()
-                                    .then(removed => {
-                                        resolve(removed);
-                                    })
-                                    .catch(err => {
-                                        reject(err);
-                                    });
-                            })
-                            .catch(err => {
-                                reject(err);
-                            });
-                    })
-                    .catch(err => {
-                        reject(err);
+            if (seller.eth > currencyAmount) {
+                if (buyer.dollar > dollar) {
+                    buyer.dollar -= dollar;
+                    seller.dollar += dollar;
+                    seller.eth -= currencyAmount;
+                    buyer.eth += currencyAmount;
+                    seller.save()
+                        .then(stored => {
+                            buyer.save()
+                                .then(stored => {
+                                    post.remove()
+                                        .then(removed => {
+                                            resolve(removed);
+                                        })
+                                        .catch(err => {
+                                            reject(err);
+                                        });
+                                })
+                                .catch(err => {
+                                    reject(err);
+                                });
+                        })
+                        .catch(err => {
+                            reject(err);
+                        });
+                } else {
+                    res.status(400).json({
+                        isSuccess: false,
+                        message: 'NOT_ENOUGH_CREDIT_BUYER'
                     });
+                }
+
             } else {
-                res.status(400).json({
+                res.status().json({
                     isSuccess: false,
-                    message: 'NOT_ENOUGH_CREDIT'
+                    message: 'NOT_ENOUGH_CREDIT_SELLER'
                 });
             }
         }

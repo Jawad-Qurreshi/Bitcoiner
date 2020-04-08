@@ -60,73 +60,81 @@ const performTransaction = (buyer, seller, post, body) => {
         const dollarToSell = parseFloat(body.dollar);
         const currencyAmount = parseFloat(body.amount);
         if (post.cryptoType === 'BTC') {
-            if (seller.btc > currencyAmount) {
-                seller.btc -= currencyAmount;
-                buyer.btc += currencyAmount;
-                buyer.reservedDollar -= dollarToSell;
-                seller.dollar += dollarToSell;
-                //Clearing the reserved dollars of the post
-                buyer.reservedDollar -= parseFloat(post.limit.maximum - dollarToSell);
-
-                seller.save()
-                    .then(saved => {
-                        buyer.save()
-                            .then(saved => {
-                                post.remove()
-                                    .then(removed => {
-                                        resolve(removed);
-                                    })
-                                    .catch(err => {
-                                        reject(err);
-                                    });
-                            })
-                            .catch(err => {
-                                reject(err);
-                            });
-                    })
-                    .catch(err => {
-                        reject(err);
+            if (buyer.dollar > dollarToSell) {
+                if (seller.btc > currencyAmount) {
+                    seller.btc -= currencyAmount;
+                    buyer.btc += currencyAmount;
+                    seller.dollar += dollarToSell;
+                    buyer.dollar -= dollarToSell;
+                    seller.save()
+                        .then(saved => {
+                            buyer.save()
+                                .then(saved => {
+                                    post.remove()
+                                        .then(removed => {
+                                            resolve(removed);
+                                        })
+                                        .catch(err => {
+                                            reject(err);
+                                        });
+                                })
+                                .catch(err => {
+                                    reject(err);
+                                });
+                        })
+                        .catch(err => {
+                            reject(err);
+                        });
+                } else {
+                    res.status(400).json({
+                        isSuccess: false,
+                        message: 'NOT_ENOUGH_CREDIT_SELLER'
                     });
+                }
             } else {
-                res.status(400).json({
+                res.status().json({
                     isSuccess: false,
-                    message: 'NOT_ENOUGH_CREDIT'
+                    message: 'NOT_ENOUGH_CREDIT_BUYER'
                 });
             }
-
+            
         } else {
             //ETH Transaction
-            if (seller.eth > currencyAmount) {
-                seller.eth -= currencyAmount;
-                buyer.eth += currencyAmount;
-                buyer.reservedDollar -= dollarToSell;
-                seller.dollar += dollarToSell;
-                //Clearing the reserved dollars of the post
-                buyer.reservedDollar -= parseFloat(post.limit.maximum - dollarToSell);
-
-                seller.save()
-                    .then(saved => {
-                        buyer.save()
-                            .then(saved => {
-                                post.remove()
-                                    .then(removed => {
-                                        resolve();
-                                    })
-                                    .catch(err => {
-                                        reject(err);
-                                    });
-                            })
-                            .catch(err => {
-                                reject(err);
-                            });
-                    })
-                    .catch(err => {
-                        reject(err);
+            if (buyer.dollar > dollarToSell) {
+                if (seller.eth > currencyAmount) {
+                    seller.eth -= currencyAmount;
+                    buyer.eth += currencyAmount;
+                    buyer.dollar -= dollarToSell;
+                    seller.dollar += dollarToSell;
+                    seller.save()
+                        .then(saved => {
+                            buyer.save()
+                                .then(saved => {
+                                    post.remove()
+                                        .then(removed => {
+                                            resolve();
+                                        })
+                                        .catch(err => {
+                                            reject(err);
+                                        });
+                                })
+                                .catch(err => {
+                                    reject(err);
+                                });
+                        })
+                        .catch(err => {
+                            reject(err);
+                        });
+                } else {
+                    res.status(400).json({
+                        isSuccess: false,
+                        message: 'NOT_ENOUGH_CREDIT_SELLER'
                     });
+                }
             } else {
-                res.status(400).json({
+                res.status().json({
                     isSuccess: false,
-                    message: 'NOT_ENOUGH_CREDIT'
+                    message: 'NOT_ENOUGH_CREDIT_BUYER'
                 });
             }
         }

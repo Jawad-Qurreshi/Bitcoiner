@@ -75,7 +75,7 @@ router.post('/buyer/add', user.checAuth, async (req, res) => {
   limit.minimum = parseFloat(limit.minimum);
   limit.maximum = parseFloat(limit.maximum);
 
-  const buyer = new ClientBuyer({
+  const buyPost = new ClientBuyer({
     name: body.name,
     cryptoType: body.cryptoType,
     price: body.price,
@@ -84,57 +84,21 @@ router.post('/buyer/add', user.checAuth, async (req, res) => {
     limit: limit
   });
 
-  Client.findOne({ _id: clientId }).exec()
-    .then(client => {
-
-      if (client.dollar > buyer.limit.maximum) {
-        client.reservedDollar += buyer.limit.maximum;
-        client.dollar -= buyer.limit.maximum;
-        buyer.clientId = client._id;
-
-        client.save()
-          .then(saved => {
-            buyer.save()
-              .then(result => {
-
-                res.status(201).json({
-                  message: 'Request Posted!',
-
-                  isSuccess: true
-                });
-              })
-              .catch(err => {
-                console.log("1::::" + err)
-                res.status(500).json({
-                  message: err.message,
-
-                  isSuccess: false
-                });
-              });
-          })
-          .catch(err => {
-            console.log("2::::" + err)
-            res.status(500).json({
-              isSuccess: false,
-              message: err.message
-            });
-          });
-
-      } else {
-        res.status(400).json({
-          isSuccess: false,
-          message: 'NOT_ENOUGH_CREDIT'
-        });
-
-      }
+  buyPost.save()
+    .then(stored => {
+      res.status().json({
+        isSuccess: true,
+        message: 'SELL_POSTED'
+      });
     })
     .catch(err => {
-      console.log("3::::" + err)
       res.status(500).json({
         isSuccess: false,
-        message: err.message
+        message: 'INTERNAL_ERROR'
       });
     });
+
+
 });
 router.get('/buyer/all', user.checAuth, function (req, res) {
   ClientBuyer.find({})
@@ -170,55 +134,27 @@ router.post('/seller/add', user.checAuth, async (req, res) => {
   const limit = req.body.limit;
   limit.minimum = parseFloat(limit.minimum);
   limit.maximum = parseFloat(limit.maximum);
-  const seller = new ClientSeller({
+  const sellPost = new ClientSeller({
     name: body.name,
     limit: limit,
-    amount: body.amount,
+    amount: parseFloat(body.amount),
     cryptoType: body.cryptoType,
-    price: body.price,
+    price: parseFloat(body.price),
     sellerId: body.clientId,
     description: body.description,
     clientId: clientId
   });
-  Client.findById({ _id: clientId })
-    .exec()
-    .then(client => {
-      if (body.cryptoType === 'BTC') {
-        client.btc -= parseFloat(body.amount);
-        client.reservedBtc += parseFloat(body.amount);
-      } else {
-        client.eth -= parseFloat(body.amount);
-        client.reservedEth += parseFloat(body.amount);
-      }
-      client.save()
-        .then(client => {
-          console.log(client);
-          seller.save()
-            .then(sellPost => {
-              res.status(201).json({
-                isSuccess: true,
-                message: 'Sell Posted!'
-              });
-            })
-            .catch(err => {
-              res.status(500).json({
-                isSuccess: false,
-                message: err.message
-              });
-            });
-        })
-        .catch(err => {
-          res.status(500).json({
-            isSuccess: false,
-            message: err.message
-          });
-
-        });
+  sellPost.save()
+    .then(stored => {
+      res.status(200).json({
+        isSuccess: true,
+        message: 'SELL_POSTED'
+      });
     })
     .catch(err => {
       res.status(500).json({
         isSuccess: false,
-        message: err.message
+        message: 'INTERNAL_ERROR'
       });
     });
 });
