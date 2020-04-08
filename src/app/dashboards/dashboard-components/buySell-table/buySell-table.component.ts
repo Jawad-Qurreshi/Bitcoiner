@@ -16,8 +16,8 @@ export class BuySelltableComponent {
   selectedOne: any;
   deleteID: this;
 
-  constructor(private userservice: UserService,private message : NzMessageService) { 
-    
+  constructor(private userservice: UserService, private message: NzMessageService) {
+
   }
 
   buyerSellers = [];
@@ -30,38 +30,38 @@ export class BuySelltableComponent {
 
   ngOnInit() {
     this.getCrypto();
-    
+
   }
 
-  getCrypto(){
+  getCrypto() {
     this.userservice.gettheBIT().subscribe(
       response => {
         this.btcCurrent = response.ticker.BTCUSDT;
         this.getEther();
-      }, 
-      err =>{
+      },
+      err => {
         console.log(err)
       }
     )
   }
 
-  getEther(){
+  getEther() {
     this.userservice.gettheETH().subscribe(
       response => {
-       this.ethCurrent=response.ticker.ETHUSDT;
-       this.getBuyerSeller();
+        this.ethCurrent = response.ticker.ETHUSDT;
+        this.getBuyerSeller();
       },
       err => {
         console.log(err)
       }
-    )   
+    )
   }
- 
-  getBuyerSeller(){
+
+  getBuyerSeller() {
     this.userservice.getBuyerSeller().subscribe(
       response => {
-         this.buyerSellers = response.sellPosts;
-         this.buyerSellers.forEach((e) => {
+        this.buyerSellers = response.sellPosts;
+        this.buyerSellers.forEach((e) => {
 
           if (e.cryptoType === 'BTC') {
             const amountradeadded = +e.price;
@@ -76,8 +76,8 @@ export class BuySelltableComponent {
         }
         )
       },
-      err =>{
-         console.log(err.message);
+      err => {
+        console.log(err.message);
       }
     )
   }
@@ -90,13 +90,13 @@ export class BuySelltableComponent {
     const deleteID = this.selectedOne._id;
     this.userservice.deletebuySell(deleteID).subscribe(
       response => {
-         this.message.success("Your request successfully deleted")
+        this.message.success("Your request successfully deleted")
       },
-      err =>{
+      err => {
         console.log(err.response)
       }
     )
-    
+
     this.isOkLoading = true;
     setTimeout(() => {
       this.is2ndVisible = false;
