@@ -74,7 +74,7 @@ const performTransaction = (buyer, seller, post, body) => {
                             .then(saved => {
                                 post.remove()
                                     .then(removed => {
-                                        resolve();
+                                        resolve(removed);
                                     })
                                     .catch(err => {
                                         reject(err);
