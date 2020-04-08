@@ -1,5 +1,5 @@
 export class ProjectConfig {
-    private static path = 'http://localhost:3004/api';
+    private static path = 'http://localhost:4400/api';
     public static getPath(): string {
       return ProjectConfig.path;
     }

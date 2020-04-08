@@ -53,8 +53,10 @@ const performTransaction = (buyer, seller, post, body) => {
         if (post.cryptoType === 'BTC') {
             if (buyer.dollar >= dollar) {
                 ///////
-                buyer.dollar -= dollar;
-                seller.dollar += dollar;
+                buyer.dollar = buyer.dollar - dollar;
+                console.log(buyer.dollar);
+                seller.dollar = buyer.dollar + dollar;
+                console.log(seller.dollar);
                 buyer.btc += currencyAmount;
                 //Clearing reserved amount for the post
                 seller.reservedBtc -= currencyAmount;   // Recheck this logic
@@ -89,6 +91,8 @@ const performTransaction = (buyer, seller, post, body) => {
                 ///////
                 buyer.dollar -= dollar;
                 seller.dollar += dollar;
+                console.log(seller.dollar);
+                console.log(buyer.dollar);
                 buyer.eth += currencyAmount;
                 //Clearing reserved amount for the post
                 seller.reservedEth -= currencyAmount;   // Recheck this logic
