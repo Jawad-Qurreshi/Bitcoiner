@@ -44,17 +44,17 @@ export class SellertableComponent {
       this.mycolor = true;
     }
     if (this.selectedseller.cryptoType === 'BTC'){
-      this.usdAmount = this.amountBuy / this.selectedseller.price;
+      this.usdAmount = this.amountBuy / +this.selectedseller.price;
      }
      else {
-       this.usdAmount = this.amountBuy*this.selectedseller.price;
+       this.usdAmount = this.amountBuy / +this.selectedseller.price;
      }
       this.resertData();
   }
 
   resertData(){
     this.amountBuy = 0;
-    this.usdAmount = 0;
+    //this.usdAmount = 0;
   }
 
 
