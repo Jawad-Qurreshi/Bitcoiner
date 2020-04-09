@@ -35,3 +35,4 @@ export * from './addressestable/addressestable.component';
 export * from './Approved-client-requests/approved-request.component'
 export * from './Approved-admin-requests/approved-request-admin.component'
 export * from './buySell-table/buySell-table.component'
+export * from './Transaction_table/transaction_table.component'
