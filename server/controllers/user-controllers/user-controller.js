@@ -1,7 +1,6 @@
 const Client = require('../../models/client');
 const BtcAddress = require('../../models/btc-address');
-const ClientSeller = require('../../models/clientSeller');
-const ClientBuyer = require('../../models/clientBuyer');
+const TradePost = require('../../models/trade-post');
 const WithdrawRequest = require('../../models/withdraw-request');
 const config = require('../../config');
 
@@ -131,83 +130,13 @@ module.exports.logIn = async (req, res) => {
 
 module.exports.getClientPosts = (req, res) => {
     const clientId = req.decoded.userid;
-    let posts = [];
-    let sellArr, buyArr;
 
-    ClientSeller.find({ clientId: clientId })
-        .then(sellPosts => {
-            if (sellPosts) {
-                sellArr = sellPosts.map(post => {
-                    post.type = 'Sell'
-                    return post;
-                });
-            }
-            ClientBuyer.find({ clientId: clientId })
-                .then(buyPosts => {
-                    buyArr = buyPosts.map(post => {
-                        post.type = 'Buy'
-                        return post;
-                    });
-                    res.status(200).json({
-                        isSuccess: true,
-                        posts: posts
-                    });
-                })
-                .catch(err => {
-                    res.status(500).json({
-                        isSuccess: true,
-                        message: 'INTERNAL_ERROR'
-                    });
-                });
-        })
-        .catch(err => {
-            console.log("2:" + err)
-            res.status(500).json({
+    TradePost.find({ clientId: clientId }).exec()
+        .then(posts => {
+            res.status(200).json({
                 isSuccess: true,
-                message: 'INTERNAL_ERROR'
+                posts: posts
             });
-        });
-}
-
-module.exports.deletePost = (req, res) => {
-    const postId = req.params.postId;
-
-    ClientSeller.findOne()
-        .then(post => {
-            if (!post) {
-                ClientBuyer.findOne().exec()
-                    .then(post => {
-                        post.remove()
-                            .then(removed => {
-                                res.status(200).json({
-                                    isSuccess: true
-                                })
-                            })
-                            .catch(err => {
-                                res.status(500).json({
-                                    message: 'INTERNAL_ERROR'
-                                });
-                            });
-                    })
-                    .catch(err => {
-                        res.status(500).json({
-                            message: 'INTERNAL_ERROR'
-                        });
-                    });
-
-            } else {
-                post.remove()
-                    .then(removed => {
-                        res.status(200).json({
-                            isSuccess: true
-                        })
-                    })
-                    .catch(err => {
-                        res.status(500).json({
-                            message: 'INTERNAL_ERROR'
-                        });
-                    });
-            }
         })
         .catch(err => {
             res.status(500).json({
@@ -216,6 +145,22 @@ module.exports.deletePost = (req, res) => {
             });
         });
 
+}
+
+module.exports.deletePost = (req, res) => {
+    const postId = req.params.postId;
+    TradePost.findByIdAndDelete(postId).exec()
+        .then(removed => {
+            res.status().json({
+                isSuccess: true
+            });
+        })
+        .catch(err => {
+            res.status(500).json({
+                isSuccess: false,
+                message: 'INTERBNAL_ERROR'
+            })
+        });
 }
 
 //Withdraw
@@ -259,7 +204,10 @@ module.exports.requestWithDraw = (req, res) => {
 
             })
             .catch(err => {
-
+                res.status(500).json({
+                    isSuccess: false,
+                    message: 'INTERNAL_ERROR'
+                });
             });
     } else {
         // Minimum requirement doesn't met
