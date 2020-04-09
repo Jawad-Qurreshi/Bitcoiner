@@ -237,18 +237,29 @@ module.exports.requestWithDraw = (req, res) => {
             clientId: clientId,
         });
 
-        withdrawRequest.save()
-            .then(stored => {
-                res.status(201).json({
-                    isSuccess: true,
-                    message: 'REQUEST_POSTED'
-                });
+        Client.findOne({ _id: clientId }).exec()
+            .then(client => {
+                // Reserving the dollars so the client could only perform transaction if the amount is more than requested 
+                client.dollar - + body.amount;
+                client.reservedDollar += body.amount;
+                client.save()
+                    .then(stored => {
+                        withdrawRequest.save();
+                        res.status(201).json({
+                            isSuccess: true,
+                            message: 'REQUEST_POSTED'
+                        });
+                    })
+                    .catch(err => {
+                        res.status(500).json({
+                            isSuccess: false,
+                            message: 'INTERNAL_ERROR'
+                        });
+                    });
+
             })
             .catch(err => {
-                res.status(500).json({
-                    isSuccess: false,
-                    message: 'INTERNAL_ERROR'
-                });
+
             });
     } else {
         // Minimum requirement doesn't met

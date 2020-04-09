@@ -1,9 +1,10 @@
 const config = require('../../config');
 const Admin = require('../../models/admin');
 const WithdrawRequest = require('../../models/withdraw-request');
-const bcrypt = require('bcrypt');
+const Client = require('../../models/client');
 const BtcAddress = require('../../models/btc-address');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 
 module.exports.checkAdminAuth = (req, res) => {
 	const username = req.body.username;
@@ -152,13 +153,24 @@ module.exports.verifyWithdraw = (req, res) => {
 
 	WithdrawRequest.findOne({ _id: id }).exec()
 		.then(request => {
-			request.status = 'Approved',
-				request.approvedAt = Date.now();
-			request.save()
-				.then(stored => {
-					res.status(200).json({
-						isSuccess: true
-					});
+			Client.findOne({ _id: request.clientId }).exec()
+				.then(client => {
+					request.status = 'Approved';
+					request.approvedAt = Date.now();
+					client.reservedDollar -= parseFloat(request.amount);
+					request.save()
+						.then(stored => {
+							client.save();
+							res.status(200).json({
+								isSuccess: true
+							});
+						})
+						.catch(err => {
+							res.status(500).json({
+								isSuccess: false,
+								message: 'INTERNAL_ERROR'
+							});
+						});
 				})
 				.catch(err => {
 					res.status(500).json({
@@ -173,6 +185,4 @@ module.exports.verifyWithdraw = (req, res) => {
 				message: 'INTERNAL_ERROR'
 			});
 		});
-
-
 }
