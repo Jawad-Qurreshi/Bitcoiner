@@ -1,10 +1,9 @@
 
-const Request = require('../../models/requests');
-const Client = require('../../models/requests');
+const Request = require('../../models/request');
+const Client = require('../../models/client');
 
 module.exports.addRequest = (req, res) => {
     const body = req.body;
-
 
     const request = new Request({
         username: body.username,
@@ -55,7 +54,7 @@ module.exports.addRequest = (req, res) => {
                         })
                     }
                 } else {
-
+                    // CryptoType = eth
                     if (body.amount < ethCredit) {
                         const storedRequest = await request.save();
                         client.eth -= parseFloat(body.amount);
@@ -127,9 +126,11 @@ module.exports.deleteRequest = async (req, res) => {
 
         request.remove()
             .then(async removed => {
-
                 await client.save();
-
+                res.status(200).json({
+                    isSuccess: true,
+                    message: 'REQUEST_REMOVED'
+                });
             })
             .catch(err => {
                 res.status(500).json({

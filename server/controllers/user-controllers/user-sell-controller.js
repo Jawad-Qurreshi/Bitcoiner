@@ -1,11 +1,12 @@
-const ClientSeller = require('../../models/clientSeller');
+const TradePost = require('../../models/trade-post');
 const Client = require('../../models/client');
+const Log = require('../../models/log');
 
 module.exports.confirmBuy = (req, res) => {
     const buyerId = req.decoded.userid;
     const sellPostId = req.body.id;
 
-    ClientSeller.findOne({ _id: sellPostId }).exec()
+    TradePost.findOne({ _id: sellPostId }).exec()
         .then(sellPost => {
             Client.findOne({ _id: buyerId }).exec()
                 .then(buyer => {
@@ -18,28 +19,28 @@ module.exports.confirmBuy = (req, res) => {
                                     });
                                 })
                                 .catch(err => {
-                                    res.status().json({
+                                    res.status(500).json({
                                         isSuccess: false,
                                         message: 'INTERNAL_ERROR'
                                     });
                                 });
                         })
                         .catch(err => {
-                            res.status().json({
+                            res.status(500).json({
                                 isSuccess: false,
                                 message: 'INTERNAL_ERROR'
                             });
                         });
                 })
                 .catch(err => {
-                    res.status().json({
+                    res.status(500).json({
                         isSuccess: false,
                         message: 'INTERNAL_ERROR'
                     });
                 });
         })
         .catch(err => {
-            res.status().json({
+            res.status(500).json({
                 isSuccess: false,
                 message: 'INTERNAL_ERROR'
             });
@@ -51,75 +52,105 @@ const performTransaction = (buyer, seller, post, body) => {
         const currencyAmount = parseFloat(body.amount);
         const dollar = parseFloat(body.dollar);
         if (post.cryptoType === 'BTC') {
-            if (buyer.dollar >= dollar) {
-                ///////
-                buyer.dollar = buyer.dollar - dollar;
-                console.log(buyer.dollar);
-                seller.dollar = buyer.dollar + dollar;
-                console.log(seller.dollar);
-                buyer.btc += currencyAmount;
-                //Clearing reserved amount for the post
-                seller.reservedBtc -= currencyAmount;   // Recheck this logic
-                seller.save()
-                    .then(stored => {
-                        buyer.save()
-                            .then(stored => {
-                                post.remove()
-                                    .then(removed => {
-                                        resolve(removed);
-                                    })
-                                    .catch(err => {
-                                        reject(err);
-                                    });
-                            })
-                            .catch(err => {
-                                reject(err);
-                            });
+            if (seller.btc > currencyAmount) {
+                if (buyer.dollar > dollar) {
+                    ///////
+                    buyer.dollar -= dollar;
+                    seller.dollar += dollar;
+                    seller.btc -= currencyAmount;
+                    buyer.btc += currencyAmount;
+                    seller.save()
+                        .then(stored => {
+                            buyer.save()
+                                .then(stored => {
+                                    post.isConcluded = true;
+                                    post.concludedAt = Date.now();
+                                    post.save()
+                                        .then(stored => {
+                                            resolve(stored);
+                                        })
+                                        .catch(err => {
+                                            reject(err);
+                                        });
+                                })
+                                .catch(err => {
+                                    reject(err);
+                                });
+                        })
+                        .catch(err => {
+                            reject(err);
+                        });
+                } else {
+                    res.status(400).json({
+                        isSuccess: false,
+                        message: 'NOT_ENOUGH_CREDIT_BUYER'
+                    });
+                }
+            } else {
+                post.remove()
+                    .then(removed => {
+                        res.status(400).json({
+                            isSuccess: false,
+                            message: 'NOT_ENOUGH_CREDIT_SELLER'
+                        });
                     })
                     .catch(err => {
-                        reject(err);
+                        res.status(500).json({
+                            isSuccess: false,
+                            message: 'INTERNAL_ERROR'
+                        });
                     });
-            } else {
-                res.status(400).json({
-                    isSuccess: false,
-                    message: 'NOT_ENOUGH_CREDIT'
-                });
             }
+
         } else {
-            //post.cryptoType === 'ETH'
-            if (buyer.dollar >= dollar) {
-                ///////
-                buyer.dollar -= dollar;
-                seller.dollar += dollar;
-                console.log(seller.dollar);
-                console.log(buyer.dollar);
-                buyer.eth += currencyAmount;
-                //Clearing reserved amount for the post
-                seller.reservedEth -= currencyAmount;   // Recheck this logic
-                seller.save()
-                    .then(stored => {
-                        buyer.save()
-                            .then(stored => {
-                                post.remove()
-                                    .then(removed => {
-                                        resolve(removed);
-                                    })
-                                    .catch(err => {
-                                        reject(err);
-                                    });
-                            })
-                            .catch(err => {
-                                reject(err);
-                            });
+            if (seller.eth > currencyAmount) {
+                if (buyer.dollar > dollar) {
+                    buyer.dollar -= dollar;
+                    seller.dollar += dollar;
+                    seller.eth -= currencyAmount;
+                    buyer.eth += currencyAmount;
+                    seller.save()
+                        .then(stored => {
+                            buyer.save()
+                                .then(stored => {
+                                    post.isConcluded = true;
+                                    post.concludedAt = Date.now();
+                                    post.save()
+                                        .then(stored => {
+                                            resolve(stored);
+                                        })
+                                        .catch(err => {
+                                            reject(err);
+                                        });
+                                })
+                                .catch(err => {
+                                    reject(err);
+                                });
+                        })
+                        .catch(err => {
+                            reject(err);
+                        });
+                } else {
+                    res.status(400).json({
+                        isSuccess: false,
+                        message: 'NOT_ENOUGH_CREDIT_BUYER'
+                    });
+                }
+
+            } else {
+                post.remove()
+                    .then(removed => {
+                        res.status(400).json({
+                            isSuccess: false,
+                            message: 'NOT_ENOUGH_CREDIT_SELLER'
+                        });
                     })
                     .catch(err => {
-                        reject(err);
+                        res.status(500).json({
+                            isSuccess: false,
+                            message: 'INTERNAL_ERROR'
+                        });
                     });
-            } else {
-                res.status(400).json({
-                    isSuccess: false,
-                    message: 'NOT_ENOUGH_CREDIT'
-                });
             }
         }
     });

@@ -20,6 +20,6 @@ const Client = new Schema({
     clientRequest: [{ type: mongoose.Schema.Types.ObjectId, ref: 'request' }]
 });
 
-module.exports = mongoose.model('client', Client, 'clients');
+module.exports = mongoose.model('client', Client);
 
 
