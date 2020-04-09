@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 
 //Models
 const Client = require('../models/client');
-const Request = require('../models/requests');
+const Request = require('../models/request');
 const ClientSeller = require('../models/clientSeller');
 const ClientBuyer = require('../models/clientBuyer');
 //Configuration file

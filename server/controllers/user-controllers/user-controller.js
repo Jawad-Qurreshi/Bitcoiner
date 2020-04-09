@@ -240,7 +240,7 @@ module.exports.requestWithDraw = (req, res) => {
         Client.findOne({ _id: clientId }).exec()
             .then(client => {
                 // Reserving the dollars so the client could only perform transaction if the amount is more than requested 
-                client.dollar - + body.amount;
+                client.dollar -= body.amount;
                 client.reservedDollar += body.amount;
                 client.save()
                     .then(stored => {
