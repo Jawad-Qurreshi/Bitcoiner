@@ -251,21 +251,13 @@ router.get('/client/:id', user.checAuth, function (req, res) {
 });
 
 //////////////////////////// Buy/Sell Posts of Client/////////////////////
-
 router.get('/post/all', user.checAuth, userController.getClientPosts);
-
 router.delete('/post/:postId', user.checAuth, userController.deletePost);
-
 ////////////////////////////ADMIN/////////////////////////
-
 router.post('/admin/create', adminController.createAdmin);
-
 router.post('/admin/authenticate', adminController.checkAdminAuth);
-
 router.put('/admin/verify/user/:userId', user.checkAdminAuth, adminController.verifyUser);
-
 //Admin's requests routes
-
 //This approves a request
 router.put('/request/approve/:id', user.checAuth, async function (req, res) {
   Request.findById({ _id: req.params.id }).exec()
@@ -351,5 +343,7 @@ router.get('/request/pending/all', user.checAuth, (req, res) => {
       });
     });
 });
+//
+router.put('/admin/verify/withdraw/:requestId', adminController.verifyWithdraw);
 
 module.exports = router;

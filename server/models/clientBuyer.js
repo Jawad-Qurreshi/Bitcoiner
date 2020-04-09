@@ -6,14 +6,14 @@ const ClientBuyer = new Schema({
     name: String,
     cryptoType: String,
     price: Intl,
+    description: String,
     limit: {
         minimum: { type: Intl, default: 0 },
         maximum: { type: Intl, default: 0 }
     },
-    walletAddress: String,
-    description: String,
     clientId: { type: Schema.Types.ObjectId, ref: 'clients' },
     createdtAt: { type: Date, default: Date.now },
+    concludedAt: Date
 });
 
-module.exports = mongoose.model('clientbuyer', ClientBuyer, 'clientsBuyer');
+module.exports = mongoose.model('clientBuyer', ClientBuyer);

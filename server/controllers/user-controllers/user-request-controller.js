@@ -55,7 +55,7 @@ module.exports.addRequest = (req, res) => {
                         })
                     }
                 } else {
-
+                    // CryptoType = eth
                     if (body.amount < ethCredit) {
                         const storedRequest = await request.save();
                         client.eth -= parseFloat(body.amount);

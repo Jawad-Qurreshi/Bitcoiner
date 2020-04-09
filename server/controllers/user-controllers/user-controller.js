@@ -2,6 +2,7 @@ const Client = require('../../models/client');
 const BtcAddress = require('../../models/btc-address');
 const ClientSeller = require('../../models/clientSeller');
 const ClientBuyer = require('../../models/clientBuyer');
+const WithdrawRequest = require('../../models/withdraw-request');
 const config = require('../../config');
 
 const jwt = require('jsonwebtoken');
@@ -215,4 +216,45 @@ module.exports.deletePost = (req, res) => {
             });
         });
 
+}
+
+//Withdraw
+
+module.exports.requestWithDraw = (req, res) => {
+    const clientId = req.decoded.userid;
+    const body = req.body;
+    const minimum = config.min;
+
+    if (body.amount > minimum) {
+        const withdrawRequest = new WithdrawRequest({
+            accountTitle: body.accountTitle,
+            postalCode: body.postalCode,
+            iban: body.iban,
+            state: body.state,
+            country: body.country,
+            expiry: body.expirationDate,
+            amount: body.amount,
+            clientId: clientId,
+        });
+
+        withdrawRequest.save()
+            .then(stored => {
+                res.status(201).json({
+                    isSuccess: true,
+                    message: 'REQUEST_POSTED'
+                });
+            })
+            .catch(err => {
+                res.status(500).json({
+                    isSuccess: false,
+                    message: 'INTERNAL_ERROR'
+                });
+            });
+    } else {
+        // Minimum requirement doesn't met
+        res.status(400).json({
+            isSuccess: false,
+            message: 'MIN_REQUIREMENT_NOT_MET'
+        });
+    }
 }
