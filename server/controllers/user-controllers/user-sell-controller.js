@@ -1,11 +1,12 @@
-const ClientSeller = require('../../models/clientSeller');
+const TradePost = require('../../models/trade-post');
 const Client = require('../../models/client');
+const Log = require('../../models/log');
 
 module.exports.confirmBuy = (req, res) => {
     const buyerId = req.decoded.userid;
     const sellPostId = req.body.id;
 
-    ClientSeller.findOne({ _id: sellPostId }).exec()
+    TradePost.findOne({ _id: sellPostId }).exec()
         .then(sellPost => {
             Client.findOne({ _id: buyerId }).exec()
                 .then(buyer => {
@@ -62,9 +63,11 @@ const performTransaction = (buyer, seller, post, body) => {
                         .then(stored => {
                             buyer.save()
                                 .then(stored => {
-                                    post.remove()
-                                        .then(removed => {
-                                            resolve(removed);
+                                    post.isConcluded = true;
+                                    post.concludedAt = Date.now();
+                                    post.save()
+                                        .then(stored => {
+                                            resolve(stored);
                                         })
                                         .catch(err => {
                                             reject(err);
@@ -84,10 +87,19 @@ const performTransaction = (buyer, seller, post, body) => {
                     });
                 }
             } else {
-                res.status(400).json({
-                    isSuccess: false,
-                    message: 'NOT_ENOUGH_CREDIT_SELLER'
-                });
+                post.remove()
+                    .then(removed => {
+                        res.status(400).json({
+                            isSuccess: false,
+                            message: 'NOT_ENOUGH_CREDIT_SELLER'
+                        });
+                    })
+                    .catch(err => {
+                        res.status(500).json({
+                            isSuccess: false,
+                            message: 'INTERNAL_ERROR'
+                        });
+                    });
             }
 
         } else {
@@ -101,9 +113,11 @@ const performTransaction = (buyer, seller, post, body) => {
                         .then(stored => {
                             buyer.save()
                                 .then(stored => {
-                                    post.remove()
-                                        .then(removed => {
-                                            resolve(removed);
+                                    post.isConcluded = true;
+                                    post.concludedAt = Date.now();
+                                    post.save()
+                                        .then(stored => {
+                                            resolve(stored);
                                         })
                                         .catch(err => {
                                             reject(err);
@@ -124,10 +138,19 @@ const performTransaction = (buyer, seller, post, body) => {
                 }
 
             } else {
-                res.status().json({
-                    isSuccess: false,
-                    message: 'NOT_ENOUGH_CREDIT_SELLER'
-                });
+                post.remove()
+                    .then(removed => {
+                        res.status(400).json({
+                            isSuccess: false,
+                            message: 'NOT_ENOUGH_CREDIT_SELLER'
+                        });
+                    })
+                    .catch(err => {
+                        res.status(500).json({
+                            isSuccess: false,
+                            message: 'INTERNAL_ERROR'
+                        });
+                    });
             }
         }
     });

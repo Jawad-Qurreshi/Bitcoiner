@@ -1,12 +1,13 @@
 const Client = require('../../models/client');
-const BuyPost = require('../../models/clientBuyer');
+const TradePost = require('../../models/trade-post');
+const Log = require('../../models/log');
 
-module.exports.confirm_sale = async (req, res) => {
+module.exports.confirmSell = async (req, res) => {
     const body = req.body;
     const postId = body.id;
     const sellerId = req.decoded.userid;
 
-    BuyPost.findOne({ _id: postId }).exec()
+    TradePost.findOne({ _id: postId }).exec()
         .then(buyPost => {
             const buyerId = buyPost.clientId;
 
@@ -15,7 +16,7 @@ module.exports.confirm_sale = async (req, res) => {
                     Client.findOne({ _id: buyerId }).exec()
                         .then(buyer => {
                             performTransaction(buyer, seller, buyPost, body)
-                                .then(() => {
+                                .then(result => {
                                     res.status(200).json({
                                         isSuccess: true,
                                         message: 'TRANSACTION_DONE'
@@ -43,7 +44,7 @@ module.exports.confirm_sale = async (req, res) => {
                         isSuccess: false,
                         message: 'INTERNAL_ERROR'
                     });
-                })
+                });
 
         })
         .catch(err => {
@@ -70,9 +71,11 @@ const performTransaction = (buyer, seller, post, body) => {
                         .then(saved => {
                             buyer.save()
                                 .then(saved => {
-                                    post.remove()
-                                        .then(removed => {
-                                            resolve(removed);
+                                    post.isConcluded = true;
+                                    post.concludedAt = Date.now();
+                                    post.save()
+                                        .then(stored => {
+                                            resolve(stored);
                                         })
                                         .catch(err => {
                                             reject(err);
@@ -92,12 +95,21 @@ const performTransaction = (buyer, seller, post, body) => {
                     });
                 }
             } else {
-                res.status().json({
-                    isSuccess: false,
-                    message: 'NOT_ENOUGH_CREDIT_BUYER'
-                });
+                post.remove()
+                    .then(removed => {
+                        res.status(400).json({
+                            isSuccess: false,
+                            message: 'NOT_ENOUGH_CREDIT_BUYER'
+                        });
+                    })
+                    .catch(err => {
+                        res.status(500).json({
+                            isSuccess: false,
+                            message: 'INTERNAL_ERROR'
+                        });
+                    });
             }
-            
+
         } else {
             //ETH Transaction
             if (buyer.dollar > dollarToSell) {
@@ -110,9 +122,11 @@ const performTransaction = (buyer, seller, post, body) => {
                         .then(saved => {
                             buyer.save()
                                 .then(saved => {
-                                    post.remove()
-                                        .then(removed => {
-                                            resolve();
+                                    post.isConcluded = true;
+                                    post.concludedAt = Date.now();
+                                    post.save()
+                                        .then(stored => {
+                                            resolve(stored);
                                         })
                                         .catch(err => {
                                             reject(err);
@@ -132,10 +146,19 @@ const performTransaction = (buyer, seller, post, body) => {
                     });
                 }
             } else {
-                res.status().json({
-                    isSuccess: false,
-                    message: 'NOT_ENOUGH_CREDIT_BUYER'
-                });
+                post.remove()
+                    .then(removed => {
+                        res.status(400).json({
+                            isSuccess: false,
+                            message: 'NOT_ENOUGH_CREDIT_BUYER'
+                        });
+                    })
+                    .catch(err => {
+                        res.status(500).json({
+                            isSuccess: false,
+                            message: 'INTERNAL_ERROR'
+                        });
+                    });
             }
         }
     });

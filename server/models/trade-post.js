@@ -5,6 +5,7 @@ const Schema = mongoose.Schema;
 const tradePostSchema = new Schema({
     name: String,
     cryptoType: String,
+    isConcluded: { type: Boolean, default: false },
     price: Intl,
     description: String,
     amount: Intl,
@@ -15,7 +16,7 @@ const tradePostSchema = new Schema({
     },
     clientId: { type: Schema.Types.ObjectId, ref: 'clients' },
     createdtAt: { type: Date, default: Date.now },
-    concludedAt: Date
+    concludedAt: { type: Date, default: 0 }
 });
 
 module.exports = mongoose.model('tradepost', tradePostSchema);
