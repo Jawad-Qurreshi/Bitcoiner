@@ -179,7 +179,7 @@ export class ProfileComponent implements OnInit {
       country: ["", [Validators.required]],
       state: ["", [Validators.required]],
       postalCode: ["", Validators.required,Validators.maxLength(5),Validators.minLength(5)],
-      //expiry: ["", Validators.required]
+      dateOfExpiry: ["", Validators.required]
     })
   }
 

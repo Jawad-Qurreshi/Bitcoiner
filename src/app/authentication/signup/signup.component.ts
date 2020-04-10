@@ -27,6 +27,9 @@ export class SignupComponent implements OnInit {
     private message: NzMessageService
   ) {}
 
+  is2ndVisible = false;
+  isOkLoading = false;
+
   username;
   password;
   address;
@@ -55,6 +58,22 @@ export class SignupComponent implements OnInit {
       Address: ["", [Validators.required]],
       checkme: [Validators.required]
     });
+  }
+
+  showModel(){
+    this.is2ndVisible = true;
+  }
+
+  handleOk(): void {
+    this.isOkLoading = true;
+    setTimeout(() => {
+      this.is2ndVisible = false;
+      this.isOkLoading = false;
+    }, 100);
+  }
+
+  handleCancel(): void {
+    this.is2ndVisible = false;
   }
 
   matchOtherValidator(otherControlName: string) {
@@ -91,8 +110,9 @@ export class SignupComponent implements OnInit {
         if(data.isSuccess == false){
           this.message.error("User already exists");
         }else{
-          console.log("got response from server", data);        
-          this.router.navigate(["/authentication/login"]);
+          console.log("got response from server", data);
+          this.showModel();        
+          //this.router.navigate(["/authentication/login"]);
         }
       },
       error => {
