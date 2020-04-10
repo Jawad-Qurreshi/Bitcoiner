@@ -33,11 +33,6 @@
                         <input class="form-control form-control-lg" [(ngModel)]="phone" name="Phone" type="text" placeholder="Phone" formControlName="Phone">
                     </div>
                 </div>
-                <!-- <div class="form-group row">
-                    <div class="col-12 ">
-                        <input class="form-control form-control-lg" name="DOB" type="text" placeholder="Date of Birth" formControlName="DOB">
-                    </div>
-                </div> -->
                 <div class="form-group row">
                     <div class="col-12 ">
                         <input class="form-control form-control-lg" [(ngModel)]="address" name="Address" type="text" placeholder="Address" formControlName="Address">
@@ -61,50 +56,22 @@
                 </div>
             </div>
   </form>
-            <!-- <div class="row">
-                <div class="col-12">
-                    <form class="form-horizontal m-t-20" action="index.html">
-                        <div class="form-group row ">
-                            <div class="col-12 ">
-                                <input class="form-control form-control-lg" type="text" required=" " placeholder="Name">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="col-12 ">
-                                <input class="form-control form-control-lg" type="text" required=" " placeholder="Email">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="col-12 ">
-                                <input class="form-control form-control-lg" type="password" required=" " placeholder="Password">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="col-12 ">
-                                <input class="form-control form-control-lg" type="password" required=" " placeholder="Confirm Password">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="col-md-12 ">
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="customCheck1">
-                                    <label class="custom-control-label" for="customCheck1">I agree to all <a href="javascript:void(0)">Terms</a></label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group text-center ">
-                            <div class="col-xs-12 p-b-20 ">
-                                <button class="btn btn-block btn-lg btn-info " type="submit ">SIGN UP</button>
-                            </div>
-                        </div>
-                        <div class="form-group m-b-0 m-t-10 ">
-                            <div class="col-sm-12 text-center ">
-                                Already have an account? <a href="#/authentication/login " class="text-info m-l-5 "><b>Sign In</b></a>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>-->
         </div> 
     </div>
 </div>
+
+<nz-modal [(nzVisible)]="isVisible" nzTitle="Confirm Approve" 
+(nzOnCancel)="handleCancel()"
+ (nzOnOk)="handleOk()"
+    [nzOkLoading]="isOkLoading"
+    [nzFooter]="modalFooter">
+    
+    <div>
+      <label>Please go to your Signed uop email address and send a photo of your driving license(both sides) or</label><br>
+      <label> National identity card(both sides) or Password number page for the verification purpose on </label>
+      </div>
+<ng-template #modalFooter>
+  <button nz-button nzType="default" (click)="handleCancel()">Cancel</button>
+  <button nz-button nzType="primary" (click)="handleOk()" [nzLoading]="isConfirmLoading">Approve</button>
+</ng-template>
+</nz-modal>

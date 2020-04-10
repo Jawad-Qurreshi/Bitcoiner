@@ -1,0 +1,88 @@
+<!-- <div class="row">
+ 
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Requests Details</h4>
+       
+        <form class="w-50 m-b-30">
+          <input type='text' class="form-control" placeholder='Type the name to Search...' (keyup)='updateFilter($event)' />
+        </form>
+        <ngx-datatable #table class='material' [columns]="columns" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50"
+          [rowHeight]="'auto'" [limit]="10" [rows]='rows'>
+        </ngx-datatable>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+
+<div class="row">
+  <div class="col-lg-12">
+      <div class="card bg-light">
+          <div class="card-body">
+              <div class="d-flex no-block align-items-center m-b-10">
+                  <h4 class="card-title">All requests</h4>
+              </div>
+              <div class="table-responsive" [perfectScrollbar]="config">
+                  <table class="table bg-white table-bordered nowrap display">
+                      <thead>
+                          <tr>                             
+                              <th>Username</th>
+                              <th>Email</th>
+                              <th>To Address</th>
+                              <th>From Address</th>
+                              <th>Status</th>
+                              <th>Type Of Request</th>
+                              <th>Crypto type</th>
+                              <th>Amount</th>
+                              <th>Date</th>
+                              <th></th>
+                          </tr>
+                      </thead>
+                      
+                      <tbody>
+                        
+                          <tr *ngFor="let request of requests">
+                              
+                              <!-- <td>
+                                  <a href="javscript:void(0)">
+                                      <img src="assets/images/users/1.jpg" alt="user" class="rounded-circle" width="30" /> Govinda jalan</a>
+                              </td> -->
+                              <td>{{ request.username }}</td>
+                              <td>{{ request.email }}</td>
+                              <td>{{ request.to }}</td>
+                              <td>{{ request.from }}</td>
+                              <td><span class="label label-danger">{{ request.status }}</span></td>
+                              <td>{{ request.requestType}}</td>
+                              <td>{{ request.cryptoType }}</td>
+                              <td>{{ request.amount}}</td>
+                              <td>{{ request.createdAt | date: 'MMM d, y, h:mm:ss a' }}</td>
+                              <td>
+                                <button type="button" (click)="Approve(request)"
+                                class="btn btn-success" >Approve</button>
+                              </td>
+                          </tr>
+                          
+                      </tbody>
+                  
+                  </table>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+<nz-modal [(nzVisible)]="is2ndVisible" nzTitle="Confirm Approve" 
+(nzOnCancel)="handleCancel()"
+ (nzOnOk)="confirm()"
+    [nzOkLoading]="isOkLoading"
+    [nzFooter]="modalFooter">
+    
+    <div>
+      <label>Are you sure you want to Approve</label>
+      </div>
+<ng-template #modalFooter>
+  <button nz-button nzType="default" (click)="handleCancel()">Cancel</button>
+  <button nz-button nzType="primary" (click)="confirm()" [nzLoading]="isConfirmLoading">Approve</button>
+</ng-template>
+</nz-modal>

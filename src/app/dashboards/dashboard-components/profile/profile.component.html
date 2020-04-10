@@ -27,8 +27,9 @@
             </div>
             <div class="card-body">
                 <small class="text-muted">Email address </small>
-                <h6>{{singleclient?.email}}</h6>
-                <span> <div class="col-sm-6 col-md-4 col-lg-3 f-icon"><i class="fas fa-pencil-alt"></i> </div><span>
+                <h6>{{singleclient?.email}} </h6>
+
+
                 <small class="text-muted p-t-30 db">Phone</small>
                 <h6>{{singleclient?.phone}}</h6>
                 <small class="text-muted p-t-30 db">Address</small>
@@ -41,8 +42,8 @@
                 </button>
                 <button class="btn btn-circle btn-secondary">
                     <i class="fab fa-twitter"></i>
-                </button>
-                <button class="btn btn-circle btn-secondary">
+                </button>-->
+                <!-- <button class="btn btn-circle btn-secondary">
                     <i class="fab fa-youtube"></i>
                 </button> -->
             </div>
@@ -70,10 +71,8 @@
                 <ngb-tab title="My wallet">
                     <ng-template ngbTabContent>
                         <div class="card-body">
-                            <button type="button" (click)="showSendModal()"
-                                class="btn btn-success">Send</button>
-                            <button type="button" (click)="showRecieveModal()"
-                                class="btn btn-success">Recieve</button>
+                            <button type="button" (click)="showSendModal()" class="btn btn-success">Send</button>
+                            <button type="button" (click)="showRecieveModal()" class="btn btn-success">Recieve</button>
                             <br>
                             <br>
                             <app-earnings [singleclient]="singleclient"></app-earnings>
@@ -91,76 +90,81 @@
                     <ng-template ngbTabContent>
                         <div class="col-sm-12 col-md-12 col-lg-12">
                             <div class="card">
-                                <div class="card-body"  >
-                                   <div class="card-body1" [perfectScrollbar]="config">
-                                    <form [formGroup]="postTradeData">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" id="nametext1"
-                                                placeholder={{singleclient.username}} disabled>
-                                        </div>
-                                        
-                                        <h6>I want to:</h6>
-                                        <div class="form-group m-b-30">
-                                            <select [(ngModel)]="tradetype" formControlName="formTradeType"  class="custom-select mr-sm-2" 
-                                                id="inlineFormCustomSelect">
-                                                <option value="BUY">Buy</option>
-                                                <option value="SELL">Sell</option>
-                                            </select>
-                                            <small id="name" class="form-text text-muted">Select the type of trade</small>
-                                        </div>
-                                        <h6>CryptoType:</h6>
-                                        <div class="form-group m-b-30">
-                                            <select [(ngModel)]="cryptoTypeTrade" formControlName="formCryptoType" class="custom-select mr-sm-2"
-                                                id="inlineFormCustomSelect">
-                                                <option value="BTC">Bitcoin</option>
-                                                <option value="ETH">Ethereum</option>
-                                            </select>
-                                            <small id="name" class="form-text text-muted">Select the type of
-                                                currency</small>
-                                        </div>
+                                <div class="card-body">
+                                    <div class="card-body1" [perfectScrollbar]="config">
+                                        <form [formGroup]="postTradeData">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="nametext1"
+                                                    placeholder={{singleclient.username}} disabled>
+                                            </div>
 
-                                        <h6>Please enter Min/Max Limit:</h6>
-                                        <div class="input-group mb-3">
-                                            <input type="text" [(ngModel)]="limitMin" 
-                                                formControlName="formLimitMin" class="form-control" placeholder="$0.00">
-                                            <div class="input-group-append">
-                                                <span class="input-group-text">Min</span>
+                                            <h6>I want to:</h6>
+                                            <div class="form-group m-b-30">
+                                                <select [(ngModel)]="tradetype" formControlName="formTradeType"
+                                                    class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                                                    <option value="BUY">Buy</option>
+                                                    <option value="SELL">Sell</option>
+                                                </select>
+                                                <small id="name" class="form-text text-muted">Select the type of
+                                                    trade</small>
                                             </div>
-                                            <input type="text" [(ngModel)]="limitMax" formControlName="formLimitMax"
-                                              class="form-control" placeholder="$0.00" aria-describedby="basic-addon1">
-                                            <div class="input-group-append">
-                                                <span class="input-group-text">Max</span>
+                                            <h6>CryptoType:</h6>
+                                            <div class="form-group m-b-30">
+                                                <select [(ngModel)]="cryptoTypeTrade" formControlName="formCryptoType"
+                                                    class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                                                    <option value="BTC">Bitcoin</option>
+                                                    <option value="ETH">Ethereum</option>
+                                                </select>
+                                                <small id="name" class="form-text text-muted">Select the type of
+                                                    currency</small>
                                             </div>
-                                        </div>
-                                        
-                                       
-                                        <h6>Please enter the price:</h6>
-                                        <div class="form-group">
-                                            <input [(ngModel)]="amountTrade"  (ngModelChange)="amountChangedtrade()"
-                                                class="form-control"  formControlName="formpricePer"
-                                                placeholder="$0.00" aria-describedby="basic-addon1">
-                                            <small id="name" class="form-text text-muted">please enter the price in
-                                                dollars of per quantity
-                                                BTC/ETH</small>
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="text" [ngModelOptions]="{standalone: true}" [(ngModel)]="Change"
-                                                 class="form-control"
-                                                id="nametext1" placeholder="Calculated change from market" disabled>
-                                        </div>
-                                        <h6 class="card-title">Description</h6>
-                                        <div class="m-t-20">
-                                            <textarea  formControlName="formdescription"  class="form-control" type="text" [(ngModel)]="descriptionTrade"  rows="3" placeholder="Text Here..."></textarea>
-                                            <small id="name" class="form-text text-muted">Enter your rules and regulations
+
+                                            <h6>Please enter Min/Max Limit:</h6>
+                                            <div class="input-group mb-3">
+                                                <input type="text" [(ngModel)]="limitMin" formControlName="formLimitMin"
+                                                    class="form-control" placeholder="$0.00">
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text">Min</span>
+                                                </div>
+                                                <input type="text" [(ngModel)]="limitMax" formControlName="formLimitMax"
+                                                    class="form-control" placeholder="$0.00"
+                                                    aria-describedby="basic-addon1">
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text">Max</span>
+                                                </div>
+                                            </div>
+
+
+                                            <h6>Please enter the price:</h6>
+                                            <div class="form-group">
+                                                <input [(ngModel)]="amountTrade" (ngModelChange)="amountChangedtrade()"
+                                                    class="form-control" formControlName="formpricePer"
+                                                    placeholder="$0.00" aria-describedby="basic-addon1">
+                                                <small id="name" class="form-text text-muted">please enter the price in
+                                                    dollars of per quantity
+                                                    BTC/ETH</small>
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="text" [ngModelOptions]="{standalone: true}"
+                                                    [(ngModel)]="Change" class="form-control" id="nametext1"
+                                                    placeholder="Calculated change from market" disabled>
+                                            </div>
+                                            <h6 class="card-title">Description</h6>
+                                            <div class="m-t-20">
+                                                <textarea formControlName="formdescription" class="form-control"
+                                                    type="text" [(ngModel)]="descriptionTrade" rows="3"
+                                                    placeholder="Text Here..."></textarea>
+                                                <small id="name" class="form-text text-muted">Enter your rules and
+                                                    regulations
                                                 </small>
-                                        </div>
-                                        <br>
-                                        <div class="col-4 col-lg-2 col-md-4">
-                                            <button type="button" class="btn btn-success"
-                                                (click)="confirm()" [disabled]="postTradeData.invalid">confirm</button>
-                                        </div>
-                                    </form>
-                                   </div>
+                                            </div>
+                                            <br>
+                                            <div class="col-4 col-lg-2 col-md-4">
+                                                <button type="button" class="btn btn-success" (click)="confirm()"
+                                                    [disabled]="postTradeData.invalid">confirm</button>
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -170,53 +174,56 @@
                     <ng-template ngbTabContent>
                         <div class="col-sm-12 col-md-12 col-lg-12">
                             <div class="card">
-                                <div class="card-body"  >
-                                   <div class="card-body1" [perfectScrollbar]="config">
-                                    <form [formGroup]="withdrawData">
-                                        
-                                        <h6>Account Tile:</h6>
-                                        <div class="form-group m-b-30">
-                                            <input [(ngModel)]="accountTitle" class="form-control"  formControlName="accountTitle"
-                                            placeholder="Name" aria-describedby="basic-addon1">
-                                            <small id="name" class="form-text text-muted">Enter account holder name</small>
-                                        </div>
-                                        <h6>IBAN:</h6>
-                                        <div class="form-group m-b-30">
-                                            <input [(ngModel)]="IBAN" class="form-control"  formControlName="IBAN"
-                                            placeholder="" aria-describedby="basic-addon1">
-                                            <small id="name" class="form-text text-muted">International bank account number</small>
-                                        </div>
+                                <div class="card-body">
+                                    <div class="card-body1" [perfectScrollbar]="config">
+                                        <form [formGroup]="withdrawData">
 
-                                        
-                                        <div class="input-group mb-3">
-                                            <h6>Country</h6>
-                                            <input type="text" [(ngModel)]="country" 
-                                                formControlName="country" class="form-control" placeholder="">
-                                            <hr>
-                                            <input type="text" [(ngModel)]="state" formControlName="state"
-                                              class="form-control" placeholder="" aria-describedby="basic-addon1">
-                                            
-                                        </div>
+                                            <h6>Account Tile:</h6>
+                                            <div class="form-group m-b-30">
+                                                <input [(ngModel)]="accountTitle" class="form-control"
+                                                    formControlName="accountTitle" placeholder="Name"
+                                                    aria-describedby="basic-addon1">
+                                                <small id="name" class="form-text text-muted">Enter account holder
+                                                    name</small>
+                                            </div>
+                                            <h6>IBAN:</h6>
+                                            <div class="form-group m-b-30">
+                                                <input [(ngModel)]="IBAN" class="form-control" formControlName="IBAN"
+                                                    placeholder="" aria-describedby="basic-addon1">
+                                                <small id="name" class="form-text text-muted">International bank account
+                                                    number</small>
+                                            </div>
 
-                                        <div class="input-group mb-3">
+                                            <h6>Country/State:</h6>
+                                            <div class="input-group mb-3">
+                                                
+                                                <input type="text" [(ngModel)]="country" formControlName="country"
+                                                    class="form-control" placeholder="Country">
+                                                <hr>
+                                                <input type="text" [(ngModel)]="state" formControlName="state"
+                                                    class="form-control" placeholder="State" aria-describedby="basic-addon1">
+
+                                            </div>
                                             <h6>Postal Code</h6>
-                                            <input type="text" [(ngModel)]="postalCode" 
-                                                formControlName="postalCode" class="form-control" placeholder="">                                            
-                                        </div>
+                                            <div class="input-group mb-3">
+                                                
+                                                <input type="text" [(ngModel)]="postalCode" formControlName="postalCode"
+                                                    class="form-control" placeholder="">
+                                            </div>
 
-                                        <div class="input-group mb-3">
-                                            
-                                        </div>
+                                            <h6>Date of Expiry</h6>
+                                            <div class="input-group mb-3">
+                                                <input type="date" [(ngModel)]="dateOfExpiry"
+                                                    formControlName="dateOfExpiry" class="form-control" placeholder="">
+                                            </div>
 
-                                     
-                                      
-                                        <br>
-                                        <div class="col-4 col-lg-2 col-md-4">
-                                            <button type="button" class="btn btn-success"
-                                                (click)="withdraw()" [disabled]="withdrawData.invalid">Withdraw</button>
-                                        </div>
-                                    </form>
-                                   </div>
+                                            <br>
+                                            <div class="col-4 col-lg-2 col-md-4">
+                                                <button type="button" class="btn btn-success" (click)="withdraw()"
+                                                    [disabled]="withdrawData.invalid">Withdraw</button>
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -237,17 +244,18 @@
                     <form class="m-t-30">
                         <div class="form-group m-b-30">
                             <h4 class="card-title">Select Currency</h4>
-                            <select [(ngModel)]="coinTypeSend" (ngModelChange)="amountChangedSend()" class="form-control" id="currencySelector"
-                                name="currencySelector" placeholder="">
+                            <select [(ngModel)]="coinTypeSend" (ngModelChange)="amountChangedSend()"
+                                class="form-control" id="currencySelector" name="currencySelector" placeholder="">
                                 <option value="BTC">Bitcoin</option>
                                 <option value="ETH">Ethereum</option>
                             </select><br>
                             <h4 class="card-title">To</h4>
-                            <input [(ngModel)]="addressToSend"  [ngModelOptions]="{standalone: true}" ng-if="selectValues.selcetedValue === 'B'" type="text" class="form-control"
+                            <input [(ngModel)]="addressToSend" [ngModelOptions]="{standalone: true}"
+                                ng-if="selectValues.selcetedValue === 'B'" type="text" class="form-control"
                                 id="nametext" aria-describedby="name" placeholder="Please enter the Address"><br>
                             <h4 class="card-title">Amount</h4>
                             <div class="input-group mb-3">
-                               <input type="text" [(ngModel)]="amountSend" (ngModelChange)="amountChangedSend()"
+                                <input type="text" [(ngModel)]="amountSend" (ngModelChange)="amountChangedSend()"
                                     [ngModelOptions]="{standalone: true}" class="form-control" placeholder="0.00"
                                     aria-describedby="basic-addon1">
                                 <div class="input-group-append">
@@ -262,7 +270,9 @@
                             </div>
                             <h4 class="card-title">Description</h4>
                             <div class="m-t-20">
-                                <textarea class="form-control" type="text" [(ngModel)]="descriptionSend" [ngModelOptions]="{standalone: true}" rows="3" placeholder="Text Here..."></textarea>
+                                <textarea class="form-control" type="text" [(ngModel)]="descriptionSend"
+                                    [ngModelOptions]="{standalone: true}" rows="3"
+                                    placeholder="Text Here..."></textarea>
                             </div>
                         </div>
                     </form>
@@ -307,8 +317,8 @@
                             </div><br>
                             <h4 class="card-title">Sender Wallet Address:</h4>
                             <div class="input-group mb-3">
-                                <input type="text" [(ngModel)]="addressFrom" [ngModelOptions]="{standalone: true}"                                  class="form-control"
-                                    placeholder="wallet address" aria-describedby="basic-addon1">
+                                <input type="text" [(ngModel)]="addressFrom" [ngModelOptions]="{standalone: true}"
+                                    class="form-control" placeholder="wallet address" aria-describedby="basic-addon1">
                                 <div class="input-group-append">
                                     <span class="input-group-text">Sender's Wallet Address</span>
                                     <!-- <button <i class="mdi mdi-file-multiple"></i>click me</button> -->

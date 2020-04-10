@@ -1,7 +1,7 @@
 const Client = require('../../models/client');
 const BtcAddress = require('../../models/btc-address');
-const ClientSeller = require('../../models/clientSeller');
-const ClientBuyer = require('../../models/clientBuyer');
+//const ClientSeller = require('../../models/clientSeller');
+//const ClientBuyer = require('../../models/clientBuyer');
 const WithdrawRequest = require('../../models/withdraw-request');
 const config = require('../../config');
 
