@@ -83,12 +83,12 @@ export class UserService {
   }
   
   public getapprovedrequests(): Observable<any> {
-    const url = ProjectConfig.getPath() + "/request/approved/all";
+    const url = ProjectConfig.getPath() + "/admin/request/approved/all";
     //return this.http.get(url, credentials);
     return this.http.get(url , this.options);
   }
   public getpendingrequests(): Observable<any> {
-    const url = ProjectConfig.getPath() + "/request/pending/all";
+    const url = ProjectConfig.getPath() + "/admin/request/pending/all";
     //return this.http.get(url, credentials);
     return this.http.get(url , this.options);
   }
