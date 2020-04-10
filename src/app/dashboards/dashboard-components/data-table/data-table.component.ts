@@ -19,13 +19,13 @@ export class DatatableComponent implements OnChanges {
 
   columns = [
     { prop: "username" , name:"Username" },
-    { prop: "email" },
-    { prop: "address" },
-    { prop: "phone" },
-    { prop: "btc" },
-    { prop: "eth" },
-    { prop: "dollar" },
-    { prop: "Actions" }
+    { prop: "email" , name:"Email" },
+    { prop: "address" , name:"Address" },
+    { prop: "phone" , name:"Phone" },
+    { prop: "btc" , name:"Bitcoin"},
+    { prop: "eth" , name:"Ethereum"},
+    { prop: "dollar", name:"Dollar" },
+    { prop: "Actions" , name:"Actions"}
   ];
   @Input() clients = [];
   @ViewChild(DatatableComponent, { static: false }) table: DatatableComponent;
@@ -60,5 +60,8 @@ export class DatatableComponent implements OnChanges {
     //this.setTableData();
   }
 
+  onSelectRed(row) {
+    console.log(row);
+  }
 
 }

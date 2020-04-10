@@ -6,23 +6,27 @@
         <h4 class="card-title">User Details</h4>
         <!-- <h5 class="card-subtitle">This is the filerable Data table</h5> -->
         <form class="w-50 m-b-30">
-          <input type='text' class="form-control" placeholder='Type the email to Search...' (keyup)='updateFilter($event)' />
+          <input type='text' class="form-control" placeholder='Type the email to Search...'
+            (keyup)='updateFilter($event)' />
         </form>
-        <ngx-datatable #table class='material' 
-        [columns]="columns" 
-        [columnMode]="'force'" 
-        [headerHeight]="50" 
-        [footerHeight]="50"
-        [rowHeight]="'auto'" 
-        [limit]="10" [rows]='rows'>
+        <ngx-datatable #table class='material' [loadingIndicator]="loadingIndicator" [columns]="columns"
+          [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="10"
+          [rows]='rows'>
 
-        <ngx-datatable-column *ngFor="let column of columns; let i = index;" name="{{column.name}}" prop="{{column.prop}}">
-          <ng-template let-value="value" let-row="row" *ngIf="column.name==='Actions'" ngx-datatable-cell-template>
-            <span>
-              <button  type ="button" class="btn btn-success" (click)='onSelectRed(row)'>Approve</button>
-            </span>
+          <ng-template #nameSummaryCell let-row="row" let-value="value">
+            <div class="name-container">
+
+              asdasdasd
+            </div>
           </ng-template>
-        </ngx-datatable-column>
+          <!-- <ngx-datatable-column *ngFor="let column of columns; let i = index;" name="{{column.name}}"
+            prop="{{column.prop}}">
+            <ng-template #fas let-value="value" let-row="row" *ngIf="column.prop === 'Actions'" ngx-datatable-cell-template>
+              <span>
+                <button type="submit" class="btn btn-success" (click)='onSelectRed(row)'>Verify</button>
+              </span>
+            </ng-template>
+          </ngx-datatable-column> -->
 
         </ngx-datatable>
       </div>
