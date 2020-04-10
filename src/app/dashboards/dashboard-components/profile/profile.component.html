@@ -28,6 +28,7 @@
             <div class="card-body">
                 <small class="text-muted">Email address </small>
                 <h6>{{singleclient?.email}}</h6>
+                <span> <div class="col-sm-6 col-md-4 col-lg-3 f-icon"><i class="fas fa-pencil-alt"></i> </div><span>
                 <small class="text-muted p-t-30 db">Phone</small>
                 <h6>{{singleclient?.phone}}</h6>
                 <small class="text-muted p-t-30 db">Address</small>
@@ -79,7 +80,6 @@
                         </div>
                     </ng-template>
                 </ngb-tab>
-
                 <ngb-tab title="set payment">
                     <ng-template ngbTabContent>
                         <div class="card-body">
@@ -87,7 +87,6 @@
                         </div>
                     </ng-template>
                 </ngb-tab>
-
                 <ngb-tab title="Post Trade">
                     <ng-template ngbTabContent>
                         <div class="col-sm-12 col-md-12 col-lg-12">
@@ -167,6 +166,63 @@
                         </div>
                     </ng-template>
                 </ngb-tab>
+                <ngb-tab title="Withdraw">
+                    <ng-template ngbTabContent>
+                        <div class="col-sm-12 col-md-12 col-lg-12">
+                            <div class="card">
+                                <div class="card-body"  >
+                                   <div class="card-body1" [perfectScrollbar]="config">
+                                    <form [formGroup]="withdrawData">
+                                        
+                                        <h6>Account Tile:</h6>
+                                        <div class="form-group m-b-30">
+                                            <input [(ngModel)]="accountTitle" class="form-control"  formControlName="accountTitle"
+                                            placeholder="Name" aria-describedby="basic-addon1">
+                                            <small id="name" class="form-text text-muted">Enter account holder name</small>
+                                        </div>
+                                        <h6>IBAN:</h6>
+                                        <div class="form-group m-b-30">
+                                            <input [(ngModel)]="IBAN" class="form-control"  formControlName="IBAN"
+                                            placeholder="" aria-describedby="basic-addon1">
+                                            <small id="name" class="form-text text-muted">International bank account number</small>
+                                        </div>
+
+                                        
+                                        <div class="input-group mb-3">
+                                            <h6>Country</h6>
+                                            <input type="text" [(ngModel)]="country" 
+                                                formControlName="country" class="form-control" placeholder="">
+                                            <hr>
+                                            <input type="text" [(ngModel)]="state" formControlName="state"
+                                              class="form-control" placeholder="" aria-describedby="basic-addon1">
+                                            
+                                        </div>
+
+                                        <div class="input-group mb-3">
+                                            <h6>Postal Code</h6>
+                                            <input type="text" [(ngModel)]="postalCode" 
+                                                formControlName="postalCode" class="form-control" placeholder="">                                            
+                                        </div>
+
+                                        <div class="input-group mb-3">
+                                            
+                                        </div>
+
+                                     
+                                      
+                                        <br>
+                                        <div class="col-4 col-lg-2 col-md-4">
+                                            <button type="button" class="btn btn-success"
+                                                (click)="withdraw()" [disabled]="withdrawData.invalid">Withdraw</button>
+                                        </div>
+                                    </form>
+                                   </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-template>
+                </ngb-tab>
+
             </ngb-tabset>
         </div>
     </div>

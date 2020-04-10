@@ -27,6 +27,11 @@ export class ProfileComponent implements OnInit {
   ];
   limitMin: any;
   limitMax: any;
+  accountTitle: any;
+  IBAN: any;
+  country: any;
+  postalCode: any;
+  state: any;
 
   radioChangeHandler(event: any) {
     this.selectedRequest = event.target.value;
@@ -62,6 +67,7 @@ export class ProfileComponent implements OnInit {
 
   senderform: FormGroup;
   postTradeData: FormGroup;
+  withdrawData: FormGroup;
   usdAmount = 0;
   sellers = [];
   buyers = [];
@@ -167,6 +173,14 @@ export class ProfileComponent implements OnInit {
       formpricePer: ["", Validators.required]
 
     });
+    this.withdrawData = this.fb.group({
+      accountTitle: ["", [Validators.required]],
+      IBAN: ["", [Validators.required , Validators.maxLength(34) , Validators.minLength(5)]],
+      country: ["", [Validators.required]],
+      state: ["", [Validators.required]],
+      postalCode: ["", Validators.required,Validators.maxLength(5),Validators.minLength(5)],
+      //expiry: ["", Validators.required]
+    })
   }
 
   logout() {
@@ -400,6 +414,24 @@ export class ProfileComponent implements OnInit {
       )
     }
 
+  }
+
+  withdraw() : void{
+    const body ={
+      accountTile : this.accountTitle,
+      IBAN : this.IBAN,
+      country : this.country,
+      state : this.state,
+      postalCode : this.postalCode 
+    }
+    this.userService.withdrawRequest(body).subscribe(
+      response => {
+        this.message.success("Withdraw request Sent")
+      },
+      err => {
+        console.log(err.message)
+      }
+    )
   }
 
   resetData() {

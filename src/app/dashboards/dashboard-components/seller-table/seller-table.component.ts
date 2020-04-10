@@ -24,7 +24,7 @@ export class SellertableComponent {
   bitcurrent: any;
   usdAmount: number;
   priceSell;
-  amountBuy: any;
+  amountBuy
   ethcurrent: number;
   mycolor: boolean;
   constructor(
@@ -49,12 +49,12 @@ export class SellertableComponent {
      else {
        this.usdAmount = this.amountBuy / +this.selectedseller.price;
      }
-      this.resertData();
+      
   }
 
-  resertData(){
+  resetData(){
     this.amountBuy = 0;
-    //this.usdAmount = 0;
+    this.usdAmount = 0;
   }
 
 
@@ -77,6 +77,7 @@ export class SellertableComponent {
 
   handleOk(): void {
     this.isOkLoading = true;
+    console.log("this is MOUNT BUY" + this.amountBuy)
     const body = {
       dollar : this.amountBuy,
       id : this.selectedseller._id,
@@ -90,7 +91,7 @@ export class SellertableComponent {
         console.log(err.message)
       }
     )
-    this.resertData();
+    this.resetData();
     setTimeout(() => {
       this.is2ndVisible = false;
       this.isOkLoading = false;
@@ -98,7 +99,7 @@ export class SellertableComponent {
   }
 
   handleCancel(): void {
-    this.resertData();
+    this.resetData();
     this.is2ndVisible = false;
   }
 

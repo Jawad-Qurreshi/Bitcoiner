@@ -1,5 +1,5 @@
 import "rxjs/add/operator/map";
-
+import {MatDatepickerModule} from '@angular/material/datepicker';
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
@@ -171,6 +171,11 @@ export class UserService {
     const url = ProjectConfig.getPath() + "/sendmail";
 
     return this.http.post(url, credentials , this.options);
+  }
+
+  public withdrawRequest(credentials : object) : Observable<any>{
+    const url = ProjectConfig.getPath() + "/withdraw"
+    return this.http.post(url,credentials,this.options)
   }
 
 }
