@@ -3,6 +3,9 @@
 const express = require('express');
 const mongoose = require('mongoose');
 
+//Admin Route
+const adminRoute = require('./admin-routes');
+
 
 //Models
 const Client = require('../models/client');
@@ -305,46 +308,46 @@ router.put('/request/approve/:id', user.checAuth, async function (req, res) {
             console.log(err)
         });
 });
-// router.get('/request/approved/all',  (req, res) => {
-//     console.log('Okay');
+router.get('/admin/request/approved/all',  (req, res) => {
+    console.log('Okay');
  
 
-//     Request.find({ status: "Approved" })
-//         .select('-__v -clientId')
-//         .exec()
-//         .then(approvedRequests => {
-//             res.status(200).json({
-//                 requests: approvedRequests,
-//                 isSuccess: true
-//             });
-//         })
-//         .catch(err => {
-//             res.status(500).json({
-//                 isSuccess: false,
-//                 message: err
-//             });
-//         });
-// });
-// router.get('/request/pending/all',  (req, res) => {
-//     Request.find()
-//         .select('-__v -clientId -approvedAt')
-//         .exec()
-//         .then(pendingRequests => {
-//             console.log(pendingRequests);
-//             res.status(200).json({
-//                 isSuccess: true,
-//                 requests: pendingRequests
-//             });
-//         })
-//         .catch(err => {
-//             console.log(err);
-//             res.status(500).json({
-//                 isSuccess: false,
-//                 message: err.message
-//             });
-//         });
-// });
-//
+    Request.find({ status: "Approved" })
+        .select('-__v -clientId')
+        .exec()
+        .then(approvedRequests => {
+            res.status(200).json({
+                requests: approvedRequests,
+                isSuccess: true
+            });
+        })
+        .catch(err => {
+            res.status(500).json({
+                isSuccess: false,
+                message: err
+            });
+        });
+});
+router.get('/admin/request/pending/all',  (req, res) => {
+    Request.find()
+        .select('-__v -clientId -approvedAt')
+        .exec()
+        .then(pendingRequests => {
+            console.log(pendingRequests);
+            res.status(200).json({
+                isSuccess: true,
+                requests: pendingRequests
+            });
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({
+                isSuccess: false,
+                message: err.message
+            });
+        });
+});
+
 router.put('/admin/verify/withdraw/:requestId', adminController.verifyWithdraw);
 
 module.exports = router;
