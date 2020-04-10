@@ -60,18 +60,16 @@
     </div>
 </div>
 
-<nz-modal [(nzVisible)]="isVisible" nzTitle="Confirm Approve" 
-(nzOnCancel)="handleCancel()"
+<nz-modal [(nzVisible)]="isVisible" nzTitle="Verifify me" 
  (nzOnOk)="handleOk()"
     [nzOkLoading]="isOkLoading"
     [nzFooter]="modalFooter">
     
     <div>
-      <label>Please go to your Signed uop email address and send a photo of your driving license(both sides) or</label><br>
-      <label> National identity card(both sides) or Password number page for the verification purpose on </label>
+      <label>Please go to your emtered email address and send a scanned photocopy of your driving license(both sides) or
+      National identity card(both sides) or Passport number page for the verification purpose on my email</label>
       </div>
 <ng-template #modalFooter>
-  <button nz-button nzType="default" (click)="handleCancel()">Cancel</button>
-  <button nz-button nzType="primary" (click)="handleOk()" [nzLoading]="isConfirmLoading">Approve</button>
+  <button nz-button nzType="primary" (click)="handleOk()" [nzLoading]="isConfirmLoading">OK</button>
 </ng-template>
 </nz-modal>

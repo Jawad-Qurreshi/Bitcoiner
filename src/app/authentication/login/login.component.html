@@ -11,38 +11,43 @@
                 <div class="col-12">
                     <form [formGroup]="loginForm">
                         <div padding>
-                            <div class="form-group row">
-                                <div class="col-12 ">
-                                    <input type="email" formControlName="email" class="form-control form-control-lg"
-                                        placeholder="Email" aria-label="Email" aria-describedby="basic-addon1">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1"><i class="ti-user"></i></span>
                                 </div>
+                                <input type="email" formControlName="email" class="form-control form-control-lg" placeholder="Example@email.com" aria-label="email" aria-describedby="basic-addon1">
                             </div>
-                            <div class="form-group row">
-                                <div class="col-12 ">
-                                    <input type="password" formControlName="password"
-                                        class="form-control form-control-lg" placeholder="Password"
-                                        aria-label="Password" aria-describedby="basic-addon1">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon2"><i class="ti-pencil"></i></span>
                                 </div>
+                                <input type="password" formControlName="password" class="form-control form-control-lg" placeholder="Password" aria-label="Password" aria-describedby="basic-addon1">
                             </div>
                         </div>
                         <div class="col-md-12">
                         </div>
+                        
+                        <div class="form-group row">
+                            <div class="col-md-12">
+                                <div class="custom-control custom-checkbox">
+                                    <a (click)="showRecoverForm()" href="#/authentication/Lock" id="to-recover" class="text-dark float-right"><i class="fa fa-lock m-r-5"></i> Forgot pwd?</a>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="form-group row">
                             <div class="col-12 ">
                                 <div padding>
-                                    <button class="btn btn-block btn-lg btn-info" type="submit" (click)="login()">Log
+                                    <button class="btn btn-block btn-lg btn-info" [disabled] ="loginForm.invalid" 
+                                    type="submit" (click)="login()">Log
                                         In</button>
                                 </div>
                             </div>
                         </div>
+                        <br>
                         <div class="col-sm-12 text-center">
                             Don't have an account? <a href="#/authentication/signup" class="text-info m-l-5"><b>Sign
                                     Up</b></a>
-                        </div>
-                        <div class="form-group row">
-                            <div text-center>
-                                <button size="small" (click)="forgotPassword()" shape="round">Forgot Password?</button>
-                            </div>
                         </div>
                     </form>
                 </div>
@@ -55,22 +60,20 @@
                 <span>Enter your Email and instructions will be sent to you!</span>
             </div>
             <div class="row m-t-20">
-
-                <!-- <form class="col-12" [formGroup]="recoveryData">
-                    
-                    <div class="row">
-                        <div class="col-12">
-                            <input class="form-control form-control-lg" formControlName="recoveryemail" type="email" required="" placeholder="Username">
-                        </div>
-                    </div>
-                    
-                    <div class="row m-t-20">
-                        <div class="col-12">
-                            <button class="btn btn-block btn-lg btn-danger" formControlName="resetpassword" type="submit" name="action">Reset</button>
-                        </div>
-                    </div>
-                </form> -->
             </div>
         </div>
     </div>
 </div>
+
+<nz-modal [(nzVisible)]="isVisible" nzTitle="Verify yourself" 
+ (nzOnOk)="handleOk()"
+    [nzOkLoading]="isOkLoading"
+    [nzFooter]="modalFooter">
+    <div>
+      <label>Please send a scanned photocopy of your driving license(both sides) or
+      National identity card(both sides) or Passport number page for the verification purpose on my email</label>
+      </div>
+<ng-template #modalFooter>
+  <button nz-button nzType="primary" (click)="handleOk()" [nzLoading]="isConfirmLoading">OK</button>
+</ng-template>
+</nz-modal>

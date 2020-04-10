@@ -13,20 +13,23 @@ import { UserService } from "sdk/user.service";
 export class LoginComponent implements OnInit {
   clicked: boolean;
   loading: boolean;
+  isOkLoading: boolean;
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
     private service: UserService,
     private message: NzMessageService
-  ) {}
+  ) { }
 
-  loginform = true;
+  isVisible = false;
+
+  // loginform = true;
   recoverform = false;
   loginForm: FormGroup;
   recoveryForm: FormGroup;
 
-  forgotPassword(){
-   
+  forgotPassword() {
+
     this.router.navigateByUrl("/authentication/Lock");
   }
 
@@ -36,10 +39,17 @@ export class LoginComponent implements OnInit {
       const loginData = this.loginForm.value;
       this.service.userLogin(loginData).subscribe(
         data => {
-          localStorage.setItem("token",data.token);
-          localStorage.setItem("ID", data.id);
-          this.message.success("Login Successful");
-          this.router.navigate(["dashboard/dashboard2"]);
+          if (data.isVerified === false) {
+            this.isVisible = true;
+            localStorage.setItem("token", data.token);
+            localStorage.setItem("ID", data.id);
+          }
+          else {
+            localStorage.setItem("token", data.token);
+            localStorage.setItem("ID", data.id);
+            this.message.success("Login Successful");
+            this.router.navigate(["dashboard/dashboard2"]);
+          }
         },
         error => {
           this.clicked = false;
@@ -62,17 +72,18 @@ export class LoginComponent implements OnInit {
 
   formInitializer() {
     this.loginForm = this.formBuilder.group({
-      email: [null, [Validators.required, Validators.email]],
-      password: [null, [Validators.required]]
-    });
-    this.recoveryForm = this.formBuilder.group({
-      recoveryemail: [null, [Validators.required, Validators.email]],
-      resetpassword: [null, [Validators.required]]
+      email: ["", [Validators.required, Validators.email]],
+      password: ["", [Validators.required]]
     });
   }
 
-  showRecoverForm() {
-    this.loginform = !this.loginform;
-    this.recoverform = !this.recoverform;
+  handleOk(): void {
+    this.isOkLoading = true;
+    this.message.success("Login Successful");
+    this.router.navigate(["dashboard/dashboard2"]);
+    setTimeout(() => {
+      this.isVisible = false;
+      this.isOkLoading = false;
+    }, 100);
   }
 }
