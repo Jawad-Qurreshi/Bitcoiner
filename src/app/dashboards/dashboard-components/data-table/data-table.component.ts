@@ -7,7 +7,7 @@ const data: any = require("./company.json");
 @Component({
   selector: "app-data-table",
   templateUrl: "./data-table.component.html",
-  styleUrls: ["./data-table.css"]
+  styleUrls: ["./data-table.scss"]
 })
 export class DatatableComponent implements OnChanges {
   editing = {};
@@ -24,7 +24,8 @@ export class DatatableComponent implements OnChanges {
     { prop: "phone" },
     { prop: "btc" },
     { prop: "eth" },
-    { prop: "dollar" }
+    { prop: "dollar" },
+    { prop: "Actions" }
   ];
   @Input() clients = [];
   @ViewChild(DatatableComponent, { static: false }) table: DatatableComponent;
