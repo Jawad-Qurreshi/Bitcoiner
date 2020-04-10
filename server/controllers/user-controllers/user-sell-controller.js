@@ -1,6 +1,6 @@
 const TradePost = require('../../models/trade-post');
 const Client = require('../../models/client');
-const Log = require('../../models/log');
+
 
 module.exports.confirmBuy = (req, res) => {
     const buyerId = req.decoded.userid;

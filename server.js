@@ -9,7 +9,6 @@ const port = 4400;
 
 const api = require('./server/routes/api');
 
-app.use(express.static(path.join(__dirname, 'dist')));
 
 app.use(cors());
 app.use(morgan('dev'));

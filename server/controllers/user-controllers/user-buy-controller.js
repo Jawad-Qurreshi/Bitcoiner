@@ -1,6 +1,5 @@
 const Client = require('../../models/client');
 const TradePost = require('../../models/trade-post');
-const Log = require('../../models/log');
 
 module.exports.confirmSell = async (req, res) => {
     const body = req.body;

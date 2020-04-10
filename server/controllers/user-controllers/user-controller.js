@@ -113,7 +113,8 @@ module.exports.logIn = async (req, res) => {
                 } else {
                     res.status(401).send({
                         message: 'CREDS_INVALID',
-                        isAuthenticated: false
+                        isAuthenticated: false,
+                        isVerified: result.isVerified
                     });
                 }
             } else {
