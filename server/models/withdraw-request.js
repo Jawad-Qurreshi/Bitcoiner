@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Scheme = mongoose.Schema;
+const Schema = mongoose.Schema;
 
 const withdrawRequestSchema = new Schema({
     accountTitle: { type: String, required: true },
@@ -9,7 +9,7 @@ const withdrawRequestSchema = new Schema({
     country: { type: String, required: true },
     expiry: { type: Date, required: true },
     amount: Intl,
-    clientId: { type: Scheme.Types.ObjectId, ref: 'client' },
+    clientId: { type: Schema.Types.ObjectId, ref: 'client' },
     status: { type: String, default: 'Under Process' },
     createdAt: { type: Date, default: Date.now },
     approvedAt: { type: Date, default: null }
