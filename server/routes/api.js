@@ -125,6 +125,12 @@ router.delete('/buyer/:id', user.checAuth, function (req, res) {
     })
 });
 router.post('/confirm/sell', user.checAuth, buyController.confirmSell);
+/////////////////Client WIthdraw//////////
+
+router.post('/request/withdraw', user.checAuth, user.isVerified, userController.requestWithDraw);
+router.get('/request/withdraw', user.checAuth, user.isVerified, userController.getWithdrawRequests);
+
+
 ////////////////////////////Sellers//////////////////////////////////
 router.post('/seller/add', user.checAuth, async (req, res) => {
     const body = req.body;
@@ -192,11 +198,13 @@ router.post('/user/update', user.checAuth, userController.updateUser);
 
 router.get('/client', user.checAuth, userController.getClient);
 
+
 //////////////////////////// Buy/Sell Posts of Client/////////////////////
 router.get('/post/all', user.checAuth, userController.getClientPosts);
 router.delete('/post/:postId', user.checAuth, userController.deletePost);
 ////////////////////////////ADMIN/////////////////////////
 {
+    router.get('/admin/request/withdraw/all', () => { });
     router.post('/admin/create', adminController.createAdmin);
     router.post('/admin/authenticate', adminController.checkAdminAuth);
     router.put('/admin/verify/user/:userId', adminController.verifyUser);

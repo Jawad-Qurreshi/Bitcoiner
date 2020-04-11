@@ -7,7 +7,6 @@ const withdrawRequestSchema = new Schema({
     iban: { type: String, required: true },
     state: { type: String, required: true },
     country: { type: String, required: true },
-    expiry: { type: Date, required: true },
     amount: Intl,
     clientId: { type: Schema.Types.ObjectId, ref: 'client' },
     status: { type: String, default: 'Under Process' },
