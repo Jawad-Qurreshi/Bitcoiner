@@ -204,7 +204,7 @@ router.get('/post/all', user.checAuth, userController.getClientPosts);
 router.delete('/post/:postId', user.checAuth, userController.deletePost);
 ////////////////////////////ADMIN/////////////////////////
 {
-    router.get('/admin/request/withdraw/all', () => { });
+    router.get('/admin/request/withdraw/all', adminController.getWithdrawRequests);
     router.post('/admin/create', adminController.createAdmin);
     router.post('/admin/authenticate', adminController.checkAdminAuth);
     router.put('/admin/verify/user/:userId', adminController.verifyUser);
