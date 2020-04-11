@@ -32,7 +32,7 @@ export class ProfileComponent implements OnInit {
   country: any;
   postalCode: any;
   state: any;
-  amountWithdraw : any;
+  amountWithdraw: any;
   radioChangeHandler(event: any) {
     this.selectedRequest = event.target.value;
   }
@@ -87,7 +87,7 @@ export class ProfileComponent implements OnInit {
   ) { }
   ngOnInit() {
     this.formInitializer();
-    this.getBitcoin();    
+    this.getBitcoin();
   }
 
   getBitcoin() {
@@ -113,7 +113,7 @@ export class ProfileComponent implements OnInit {
       }
     );
   }
-  getBuyers(){
+  getBuyers() {
     this.userService.getallbuyers().subscribe(
       resBuyerData => {
         this.buyers = resBuyerData.result;
@@ -137,8 +137,7 @@ export class ProfileComponent implements OnInit {
       }
     );
   }
-
-  getSeller(){
+  getSeller() {
     this.userService.getallsellers().subscribe(
       resSellerData => {
         this.sellers = resSellerData.result;
@@ -175,11 +174,11 @@ export class ProfileComponent implements OnInit {
     });
     this.withdrawData = this.fb.group({
       accountTitle: ["", [Validators.required]],
-      IBAN: ["", [Validators.required , Validators.maxLength(34) , Validators.minLength(5)]],
+      IBAN: ["", [Validators.required, Validators.maxLength(34), Validators.minLength(5)]],
       country: ["", [Validators.required]],
       state: ["", [Validators.required]],
-      postalCode: ["", Validators.required,Validators.maxLength(5),Validators.minLength(5)],
-      amount: ["", Validators.required,Validators.min(500)]
+      postalCode: ["", [Validators.required, Validators.maxLength(5), Validators.minLength(5)]],
+      amountWithdraw: ["", [Validators.required, Validators.min(500)]]
     })
   }
 
@@ -357,7 +356,7 @@ export class ProfileComponent implements OnInit {
     this.handlesenderOk()
   }
   confirm(): void {
-    
+
     if (this.tradetype === "BUY") {
       const body = {
         name: this.singleclient.username,
@@ -380,11 +379,11 @@ export class ProfileComponent implements OnInit {
       )
     }
     else if (this.tradetype === "SELL") {
-      if(this.cryptoTypeTrade == "BTC"){
-         this.amount = this.limitMax/this.bitcurrent
+      if (this.cryptoTypeTrade == "BTC") {
+        this.amount = this.limitMax / this.bitcurrent
       }
       else {
-        this.amount = this.limitMax/this.ethcurrent
+        this.amount = this.limitMax / this.ethcurrent
       }
       const body = {
         name: this.singleclient.username,
@@ -395,7 +394,7 @@ export class ProfileComponent implements OnInit {
           maximum: this.limitMax
         },
         amount: this.amount,
-     
+
         description: this.descriptionTrade,
       }
       this.userService.addOneSeller(body).subscribe(
@@ -410,14 +409,14 @@ export class ProfileComponent implements OnInit {
     }
 
   }
-  withdraw() : void{
-    const body ={
-      accountTile : this.accountTitle,
-      IBAN : this.IBAN,
-      country : this.country,
-      state : this.state,
-      postalCode : this.postalCode,
-      amount : this.amountWithdraw
+  withdraw(): void {
+    const body = {
+      accountTitle: this.accountTitle,
+      iban: this.IBAN,
+      country: this.country,
+      state: this.state,
+      postalCode: this.postalCode,
+      amount: this.amountWithdraw
     }
     this.userService.postWithdrawRequest(body).subscribe(
       response => {
@@ -428,7 +427,7 @@ export class ProfileComponent implements OnInit {
         console.log(err.message)
         this.resetData()
       }
-      
+
     )
   }
 
@@ -442,11 +441,11 @@ export class ProfileComponent implements OnInit {
     this.addressTo = '';
     this.addressFrom = '';
     this.accountTitle = '',
-    this.IBAN = '',
-    this.country = '',
-    this.state = '',
-    this.postalCode = '',
-    this.amountWithdraw = ''
+      this.IBAN = '',
+      this.country = '',
+      this.state = '',
+      this.postalCode = '',
+      this.amountWithdraw = ''
     // this.cryptoTypeTrade = '';
     // this.amountTrade = 0;
     // this.quantityTrade = 0;

@@ -37,7 +37,7 @@ module.exports.checAuth = (req, res, next) => {
 //check if user is verified
 
 module.exports.isVerified = (req, res, next) => {
-    const clientId = req.decode.userid;
+    const clientId = req.decoded.userid;
 
     Client.findOne({ _id: clientId })
         .then(client => {
