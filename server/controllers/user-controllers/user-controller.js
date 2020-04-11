@@ -193,7 +193,7 @@ module.exports.requestWithDraw = (req, res) => {
                         state: body.state,
                         country: body.country,
                         amount: body.amount,
-                        clientId: clientId,
+                        client: clientId,
                     });
                     // Reserving the dollars so the client could only perform transaction if the amount is more than requested 
                     client.dollar -= body.amount;

@@ -8,7 +8,7 @@ const withdrawRequestSchema = new Schema({
     state: { type: String, required: true },
     country: { type: String, required: true },
     amount: Intl,
-    clientId: { type: Schema.Types.ObjectId, ref: 'client' },
+    client: { type: Schema.Types.ObjectId, ref: 'client' },
     status: { type: String, default: 'Under Process' },
     createdAt: { type: Date, default: Date.now },
     approvedAt: { type: Date, default: null }
