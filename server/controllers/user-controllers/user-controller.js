@@ -235,5 +235,18 @@ module.exports.requestWithDraw = (req, res) => {
 }
 
 module.exports.getWithdrawRequests = (req, res) => {
-
+    const clientId = req.decoded.userid;
+    WithdrawRequest.find({ clientId: clientId }).exec()
+        .then(requests => {
+            res.status(200).json({
+                isSuccess: true,
+                requests: requests
+            });
+        })
+        .catch(err => {
+            res.status(500).json({
+                isSuccess: false,
+                message: 'INTERNAL_ERROR'
+            });
+        });
 }
