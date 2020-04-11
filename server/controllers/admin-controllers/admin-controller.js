@@ -189,3 +189,23 @@ module.exports.verifyWithdraw = (req, res) => {
 			});
 		});
 }
+
+module.getWithdrawRequests = (req, res) => {
+
+	WithdrawRequest.find({})
+		.populate('client', 'username, email, phone')
+		.exec()
+		.then(requests => {
+			res.status(200).json({
+				isSuccess: true,
+				requests: requests
+			})
+		})
+		.catch(err => {
+			res.status(500).json({
+				isSuccess: false,
+				message: 'INTERNAL_ERROR'
+			});
+		});
+
+}
