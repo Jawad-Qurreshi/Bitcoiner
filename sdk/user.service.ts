@@ -172,10 +172,10 @@ export class UserService {
     return this.http.post(url, credentials, this.options);
   }
 
-  // public getclientWithdrawRequest(): Observable<any>{
-  //   const url = ProjectConfig.getPath() + "/admin/withdraw/request/all";
-  //   return this.http.get(url,this.options)
-  // }
+  public getclientWithdrawRequest(): Observable<any>{
+    const url = ProjectConfig.getPath() + "/request/withdraw";
+    return this.http.get(url,this.options)
+  }
 
   public getAdminWithdrawRequest(): Observable<any>{
     const url = ProjectConfig.getPath() + "/admin/requestwithdraw/withdraw/all";

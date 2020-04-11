@@ -1,69 +1,48 @@
 <div class="row">
-  <div class="col-lg-12">
-      <div class="card bg-light">
-          <div class="card-body">
-              <div class="d-flex no-block align-items-center m-b-10">
-                  <h4 class="card-title">All requests</h4>
-              </div>
-              <div class="table-responsive" [perfectScrollbar]="config">
-                  <table class="table bg-white table-bordered nowrap display">
-                      <thead>
-                          <tr>                             
-                              <th>Username</th>
-                              <th>Email</th>
-                              <th>To Address</th>
-                              <th>From Address</th>
-                              <th>Status</th>
-                              <th>Type Of Request</th>
-                              <th>Crypto type</th>
-                              <th>Amount</th>
-                              <th>Date</th>
-                              <th></th>
-                          </tr>
-                      </thead>
-                      
-                      <tbody>
-                        
-                          <tr *ngFor="let request of requests">
-                              
-                              <!-- <td>
-                                  <a href="javscript:void(0)">
-                                      <img src="assets/images/users/1.jpg" alt="user" class="rounded-circle" width="30" /> Govinda jalan</a>
-                              </td> -->
-                              <td>{{ request.username }}</td>
-                              <td>{{ request.email }}</td>
-                              <td>{{ request.to }}</td>
-                              <td>{{ request.from }}</td>
-                              <td><span class="label label-danger">{{ request.status }}</span></td>
-                              <td>{{ request.requestType}}</td>
-                              <td>{{ request.cryptoType }}</td>
-                              <td>{{ request.amount}}</td>
-                              <td>{{ request.createdAt | date: 'MMM d, y, h:mm:ss a' }}</td>
-                              <!-- <td>
-                                <button type="button" (click)="Approve(request)"
-                                class="btn btn-success" >Approve</button>
-                              </td> -->
-                          </tr>
-                          
-                      </tbody>
-                  
-                  </table>
-              </div>
-          </div>
-      </div>
-  </div>
+    <div class="col-lg-12">
+        <div class="card bg-light">
+            <div class="card-body">
+                <div class="d-flex no-block align-items-center m-b-10">
+                    <h4 class="card-title">My withdraw request</h4>
+                </div>
+                <div class="table-responsive" [perfectScrollbar]="config">
+                    <table class="table bg-white table-bordered nowrap display">
+                        <thead>
+                            <tr>
+                                <th>Status</th>
+                                <th>Account tilte</th>
+                                <th>IBAN</th>
+                                <th>Country</th>
+                                <th>State</th>
+                                <th>Amount</th>
+                                <th>Postal Code</th>
+                                <th>Requested At</th>
+                                <th>Approved At</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            <tr *ngFor="let request of requests">
+                                <td *ngIf="request.status === 'Under process'"><span class="label label-danger">
+                                        {{ request.status }}</span></td>
+                                <td *ngIf="request.status === 'Approved'"><span class="label label-success">
+                                        {{ request.status }}</span></td>
+                                <td>{{ request.accountTitle }}</td>
+                                <td>{{ request.iban }}</td>
+                                <td>{{ request.country }}</td>
+                                <td>{{ request.state}}</td>
+                                <td>{{ request.amount }}</td>
+                                <td>{{ request.createdAt | date: 'MMM d, y, h:mm:ss a' }}</td>
+                                <td *ngIf="request.status === 'Approved'">
+                                    {{ request.approvedAt | date: 'MMM d, y, h:mm:ss a' }}</td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<!-- <nz-modal [(nzVisible)]="is2ndVisible" nzTitle="Confrim Approve" 
-(nzOnCancel)="handleCancel()"
- (nzOnOk)="handleOk()"
-    [nzOkLoading]="isOkLoading"
-    [nzFooter]="modalFooter">
-    
-    <div>
-      <label>Are you sure you want to Approve</label>
-      </div>
-<ng-template #modalFooter>
-  <button nz-button nzType="default" (click)="handleCancel()">Cancel</button>
-  <button nz-button nzType="primary" (click)="confirm()" [nzLoading]="isConfirmLoading">Approve</button>
-</ng-template>
-</nz-modal> -->

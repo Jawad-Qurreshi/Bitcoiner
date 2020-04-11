@@ -16,35 +16,27 @@ export class ClientWithdrawRequesttableComponent {
     private message: NzMessageService,
     private userservice: UserService, 
     ) {}
-  @Input() requests = [];
+  
+  requests = [];
 
-  is2ndVisible = false;
-  isOkLoading = false;
   id =localStorage.getItem('ID');
 
+  ngOnChanges(){
+    this.getRequests();
+  }
   ngOnInit() {
    this.getRequests();
   }
 
-  // Approve(request){
-  //   this.selectedRequest = request;
-  //  ;
-  // }
-
-  // showModel(){
-  //   this.is2ndVisible = true;
-  // }
-
   getRequests() : void{
-    // this.userservice.updateRequestApproved(request._id).subscribe(
-    //   data => {
-    //     console.log("got response from server", data);
-    //     this.message.success("User Request Approved");
-    //   },
-    //   error => {
-    //     console.log("error in Approve button button");
-    //   }
-    // );
+    this.userservice.getclientWithdrawRequest().subscribe(
+      response => {
+        this.requests = response 
+      },
+      err => {
+         console.log("Error while retriving client withdraw request");
+      }
+    )
   }
 
 }
