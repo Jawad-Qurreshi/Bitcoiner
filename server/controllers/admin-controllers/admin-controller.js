@@ -192,7 +192,7 @@ module.exports.verifyWithdraw = (req, res) => {
 
 module.exports.getWithdrawRequests = (req, res) => {
 	WithdrawRequest.find({ status: 'Under Process' })
-		.populate('client', 'username, email, phone')
+		.populate('clients', 'username, email, phone')
 		.exec()
 		.then(requests => {
 

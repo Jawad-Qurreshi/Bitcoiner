@@ -47,10 +47,11 @@
                               <td>{{ request.clientId.username }}</td>
                               <td>{{ request.clientId.phone }}</td>
                               <td>{{ request.clientId.email }}</td>
-                              <td>{{ request.accounTitle }}</td>
+                              <td>{{ request.accountTitle }}</td>
                               <td>{{ request.iban}}</td>
                               <td>{{ request.state }}</td>
                               <td>{{ request.country}}</td>
+                              <td>{{ request.amount}}</td>
                               <td>{{ request.createdAt | date: 'MMM d, y, h:mm:ss a' }}</td>
                               <td>
                                 <button type="button" (click)="Approve(request)"
