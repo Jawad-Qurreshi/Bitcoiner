@@ -190,7 +190,7 @@ module.exports.verifyWithdraw = (req, res) => {
 		});
 }
 
-module.getWithdrawRequests = (req, res) => {
+module.exports.getWithdrawRequests = (req, res) => {
 	WithdrawRequest.find({ status: 'Under Process' })
 		.populate('client', 'username, email, phone')
 		.exec()
