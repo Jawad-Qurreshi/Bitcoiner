@@ -16,7 +16,7 @@ export class AdminWithdrawRequesttableComponent {
     private message: NzMessageService,
     private userservice: UserService, 
     ) {}
-  @Input() requests = [];
+  @Input() withdrawRequest = [];
 
   is2ndVisible = false;
   isOkLoading = false;
@@ -33,15 +33,16 @@ export class AdminWithdrawRequesttableComponent {
 
   handleOk(): void {
     this.isOkLoading = true;
-    // this.userservice.updateRequestApproved(request._id).subscribe(
-    //   data => {
-    //     console.log("got response from server", data);
-    //     this.message.success("User Request Approved");
-    //   },
-    //   error => {
-    //     console.log("error in Approve button button");
-    //   }
-    // );
+    const id = this.selectedRequest._id;
+    this.userservice.updateRequestApproved(id).subscribe(
+      data => {
+        console.log("got response from server", data);
+        this.message.success("User Withdraw Request Approved");
+      },
+      error => {
+        console.log("error in Approve button button");
+      }
+    );
     setTimeout(() => {
       this.is2ndVisible = false;
       this.isOkLoading = false;

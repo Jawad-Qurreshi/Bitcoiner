@@ -178,7 +178,7 @@ export class UserService {
   }
 
   public getAdminWithdrawRequest(): Observable<any>{
-    const url = ProjectConfig.getPath() + "/admin/requestwithdraw/withdraw/all";
+    const url = ProjectConfig.getPath() + "/admin/request/withdraw/all";
     return this.http.get(url,this.options)
   }
 

@@ -24,7 +24,7 @@
                         <tbody>
 
                             <tr *ngFor="let request of requests">
-                                <td *ngIf="request.status === 'Under process'"><span class="label label-danger">
+                                <td *ngIf="request.status === 'Under Process'"><span class="label label-danger">
                                         {{ request.status }}</span></td>
                                 <td *ngIf="request.status === 'Approved'"><span class="label label-success">
                                         {{ request.status }}</span></td>
@@ -33,9 +33,11 @@
                                 <td>{{ request.country }}</td>
                                 <td>{{ request.state}}</td>
                                 <td>{{ request.amount }}</td>
+                                <td>{{ request.postalCode }}</td>
                                 <td>{{ request.createdAt | date: 'MMM d, y, h:mm:ss a' }}</td>
                                 <td *ngIf="request.status === 'Approved'">
                                     {{ request.approvedAt | date: 'MMM d, y, h:mm:ss a' }}</td>
+                                    
                             </tr>
 
                         </tbody>

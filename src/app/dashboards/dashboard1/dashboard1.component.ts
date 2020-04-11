@@ -13,9 +13,7 @@ export class Dashboard1Component implements OnInit, OnChanges {
   approvedRequests = [];
   btcAddresses = [];
   withdrawRequest = [];
-  user = [];
-  modifiedRequest=[];
-  Request=[];
+ 
   count ;
 
   constructor(private userservice: UserService) {}
@@ -28,9 +26,8 @@ export class Dashboard1Component implements OnInit, OnChanges {
     
     this.userservice.getAdminWithdrawRequest().subscribe(
       response => {
-       this.withdrawRequest = response.request;
-       this.user = response.user;
-      //  this.modifiedRequest = Request 
+       this.withdrawRequest = response.requests;
+       console.log("withdraw request"+ this.withdrawRequest )
       },
       err => {
         console.log("api error in all request retreaval", err);

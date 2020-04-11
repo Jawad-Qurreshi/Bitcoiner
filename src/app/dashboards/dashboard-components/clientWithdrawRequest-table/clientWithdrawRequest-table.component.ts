@@ -31,7 +31,7 @@ export class ClientWithdrawRequesttableComponent {
   getRequests() : void{
     this.userservice.getclientWithdrawRequest().subscribe(
       response => {
-        this.requests = response 
+        this.requests = response.requests 
       },
       err => {
          console.log("Error while retriving client withdraw request");
