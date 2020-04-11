@@ -40,62 +40,62 @@ export class UserService {
   public addOneSeller(credentials: object): Observable<any> {
     const url = ProjectConfig.getPath() + "/seller/add";
     //return this.http.get(url, credentials);
-    return this.http.post(url, credentials ,this.options);
+    return this.http.post(url, credentials, this.options);
   }
   public deleteMyRequest(id: String): Observable<any> {
     const url = ProjectConfig.getPath() + "/request/" + id;
-    return this.http.delete(url ,this.options);
+    return this.http.delete(url, this.options);
   }
 
-  public adminLogin(credential : object): Observable<any>{
+  public adminLogin(credential: object): Observable<any> {
     const url = ProjectConfig.getPath() + "/admin/authenticate"
- return this.http.post(url,credential,this.options)
+    return this.http.post(url, credential, this.options)
   }
 
-  public confirmBuy(credentials : object) : Observable<any>{
+  public confirmBuy(credentials: object): Observable<any> {
     const url = ProjectConfig.getPath() + "/confirm/buy";
-    return this.http.post(url,credentials,this.options)
+    return this.http.post(url, credentials, this.options)
   }
 
-  public getBuyerSeller() : Observable<any>{
+  public getBuyerSeller(): Observable<any> {
     const url = ProjectConfig.getPath() + '/post/all'
-    return this.http.get(url,this.options)
+    return this.http.get(url, this.options)
   }
 
-  public deletebuySell(id : string) : Observable <any>{
-    const url = ProjectConfig.getPath() + "/post/"+id
-    return this.http.delete(url,this.options)
+  public deletebuySell(id: string): Observable<any> {
+    const url = ProjectConfig.getPath() + "/post/" + id
+    return this.http.delete(url, this.options)
   }
 
 
   public deleteBuyer(id: String): Observable<any> {
     const url = ProjectConfig.getPath() + "/buyer/" + id;
-    return this.http.get(url , this.options);
+    return this.http.get(url, this.options);
   }
   public deleteSeller(id: String): Observable<any> {
     const url = ProjectConfig.getPath() + "/seller/" + id;
-    return this.http.get(url ,this.options);
+    return this.http.get(url, this.options);
   }
 
-  public confirmSell(credentials : object): Observable<any>{
-      const url = ProjectConfig.getPath() + "/confirm/sell";
-      return this.http.post(url,credentials,this.options)
+  public confirmSell(credentials: object): Observable<any> {
+    const url = ProjectConfig.getPath() + "/confirm/sell";
+    return this.http.post(url, credentials, this.options)
   }
-  
+
   public getapprovedrequests(): Observable<any> {
     const url = ProjectConfig.getPath() + "/admin/request/approved/all";
     //return this.http.get(url, credentials);
-    return this.http.get(url , this.options);
+    return this.http.get(url, this.options);
   }
   public getpendingrequests(): Observable<any> {
     const url = ProjectConfig.getPath() + "/admin/request/pending/all";
     //return this.http.get(url, credentials);
-    return this.http.get(url , this.options);
+    return this.http.get(url, this.options);
   }
   public getallclients(): Observable<any> {
     const url = ProjectConfig.getPath() + "/client/all";
     //return this.http.get(url, credentials);
-    return this.http.get(url , this.options);
+    return this.http.get(url, this.options);
   }
   public getAddresses(): Observable<any> {
     const url = ProjectConfig.getPath() + "/address/all";
@@ -105,26 +105,26 @@ export class UserService {
   public postAddresses(credentials: object): Observable<any> {
     const url = ProjectConfig.getPath() + "/address/add";
     //return this.http.get(url, credentials);
-    return this.http.post(url, credentials ,this.options);
+    return this.http.post(url, credentials, this.options);
   }
   public gettheBIT(): Observable<any> {
     const url = ProjectConfig.getPath() + "/bitapi";
     //return this.http.get(url, credentials);
-    return this.http.get(url ,this.options);
+    return this.http.get(url, this.options);
   }
   public gettheETH(): Observable<any> {
     const url = ProjectConfig.getPath() + "/ethapi";
     //return this.http.get(url, credentials);
-    return this.http.get(url,this.options);
+    return this.http.get(url, this.options);
   }
   public gettheclient(id: String): Observable<any> {
     const url = ProjectConfig.getPath() + "/client/" + id;
-    return this.http.get(url , this.options);
+    return this.http.get(url, this.options);
   }
- 
+
   public getmyapprovedrequest(id: String): Observable<any> {
     const url = ProjectConfig.getPath() + "/request/approved/" + id;
-    return this.http.get(url , this.options);
+    return this.http.get(url, this.options);
   }
   public getmypendingrequest(id: String): Observable<any> {
     const url = ProjectConfig.getPath() + "/request/pending/" + id;
@@ -133,48 +133,63 @@ export class UserService {
 
   public adminLoginPassword(credentials: object): Observable<any> {
     const url = ProjectConfig.getPath() + "/login/admin";
-    return this.http.post(url, credentials , this.options);
+    return this.http.post(url, credentials, this.options);
   }
 
   public userLogin(credentials: object): Observable<any> {
     const url = ProjectConfig.getPath() + "/login";
-    return this.http.post(url, credentials , this.options);
+    return this.http.post(url, credentials, this.options);
   }
 
   public addToRequest(body: object): Observable<any> {
     const url = ProjectConfig.getPath() + "/request/add";
-    return this.http.post(url, body , this.options);
+    return this.http.post(url, body, this.options);
   }
   public updateRequestApproved(id: String): Observable<any> {
     const url = ProjectConfig.getPath() + "/request/approve/" + id;
 
-    return this.http.put(url ,null, this.options);
+    return this.http.put(url, null, this.options);
   }
-  
+
   public setethaddreser(credentials: object): Observable<any> {
     const url = ProjectConfig.getPath() + "/ethaddress";
 
-    return this.http.post(url, credentials , this.options);
+    return this.http.post(url, credentials, this.options);
   }
   public setbtcaddreser(credentials: object): Observable<any> {
     const url = ProjectConfig.getPath() + "/address/add";
 
-    return this.http.post(url, credentials , this.options);
+    return this.http.post(url, credentials, this.options);
   }
   public userRegister(credentials: object): Observable<any> {
     const url = ProjectConfig.getPath() + "/signup";
 
-    return this.http.post(url, credentials , this.options);
+    return this.http.post(url, credentials, this.options);
   }
   public userForgotPassword(credentials: object): Observable<any> {
     const url = ProjectConfig.getPath() + "/sendmail";
 
-    return this.http.post(url, credentials , this.options);
+    return this.http.post(url, credentials, this.options);
   }
 
-  public withdrawRequest(credentials : object) : Observable<any>{
-    const url = ProjectConfig.getPath() + "/withdraw"
-    return this.http.post(url,credentials,this.options)
+  // public getclientWithdrawRequest(): Observable<any>{
+  //   const url = ProjectConfig.getPath() + "/admin/withdraw/request/all";
+  //   return this.http.get(url,this.options)
+  // }
+
+  public getAdminWithdrawRequest(): Observable<any>{
+    const url = ProjectConfig.getPath() + "/admin/requestwithdraw/withdraw/all";
+    return this.http.get(url,this.options)
+  }
+
+  public postWithdrawRequest(credentials: object): Observable<any> {
+    const url = ProjectConfig.getPath() + "/request/withdraw"
+    return this.http.post(url, credentials, this.options)
+  }
+
+  public verifyclient(id: String): Observable<any> {
+    const url = ProjectConfig.getPath() + "/admin/verify/user/" + id;
+    return this.http.put(url, null, this.options)
   }
 
 }

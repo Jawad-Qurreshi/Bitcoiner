@@ -12,26 +12,41 @@ export class Dashboard1Component implements OnInit, OnChanges {
   requests = [];
   approvedRequests = [];
   btcAddresses = [];
+  withdrawRequest = [];
+  user = [];
+  modifiedRequest=[];
+  Request=[];
   count ;
 
   constructor(private userservice: UserService) {}
 
   ngOnChanges() {
+    this.generateData();
+  }
+  
+  generateData(){
+    
+    this.userservice.getAdminWithdrawRequest().subscribe(
+      response => {
+       this.withdrawRequest = response.request;
+       this.user = response.user;
+      //  this.modifiedRequest = Request 
+      },
+      err => {
+        console.log("api error in all request retreaval", err);
+      }
+    )
     this.userservice.getAddresses().subscribe(
       addresses => {
-        //console.log("resallrequest", resallrequest);
       this.btcAddresses = addresses;
       },
       err => {
         console.log("api error in all request retreaval", err);
       }
+
     );
-  }
-  
-  ngOnInit() {
     this.userservice.getallclients().subscribe(
       resClientData => {
-        //console.log("resClientData", resClientData);
         this.clients = resClientData;
       },
       err => {
@@ -39,8 +54,6 @@ export class Dashboard1Component implements OnInit, OnChanges {
       }
     );
 
-   
-    
     this.userservice.getpendingrequests().subscribe(
       resallrequest => {
         this.requests = resallrequest.requests;
@@ -67,5 +80,9 @@ export class Dashboard1Component implements OnInit, OnChanges {
          console.log("api error in all request retreaval", err);
        }
      );
+  }
+
+  ngOnInit() {
+    this.generateData();
   }
 }

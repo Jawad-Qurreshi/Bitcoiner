@@ -257,7 +257,7 @@ router.delete('/post/:postId', user.checAuth, userController.deletePost);
 ////////////////////////////ADMIN/////////////////////////
 router.post('/admin/create', adminController.createAdmin);
 router.post('/admin/authenticate', adminController.checkAdminAuth);
-router.put('/admin/verify/user/:userId', user.checkAdminAuth, adminController.verifyUser);
+router.put('/admin/verify/user/:userId', adminController.verifyUser);
 //Admin's requests routes
 //This approves a request
 router.put('/request/approve/:id', user.checAuth, async function (req, res) {

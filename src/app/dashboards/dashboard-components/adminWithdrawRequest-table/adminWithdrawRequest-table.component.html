@@ -22,33 +22,28 @@
       <div class="card bg-light">
           <div class="card-body">
               <div class="d-flex no-block align-items-center m-b-10">
-                  <h4 class="card-title">All requests</h4>
+                  <h4 class="card-title">Withdraw requests</h4>
               </div>
               <div class="table-responsive" [perfectScrollbar]="config">
                   <table class="table bg-white table-bordered nowrap display">
                       <thead>
-                          <tr>                             
+                          <tr>     
+                              <th>Status</th>                    
                               <th>Username</th>
+                              <th>Phone Number</th>
                               <th>Email</th>
-                              <th>To Address</th>
-                              <th>From Address</th>
-                              <th>Status</th>
-                              <th>Type Of Request</th>
-                              <th>Crypto type</th>
+                              <th>Account Title</th>
+                              <th>IBAN</th>
+                              <th>State</th>
+                              <th>Country</th>
                               <th>Amount</th>
-                              <th>Date</th>
-                              <th></th>
+                              <th>Requested On</th>
                           </tr>
                       </thead>
                       
                       <tbody>
                         
                           <tr *ngFor="let request of requests">
-                              
-                              <!-- <td>
-                                  <a href="javscript:void(0)">
-                                      <img src="assets/images/users/1.jpg" alt="user" class="rounded-circle" width="30" /> Govinda jalan</a>
-                              </td> -->
                               <td>{{ request.username }}</td>
                               <td>{{ request.email }}</td>
                               <td>{{ request.to }}</td>

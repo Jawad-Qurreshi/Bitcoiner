@@ -1,6 +1,8 @@
-import { Component, OnChanges, ViewChild } from "@angular/core";
-
+import { Component, OnChanges, ViewChild,TemplateRef } from "@angular/core";
+import { UserService } from "sdk/user.service"
+import { NzMessageService } from "ng-zorro-antd";
 import { Input } from "@angular/core";
+import { ColumnMode } from "@swimlane/ngx-datatable";
 
 declare var require: any;
 const data: any = require("./company.json");
@@ -11,11 +13,15 @@ const data: any = require("./company.json");
 })
 export class DatatableComponent implements OnChanges {
   editing = {};
+  @ViewChild('editTmpl', { static: false }) editTmpl: TemplateRef<any>;
+  @ViewChild('hdrTpl', { static: true }) hdrTpl: TemplateRef<any>;
+
   rows = [];
  // temp = [...data];
 
   loadingIndicator = true;
   reorderable = true;
+  ColumnMode = ColumnMode;
 
   columns = [
     { prop: "username" , name:"Username" },
@@ -25,11 +31,13 @@ export class DatatableComponent implements OnChanges {
     { prop: "btc" , name:"Bitcoin"},
     { prop: "eth" , name:"Ethereum"},
     { prop: "dollar", name:"Dollar" },
-    { prop: "Actions" , name:"Actions"}
   ];
   @Input() clients = [];
   @ViewChild(DatatableComponent, { static: false }) table: DatatableComponent;
-  constructor() {
+  constructor(
+    private userservice : UserService,
+    private message : NzMessageService
+    ) {
     this.rows = data;
   //  this.temp = [...data];
     setTimeout(() => {
@@ -61,7 +69,17 @@ export class DatatableComponent implements OnChanges {
   }
 
   onSelectRed(row) {
-    console.log(row);
+    const id = row._id;
+    this.userservice.verifyclient(id).subscribe(
+      response => {
+         this.message.success("Client verified Successfully");
+      },
+      err => {
+        this.message.error("Server error please try again later");
+         console.log(err);
+      }
+    )
+  
   }
 
 }

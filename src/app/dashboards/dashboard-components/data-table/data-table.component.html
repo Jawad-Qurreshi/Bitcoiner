@@ -10,15 +10,19 @@
             (keyup)='updateFilter($event)' />
         </form>
         <ngx-datatable #table class='material' [loadingIndicator]="loadingIndicator" [columns]="columns"
-          [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="10"
+        [columnMode]="ColumnMode.force"
+        [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="10"
           [rows]='rows'>
-
-          <ng-template #nameSummaryCell let-row="row" let-value="value">
-            <div class="name-container">
-
-              asdasdasd
-            </div>
-          </ng-template>
+          <ngx-datatable-column *ngFor="let col of columns" [name]="col.name">
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Actions" sortable="false" prop="Actions">
+            <ng-template  let-row="row" let-value="value" ngx-datatable-cell-template>
+              <button *ngIf="!row.isVerified" class="btn btn-success" md-icon-button (click)='onSelectRed(row)'>
+               Verify
+              </button>
+            </ng-template>
+          </ngx-datatable-column>
+         
           <!-- <ngx-datatable-column *ngFor="let column of columns; let i = index;" name="{{column.name}}"
             prop="{{column.prop}}">
             <ng-template #fas let-value="value" let-row="row" *ngIf="column.prop === 'Actions'" ngx-datatable-cell-template>

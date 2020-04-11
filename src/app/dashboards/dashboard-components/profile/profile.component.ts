@@ -32,7 +32,7 @@ export class ProfileComponent implements OnInit {
   country: any;
   postalCode: any;
   state: any;
-
+  amountWithdraw : any;
   radioChangeHandler(event: any) {
     this.selectedRequest = event.target.value;
   }
@@ -179,7 +179,7 @@ export class ProfileComponent implements OnInit {
       country: ["", [Validators.required]],
       state: ["", [Validators.required]],
       postalCode: ["", Validators.required,Validators.maxLength(5),Validators.minLength(5)],
-      dateOfExpiry: ["", Validators.required]
+      amount: ["", Validators.required,Validators.min(500)]
     })
   }
 
@@ -271,7 +271,6 @@ export class ProfileComponent implements OnInit {
       this.saveReceivedLoading = false;
     }, 3000);
   }
-
   handlereceiverOk(): void {
     this.isOkLoading = true;
     setTimeout(() => {
@@ -281,13 +280,11 @@ export class ProfileComponent implements OnInit {
       this.saveReceivedLoading = false;
     }, 3000);
   }
-
   handleCancel(): void {
     this.resetData();
     this.isVisible = false;
     this.is2ndVisible = false;
   }
-
   saveReceieved(): void {
 
     this.saveReceivedLoading = true;
@@ -319,7 +316,6 @@ export class ProfileComponent implements OnInit {
     );
     this.handlereceiverOk()
   }
-
   saveSend(): void {
 
     this.saveSendLoading = true;
@@ -360,7 +356,6 @@ export class ProfileComponent implements OnInit {
     );
     this.handlesenderOk()
   }
-
   confirm(): void {
     
     if (this.tradetype === "BUY") {
@@ -415,22 +410,25 @@ export class ProfileComponent implements OnInit {
     }
 
   }
-
   withdraw() : void{
     const body ={
       accountTile : this.accountTitle,
       IBAN : this.IBAN,
       country : this.country,
       state : this.state,
-      postalCode : this.postalCode 
+      postalCode : this.postalCode,
+      amount : this.amountWithdraw
     }
-    this.userService.withdrawRequest(body).subscribe(
+    this.userService.postWithdrawRequest(body).subscribe(
       response => {
         this.message.success("Withdraw request Sent")
+        this.resetData()
       },
       err => {
         console.log(err.message)
+        this.resetData()
       }
+      
     )
   }
 
@@ -443,6 +441,12 @@ export class ProfileComponent implements OnInit {
     this.addressToSend = '';
     this.addressTo = '';
     this.addressFrom = '';
+    this.accountTitle = '',
+    this.IBAN = '',
+    this.country = '',
+    this.state = '',
+    this.postalCode = '',
+    this.amountWithdraw = ''
     // this.cryptoTypeTrade = '';
     // this.amountTrade = 0;
     // this.quantityTrade = 0;
