@@ -191,11 +191,12 @@ module.exports.verifyWithdraw = (req, res) => {
 }
 
 module.getWithdrawRequests = (req, res) => {
-
-	WithdrawRequest.find({})
+	WithdrawRequest.find({ status: 'Under Process' })
 		.populate('client', 'username, email, phone')
 		.exec()
 		.then(requests => {
+
+
 			res.status(200).json({
 				isSuccess: true,
 				requests: requests
@@ -207,5 +208,4 @@ module.getWithdrawRequests = (req, res) => {
 				message: 'INTERNAL_ERROR'
 			});
 		});
-
 }
