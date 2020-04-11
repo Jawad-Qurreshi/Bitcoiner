@@ -127,6 +127,18 @@ module.exports.logIn = async (req, res) => {
     }
 }
 
+module.exports.getClient = (req, res) => {
+    const userid = req.decoded.userid;
+    Client.findById(userid)
+        .exec(function (err, client) {
+            if (err) {
+                // console.log('Error while retrieving video');
+            } else {
+                res.status(200).json(client);
+            }
+        });
+}
+
 // Buye/sell posts
 
 module.exports.getClientPosts = (req, res) => {
@@ -163,7 +175,6 @@ module.exports.deletePost = (req, res) => {
             })
         });
 }
-
 //Withdraw
 
 module.exports.requestWithDraw = (req, res) => {
