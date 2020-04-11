@@ -148,7 +148,7 @@ module.exports.deleteRequest = async (req, res) => {
 };
 
 module.exports.getApprovedRequests = (req, res) => {
-    const clientId = req.params.clientId;
+    const clientId = req.decoded.userid;
     Request.find({ clientId: clientId, status: 'Approved' })
         .select('-__v -clientId')
         .exec()
@@ -167,7 +167,7 @@ module.exports.getApprovedRequests = (req, res) => {
 };
 
 module.exports.getPendingRequests = (req, res) => {
-    const clientId = req.params.clientId;
+    const clientId = req.decoded.userid;
 
     Request.find({ clientId: clientId, status: 'Under Process' })
         .select('-__v -clientId -approvedAt')

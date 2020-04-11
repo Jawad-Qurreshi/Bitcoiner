@@ -2,7 +2,7 @@ const config = require('../../config');
 const Admin = require('../../models/admin');
 const WithdrawRequest = require('../../models/withdraw-request');
 const Client = require('../../models/client');
-const BtcAddress = require('../../models/btc-address');
+const WalletAddress = require('../../models/btc-address');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
@@ -48,7 +48,6 @@ module.exports.checkAdminAuth = (req, res) => {
 			// });
 		})
 		.catch(err => {
-			console.log(err);
 			res.status(500).json({
 				isAuthenticated: false,
 				message: 'INTERNAL_ERROR'
@@ -58,12 +57,13 @@ module.exports.checkAdminAuth = (req, res) => {
 
 module.exports.verifyUser = (req, res) => {
 	const userId = req.params.userId
-	Client.findById({ _id: userId }).exec()
+	Client.findOne({ _id: userId }).exec()
 		.then(async client => {
 			client.isVerified = true;
 			await client.save();
 			res.status(200).json({
-				isSuccess: true
+				isSuccess: true,
+				message: 'USER_VERIFIED'
 			});
 		})
 		.catch(err => {
@@ -100,20 +100,20 @@ module.exports.addAddress = async (req, res) => {
 	const body = req.body;
 	const btcAddress = body.btcAddress;
 	const ethAddress = body.ethAddress;
-	const btc = await BtcAddress.findOne({ btcAddress: btcAddress });
-	const eth = await BtcAddress.findOne({ ethAddress: ethAddress });
+	const btc = await WalletAddress.findOne({ btcAddress: btcAddress });
+	const eth = await WalletAddress.findOne({ ethAddress: ethAddress });
 	if (!btc) {
 		if (!eth) {
-			const address = new BtcAddress({
+			const address = new WalletAddress({
 				btcAddress: btcAddress,
 				ethAddress: ethAddress
 			});
 
 			address.save()
-				.then(address => {
+				.then(stored => {
 					res.status(201).json({
 						isSuccess: true,
-						message: 'USER_ADDED'
+						message: 'ADDRESS_ADDED'
 					});
 				})
 				.catch(err => {
@@ -138,10 +138,13 @@ module.exports.addAddress = async (req, res) => {
 
 module.exports.getAllAddress = (req, res) => {
 
-	BtcAddress.find({})
+	WalletAddress.find({})
 		.exec(function (err, btcaddresses) {
 			if (err) {
-				console.log('Error while retrieving address');
+				res.status().json({
+					isSuccess: false,
+					message: 'INTERNAL_ERROR'
+				});
 			} else {
 				res.status(200).json(btcaddresses);
 			}

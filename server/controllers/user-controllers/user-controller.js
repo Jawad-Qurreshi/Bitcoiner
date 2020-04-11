@@ -127,6 +127,18 @@ module.exports.logIn = async (req, res) => {
     }
 }
 
+module.exports.getClient = (req, res) => {
+    const userid = req.decoded.userid;
+    Client.findById(userid)
+        .exec(function (err, client) {
+            if (err) {
+                // console.log('Error while retrieving video');
+            } else {
+                res.status(200).json(client);
+            }
+        });
+}
+
 // Buye/sell posts
 
 module.exports.getClientPosts = (req, res) => {
@@ -163,58 +175,65 @@ module.exports.deletePost = (req, res) => {
             })
         });
 }
-
 //Withdraw
 
 module.exports.requestWithDraw = (req, res) => {
     const clientId = req.decoded.userid;
     const body = req.body;
     const minimum = config.min;
-
-    if (body.amount > minimum) {
-        const withdrawRequest = new WithdrawRequest({
-            accountTitle: body.accountTitle,
-            postalCode: body.postalCode,
-            iban: body.iban,
-            state: body.state,
-            country: body.country,
-            expiry: body.expirationDate,
-            amount: body.amount,
-            clientId: clientId,
-        });
-
-        Client.findOne({ _id: clientId }).exec()
-            .then(client => {
-                // Reserving the dollars so the client could only perform transaction if the amount is more than requested 
-                client.dollar -= body.amount;
-                client.reservedDollar += body.amount;
-                client.save()
-                    .then(stored => {
-                        withdrawRequest.save();
-                        res.status(201).json({
-                            isSuccess: true,
-                            message: 'REQUEST_POSTED'
-                        });
-                    })
-                    .catch(err => {
-                        res.status(500).json({
-                            isSuccess: false,
-                            message: 'INTERNAL_ERROR'
-                        });
+    body.amount = parseFloat(body.amount);
+    Client.findOne({ _id: clientId }).exec()
+        .then(client => {
+            if (client.dollar >= body.amount) {
+                if (body.amount >= minimum) {
+                    const withdrawRequest = new WithdrawRequest({
+                        accountTitle: body.accountTitle,
+                        postalCode: body.postalCode,
+                        iban: body.iban,
+                        state: body.state,
+                        country: body.country,
+                        amount: body.amount,
+                        clientId: clientId,
                     });
-
-            })
-            .catch(err => {
-                res.status(500).json({
+                    // Reserving the dollars so the client could only perform transaction if the amount is more than requested 
+                    client.dollar -= body.amount;
+                    client.reservedDollar += body.amount;
+                    client.save()
+                        .then(stored => {
+                            withdrawRequest.save();
+                            res.status(201).json({
+                                isSuccess: true,
+                                message: 'REQUEST_POSTED'
+                            });
+                        })
+                        .catch(err => {
+                            res.status(500).json({
+                                isSuccess: false,
+                                message: 'INTERNAL_ERROR'
+                            });
+                        });
+                } else {
+                    res.status(400).json({
+                        isSuccess: false,
+                        message: 'MIN_REQUIRED_AMOUNT_NOT_MET'
+                    });
+                }
+            } else {
+                res.status(400).json({
                     isSuccess: false,
-                    message: 'INTERNAL_ERROR'
+                    message: 'NOT_ENOUGH_CREDIT'
                 });
+
+            }
+        })
+        .catch(err => {
+            res.status(500).json({
+                isSuccess: false,
+                message: 'INTERNAL_ERROR'
             });
-    } else {
-        // Minimum requirement doesn't met
-        res.status(400).json({
-            isSuccess: false,
-            message: 'MIN_REQUIREMENT_NOT_MET'
         });
-    }
+}
+
+module.exports.getWithdrawRequests = (req, res) => {
+
 }

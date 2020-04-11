@@ -3,9 +3,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
 
-//Admin Route
-const adminRoute = require('./admin-routes');
-
 
 //Models
 const Client = require('../models/client');
@@ -128,6 +125,12 @@ router.delete('/buyer/:id', user.checAuth, function (req, res) {
     })
 });
 router.post('/confirm/sell', user.checAuth, buyController.confirmSell);
+/////////////////Client WIthdraw//////////
+
+router.post('/request/withdraw', user.checAuth, user.isVerified, userController.requestWithDraw);
+router.get('/request/withdraw', user.checAuth, user.isVerified, userController.getWithdrawRequests);
+
+
 ////////////////////////////Sellers//////////////////////////////////
 router.post('/seller/add', user.checAuth, async (req, res) => {
     const body = req.body;
@@ -184,170 +187,130 @@ router.post('/confirm/buy', user.checAuth, sellController.confirmBuy);
 ////////////////////Client's Requests routes/////////////
 router.post('/request/add', user.checAuth, userRequestController.addRequest);
 router.delete('/request/:requestId', user.checAuth, userRequestController.deleteRequest);
-router.get('/request/approved/:clientId', user.checAuth, userRequestController.getApprovedRequests);
-router.get('/request/pending/:clientId', user.checAuth, userRequestController.getPendingRequests);
+router.get('/request/approved', user.checAuth, userRequestController.getApprovedRequests);
+router.get('/request/pending', user.checAuth, userRequestController.getPendingRequests);
 ///////////////////////////login   Signup////////////////////////////////////
 router.post('/signup', userController.signUp);
 router.post('/login', userController.logIn);
-router.post('/user/update', userController.updateUser);
-///////////////////////Currencey Address//////////////
-router.post('/address/add', user.checAuth, adminController.addAddress);
-router.get('/address/all', user.checAuth, adminController.getAllAddress);
+router.post('/user/update', user.checAuth, userController.updateUser);
+
 ////////////////////////////////Clients///////////////////////////////////////////
-router.put('/client/:id', user.checAuth, function (req, res) {
-    console.log('update a client');
-    Client.findByIdAndUpdate(req.params.id, {
-        $set: {
-            // username: req.body.username,
-            // email: req.body.email,
-            // password: req.body.password,
-            // phone: req.body.phone,
-            // //DOB: req.body.DOB,
-            // Address: req.body.Address,
 
-        }
-    },
-        {
-            new: true
-        },
-        function (err, updatedClient) {
-            if (err) {
-                res.send("Error updating client")
-            } else {
-                res.json(updatedClient);
-            }
-        });
-})
-router.delete('/client/:id', user.checAuth, function (req, res) {
-    console.log('Deleting a client');
-    Client.findByIdAndRemove(req.params.id, function (err, deletedClient) {
-        if (err) {
-            res.send("Error deleting client")
-        } else {
-            res.json(deletedClient);
-        }
-    })
-})
-router.get('/client/all', user.checAuth, function (req, res) {
+router.get('/client', user.checAuth, userController.getClient);
 
-    Client.find({})
-        .exec(function (err, clients) {
-            if (err) {
-                console.log('Error while retrieving clients');
-            } else {
-                res.json(clients);
-            }
-        });
-});
-router.get('/client/:id', user.checAuth, function (req, res) {
-    const userid = req.params.id;
-    Client.findById(userid)
-        .exec(function (err, client) {
-            if (err) {
-                // console.log('Error while retrieving video');
-            } else {
-                res.status(200).json(client);
-            }
-        });
-});
 
 //////////////////////////// Buy/Sell Posts of Client/////////////////////
 router.get('/post/all', user.checAuth, userController.getClientPosts);
 router.delete('/post/:postId', user.checAuth, userController.deletePost);
 ////////////////////////////ADMIN/////////////////////////
-router.post('/admin/create', adminController.createAdmin);
-router.post('/admin/authenticate', adminController.checkAdminAuth);
-router.put('/admin/verify/user/:userId', adminController.verifyUser);
-//Admin's requests routes
-//This approves a request
-router.put('/request/approve/:id', user.checAuth, async function (req, res) {
-    Request.findById({ _id: req.params.id }).exec()
-        .then(async request => {
-            if (request.status === 'Under Process') {
-                const client = await Client.findById({ _id: request.clientId }).exec();
-                if (request.requestType === 'Receive') {
-                    if (request.cryptoType === 'BTC') {
-                        client.btc += parseFloat(request.amount);
-                        client.save();
-                    } else {
-                        client.eth += parseFloat(request.amount);
-                        client.save();
-                    }
+{
+    router.get('/admin/request/withdraw/all', () => { });
+    router.post('/admin/create', adminController.createAdmin);
+    router.post('/admin/authenticate', adminController.checkAdminAuth);
+    router.put('/admin/verify/user/:userId', adminController.verifyUser);
+    ///////////////////////Currencey Address//////////////
+    router.post('/address/add', user.checAuth, adminController.addAddress);
+    router.get('/address/all', user.checAuth, adminController.getAllAddress);
+    router.get('/client/all', user.checAuth, function (req, res) {
+
+        Client.find({})
+            .exec(function (err, clients) {
+                if (err) {
+                    console.log('Error while retrieving clients');
                 } else {
-                    if (request.cryptoType === 'BTC') {
-                        client.reservedBtc -= parseFloat(request.amount);
-                        client.save();
-                    } else {
-                        client.reservedEth -= parseFloat(request.amount);
-                        client.save();
-                    }
+                    res.json(clients);
                 }
-                request.status = 'Approved';
-                request.approvedAt = Date.now();
-                request.save()
-                    .then(request => {
-                        res.status(200).json({
-                            message: 'Request Approved!',
-                            request: request
+            });
+    });
+    //Admin's requests routes
+    //This approves a request
+    router.put('/request/approve/:id', user.checAuth, async function (req, res) {
+        Request.findById({ _id: req.params.id }).exec()
+            .then(async request => {
+                if (request.status === 'Under Process') {
+                    const client = await Client.findById({ _id: request.clientId }).exec();
+                    if (request.requestType === 'Receive') {
+                        if (request.cryptoType === 'BTC') {
+                            client.btc += parseFloat(request.amount);
+                            client.save();
+                        } else {
+                            client.eth += parseFloat(request.amount);
+                            client.save();
+                        }
+                    } else {
+                        if (request.cryptoType === 'BTC') {
+                            client.reservedBtc -= parseFloat(request.amount);
+                            client.save();
+                        } else {
+                            client.reservedEth -= parseFloat(request.amount);
+                            client.save();
+                        }
+                    }
+                    request.status = 'Approved';
+                    request.approvedAt = Date.now();
+                    request.save()
+                        .then(request => {
+                            res.status(200).json({
+                                message: 'Request Approved!',
+                                request: request
+                            })
                         })
-                    })
-                    .catch(err => {
-                        res.status(500).json({
-                            message: err.message
+                        .catch(err => {
+                            res.status(500).json({
+                                message: err.message
+                            });
                         });
+
+                } else {
+                    return res.status(400).json({
+                        isSuccess: false,
+                        message: 'Request Already Approved!'
                     });
+                }
+            })
+            .catch(err => {
+                console.log(err)
+            });
+    });
+    router.get('/admin/request/approved/all', (req, res) => {
+        console.log('Okay');
 
-            } else {
-                return res.status(400).json({
-                    isSuccess: false,
-                    message: 'Request Already Approved!'
+
+        Request.find({ status: "Approved" })
+            .select('-__v -clientId')
+            .exec()
+            .then(approvedRequests => {
+                res.status(200).json({
+                    requests: approvedRequests,
+                    isSuccess: true
                 });
-            }
-        })
-        .catch(err => {
-            console.log(err)
-        });
-});
-router.get('/admin/request/approved/all',  (req, res) => {
-    console.log('Okay');
- 
-
-    Request.find({ status: "Approved" })
-        .select('-__v -clientId')
-        .exec()
-        .then(approvedRequests => {
-            res.status(200).json({
-                requests: approvedRequests,
-                isSuccess: true
+            })
+            .catch(err => {
+                res.status(500).json({
+                    isSuccess: false,
+                    message: err
+                });
             });
-        })
-        .catch(err => {
-            res.status(500).json({
-                isSuccess: false,
-                message: err
+    });
+    router.get('/admin/request/pending/all', (req, res) => {
+        Request.find()
+            .select('-__v -clientId -approvedAt')
+            .exec()
+            .then(pendingRequests => {
+                console.log(pendingRequests);
+                res.status(200).json({
+                    isSuccess: true,
+                    requests: pendingRequests
+                });
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(500).json({
+                    isSuccess: false,
+                    message: err.message
+                });
             });
-        });
-});
-router.get('/admin/request/pending/all',  (req, res) => {
-    Request.find()
-        .select('-__v -clientId -approvedAt')
-        .exec()
-        .then(pendingRequests => {
-            console.log(pendingRequests);
-            res.status(200).json({
-                isSuccess: true,
-                requests: pendingRequests
-            });
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({
-                isSuccess: false,
-                message: err.message
-            });
-        });
-});
-
-router.put('/admin/verify/withdraw/:requestId', adminController.verifyWithdraw);
-
+    });
+    router.put('/admin/verify/withdraw/:requestId', adminController.verifyWithdraw);
+}
 module.exports = router;

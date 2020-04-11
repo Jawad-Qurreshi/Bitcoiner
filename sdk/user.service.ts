@@ -118,16 +118,16 @@ export class UserService {
     return this.http.get(url, this.options);
   }
   public gettheclient(id: String): Observable<any> {
-    const url = ProjectConfig.getPath() + "/client/" + id;
-    return this.http.get(url, this.options);
+    const url = ProjectConfig.getPath() + "/client/";
+    return this.http.get(url , this.options);
   }
 
   public getmyapprovedrequest(id: String): Observable<any> {
-    const url = ProjectConfig.getPath() + "/request/approved/" + id;
-    return this.http.get(url, this.options);
+    const url = ProjectConfig.getPath() + "/request/approved/";
+    return this.http.get(url , this.options);
   }
   public getmypendingrequest(id: String): Observable<any> {
-    const url = ProjectConfig.getPath() + "/request/pending/" + id;
+    const url = ProjectConfig.getPath() + "/request/pending/";
     return this.http.get(url, this.options);
   }
 
