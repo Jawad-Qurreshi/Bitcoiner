@@ -42,11 +42,11 @@ export class LoginComponent implements OnInit {
           if (data.isVerified === false) {
             this.isVisible = true;
             localStorage.setItem("token", data.token);
-            localStorage.setItem("ID", data.id);
+           // localStorage.setItem("ID", data.id);
           }
           else {
             localStorage.setItem("token", data.token);
-            localStorage.setItem("ID", data.id);
+           // localStorage.setItem("ID", data.id);
             this.message.success("Login Successful");
             this.router.navigate(["dashboard/dashboard2"]);
           }

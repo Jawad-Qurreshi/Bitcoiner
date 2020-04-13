@@ -12,7 +12,9 @@ import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 export class UserDetailsComponent {
   public config: PerfectScrollbarConfigInterface = {};
 
-  constructor(private userservice: UserService) {}
+  constructor(private userservice: UserService) {
+    
+  }
 
   @Input() myPendingRequests = [];
 

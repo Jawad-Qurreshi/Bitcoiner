@@ -26,28 +26,18 @@ import { Dashboard3Component } from './dashboard3/dashboard3.component';
 import {
   BuySelltableComponent,
   InfocardComponent,
-  ChatComponent,
+  SummeryTableComponent,
   ClientWithdrawRequesttableComponent,
-  CommentComponent,
   AdminWithdrawRequesttableComponent,
   TopsellComponent,
   ActivityComponent,
   DatatableComponent,
   RequesttableComponent,
-  BrowserStatsComponent,
   DeviceVisitsComponent,
   EarningsComponent,
-  FeedsComponent,
   InfoBoxComponent,
-  MixstatsComponent,
-  ProductInfoComponent,
   BuyertableComponent,
-  ProjectComponent,
-  ReviewComponent,
-  SalesComponent,
-  SalesIncomeComponent,
   SellertableComponent,
-  TasklistComponent,
   UserProfileComponent,
   UserDetailsComponent,
   VisitorsComponent,
@@ -78,7 +68,7 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
     NgZorroAntdModule,
     Ng2SmartTableModule
   ],
-  providers   : [
+  providers: [
     { provide: NZ_I18N, useValue: en_US }
   ],
   declarations: [
@@ -88,11 +78,10 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
     InfocardComponent,
     AdminWithdrawRequesttableComponent,
     BuyertableComponent,
-    ChatComponent,
     BuySelltableComponent,
     ProfileComponent,
-    CommentComponent,
     NavigationComponent,
+    SummeryTableComponent,
     RequesttableComponent,
     ApprovedRequestComponent,
     ClientWithdrawRequesttableComponent,
@@ -100,18 +89,9 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
     SellertableComponent,
     AddressestableComponent,
     ActivityComponent,
-    BrowserStatsComponent,
     DeviceVisitsComponent,
     EarningsComponent,
-    FeedsComponent,
     InfoBoxComponent,
-    MixstatsComponent,
-    ProductInfoComponent,
-    ProjectComponent,
-    ReviewComponent,
-    SalesComponent,
-    SalesIncomeComponent,
-    TasklistComponent,
     DatatableComponent,
     UserProfileComponent,
     UserDetailsComponent,
@@ -122,4 +102,4 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
     ApprovedRequestAdminComponent
   ]
 })
-export class DashboardModule {}
+export class DashboardModule { }
