@@ -19,7 +19,7 @@
             </thead>
             <tbody>
               <tr *ngFor="let buyerSeller of buyerSellers">
-                <td>{{ buyerSeller.type }}</td>
+                <td>{{ buyerSeller.postType }}</td>
                 <td>{{ buyerSeller.cryptoType }}</td>
                 <td>${{ buyerSeller.price }}</td>
                 <td>{{ buyerSeller.limit.minimum }} - {{ buyer.limit.maximum }} </td>
