@@ -148,6 +148,7 @@ module.exports.getClientPosts = (req, res) => {
 
     TradePost.find({ clientId: clientId }).exec()
         .then(posts => {
+            console.log(posts);
             res.status(200).json({
                 isSuccess: true,
                 posts: posts

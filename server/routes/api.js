@@ -80,7 +80,6 @@ mongoose.connect(dbUrl, { useUnifiedTopology: true, useNewUrlParser: true }, fun
             price: parseFloat(body.price),
             description: body.description,
             limit: limit,
-            amount: parseFloat(body.amount),
             postType: 'Buy',
             clientId: clientId
         });
@@ -145,7 +144,6 @@ mongoose.connect(dbUrl, { useUnifiedTopology: true, useNewUrlParser: true }, fun
         const sellPost = new TradePost({
             name: body.name,
             limit: limit,
-            amount: parseFloat(body.amount),
             cryptoType: body.cryptoType,
             price: parseFloat(body.price),
             description: body.description,
