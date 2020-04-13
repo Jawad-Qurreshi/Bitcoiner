@@ -31,16 +31,15 @@ export class AdminWithdrawRequesttableComponent {
     this.is2ndVisible = true;
   }
 
-  handleOk(): void {
+  confirm(): void {
     this.isOkLoading = true;
     const id = this.selectedRequest._id;
-    this.userservice.updateRequestApproved(id).subscribe(
+    this.userservice.approveWithdrawRequest(id).subscribe(
       data => {
-        console.log("got response from server", data);
         this.message.success("User Withdraw Request Approved");
       },
       error => {
-        console.log("error in Approve button button");
+        console.log("error in Approve button "+error);
       }
     );
     setTimeout(() => {

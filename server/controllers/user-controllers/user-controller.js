@@ -236,7 +236,7 @@ module.exports.requestWithDraw = (req, res) => {
 
 module.exports.getWithdrawRequests = (req, res) => {
     const clientId = req.decoded.userid;
-    WithdrawRequest.find({ clientId: clientId }).exec()
+    WithdrawRequest.find({ client: clientId }).exec()
         .then(requests => {
             res.status(200).json({
                 isSuccess: true,

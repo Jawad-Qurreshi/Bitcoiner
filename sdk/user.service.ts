@@ -150,7 +150,7 @@ export class UserService {
 
     return this.http.put(url, null, this.options);
   }
-
+ 
   public setethaddreser(credentials: object): Observable<any> {
     const url = ProjectConfig.getPath() + "/ethaddress";
 
@@ -185,6 +185,12 @@ export class UserService {
   public postWithdrawRequest(credentials: object): Observable<any> {
     const url = ProjectConfig.getPath() + "/request/withdraw"
     return this.http.post(url, credentials, this.options)
+  }
+
+  public approveWithdrawRequest(id: String): Observable<any> {
+    const url = ProjectConfig.getPath() + "/admin/verify/withdraw/" + id;
+
+    return this.http.put(url, null, this.options);
   }
 
   public verifyclient(id: String): Observable<any> {

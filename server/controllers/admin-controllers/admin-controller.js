@@ -156,7 +156,8 @@ module.exports.verifyWithdraw = (req, res) => {
 
 	WithdrawRequest.findOne({ _id: id }).exec()
 		.then(request => {
-			Client.findOne({ _id: request.clientId }).exec()
+			console.log(request)
+			Client.findOne({ _id: request.client }).exec()
 				.then(client => {
 					request.status = 'Approved';
 					request.approvedAt = Date.now();
@@ -176,6 +177,7 @@ module.exports.verifyWithdraw = (req, res) => {
 						});
 				})
 				.catch(err => {
+					
 					res.status(500).json({
 						isSuccess: false,
 						message: 'INTERNAL_ERROR'
@@ -192,7 +194,7 @@ module.exports.verifyWithdraw = (req, res) => {
 
 module.exports.getWithdrawRequests = (req, res) => {
 	WithdrawRequest.find({ status: 'Under Process' })
-		.populate('clients', 'username, email, phone')
+		.populate('client', 'username email phone')
 		.exec()
 		.then(requests => {
 

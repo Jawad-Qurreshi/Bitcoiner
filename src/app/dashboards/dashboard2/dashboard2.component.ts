@@ -11,7 +11,12 @@ export class Dashboard2Component implements AfterViewInit {
   singleclient = [];
   myPendingRequests = [];
   myApprovedRequests = [];
-  constructor(private userservice: UserService) {}
+  constructor(private userservice: UserService) {
+
+    const x = setInterval(() => {
+      this.ngOnInit();
+    }, 10 * 1000);
+  }
 
   ngOnInit() {
     var id =localStorage.getItem('ID');

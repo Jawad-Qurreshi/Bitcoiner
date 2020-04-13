@@ -60,7 +60,8 @@ export class BuySelltableComponent {
   getBuyerSeller() {
     this.userservice.getBuyerSeller().subscribe(
       response => {
-        this.buyerSellers = response.sellPosts;
+        this.buyerSellers = response.posts;
+
         this.buyerSellers.forEach((e) => {
 
           if (e.cryptoType === 'BTC') {
