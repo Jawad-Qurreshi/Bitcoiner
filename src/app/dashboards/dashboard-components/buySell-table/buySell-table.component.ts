@@ -92,6 +92,7 @@ export class BuySelltableComponent {
     this.userservice.deletebuySell(deleteID).subscribe(
       response => {
         this.message.success("Your request successfully deleted")
+        this.ngOnInit();
       },
       err => {
         console.log(err.response)

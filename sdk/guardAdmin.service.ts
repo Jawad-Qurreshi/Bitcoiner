@@ -9,8 +9,8 @@ export class GuardServiceAdmin  {
   constructor(private router: Router, private message: NzMessageService,) { }
 
   canActivate() {
-    const token = localStorage.getItem('token');
-    if (token) {
+    const adminToken = localStorage.getItem('adminToken');
+    if (adminToken) {
       return true;
     } else {
       this.router.navigate(['authentication/Admin']);
