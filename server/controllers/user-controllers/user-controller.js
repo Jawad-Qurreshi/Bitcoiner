@@ -14,10 +14,10 @@ module.exports.updateUser = (req, res) => {
 
     Client.findOne({ _id: userId }).exec()
         .then(client => {
-            client.name = newOps.name ? newOps.name : client.name;
-            client.password = newOps.password ? newOps.password : client.password;
-            client.address = newOps.address ? newOps.address : client.address;
-            client.phone = newOps.phone ? newOps.phone : client.phone;
+            client.name = newOps.name || client.name;
+            client.password = newOps.password || client.password;
+            client.address = newOps.address || client.address;
+            client.phone = newOps.phone || client.phone;
             client.save()
                 .then(saved => {
                     res.status(200).json({
