@@ -12,40 +12,40 @@ module.exports.checkAdminAuth = (req, res) => {
 
 	Admin.findOne({ username })
 		.then(admin => {
-			if (admin.password === password) {
-				const token = jwt.sign({ username: admin.username, role: config.role.ADMIN_ROLE }, config.secret.USER, { expiresIn: '1d', algorithm: 'HS256' });
-				res.status(200).json({
-					isAuthenticated: true,
-					token: token
-				});
-			} else {
-				res.status(401).json({
-					isAuthenticated: false,
-					message: 'INVALID_CREDS'
-				});
-			}
-			// bcrypt.compare(password, admin.password, (err, isMatched) => {
-			//   if (!err) {
-			//     if (isMatched) {
-			//       const token = jwt.sign({ username: admin.username, role: config.role.ADMIN_ROLE }, config.secret.ADMIN, { expiresIn: '1d', algorithm: 'HS256' });
-			//       res.status(200).json({
-			//         isAuthenticated: true,
-			//         token: token
-			//       })
-			//     } else {
-			//       res.status(401).json({
-			//         isAuthenticated: false,
-			//         message: 'CREDS_INVALID'
-			//       });
-			//     }
-			//   } else {
-			//     console.log(err);
-			//     res.status(500).json({
-			//       isAuthenticated: false,
-			//       message: 'INTERNAL_ERROR'
-			//     });
-			//   }
-			// });
+			// if (admin.password === password) {
+			// 	const token = jwt.sign({ username: admin.username, role: config.role.ADMIN_ROLE }, config.secret.USER, { expiresIn: '1d', algorithm: 'HS256' });
+			// 	res.status(200).json({
+			// 		isAuthenticated: true,
+			// 		token: token
+			// 	});
+			// } else {
+			// 	res.status(401).json({
+			// 		isAuthenticated: false,
+			// 		message: 'INVALID_CREDS'
+			// 	});
+			// }
+			bcrypt.compare(password, admin.password, (err, isMatched) => {
+				if (!err) {
+					if (isMatched) {
+						const token = jwt.sign({ username: admin.username, role: config.role.ADMIN_ROLE }, config.secret.ADMIN, { expiresIn: '12h', algorithm: 'HS256' });
+						res.status(200).json({
+							isAuthenticated: true,
+							token: token
+						})
+					} else {
+						res.status(401).json({
+							isAuthenticated: false,
+							message: 'CREDS_INVALID'
+						});
+					}
+				} else {
+					console.log(err);
+					res.status(500).json({
+						isAuthenticated: false,
+						message: 'INTERNAL_ERROR'
+					});
+				}
+			});
 		})
 		.catch(err => {
 			res.status(500).json({
@@ -77,23 +77,33 @@ module.exports.verifyUser = (req, res) => {
 module.exports.createAdmin = (req, res) => {
 	const username = req.body.username;
 	const password = req.body.password;
+	const saltRounds = 10;
 	const admin = new Admin({
 		username,
 		password
 	});
-
-	admin.save()
-		.then(admin => {
-			res.status(201).json({
-				isSuccess: true,
-				admin: admin
-			})
-		})
-		.catch(err => {
+	bcrypt.hash(password, saltRounds, (err, hashedPassword) => {
+		if (!err) {
+			admin.password = hashedPassword;
+			admin.save()
+				.then(admin => {
+					res.status(201).json({
+						isSuccess: true,
+						admin: admin
+					})
+				})
+				.catch(err => {
+					res.status(500).json({
+						isSuccess: false
+					});
+				});
+		} else {
 			res.status(500).json({
-				isSuccess: false
+				isSuccess: false,
+				message: 'INTERNAL_ERROR'
 			});
-		});
+		}
+	});
 }
 
 module.exports.addAddress = async (req, res) => {
@@ -206,6 +216,110 @@ module.exports.getWithdrawRequests = (req, res) => {
 			res.status(500).json({
 				isSuccess: false,
 				message: 'INTERNAL_ERROR'
+			});
+		});
+}
+
+module.exports.getAllClients = (req, res) => {
+
+	Client.find({})
+		.exec(function (err, clients) {
+			if (err) {
+				console.log('Error while retrieving clients');
+			} else {
+				res.json(clients);
+			}
+		});
+}
+
+//Requests
+// This approves send or recieve requests
+module.exports.approveRequest = async (req, res) => {
+	Request.findById({ _id: req.params.id }).exec()
+		.then(async request => {
+			if (request.status === 'Under Process') {
+				const client = await Client.findById({ _id: request.clientId }).exec();
+				if (request.requestType === 'Receive') {
+					if (request.cryptoType === 'BTC') {
+						client.btc += parseFloat(request.amount);
+						client.save();
+					} else {
+						//cryptoType is eth
+						client.eth += parseFloat(request.amount);
+						client.save();
+					}
+				} else {
+					//Request type is send
+					if (request.cryptoType === 'BTC') {
+						client.reservedBtc -= parseFloat(request.amount);
+						client.save();
+					} else {
+						client.reservedEth -= parseFloat(request.amount);
+						client.save();
+					}
+				}
+				request.status = 'Approved';
+				request.approvedAt = Date.now();
+				request.save()
+					.then(request => {
+						res.status(200).json({
+							message: 'REQUEST_APPROVED',
+							request: request
+						})
+					})
+					.catch(err => {
+						res.status(500).json({
+							message: err.message
+						});
+					});
+
+			} else {
+				return res.status(400).json({
+					isSuccess: false,
+					message: 'ALREADY_APPROVED'
+				});
+			}
+		})
+		.catch(err => {
+			res.status(500).json({
+				isSuccess: true,
+				message: 'INTERNAL_ERROR'
+			});
+		});
+}
+
+module.exports.getPendingRequests = (req, res) => {
+	Request.find({ status: 'Under Process' })
+		.select('-__v -clientId -approvedAt')
+		.exec()
+		.then(pendingRequests => {
+			res.status(200).json({
+				isSuccess: true,
+				requests: pendingRequests
+			});
+		})
+		.catch(err => {
+			res.status(500).json({
+				isSuccess: false,
+				message: err.message
+			});
+		});
+}
+
+module.exports.getApprovedRequests = (req, res) => {
+	Request.find({ status: "Approved" })
+		.select('-__v -clientId')
+		.exec()
+		.then(approvedRequests => {
+			res.status(200).json({
+				requests: approvedRequests,
+				isSuccess: true
+			});
+		})
+		.catch(err => {
+			res.status(500).json({
+				isSuccess: false,
+				message: err
 			});
 		});
 }
