@@ -187,6 +187,9 @@ mongoose.connect(dbUrl, { useUnifiedTopology: true, useNewUrlParser: true }, fun
     router.get('/post/all', user.checAuth, userController.getClientPosts);
     router.delete('/post/:postId', user.checAuth, userController.deletePost);
 
+    /////////Summary
+    router.get('/post/summary', user.checAuth, userController.getSummary);
+
 }
 ////////////////////////////ADMIN/////////////////////////
 {

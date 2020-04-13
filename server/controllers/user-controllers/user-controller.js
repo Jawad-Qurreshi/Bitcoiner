@@ -153,7 +153,7 @@ const titleCase = string => {
 
 module.exports.getClientPosts = (req, res) => {
     const clientId = req.decoded.userid;
-    
+
 
     TradePost.find({ clientId: clientId }).exec()
         .then(posts => {
@@ -448,4 +448,24 @@ module.exports.getWithdrawRequests = (req, res) => {
                 });
             });
     }
+}
+
+//Summary
+
+module.exports.getSummary = (req, res) => {
+    const clientId = req.decoded.userid;
+
+    TradePost.find({ clientId: clientId, isConcluded: true })
+        .exec()
+        .then(posts => {
+            res.status(200).json({
+                isSuccess: true,
+                posts: posts
+            });
+        })
+        .catch(err => {
+            res.status(500).json({
+                isSuccess: true
+            });
+        });
 }
