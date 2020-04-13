@@ -65,6 +65,7 @@ const performTransaction = (buyer, seller, post, body) => {
                                 .then(stored => {
                                     post.isConcluded = true;
                                     post.concludedAt = Date.now();
+                                    post.amount = currencyAmount;
                                     post.save()
                                         .then(stored => {
                                             resolve(stored);
