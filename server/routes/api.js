@@ -211,106 +211,13 @@ router.delete('/post/:postId', user.checAuth, userController.deletePost);
     ///////////////////////Currencey Address//////////////
     router.post('/address/add', user.checAuth, adminController.addAddress);
     router.get('/address/all', user.checAuth, adminController.getAllAddress);
-    router.get('/client/all', user.checAuth, function (req, res) {
-
-        Client.find({})
-            .exec(function (err, clients) {
-                if (err) {
-                    console.log('Error while retrieving clients');
-                } else {
-                    res.json(clients);
-                }
-            });
-    });
+    router.get('/client/all', user.checAuth, adminController.getAllClients);
     //Admin's requests routes
     //This approves a request
-    router.put('/request/approve/:id', user.checAuth, async function (req, res) {
-        Request.findById({ _id: req.params.id }).exec()
-            .then(async request => {
-                if (request.status === 'Under Process') {
-                    const client = await Client.findById({ _id: request.clientId }).exec();
-                    if (request.requestType === 'Receive') {
-                        if (request.cryptoType === 'BTC') {
-                            client.btc += parseFloat(request.amount);
-                            client.save();
-                        } else {
-                            client.eth += parseFloat(request.amount);
-                            client.save();
-                        }
-                    } else {
-                        if (request.cryptoType === 'BTC') {
-                            client.reservedBtc -= parseFloat(request.amount);
-                            client.save();
-                        } else {
-                            client.reservedEth -= parseFloat(request.amount);
-                            client.save();
-                        }
-                    }
-                    request.status = 'Approved';
-                    request.approvedAt = Date.now();
-                    request.save()
-                        .then(request => {
-                            res.status(200).json({
-                                message: 'Request Approved!',
-                                request: request
-                            })
-                        })
-                        .catch(err => {
-                            res.status(500).json({
-                                message: err.message
-                            });
-                        });
+    router.put('/request/approve/:id', user.checAuth, adminController.approveRequest);
 
-                } else {
-                    return res.status(400).json({
-                        isSuccess: false,
-                        message: 'Request Already Approved!'
-                    });
-                }
-            })
-            .catch(err => {
-                console.log(err)
-            });
-    });
-    router.get('/admin/request/approved/all', (req, res) => {
-        console.log('Okay');
-
-
-        Request.find({ status: "Approved" })
-            .select('-__v -clientId')
-            .exec()
-            .then(approvedRequests => {
-                res.status(200).json({
-                    requests: approvedRequests,
-                    isSuccess: true
-                });
-            })
-            .catch(err => {
-                res.status(500).json({
-                    isSuccess: false,
-                    message: err
-                });
-            });
-    });
-    router.get('/admin/request/pending/all', (req, res) => {
-        Request.find()
-            .select('-__v -clientId -approvedAt')
-            .exec()
-            .then(pendingRequests => {
-                console.log(pendingRequests);
-                res.status(200).json({
-                    isSuccess: true,
-                    requests: pendingRequests
-                });
-            })
-            .catch(err => {
-                console.log(err);
-                res.status(500).json({
-                    isSuccess: false,
-                    message: err.message
-                });
-            });
-    });
+    router.get('/admin/request/approved/all', adminController.getApprovedRequests);
+    router.get('/admin/request/pending/all', adminController.getPendingRequests);
     router.put('/admin/verify/withdraw/:requestId', adminController.verifyWithdraw);
 }
 module.exports = router;

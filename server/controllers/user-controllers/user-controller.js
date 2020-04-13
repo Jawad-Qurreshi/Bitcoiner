@@ -43,11 +43,10 @@ module.exports.signUp = async (req, res) => {
     const body = req.body;
     const email = body.email;
     const saltRounds = 10;
-    await bcrypt.hash(body.password, saltRounds, async (err, hash) => {
+    bcrypt.hash(body.password, saltRounds, async (err, hash) => {
         const result = await Client.findOne({ email: email });
-        if (!result) // this means result is null
-        {
-            let newClient = new Client({
+        if (!result) {
+            let client = new Client({
                 username: body.username,
                 email: body.email,
                 password: hash,
@@ -64,17 +63,20 @@ module.exports.signUp = async (req, res) => {
                     } else {
                         const length = addresses.length;
                         let val = 1;
-                        val = Math.floor(Math.random() * length);
+                        val = Math.floor(Math.random() * (length - 1));
                         end = addresses[val];
-                        newClient.btcAddress = end.btcAddress;
-                        newClient.ethAddress = end.ethAddress;
-                        newClient.save()
+                        client.btcAddress = end.btcAddress;
+                        client.ethAddress = end.ethAddress;
+                        client.save()
                             .then(client => {
                                 mailer.sendVerificationMail(client.email);
-                                res.json(client)
+                                res.json(client);
                             })
                             .catch(err => {
-                                res.json(err);
+                                res.status(500).json({
+                                    isSuccess: false,
+                                    message: 'INTERNAL_ERROR'
+                                });
                             });
                     }
                 });
@@ -139,7 +141,7 @@ module.exports.getClient = (req, res) => {
         });
 }
 
-// Buye/sell posts
+// Buy/sell posts
 
 module.exports.getClientPosts = (req, res) => {
     const clientId = req.decoded.userid;
