@@ -100,7 +100,7 @@ mongoose.connect(dbUrl, { useUnifiedTopology: true, useNewUrlParser: true }, fun
             });
     });
     router.get('/buyer/all', user.checAuth, function (req, res) {
-        TradePost.find({ postType: 'buy' })
+        TradePost.find({ postType: 'Buy' })
             .exec()
             .then(result => {
 
@@ -116,15 +116,7 @@ mongoose.connect(dbUrl, { useUnifiedTopology: true, useNewUrlParser: true }, fun
                 })
             });
     });
-    router.delete('/buyer/:id', user.checAuth, function (req, res) {
-        TradePost.findByIdAndRemove(req.params.id, function (err, deletedBuyer) {
-            if (err) {
-                res.send("Error deleting buyer")
-            } else {
-                res.json(deletedBuyer);
-            }
-        })
-    });
+    
     router.post('/confirm/sell', user.checAuth, buyController.confirmSell);
 
 
@@ -176,16 +168,7 @@ mongoose.connect(dbUrl, { useUnifiedTopology: true, useNewUrlParser: true }, fun
                     });
                 }
             });
-    })
-    router.delete('/seller/:id', user.checAuth, function (req, res) {
-        TradePost.findByIdAndRemove(req.params.id, function (err, deletedSeller) {
-            if (err) {
-                res.send("Error deleting client")
-            } else {
-                res.json(deletedSeller);
-            }
-        })
-    })
+    });
     router.post('/confirm/buy', user.checAuth, sellController.confirmBuy);
     ////////////////////Client's Requests routes/////////////
     router.post('/request/add', user.checAuth, userRequestController.addRequest);
