@@ -20,7 +20,6 @@ const adminController = require('../controllers/admin-controllers/admin-controll
 const buyController = require('../controllers/user-controllers/user-buy-controller');
 const sellController = require('../controllers/user-controllers/user-sell-controller');
 const userController = require('../controllers/user-controllers/user-controller');
-const userRequestController = require('../controllers/user-controllers/user-request-controller');
 
 
 //Initializing
@@ -116,7 +115,7 @@ mongoose.connect(dbUrl, { useUnifiedTopology: true, useNewUrlParser: true }, fun
                 })
             });
     });
-    
+
     router.post('/confirm/sell', user.checAuth, buyController.confirmSell);
 
 
@@ -171,10 +170,10 @@ mongoose.connect(dbUrl, { useUnifiedTopology: true, useNewUrlParser: true }, fun
     });
     router.post('/confirm/buy', user.checAuth, sellController.confirmBuy);
     ////////////////////Client's Requests routes/////////////
-    router.post('/request/add', user.checAuth, userRequestController.addRequest);
-    router.delete('/request/:requestId', user.checAuth, userRequestController.deleteRequest);
-    router.get('/request/approved', user.checAuth, userRequestController.getApprovedRequests);
-    router.get('/request/pending', user.checAuth, userRequestController.getPendingRequests);
+    router.post('/request/add', user.checAuth, userController.addRequest);
+    router.delete('/request/:requestId', user.checAuth, userController.deleteRequest);
+    router.get('/request/approved', user.checAuth, userController.getApprovedRequests);
+    router.get('/request/pending', user.checAuth, userController.getPendingRequests);
     ///////////////////////////login   Signup////////////////////////////////////
     router.post('/signup', userController.signUp);
     router.post('/login', userController.logIn);

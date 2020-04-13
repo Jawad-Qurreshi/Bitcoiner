@@ -24,7 +24,8 @@ const mailOptions = {
 const sendVerificationMail = to => {
     mailOptions.to = to;
     mailOptions.subject = 'E-Mail Verification - Bitcoiner';
-    mailOptions.html = '<h1>BITCOINER</h1><p></p>'
+    mailOptions.html = '<h1>BITCOINER</h1>'
+        + '<p>Welcome to Bitcoiner!</p>';
     tansporter.sendMail(mailOptions, (err, info) => {
         if (!err) {
 
@@ -36,7 +37,7 @@ const sendVerificationMail = to => {
 
 const sendPasswordRecoveryEmail = to => {
     mailOptions.to = to;
-    mailOptions.subject = 'Passwaord Recovery Request - Bitcoiner';
+    mailOptions.subject = 'Password Recovery Request - Bitcoiner';
     mailOptions.html = '<h1>BITCOINER</h1><p></p>'
 
     tansporter.sendMail(mailOptions, (err, info) => {
