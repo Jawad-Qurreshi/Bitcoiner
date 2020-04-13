@@ -13,18 +13,6 @@ module.exports.checkAdminAuth = (req, res) => {
 
 	Admin.findOne({ username })
 		.then(admin => {
-			// if (admin.password === password) {
-			// 	const token = jwt.sign({ username: admin.username, role: config.role.ADMIN_ROLE }, config.secret.USER, { expiresIn: '1d', algorithm: 'HS256' });
-			// 	res.status(200).json({
-			// 		isAuthenticated: true,
-			// 		token: token
-			// 	});
-			// } else {
-			// 	res.status(401).json({
-			// 		isAuthenticated: false,
-			// 		message: 'INVALID_CREDS'
-			// 	});
-			// }
 			bcrypt.compare(password, admin.password, (err, isMatched) => {
 				if (!err) {
 					if (isMatched) {
