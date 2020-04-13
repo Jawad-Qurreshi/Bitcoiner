@@ -87,12 +87,13 @@ mongoose.connect(dbUrl, { useUnifiedTopology: true, useNewUrlParser: true }, fun
 
         buyPost.save()
             .then(stored => {
-                res.status().json({
+                res.status(200).json({
                     isSuccess: true,
                     message: 'SELL_POSTED'
                 });
             })
             .catch(err => {
+                console.log(err);
                 res.status(500).json({
                     isSuccess: false,
                     message: 'INTERNAL_ERROR'
@@ -149,7 +150,7 @@ mongoose.connect(dbUrl, { useUnifiedTopology: true, useNewUrlParser: true }, fun
             price: parseFloat(body.price),
             description: body.description,
             clientId: clientId,
-            type: 'Sell'
+            postType: 'Sell'
         });
         sellPost.save()
             .then(stored => {
@@ -159,6 +160,7 @@ mongoose.connect(dbUrl, { useUnifiedTopology: true, useNewUrlParser: true }, fun
                 });
             })
             .catch(err => {
+                console.log(err);
                 res.status(500).json({
                     isSuccess: false,
                     message: 'INTERNAL_ERROR'
