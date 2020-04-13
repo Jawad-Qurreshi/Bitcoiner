@@ -126,6 +126,8 @@ mongoose.connect(dbUrl, { useUnifiedTopology: true, useNewUrlParser: true }, fun
         })
     });
     router.post('/confirm/sell', user.checAuth, buyController.confirmSell);
+
+
     /////////////////Client WIthdraw//////////
 
     router.post('/request/withdraw', user.checAuth, user.isVerified, userController.requestWithDraw);
