@@ -1,6 +1,7 @@
 const config = require('../../config');
 const Admin = require('../../models/admin');
 const WithdrawRequest = require('../../models/withdraw-request');
+const Request = require('../../models/request');
 const Client = require('../../models/client');
 const WalletAddress = require('../../models/btc-address');
 const jwt = require('jsonwebtoken');

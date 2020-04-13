@@ -1,4 +1,5 @@
-
+const jwt = require('jsonwebtoken');
+const config = require('../config');
 
 module.exports.checkAdminAuth = (req, res, next) => {
     const tag = 'TOKEN_MIDDLEWARE: ';
@@ -10,7 +11,7 @@ module.exports.checkAdminAuth = (req, res, next) => {
 
     if (token) {
 
-        jwt.verify(token, config.secret, (err, decoded) => {
+        jwt.verify(token, config.secret.ADMIN, (err, decoded) => {
 
             if (!err) {
                 
