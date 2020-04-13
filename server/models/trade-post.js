@@ -8,7 +8,7 @@ const tradePostSchema = new Schema({
     isConcluded: { type: Boolean, default: false },
     price: Intl,
     description: String,
-    amount: Intl,
+    amount: { type: Intl, default: 0 },
     postType: { type: String, required: true },
     limit: {
         minimum: { type: Intl, default: 0 },
@@ -16,7 +16,7 @@ const tradePostSchema = new Schema({
     },
     clientId: { type: Schema.Types.ObjectId, ref: 'clients' },
     createdtAt: { type: Date, default: Date.now },
-    concludedAt: { type: Date, default: 0 }
+    concludedAt: { type: Date, default: null }
 });
 
 module.exports = mongoose.model('tradepost', tradePostSchema);
