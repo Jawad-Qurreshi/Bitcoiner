@@ -27,6 +27,7 @@ module.exports.checkAdminAuth = (req, res) => {
 			bcrypt.compare(password, admin.password, (err, isMatched) => {
 				if (!err) {
 					if (isMatched) {
+						console.log(isMatched)
 						const token = jwt.sign({ username: admin.username, role: config.role.ADMIN_ROLE }, config.secret.ADMIN, { expiresIn: '12h', algorithm: 'HS256' });
 						res.status(200).json({
 							isAuthenticated: true,
@@ -88,8 +89,7 @@ module.exports.createAdmin = (req, res) => {
 			admin.save()
 				.then(admin => {
 					res.status(201).json({
-						isSuccess: true,
-						admin: admin
+						isSuccess: true
 					})
 				})
 				.catch(err => {
@@ -187,7 +187,7 @@ module.exports.verifyWithdraw = (req, res) => {
 						});
 				})
 				.catch(err => {
-					
+
 					res.status(500).json({
 						isSuccess: false,
 						message: 'INTERNAL_ERROR'
