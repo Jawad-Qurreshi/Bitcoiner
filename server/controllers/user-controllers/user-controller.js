@@ -155,9 +155,8 @@ module.exports.getClientPosts = (req, res) => {
     const clientId = req.decoded.userid;
 
 
-    TradePost.find({ clientId: clientId }).exec()
+    TradePost.find({ clientId: clientId, isConcluded: false }).exec()
         .then(posts => {
-            console.log(posts);
             res.status(200).json({
                 isSuccess: true,
                 posts: posts
@@ -176,11 +175,12 @@ module.exports.deletePost = (req, res) => {
     const postId = req.params.postId;
     TradePost.findByIdAndDelete(postId).exec()
         .then(removed => {
-            res.status().json({
+            res.status(200).json({
                 isSuccess: true
             });
         })
         .catch(err => {
+            console.log(err);
             res.status(500).json({
                 isSuccess: false,
                 message: 'INTERBNAL_ERROR'
