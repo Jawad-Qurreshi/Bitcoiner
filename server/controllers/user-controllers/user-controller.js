@@ -155,7 +155,7 @@ module.exports.getClientPosts = (req, res) => {
     const clientId = req.decoded.userid;
 
 
-    TradePost.find({ clientId: clientId }).exec()
+    TradePost.find({ clientId: clientId, isConcluded: false }).exec()
         .then(posts => {
             res.status(200).json({
                 isSuccess: true,

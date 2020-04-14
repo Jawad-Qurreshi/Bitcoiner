@@ -2,7 +2,6 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const app = express();
-const path = require('path');
 const cors = require('cors');
 
 const port = 4400;
@@ -20,7 +19,10 @@ app.use(bodyParser.urlencoded({
 app.use('/api', api);
 
 app.get('*', (req, res) => {
-  res.send('Page doesnot exists');
+  res.status(404).send({
+    isSuccess: false,
+    message: 'NOT_FOUND'
+  });
 });
 
 

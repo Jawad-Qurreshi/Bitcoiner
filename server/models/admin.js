@@ -3,7 +3,8 @@ const Schema = mongoose.Schema;
 
 const adminShcema = new Schema({
     username: String,
-    password: String
+    password: String,
+    profit: Intl
 });
 
 
