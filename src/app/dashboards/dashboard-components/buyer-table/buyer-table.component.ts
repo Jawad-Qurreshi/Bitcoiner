@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { UserService } from 'sdk/user.service';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
+import { NzMessageService } from 'ng-zorro-antd';
 
 @Component({
   selector: "app-buyer-table",
@@ -14,7 +15,7 @@ export class BuyertableComponent {
   usdAmount: any;
 
 
-  constructor(private userservice: UserService, private fb: FormBuilder) { }
+  constructor(private userservice: UserService, private fb: FormBuilder,private message : NzMessageService) { }
   buydata: FormGroup;
   @Input() btcAddresses = [];
 
@@ -49,7 +50,7 @@ export class BuyertableComponent {
     // this.selectedMax = this.selectedbuyer.limit.maximum;
     // this.selectedMin = this.selectedbuyer.limit.minimum;
     this.is2ndVisible = true;
-   // this.formInitializer();
+  //  this.formInitializer();
   }
 
   handleOk(): void {
@@ -62,10 +63,14 @@ export class BuyertableComponent {
     console.log();
     this.userservice.confirmSell(body).subscribe(
       response => {
-           console.log("transaction done" + response.message);
+        if (response.message === 'TOKEN_INVALID' || response.message === 'TOKEN_NOT_SUPPLIED') {
+
+        } else {
+         this.message.success("Transaction Successfull")
+        }
       },
       err => {
-        console.log("transaction not done" + err.message);
+        this.message.error("Transaction not successfull")
       }
     )
     this.isOkLoading = true;

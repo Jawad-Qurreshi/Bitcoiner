@@ -7,10 +7,11 @@ import { UserService } from "sdk/user.service";
   providers: [UserService]
 })
 export class Dashboard2Component implements AfterViewInit {
-  
+
   singleclient = [];
   myPendingRequests = [];
   myApprovedRequests = [];
+  records = [];
   constructor(private userservice: UserService) {
 
     const x = setInterval(() => {
@@ -19,49 +20,59 @@ export class Dashboard2Component implements AfterViewInit {
   }
 
   ngOnInit() {
-    var id =localStorage.getItem('ID');
+    var id = localStorage.getItem('ID');
     //console.log("id from localstorage", id);
     this.userservice.gettheclient(id).subscribe(
-      resClientData => {
-        this.singleclient = resClientData;
-        //console.log('this is client after using id' , this.singleclient);
+      response => {
+        if (response.message === 'TOKEN_INVALID' || response.message === 'TOKEN_NOT_SUPPLIED') {
+
+        } else {
+          this.singleclient = response;
+        }
       },
       err => {
         console.log("api error in single client", err);
       }
     );
 
-    // this.userservice.getallrequests().subscribe(
-    //   resallrequest => {
-    //    // console.log("resallrequest", resallrequest);
-    //     this.requests = resallrequest;
-    //   },
-    //   err => {
-    //     console.log("api error in all request retreaval", err);
-    //   }
-    // );
+    this.userservice.getmypendingrequest(id).subscribe(
+      response => {
+        if (response.message === 'TOKEN_INVALID' || response.message === 'TOKEN_NOT_SUPPLIED') {
 
-     this.userservice.getmypendingrequest(id).subscribe(
-       response => {
-         if(response.message === 'TOKEN_INVALID' || response.message === 'TOKEN_NOT_SUPPLIED'){
-          
-         }else{
+        } else {
           this.myPendingRequests = response.requests;
-         }
-       },
-       err => {
-        console.log("api error in my request retreaval", err);
-       } 
-     );
-
-     this.userservice.getmyapprovedrequest(id).subscribe(
-      getmyappreq => {
-       this. myApprovedRequests  = getmyappreq.requests;
+        }
       },
       err => {
-       console.log("api error in my request retreaval", err);
-      } 
+        console.log("api error in my request retreaval", err);
+      }
     );
+
+    this.userservice.getmyapprovedrequest(id).subscribe(
+      response => {
+        if (response.message === 'TOKEN_INVALID' || response.message === 'TOKEN_NOT_SUPPLIED') {
+
+        } else {
+          this.myApprovedRequests = response.requests;
+        }
+      },
+      err => {
+        console.log("api error in my request retreaval", err);
+      }
+    );
+
+    this.userservice.getSummery().subscribe(
+      response => {
+        if (response.message === 'TOKEN_INVALID' || response.message === 'TOKEN_NOT_SUPPLIED') {
+
+        } else {
+          this.records = response.posts;
+        }
+        err => {
+          console.log("error in api" + err)
+        }
+      }
+    )
   }
-  ngAfterViewInit() {}
+  ngAfterViewInit() { }
 }

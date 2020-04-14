@@ -16,7 +16,11 @@ export class Dashboard1Component implements OnInit, OnChanges {
  
   count ;
 
-  constructor(private userservice: UserService) {}
+  constructor(private userservice: UserService) {
+    const x = setInterval(() => {
+      this.ngOnInit();
+    }, 10 * 1000);
+  }
 
   ngOnChanges() {
     this.generateData();
@@ -26,16 +30,23 @@ export class Dashboard1Component implements OnInit, OnChanges {
     
     this.userservice.getAdminWithdrawRequest().subscribe(
       response => {
+        if (response.message === 'TOKEN_INVALID' || response.message === 'TOKEN_NOT_SUPPLIED') {
+
+        } else {
        this.withdrawRequest = response.requests;
-       console.log("withdraw request"+ this.withdrawRequest )
+        }
       },
       err => {
         console.log("api error in all request retreaval", err);
       }
     )
     this.userservice.getAddresses().subscribe(
-      addresses => {
-      this.btcAddresses = addresses;
+      response => {
+        if (response.message === 'TOKEN_INVALID' || response.message === 'TOKEN_NOT_SUPPLIED') {
+
+        } else {
+      this.btcAddresses = response;
+        }
       },
       err => {
         console.log("api error in all request retreaval", err);
@@ -43,8 +54,12 @@ export class Dashboard1Component implements OnInit, OnChanges {
 
     );
     this.userservice.getallclients().subscribe(
-      resClientData => {
-        this.clients = resClientData;
+      response => {
+        if (response.message === 'TOKEN_INVALID' || response.message === 'TOKEN_NOT_SUPPLIED') {
+
+        } else {
+        this.clients = response;
+        }
       },
       err => {
         console.log("api error in all clients", err);
@@ -52,8 +67,12 @@ export class Dashboard1Component implements OnInit, OnChanges {
     );
 
     this.userservice.getpendingrequests().subscribe(
-      resallrequest => {
-        this.requests = resallrequest.requests;
+      response => {
+        if (response.message === 'TOKEN_INVALID' || response.message === 'TOKEN_NOT_SUPPLIED') {
+
+        } else {
+        this.requests = response.requests;
+        }
       },
       err => {
         console.log("api error in pending request retreaval", err);
@@ -61,8 +80,12 @@ export class Dashboard1Component implements OnInit, OnChanges {
     );
 
     this.userservice.getapprovedrequests().subscribe(
-      resallrequest => {
-        this.approvedRequests = resallrequest.requests;
+      response => {
+        if (response.message === 'TOKEN_INVALID' || response.message === 'TOKEN_NOT_SUPPLIED') {
+
+        } else {
+        this.approvedRequests = response.requests;
+        }
       },
       err => {
         console.log("api error in approved request retreaval", err);
@@ -70,8 +93,12 @@ export class Dashboard1Component implements OnInit, OnChanges {
     );
     
      this.userservice.getAddresses().subscribe(
-       addresses => {
-       this.btcAddresses = addresses;
+      response => {
+        if (response.message === 'TOKEN_INVALID' || response.message === 'TOKEN_NOT_SUPPLIED') {
+
+        } else {
+       this.btcAddresses = response;
+        }
        },
        err => {
          console.log("api error in all request retreaval", err);

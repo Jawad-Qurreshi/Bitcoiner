@@ -35,8 +35,13 @@ export class AdminWithdrawRequesttableComponent {
     this.isOkLoading = true;
     const id = this.selectedRequest._id;
     this.userservice.approveWithdrawRequest(id).subscribe(
-      data => {
-        this.message.success("User Withdraw Request Approved");
+      response => {
+        if (response.message === 'TOKEN_INVALID' || response.message === 'TOKEN_NOT_SUPPLIED') {
+
+        } else {
+          this.message.success("User Withdraw Request Approved");
+        }
+        
       },
       error => {
         console.log("error in Approve button "+error);

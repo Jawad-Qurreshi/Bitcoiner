@@ -37,6 +37,7 @@ export class DatatableComponent implements OnChanges {
   constructor(
     private userservice : UserService,
     private message : NzMessageService
+   
     ) {
     this.rows = data;
   //  this.temp = [...data];
@@ -50,6 +51,7 @@ export class DatatableComponent implements OnChanges {
   }
 
   setTableData() {
+    console.log("this is client" + this.clients)
     this.rows = this.clients;
   }
   

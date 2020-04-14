@@ -34,20 +34,6 @@ export class AddressestableComponent {
       ethAddress: ["", Validators.required],
     });
   }
-  // SaveToDB(){
-  //   this.userservice.postAddresses(this.addressData.value).subscribe(
-  //     data => {
-  //       console.log("got response from server", data);
-  //       // alert("Registeration Successfull!");
-  //       // this.loading = false;
-  //       console.log('succesfully saved data to db');
-  //     },
-  //     error => {
-  //       console.log("error in save button");
-  //     }
-  //   );
-  // }
-  
   
   showmModal(): void {
     this.is2ndVisible = true;
@@ -55,9 +41,12 @@ export class AddressestableComponent {
 
   handleOk(): void {
     this.userservice.postAddresses(this.addressData.value).subscribe(
-      data => {
-        console.log("got response from server", data);
+      response => {
+        if (response.message === 'TOKEN_INVALID' || response.message === 'TOKEN_NOT_SUPPLIED') {
+
+        } else {
         this.message.success("Address saved");
+        }
       },
       error => {
         this.message.error("Unable to save Address");

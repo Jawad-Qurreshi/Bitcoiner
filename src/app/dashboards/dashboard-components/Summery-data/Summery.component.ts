@@ -1,6 +1,4 @@
 import { Component, OnChanges, ViewChild, TemplateRef } from "@angular/core";
-import { UserService } from "sdk/user.service"
-import { NzMessageService } from "ng-zorro-antd";
 import { Input } from "@angular/core";
 import { ColumnMode } from "@swimlane/ngx-datatable";
 
@@ -17,27 +15,23 @@ export class SummeryTableComponent implements OnChanges {
   @ViewChild('hdrTpl', { static: true }) hdrTpl: TemplateRef<any>;
 
   rows = [];
-  // temp = [...data];
 
   loadingIndicator = true;
   reorderable = true;
   ColumnMode = ColumnMode;
 
   columns = [
-    { prop: "username", name: "Username" },
-    { prop: "email", name: "Email" },
-    { prop: "address", name: "Address" },
-    { prop: "phone", name: "Phone" },
-    { prop: "btc", name: "Bitcoin" },
-    { prop: "eth", name: "Ethereum" },
-    { prop: "dollar", name: "Dollar" },
+    { prop: "cryptoType", name: "Currency" },
+    { prop: "price", name: "Price" },
+    { prop: "amount", name: "Amount traded" },
+    { prop: "postType", name: "Type" },
+    { prop: "createdAt", name: "Posted at" },
+    { prop: "concludedAt", name: "Concluded" },
+    
   ];
-  @Input() clients = [];
+  @Input() records = [];
   @ViewChild(SummeryTableComponent, { static: false }) table: SummeryTableComponent;
-  constructor(
-    private userservice: UserService,
-    private message: NzMessageService
-  ) {
+  constructor() {
     this.rows = data;
     //  this.temp = [...data];
     setTimeout(() => {
@@ -50,51 +44,22 @@ export class SummeryTableComponent implements OnChanges {
   }
 
   setTableData() {
-    this.rows = this.clients;
+    this.rows = this.records;
   }
 
   updateFilter(event) {
     const val = event.target.value.toLowerCase();
-
-    // filter our data
-    const temp = this.clients.filter(function (d) {
-      return d.email.toLowerCase().indexOf(val) !== -1 || !val;
+    const temp = this.records.filter(function (d) {
+      return d.createdAt.toLowerCase().indexOf(val) !== -1 || !val;
     });
 
-    // update the rows
     this.rows = temp;
-    // Whenever the filter changes, always go back to the first page
     this.table = data;
-    //this.setTableData();
+    
   }
 
-  // onSelectRed(row) {
-  //   const id = row._id;
-  //   this.userservice.verifyclient(id).subscribe(
-  //     response => {
-  //        this.message.success("Client verified Successfully");
-  //     },
-  //     err => {
-  //       this.message.error("Server error please try again later");
-  //        console.log(err);
-  //     }
-  //   )
-
-  // }
 
   ngOnInit() {
-
-    // this.userservice.verifyclient(id).subscribe(
-    //   response => {
-    //     this.message.success("Client verified Successfully");
-    //   },
-    //   err => {
-    //     this.message.error("Server error please try again later");
-    //     console.log(err);
-    //   }
-    // )
-
-
   }
 
 
