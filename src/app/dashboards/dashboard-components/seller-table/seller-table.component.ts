@@ -31,9 +31,14 @@ export class SellertableComponent {
     private userservice: UserService,
     private router:Router,
     private message : NzMessageService,
-    private fb: FormBuilder) { }
+    private fb: FormBuilder) {
 
-  @Input() sellers = [];
+      const x = setInterval(() => {
+        this.ngOnInit();
+      }, 10 * 1000);
+     }
+
+  sellers = [];
   @Input() singleclient = [];
   
   CalcBitEth() {
@@ -52,6 +57,54 @@ export class SellertableComponent {
       
   }
 
+  getBitcoin() {
+    this.userservice.gettheBIT().subscribe(
+      resBitData => {
+        this.bitcurrent = resBitData.ticker.BTCUSDT;
+        this.getEther();
+      },
+      err => {
+        console.log("api error in getting bitcoin current", err);
+      }
+    );
+  }
+  getEther() {
+    this.userservice.gettheETH().subscribe(
+      resEthData => {
+        this.ethcurrent = resEthData.ticker.ETHUSDT;
+        this.getSeller();
+      },
+      err => {
+        console.log("api error in getting ethereum current", err);
+      }
+    );
+  }
+
+  getSeller() {
+    this.userservice.getallsellers().subscribe(
+      resSellerData => {
+        this.sellers = resSellerData.result;
+        this.sellers.forEach((e) => {
+
+          if (e.cryptoType === 'BTC') {
+            const amountradeadded = +e.price;
+            const btc = parseFloat(this.bitcurrent);
+            e.changeValue = ((amountradeadded / btc) * 100) - 100
+          }
+          else {
+            const amountradeadded = parseFloat(e.price);
+            const eth = +this.ethcurrent;
+            e.changeValue = ((amountradeadded / eth) * 100) - 100
+          }
+        }
+        )
+      },
+      err => {
+        console.log("api error in all Seller", err);
+      }
+    );
+  }
+
   resetData(){
     this.amountBuy = 0;
     this.usdAmount = 0;
@@ -60,6 +113,7 @@ export class SellertableComponent {
 
   ngOnInit() {
     this.formInitializer();
+    this.getBitcoin()
   }
 
   formInitializer() {
@@ -85,6 +139,7 @@ export class SellertableComponent {
     }
     this.userservice.confirmBuy(body).subscribe(
       response => {
+        this.ngOnInit();
         this.message.success(response.message)
       },
       err => {

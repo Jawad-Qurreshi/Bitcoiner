@@ -18,6 +18,9 @@ export class BuySelltableComponent {
 
   constructor(private userservice: UserService, private message: NzMessageService) {
 
+    const x = setInterval(() => {
+      this.ngOnInit();
+    }, 10 * 1000);
   }
 
   buyerSellers = [];
@@ -61,7 +64,6 @@ export class BuySelltableComponent {
     this.userservice.getBuyerSeller().subscribe(
       response => {
         this.buyerSellers = response.posts;
-        console.log("This is response" +this.buyerSellers);
         this.buyerSellers.forEach((e) => {
 
           if (e.cryptoType === 'BTC') {
@@ -76,6 +78,7 @@ export class BuySelltableComponent {
           }
         }
         )
+      
       },
       err => {
         console.log(err.message);
@@ -86,7 +89,6 @@ export class BuySelltableComponent {
     this.selectedOne = buyerSeller;
     this.is2ndVisible = true;
   }
-
   handleOk(): void {
     const deleteID = this.selectedOne._id;
     this.userservice.deletebuySell(deleteID).subscribe(
@@ -105,7 +107,6 @@ export class BuySelltableComponent {
       this.isOkLoading = false;
     }, 100);
   }
-
   handleCancel(): void {
     this.is2ndVisible = false;
   }

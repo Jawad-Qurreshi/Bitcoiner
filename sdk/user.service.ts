@@ -182,7 +182,7 @@ public deletebuySell(id: string): Observable<any> {
   return this.http.delete(url, this.options)
 }
 public getSummery(): Observable<any> {
-  const url = ProjectConfig.getPath()+"/post/summery";
+  const url = ProjectConfig.getPath()+"/post/summary";
   return this.http.get(url,this.options)
 }
  
