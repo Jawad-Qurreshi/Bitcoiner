@@ -99,7 +99,8 @@ mongoose.connect(dbUrl, { useUnifiedTopology: true, useNewUrlParser: true }, fun
             });
     });
     router.get('/buyer/all', user.checAuth, function (req, res) {
-        TradePost.find({ postType: 'Buy' })
+        const clientId = req.decoded.userid;
+        TradePost.find({ postType: 'Buy', clientId: { $ne: clientId }, isConcluded: false })
             .exec()
             .then(result => {
 
@@ -157,7 +158,8 @@ mongoose.connect(dbUrl, { useUnifiedTopology: true, useNewUrlParser: true }, fun
             });
     });
     router.get('/seller/all', user.checAuth, function (req, res) {
-        TradePost.find({ postType: 'Sell' })
+        const clientId = req.decoded.userid;
+        TradePost.find({ postType: 'Sell', clientId: { $ne: clientId }, isConcluded: false })
             .exec(function (err, sellPost) {
                 if (err) {
                     console.log('Error while retrieving All seller in api.js');
@@ -184,6 +186,9 @@ mongoose.connect(dbUrl, { useUnifiedTopology: true, useNewUrlParser: true }, fun
     //////////////////////////// Buy/Sell Posts of Client/////////////////////
     router.get('/post/all', user.checAuth, userController.getClientPosts);
     router.delete('/post/:postId', user.checAuth, userController.deletePost);
+
+    /////////Summary
+    router.get('/post/summary', user.checAuth, userController.getSummary);
 
 }
 ////////////////////////////ADMIN/////////////////////////

@@ -2,6 +2,7 @@ const Client = require('../../models/client');
 const BtcAddress = require('../../models/btc-address');
 const TradePost = require('../../models/trade-post');
 const WithdrawRequest = require('../../models/withdraw-request');
+const Request = require('../../models/request');
 const config = require('../../config');
 const mailer = require('../../mailer');
 
@@ -152,6 +153,7 @@ const titleCase = string => {
 
 module.exports.getClientPosts = (req, res) => {
     const clientId = req.decoded.userid;
+
 
     TradePost.find({ clientId: clientId }).exec()
         .then(posts => {
@@ -446,4 +448,24 @@ module.exports.getWithdrawRequests = (req, res) => {
                 });
             });
     }
+}
+
+//Summary
+
+module.exports.getSummary = (req, res) => {
+    const clientId = req.decoded.userid;
+
+    TradePost.find({ clientId: clientId, isConcluded: true })
+        .exec()
+        .then(posts => {
+            res.status(200).json({
+                isSuccess: true,
+                posts: posts
+            });
+        })
+        .catch(err => {
+            res.status(500).json({
+                isSuccess: true
+            });
+        });
 }
