@@ -1,10 +1,13 @@
-import { ErrorHandler, Injectable } from "@angular/core";
+import { ErrorHandler, Injectable, NgModule } from "@angular/core";
 import { HttpErrorResponse } from "@angular/common/http";
 
 
 
 
 @Injectable()
+@NgModule({
+    providers: [{ provide: ErrorHandler, useClass: MyErrorHandler }]
+})
 class MyErrorHandler implements ErrorHandler {
     handleError(error: any): void {
         if (error instanceof HttpErrorResponse) {
@@ -51,6 +54,8 @@ class MyErrorHandler implements ErrorHandler {
 
 
 }
+
+
 
 
 export default MyErrorHandler;
