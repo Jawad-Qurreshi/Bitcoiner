@@ -12,7 +12,6 @@ module.exports.checkAdminAuth = (req, res, next) => {
     if (token) {
 
         jwt.verify(token, config.secret.ADMIN, (err, decoded) => {
-
             if (!err) {
                 
                 if (decoded.role === config.role.ADMIN_ROLE) {

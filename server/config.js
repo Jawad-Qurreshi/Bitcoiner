@@ -19,5 +19,9 @@ module.exports = {
         PASS: '03105593105'
     },
     min: 0,
-    profit: 2.5
+    profit: {
+        TRADE: 1,
+        WITHDRAW: 0.9,
+        SEND: 0.9
+    }
 }

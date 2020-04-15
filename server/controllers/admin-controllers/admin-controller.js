@@ -213,14 +213,21 @@ module.exports.getWithdrawRequests = (req, res) => {
 
 module.exports.getAllClients = (req, res) => {
 
-	Client.find({})
-		.exec(function (err, clients) {
-			if (err) {
-				console.log('Error while retrieving clients');
-			} else {
-				res.json(clients);
-			}
+	Client.find()
+	.select('username email address phone btc eth dollar isVerified')
+	.exec()
+	.then(clients => {
+		res.status(200).json({
+			isSuccess: true,
+			clients: clients
 		});
+	})
+	.catch(err => {
+		res.status(500).json({
+			isSuccess: false,
+			message: 'INTERNAL_ERROR'
+		});
+	});
 }
 
 //Requests
