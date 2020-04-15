@@ -9,6 +9,7 @@ const mailer = require('../../mailer');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
+
 module.exports.updateUser = (req, res) => {
     const body = req.body;
     const newOps = body.newOps;

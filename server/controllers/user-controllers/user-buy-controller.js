@@ -1,5 +1,7 @@
 const Client = require('../../models/client');
 const TradePost = require('../../models/trade-post');
+const config = require('../../config');
+const Admin = require('../../models/admin');
 
 module.exports.confirmSell = async (req, res) => {
     const body = req.body;
@@ -57,15 +59,20 @@ module.exports.confirmSell = async (req, res) => {
 
 const performTransaction = (buyer, seller, post, body) => {
     return new Promise(async (resolve, reject) => {
-        const dollarToSell = parseFloat(body.dollar);
+        const dollar = parseFloat(body.dollar);
         const currencyAmount = parseFloat(body.amount);
         if (post.cryptoType === 'BTC') {
-            if (buyer.dollar > dollarToSell) {
+            const adminShare = parseFloat(dollar * (config.profit.TRADE / 100));
+            const deduction = dollar + adminShare;
+            const deposit = dollar - adminShare;
+            if (buyer.dollar > deduction) {
                 if (seller.btc > currencyAmount) {
                     seller.btc -= currencyAmount;
                     buyer.btc += currencyAmount;
-                    seller.dollar += dollarToSell;
-                    buyer.dollar -= dollarToSell;
+                    seller.dollar += deposit;
+                    buyer.dollar -= deduction;
+                    const x = deduction - deposit;
+                    addToAdmin(x);
                     seller.save()
                         .then(saved => {
                             buyer.save()
@@ -109,15 +116,19 @@ const performTransaction = (buyer, seller, post, body) => {
                         });
                     });
             }
-
         } else {
             //ETH Transaction
-            if (buyer.dollar > dollarToSell) {
+            const adminShare = parseFloat(dollar * (config.profit.TRADE / 100));
+            const deduction = dollar + adminShare;
+            const deposit = dollar - adminShare;
+            if (buyer.dollar > deduction) {
                 if (seller.eth > currencyAmount) {
                     seller.eth -= currencyAmount;
                     buyer.eth += currencyAmount;
-                    buyer.dollar -= dollarToSell;
-                    seller.dollar += dollarToSell;
+                    buyer.dollar -= deduction;
+                    seller.dollar += deposit;
+                    const x = deduction - deposit;
+                    addToAdmin(x);
                     seller.save()
                         .then(saved => {
                             buyer.save()
@@ -163,3 +174,23 @@ const performTransaction = (buyer, seller, post, body) => {
         }
     });
 };
+
+const addToAdmin = adminShare => {
+
+    Admin.findOne()
+        .exec()
+        .then(admin => {
+            admin.profit += adminShare;
+            admin.save()
+                .then(saved => {
+                    console.log('ADMIN_SHARE: ' + 'Success');
+                })
+                .catch(err => {
+                    console.log('ADMIN_SHARE: ' + err.message)
+                });
+        })
+        .catch(err => {
+            console.log('ADMIN_SHARE: ' + err.message)
+        })
+
+}

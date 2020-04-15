@@ -50,7 +50,7 @@ mongoose.connect(dbUrl, { useUnifiedTopology: true, useNewUrlParser: true }, fun
         useServerTime: true // If you get timestamp errors, synchronize to server time at startup
     });
     //Getting bitcoin price
-    router.get('/bitapi', function (req, res) {
+    router.get('/bitapi',  user.checAuth,function (req, res) {
         binance.prices('BTCUSDT', (error, ticker) => {
             res.send({
                 ticker: ticker
@@ -75,7 +75,7 @@ mongoose.connect(dbUrl, { useUnifiedTopology: true, useNewUrlParser: true }, fun
 
         const buyPost = new TradePost({
             cryptoType: body.cryptoType,
-            price: parseFloat(body.price),
+            percentage: parseFloat(body.percentage),
             description: body.description,
             limit: limit,
             postType: 'Buy',
@@ -116,7 +116,7 @@ mongoose.connect(dbUrl, { useUnifiedTopology: true, useNewUrlParser: true }, fun
             });
     });
 
-    router.post('/confirm/sell', user.checAuth, buyController.confirmSell);
+    router.post('/confirm/sell', user.checAuth, user.isVerified, buyController.confirmSell);
 
 
     /////////////////Client WIthdraw//////////
