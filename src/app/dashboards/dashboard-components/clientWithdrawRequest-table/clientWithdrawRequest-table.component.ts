@@ -15,7 +15,11 @@ export class ClientWithdrawRequesttableComponent {
   constructor(
     private message: NzMessageService,
     private userservice: UserService, 
-    ) {}
+    ) {
+      const x = setInterval(() => {
+        this.ngOnInit();
+      }, 10 * 1000);
+    }
   
   requests = [];
 

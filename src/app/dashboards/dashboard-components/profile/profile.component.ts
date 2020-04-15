@@ -69,8 +69,6 @@ export class ProfileComponent implements OnInit {
   postTradeData: FormGroup;
   withdrawData: FormGroup;
   usdAmount = 0;
-  sellers = [];
-  buyers = [];
   name: any;
   @Input() singleclient;
   ethcurrent: any;
@@ -87,79 +85,30 @@ export class ProfileComponent implements OnInit {
   ) { }
   ngOnInit() {
     this.formInitializer();
-    this.getBitcoin();
-  }
+    this. getCrypto() ;
+   }
 
-  getBitcoin() {
+   getCrypto() {
     this.userService.gettheBIT().subscribe(
-      resBitData => {
-        this.bitcurrent = resBitData.ticker.BTCUSDT;
+      response => {
+        this.bitcurrent = response.ticker.BTCUSDT;
         this.getEther();
       },
       err => {
-        console.log("api error in getting bitcoin current", err);
+        console.log(err)
       }
-    );
+    )
   }
+
   getEther() {
     this.userService.gettheETH().subscribe(
-      resEthData => {
-        this.ethcurrent = resEthData.ticker.ETHUSDT;
-        this.getBuyers();
-        this.getSeller();
+      response => {
+        this.ethcurrent = response.ticker.ETHUSDT;
       },
       err => {
-        console.log("api error in getting ethereum current", err);
+        console.log(err)
       }
-    );
-  }
-  getBuyers() {
-    this.userService.getallbuyers().subscribe(
-      resBuyerData => {
-        this.buyers = resBuyerData.result;
-        this.buyers.forEach((e) => {
-
-          if (e.cryptoType === 'BTC') {
-            const amountradeadded = +e.price;
-            const btc = parseFloat(this.bitcurrent);
-            e.changeValue = ((amountradeadded / btc) * 100) - 100
-          }
-          else {
-            const amountradeadded = parseFloat(e.price);
-            const eth = parseFloat(this.ethcurrent);
-            e.changeValue = ((amountradeadded / eth) * 100) - 100
-          }
-        }
-        )
-      },
-      err => {
-        console.log("api error in all Buyer", err);
-      }
-    );
-  }
-  getSeller() {
-    this.userService.getallsellers().subscribe(
-      resSellerData => {
-        this.sellers = resSellerData.result;
-        this.sellers.forEach((e) => {
-
-          if (e.cryptoType === 'BTC') {
-            const amountradeadded = +e.price;
-            const btc = parseFloat(this.bitcurrent);
-            e.changeValue = ((amountradeadded / btc) * 100) - 100
-          }
-          else {
-            const amountradeadded = parseFloat(e.price);
-            const eth = parseFloat(this.ethcurrent);
-            e.changeValue = ((amountradeadded / eth) * 100) - 100
-          }
-        }
-        )
-      },
-      err => {
-        console.log("api error in all Seller", err);
-      }
-    );
+    )
   }
 
   formInitializer() {
@@ -183,7 +132,6 @@ export class ProfileComponent implements OnInit {
   }
 
   logout() {
-    localStorage.removeItem("ID");
     localStorage.removeItem("token");
     this.router.navigateByUrl("/authentication/login");
   }
@@ -213,12 +161,14 @@ export class ProfileComponent implements OnInit {
     if (this.cryptoTypeTrade === 'BTC') {
       const amountradeadded = this.amountTrade;
       const btc = this.bitcurrent;;
-      this.Change = ((amountradeadded / btc) * 100) - 100
+      const num = ((amountradeadded / btc) * 100) - 100
+      this.Change = num.toFixed(2);
     }
     else if (this.cryptoTypeTrade === 'ETH') {
       const amountradeadded = this.amountTrade;
       const eth = this.ethcurrent;;
-      this.Change = ((amountradeadded / eth) * 100) - 100
+      const num = ((amountradeadded / eth) * 100) - 100
+      this.Change = num.toFixed(2);
     }
     else {
       this.Change = 0
@@ -233,6 +183,8 @@ export class ProfileComponent implements OnInit {
       this.message.error("Please select currency");
     }
   }
+ 
+ 
   calculateUsdAmountReceive() {
     //console.log("singleclient", this.singleclient);
     if (isNaN(this.amountReceive)) {
@@ -270,6 +222,8 @@ export class ProfileComponent implements OnInit {
       this.saveReceivedLoading = false;
     }, 3000);
   }
+ 
+ 
   handlereceiverOk(): void {
     this.isOkLoading = true;
     setTimeout(() => {
@@ -284,6 +238,8 @@ export class ProfileComponent implements OnInit {
     this.isVisible = false;
     this.is2ndVisible = false;
   }
+ 
+ 
   saveReceieved(): void {
 
     this.saveReceivedLoading = true;
@@ -355,6 +311,8 @@ export class ProfileComponent implements OnInit {
     );
     this.handlesenderOk()
   }
+ 
+ 
   confirm(): void {
 
     if (this.tradetype === "BUY") {
@@ -380,12 +338,6 @@ export class ProfileComponent implements OnInit {
       )
     }
     else if (this.tradetype === "SELL") {
-      // if (this.cryptoTypeTrade == "BTC") {
-      //   this.amount = this.limitMax / this.bitcurrent
-      // }
-      // else {
-      //   this.amount = this.limitMax / this.ethcurrent
-      // }
       const body = {
         name: this.singleclient.username,
         cryptoType: this.cryptoTypeTrade,

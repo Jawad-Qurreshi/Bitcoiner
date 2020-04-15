@@ -15,7 +15,12 @@ export class BuyertableComponent {
   usdAmount: any;
 
 
-  constructor(private userservice: UserService, private fb: FormBuilder,private message : NzMessageService) { }
+  constructor(private userservice: UserService, private fb: FormBuilder,private message : NzMessageService) { 
+    
+    const x = setInterval(() => {
+      this.ngOnInit();
+    }, 10 * 1000);
+  }
   buydata: FormGroup;
   @Input() btcAddresses = [];
 
@@ -31,6 +36,7 @@ export class BuyertableComponent {
 
   ngOnInit() {
     this.formInitializer();
+    this.getBitcoin()
   }
 
 
@@ -67,6 +73,7 @@ export class BuyertableComponent {
 
         } else {
          this.message.success("Transaction Successfull")
+         this.ngOnInit();
         }
       },
       err => {
@@ -86,8 +93,57 @@ export class BuyertableComponent {
     this.is2ndVisible = false;
   }
 
-  @Input() buyers = [];
+  buyers = [];
 
+  getBitcoin() {
+    this.userservice.gettheBIT().subscribe(
+      resBitData => {
+        this.bitcurrent = resBitData.ticker.BTCUSDT;
+        this.getEther();
+      },
+      err => {
+        console.log("api error in getting bitcoin current", err);
+      }
+    );
+  }
+  getEther() {
+    this.userservice.gettheETH().subscribe(
+      resEthData => {
+        this.ethcurrent = resEthData.ticker.ETHUSDT;
+        this.getBuyers();
+        // this.getSeller();
+      },
+      err => {
+        console.log("api error in getting ethereum current", err);
+      }
+    );
+  }
+  getBuyers() {
+    this.userservice.getallbuyers().subscribe(
+      resBuyerData => {
+        this.buyers = resBuyerData.result;
+        this.buyers.forEach((e) => {
+
+          if (e.cryptoType === 'BTC') {
+            const amountradeadded = +e.price;
+            const btc = parseFloat(this.bitcurrent);
+            e.changeValue = ((amountradeadded / btc) * 100) - 100
+          }
+          else {
+            const amountradeadded = parseFloat(e.price);
+            const eth = parseFloat(this.ethcurrent);
+            e.changeValue = ((amountradeadded / eth) * 100) - 100
+          }
+        }
+        )
+      },
+      err => {
+        console.log("api error in all Buyer", err);
+      }
+    );
+  }
+ 
+ 
   CalcBitEth(): void {
     if (parseFloat(this.amountSell) >= this.selectedbuyer.limit.minimum && parseFloat(this.amountSell) <= this.selectedbuyer.limit.maximum) {
       this.mycolor = false
