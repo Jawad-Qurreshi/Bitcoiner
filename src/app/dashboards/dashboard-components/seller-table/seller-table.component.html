@@ -28,7 +28,7 @@
                       <thead>
                           <tr>
                              
-                              <th>Name</th>
+                              
                               <th>Type of currency</th>
                               <th>Price</th>
                               <th>Limit</th>
@@ -43,7 +43,7 @@
                                   <a href="javscript:void(0)">
                                       <img src="assets/images/users/1.jpg" alt="user" class="rounded-circle" width="30" /> Govinda jalan</a>
                               </td> -->
-                              <td>{{ seller.name }}</td>
+                              
                               <td>{{ seller.cryptoType }}</td>
                               <td>${{ seller.price }}</td>
                               <td>${{ seller.limit.minimum }} - ${{ seller.limit.maximum }}</td>
@@ -80,13 +80,6 @@
     [nzFooter]="modalFooter">
     
     <form [formGroup]="selldata">
-
-      <h6>Name:</h6>
-      <div class="input-group mb-3">
-        <input type="text" disabled class="form-control " placeholder="{{selectedseller?.name}}"
-          aria-describedby="basic-addon1">
-      </div>
-  
       <h6>Currency Type :</h6>
       <div class="input-group mb-3">
         <input type="text" *ngIf="selectedseller?.cryptoType == 'BTC'" class="form-control" id="nametext1"

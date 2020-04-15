@@ -136,11 +136,11 @@ public deleteSeller(id: String): Observable<any> {
  
 ///////////////////////////////////Clients request//////////////////////
 
-public getmyapprovedrequest(id: String): Observable<any> {
+public getmyapprovedrequest(): Observable<any> {
   const url = ProjectConfig.getPath() + "/request/approved/";
   return this.http.get(url , this.options);
 }
-public getmypendingrequest(id: String): Observable<any> {
+public getmypendingrequest(): Observable<any> {
   const url = ProjectConfig.getPath() + "/request/pending/";
   return this.http.get(url, this.options);
 }
@@ -166,7 +166,7 @@ public userRegister(credentials: object): Observable<any> {
 }
 
 //////////////////////////////Clients/////////////////////// 
-public gettheclient(id: String): Observable<any> {
+public gettheclient(): Observable<any> {
   const url = ProjectConfig.getPath() + "/client/";
   return this.http.get(url , this.options);
 }

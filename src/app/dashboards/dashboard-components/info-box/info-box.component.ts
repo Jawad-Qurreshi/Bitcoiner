@@ -7,7 +7,7 @@ import {
   OnChanges,
   OnInit
 } from "@angular/core";
-
+import { Router } from "@angular/router"
 import { UserService } from "sdk/user.service";
 
 @Component({
@@ -16,10 +16,11 @@ import { UserService } from "sdk/user.service";
   styleUrls: ["./info-box.component.css"]
 })
 export class InfoBoxComponent implements OnInit, OnChanges, AfterViewInit {
-  constructor(private userservice: UserService) {
-    const x = setInterval(() => {
+  x;
+  constructor(private userservice: UserService,private router:Router) {
+    this.x = setInterval(() => {
       this.ngOnInit();
-    }, 10 * 1000);
+    }, 10 *  1000);
   }
 
   @Input() singleclient: any;
@@ -131,7 +132,10 @@ export class InfoBoxComponent implements OnInit, OnChanges, AfterViewInit {
         this.calculatedAvailableBalance();
       },
       err => {
-        console.log("api error in getting bitcoin current", err);
+        if (err.status === 401)
+        localStorage.removeItem("token");
+        clearInterval(this.x);
+        this.router.navigateByUrl("/authentication/login");
       }
     );
 
@@ -143,7 +147,10 @@ export class InfoBoxComponent implements OnInit, OnChanges, AfterViewInit {
         this.calculatedAvailableBalance();
       },
       err => {
-        console.log("api error in getting ethereum current", err);
+        if (err.status === 401)
+        localStorage.removeItem("token");
+        clearInterval(this.x);
+        this.router.navigateByUrl("/authentication/login");
       }
     );
   }

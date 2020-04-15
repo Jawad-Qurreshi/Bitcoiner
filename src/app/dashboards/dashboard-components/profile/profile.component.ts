@@ -45,7 +45,7 @@ export class ProfileComponent implements OnInit {
   walletAddress;
   cryptoTypeTrade;
   descriptionTrade;
-  Change;
+  //Change;
 
   isVisible = false;
   is2ndVisible = false;
@@ -85,10 +85,10 @@ export class ProfileComponent implements OnInit {
   ) { }
   ngOnInit() {
     this.formInitializer();
-    this. getCrypto() ;
-   }
+    this.getCrypto();
+  }
 
-   getCrypto() {
+  getCrypto() {
     this.userService.gettheBIT().subscribe(
       response => {
         this.bitcurrent = response.ticker.BTCUSDT;
@@ -127,7 +127,7 @@ export class ProfileComponent implements OnInit {
       country: ["", [Validators.required]],
       state: ["", [Validators.required]],
       postalCode: ["", [Validators.required, Validators.maxLength(5), Validators.minLength(5)]],
-      amountWithdraw: ["", [Validators.required, Validators.min(500)]]
+      amountWithdraw: ["", [Validators.required, Validators.min(20)]]
     })
   }
 
@@ -154,26 +154,26 @@ export class ProfileComponent implements OnInit {
     this.currencyAddress();
     this.amountChanged();
   }
-  amountChangedtrade() {
-    this.amountTradeCalc();
-  }
-  amountTradeCalc() {
-    if (this.cryptoTypeTrade === 'BTC') {
-      const amountradeadded = this.amountTrade;
-      const btc = this.bitcurrent;;
-      const num = ((amountradeadded / btc) * 100) - 100
-      this.Change = num.toFixed(2);
-    }
-    else if (this.cryptoTypeTrade === 'ETH') {
-      const amountradeadded = this.amountTrade;
-      const eth = this.ethcurrent;;
-      const num = ((amountradeadded / eth) * 100) - 100
-      this.Change = num.toFixed(2);
-    }
-    else {
-      this.Change = 0
-    }
-  }
+  // amountChangedtrade() {
+  //   this.amountTradeCalc();
+  // }
+  // amountTradeCalc() {
+  //   if (this.cryptoTypeTrade === 'BTC') {
+  //     const amountradeadded = this.amountTrade;
+  //     const btc = this.bitcurrent;;
+  //     const num = ((amountradeadded / btc) * 100) - 100
+  //     this.Change = num.toFixed(2);
+  //   }
+  //   else if (this.cryptoTypeTrade === 'ETH') {
+  //     const amountradeadded = this.amountTrade;
+  //     const eth = this.ethcurrent;;
+  //     const num = ((amountradeadded / eth) * 100) - 100
+  //     this.Change = num.toFixed(2);
+  //   }
+  //   else {
+  //     this.Change = 0
+  //   }
+  // }
   currencyAddress() {
     if (this.coinType === "BTC") {
       this.addressTo = this.singleclient.btcAddress;
@@ -183,8 +183,8 @@ export class ProfileComponent implements OnInit {
       this.message.error("Please select currency");
     }
   }
- 
- 
+
+
   calculateUsdAmountReceive() {
     //console.log("singleclient", this.singleclient);
     if (isNaN(this.amountReceive)) {
@@ -222,8 +222,8 @@ export class ProfileComponent implements OnInit {
       this.saveReceivedLoading = false;
     }, 3000);
   }
- 
- 
+
+
   handlereceiverOk(): void {
     this.isOkLoading = true;
     setTimeout(() => {
@@ -238,8 +238,8 @@ export class ProfileComponent implements OnInit {
     this.isVisible = false;
     this.is2ndVisible = false;
   }
- 
- 
+
+
   saveReceieved(): void {
 
     this.saveReceivedLoading = true;
@@ -272,94 +272,103 @@ export class ProfileComponent implements OnInit {
     this.handlereceiverOk()
   }
   saveSend(): void {
+    if (!this.singleclient.isVerified) {
+      this.message.error("Please verify yourself in order send currency");
+      this.isVisible = false;
+      this.resetData();
+      this.saveSendLoading = false;
+    } else {
+      this.saveSendLoading = true;
+      let receiverAddress;
+      if (this.coinTypeSend === 'BTC') {
+        receiverAddress = this.singleclient.btcAddress;
+        console.log('this is btc add from' + receiverAddress);
+      } else if (this.coinTypeSend === 'ETH') {
+        receiverAddress = this.singleclient.ethAddress;
 
-    this.saveSendLoading = true;
-    let receiverAddress;
-    if (this.coinTypeSend === 'BTC') {
-      receiverAddress = this.singleclient.btcAddress;
-      console.log('this is btc add from' + receiverAddress);
-    } else if (this.coinTypeSend === 'ETH') {
-      receiverAddress = this.singleclient.ethAddress;
-
-    }
-    const body = {
-      username: this.singleclient.username,
-      email: this.singleclient.email,
-      to: this.addressToSend,
-      from: receiverAddress,
-      requestType: "Send",
-      cryptoType: this.coinTypeSend,
-      amount: this.amountSend,
-      description: this.descriptionSend
-    }
-    // console.log('this is eth bodyyyy from' + body);
-
-
-    this.userService.addToRequest(body).subscribe(
-      data => {
-        console.log("got response from server", data);
-        this.message.success("Payment Sending request sent!");
-        this.isVisible = false;
-        this.resetData();
-        this.saveSendLoading = false;
-      },
-      error => {
-        this.saveSendLoading = false;
-        this.isVisible = false;
-        this.message.error("Unable to pay");
       }
-    );
-    this.handlesenderOk()
-  }
- 
- 
-  confirm(): void {
-
-    if (this.tradetype === "BUY") {
       const body = {
-        name: this.singleclient.username,
-        cryptoType: this.cryptoTypeTrade,
-        price: this.amountTrade,
-        limit: {
-          minimum: this.limitMin,
-          maximum: this.limitMax
-        },
-        description: this.descriptionTrade,
-        clientId: this.singleclient._id,
-        amount: this.amountTrade
+        username: this.singleclient.username,
+        email: this.singleclient.email,
+        to: this.addressToSend,
+        from: receiverAddress,
+        requestType: "Send",
+        cryptoType: this.coinTypeSend,
+        amount: this.amountSend,
+        description: this.descriptionSend
       }
-      this.userService.addOneBuyer(body).subscribe(
-        data => {
-          this.message.success("Buying request send!");
-          this.resetData();
-        }, error => {
-          this.message.error("Unable to set Buying request");
-        }
-      )
-    }
-    else if (this.tradetype === "SELL") {
-      const body = {
-        name: this.singleclient.username,
-        cryptoType: this.cryptoTypeTrade,
-        price: this.amountTrade,
-        limit: {
-          minimum: this.limitMin,
-          maximum: this.limitMax
-        },
-        //amount: this.amount;
-        description: this.descriptionTrade,
-      }
-      this.userService.addOneSeller(body).subscribe(
+      // console.log('this is eth bodyyyy from' + body);
+
+
+      this.userService.addToRequest(body).subscribe(
         data => {
           console.log("got response from server", data);
-          this.message.success("Selling request send!");
+          this.message.success("Payment Sending request sent!");
+          this.isVisible = false;
           this.resetData();
-        }, error => {
-          this.message.error("Unable to set Selling request");
+          this.saveSendLoading = false;
+        },
+        error => {
+          this.saveSendLoading = false;
+          this.isVisible = false;
+          this.message.error("Unable to pay");
         }
-      )
+      );
+      this.handlesenderOk()
     }
+  }
 
+
+  confirm(): void {
+    if (!this.singleclient.isVerified) {
+      this.message.error("Please verify yourself in order to buy or sell");
+      this.resetData();
+    } else {
+      if (this.tradetype === "BUY") {
+        3
+        const body = {
+          cryptoType: this.cryptoTypeTrade,
+          percentage: this.amountTrade,
+          limit: {
+            minimum: this.limitMin,
+            maximum: this.limitMax
+          },
+          description: this.descriptionTrade,
+          clientId: this.singleclient._id,
+          amount: this.amountTrade
+        }
+        this.userService.addOneBuyer(body).subscribe(
+          data => {
+            this.message.success("Buying request send!");
+            this.resetData();
+          }, error => {
+            this.message.error("Unable to set Buying request");
+          }
+        )
+      }
+      else if (this.tradetype === "SELL") {
+        const body = {
+          name: this.singleclient.username,
+          cryptoType: this.cryptoTypeTrade,
+          price: this.amountTrade,
+          limit: {
+            minimum: this.limitMin,
+            maximum: this.limitMax
+          },
+          //amount: this.amount;
+          description: this.descriptionTrade,
+        }
+        this.userService.addOneSeller(body).subscribe(
+          data => {
+            console.log("got response from server", data);
+            this.message.success("Selling request send!");
+            this.resetData();
+          }, error => {
+            this.message.error("Unable to set Selling request");
+          }
+        )
+      }
+    }
   }
   withdraw(): void {
     const body = {

@@ -9,16 +9,7 @@
 
                     <div class="row text-center justify-content-md-center">
                         <button (click)="logout()" clas="row" type="button" class="btn btn-success">Logout</button>
-                        <!-- <div class="col-4">
-                            <a href="javascript:void(0)" class="link">
-                                <i class="icon-people m-r-10"></i>
-                            </a>
-                        </div>
-                        <div class="col-4">
-                            <a href="javascript:void(0)" class="link">
-                                <i class="icon-picture m-r-10"></i>
-                            </a>
-                        </div> -->
+                     
                     </div>
                 </div>
             </div>
@@ -60,7 +51,7 @@
                         </div>
                     </ng-template>
                 </ngb-tab>
-                <ngb-tab title="My wallet">
+                <ngb-tab title="My Wallet">
                     <ng-template ngbTabContent>
                         <div class="card-body">
                             <button type="button" (click)="showSendModal()" class="btn btn-success">Send</button>
@@ -71,25 +62,20 @@
                         </div>
                     </ng-template>
                 </ngb-tab>
-                <ngb-tab title="set payment">
+                <ngb-tab title="Set Payment">
                     <ng-template ngbTabContent>
                         <div class="card-body">
                             <app-activity></app-activity>
                         </div>
                     </ng-template>
                 </ngb-tab>
-                <ngb-tab title="Post Trade">
+                <ngb-tab title="Post a Trade">
                     <ng-template ngbTabContent>
                         <div class="col-sm-12 col-md-12 col-lg-12">
                             <div class="card">
                                 <div class="card-body">
                                     <div class="card-body1" [perfectScrollbar]="config">
                                         <form [formGroup]="postTradeData">
-                                            <div class="form-group">
-                                                <input type="text" class="form-control" id="nametext1"
-                                                    placeholder={{singleclient.username}} disabled>
-                                            </div>
-
                                             <h6>I want to:</h6>
                                             <div class="form-group m-b-30">
                                                 <select [(ngModel)]="tradetype" formControlName="formTradeType"
@@ -100,7 +86,7 @@
                                                 <small id="name" class="form-text text-muted">Select the type of
                                                     trade</small>
                                             </div>
-                                            <h6>CryptoType:</h6>
+                                            <h6>Currency:</h6>
                                             <div class="form-group m-b-30">
                                                 <select [(ngModel)]="cryptoTypeTrade" formControlName="formCryptoType"
                                                     class="custom-select mr-sm-2" id="inlineFormCustomSelect">
@@ -127,21 +113,15 @@
                                             </div>
 
 
-                                            <h6>Please enter the price:</h6>
+                                            <h6>Market Difference:</h6>
                                             <div class="form-group">
                                                 <input type="number" [(ngModel)]="amountTrade" (ngModelChange)="amountChangedtrade()"
                                                     class="form-control" formControlName="formpricePer"
-                                                    placeholder="$0.00" aria-describedby="basic-addon1">
-                                                <small id="name" class="form-text text-muted">please enter the price in
-                                                    dollars of per quantity
-                                                    BTC/ETH</small>
+                                                    placeholder="-100% - 100%" aria-describedby="basic-addon1">
+                                                <small id="name" class="form-text text-muted">Please enter the make differerence percentage</small>
                                             </div>
-                                            <div class="form-group">
-                                                <input type="text" [ngModelOptions]="{standalone: true}"
-                                                    [(ngModel)]="Change" class="form-control" id="nametext1"
-                                                    placeholder="Calculated change from market" disabled>
-                                            </div>
-                                            <h6 class="card-title">Description</h6>
+                                           
+                                            <h6 class="card-title">Terms and Conditions</h6>
                                             <div class="m-t-20">
                                                 <textarea formControlName="formdescription" class="form-control"
                                                     type="text" [(ngModel)]="descriptionTrade" rows="3"
@@ -208,6 +188,7 @@
                                                 <input type="number" [(ngModel)]="amountWithdraw"
                                                     formControlName="amountWithdraw" class="form-control" placeholder="">
                                             </div>
+                                            <small id="name" class="form-text text-muted">* Minimum 20$</small>
 
                                             <br>
                                             <div class="col-4 col-lg-2 col-md-4">

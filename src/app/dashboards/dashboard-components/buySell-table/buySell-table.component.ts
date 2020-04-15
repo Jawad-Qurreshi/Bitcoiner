@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { UserService } from 'sdk/user.service';
 import { NzMessageService } from 'ng-zorro-antd';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
-import { getLocaleMonthNames } from '@angular/common';
+import { Router } from "@angular/router"
 
 @Component({
   selector: "app-buySell-table",
@@ -12,13 +12,14 @@ import { getLocaleMonthNames } from '@angular/common';
 
 export class BuySelltableComponent {
   public config: PerfectScrollbarConfigInterface = {};
+  x;
   clientid
   selectedOne: any;
   deleteID: this;
 
-  constructor(private userservice: UserService, private message: NzMessageService) {
+  constructor(private router: Router,private userservice: UserService, private message: NzMessageService) {
 
-    const x = setInterval(() => {
+    this.x = setInterval(() => {
       this.ngOnInit();
     }, 10 * 1000);
   }
@@ -43,7 +44,11 @@ export class BuySelltableComponent {
         this.getEther();
       },
       err => {
-        console.log(err)
+        if(err.status === 401 )
+        this.message.error("Session expired please login again")
+          localStorage.removeItem("token");
+          clearInterval(this.x);
+          this.router.navigateByUrl("/authentication/login");
       }
     )
   }

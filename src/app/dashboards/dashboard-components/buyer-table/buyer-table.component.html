@@ -10,33 +10,33 @@
           <table class="table bg-white table-bordered nowrap display">
             <thead>
               <tr>
-                <th>Name</th>
+                
                 <th>Type of currency</th>
-                <th>Price</th>
+                <!-- <th>Price</th> -->
                 <th>Limit</th>
-                <th>Market change</th>
+                <th>Market difference</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let buyer of buyers">
-                <td>{{ buyer.name }}</td>
+              
                 <td>{{ buyer.cryptoType }}</td>
-                <td>${{ buyer.price }}</td>
+                <!-- <td>${{ buyer.price }}</td> -->
                 <td>{{ buyer.limit.minimum }} - {{ buyer.limit.maximum }} </td>
                 <td>
                   
-                  <span *ngIf="buyer.changeValue > 0">
+                  <span *ngIf="buyer.percentage > 0">
                     <i class="mdi mdi-arrow-up"></i>
-                    {{ buyer.changeValue | number : '1.2-2'}}%
+                    {{ buyer.percentage | number : '1.2-2'}}%
                   </span>
 
-                  <span *ngIf="buyer.changeValue < 0">
+                  <span *ngIf="buyer.percentage < 0">
                     <i class="mdi mdi-arrow-down"></i>
-                    {{ buyer.changeValue | number : '1.2-2'}}%
+                    {{ buyer.percentage | number : '1.2-2'}}%
                   </span>
 
-                  <span *ngIf="buyer.changeValue == 0">
-                    {{ buyer.changeValue | number : '1.2-2'}}%
+                  <span *ngIf="buyer.percentage == 0">
+                    {{ buyer.percentage | number : '1.2-2'}}%
                   </span>
 
                   <!-- <span >
@@ -61,12 +61,6 @@
   [nzOkLoading]="isOkLoading" [nzFooter]="modalFooter">
 
   <form [formGroup]="buydata">
-
-    <h6>Name:</h6>
-    <div class="input-group mb-3">
-      <input type="text" disabled class="form-control row" placeholder="{{selectedbuyer?.name}}"
-        aria-describedby="basic-addon1">
-    </div>
     <div class="input-group mb-3">
       <h6>Currency Type :</h6>
       <div class="input-group mb-3">

@@ -1,5 +1,8 @@
 import { Component, AfterViewInit } from '@angular/core';
 import { UserService } from "sdk/user.service";
+import { Router } from "@angular/router";
+import { NzMessageService } from "ng-zorro-antd";
+
 
 @Component({
   templateUrl: './dashboard2.component.html',
@@ -8,53 +11,47 @@ import { UserService } from "sdk/user.service";
 })
 export class Dashboard2Component implements AfterViewInit {
 
+  x;
   singleclient = [];
   myPendingRequests = [];
   myApprovedRequests = [];
   records = [];
-  constructor(private userservice: UserService) {
+  constructor(
+    private userservice: UserService,
+    private router : Router,
+    private message : NzMessageService) {
 
-    const x = setInterval(() => {
+    this.x = setInterval(() => {
       this.ngOnInit();
     }, 10 * 1000);
   }
 
   ngOnInit() {
-    var id = localStorage.getItem('ID');
-    //console.log("id from localstorage", id);
-    this.userservice.gettheclient(id).subscribe(
+    this.userservice.gettheclient().subscribe(
       response => {
-        if (response.message === 'TOKEN_INVALID' || response.message === 'TOKEN_NOT_SUPPLIED') {
-
-        } else {
           this.singleclient = response;
-        }
       },
       err => {
-        console.log("api error in single client", err);
+        if(err.status === 401 )
+        this.message.error("Session expired please login again")
+          localStorage.removeItem("token");
+          clearInterval(this.x);
+          this.router.navigateByUrl("/authentication/login");
       }
     );
 
-    this.userservice.getmypendingrequest(id).subscribe(
+    this.userservice.getmypendingrequest().subscribe(
       response => {
-        if (response.message === 'TOKEN_INVALID' || response.message === 'TOKEN_NOT_SUPPLIED') {
-
-        } else {
           this.myPendingRequests = response.requests;
-        }
       },
       err => {
         console.log("api error in my request retreaval", err);
       }
     );
 
-    this.userservice.getmyapprovedrequest(id).subscribe(
+    this.userservice.getmyapprovedrequest().subscribe(
       response => {
-        if (response.message === 'TOKEN_INVALID' || response.message === 'TOKEN_NOT_SUPPLIED') {
-
-        } else {
           this.myApprovedRequests = response.requests;
-        }
       },
       err => {
         console.log("api error in my request retreaval", err);
@@ -63,11 +60,7 @@ export class Dashboard2Component implements AfterViewInit {
 
     this.userservice.getSummery().subscribe(
       response => {
-        if (response.message === 'TOKEN_INVALID' || response.message === 'TOKEN_NOT_SUPPLIED') {
-
-        } else {
           this.records = response.posts;
-        }
         err => {
           console.log("error in api" + err)
         }

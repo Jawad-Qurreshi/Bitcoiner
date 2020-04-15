@@ -2,6 +2,7 @@ import { NzMessageService } from "ng-zorro-antd";
 import { Component, Input } from '@angular/core';
 import { UserService } from 'sdk/user.service';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
+import { Router } from "@angular/router"
 
 @Component({
   selector: "app-ClientWithdrawrequest-table",
@@ -12,11 +13,13 @@ import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 export class ClientWithdrawRequesttableComponent {
   public config: PerfectScrollbarConfigInterface = {};
   selectedRequest: any;
+  x;
   constructor(
     private message: NzMessageService,
     private userservice: UserService, 
+    private router : Router
     ) {
-      const x = setInterval(() => {
+      this.x = setInterval(() => {
         this.ngOnInit();
       }, 10 * 1000);
     }
@@ -38,7 +41,11 @@ export class ClientWithdrawRequesttableComponent {
         this.requests = response.requests 
       },
       err => {
-         console.log("Error while retriving client withdraw request");
+        if(err.status === 401 )
+        this.message.error("Session expired please login again")
+          localStorage.removeItem("token");
+          clearInterval(this.x);
+          this.router.navigateByUrl("/authentication/login");
       }
     )
   }
