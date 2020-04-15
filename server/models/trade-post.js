@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const tradePostSchema = new Schema({
-    name: String,
     cryptoType: String,
     isConcluded: { type: Boolean, default: false },
     price: Intl,

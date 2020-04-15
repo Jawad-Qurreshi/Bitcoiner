@@ -74,7 +74,6 @@ mongoose.connect(dbUrl, { useUnifiedTopology: true, useNewUrlParser: true }, fun
         limit.maximum = parseFloat(limit.maximum);
 
         const buyPost = new TradePost({
-            name: body.name,
             cryptoType: body.cryptoType,
             price: parseFloat(body.price),
             description: body.description,
@@ -134,7 +133,6 @@ mongoose.connect(dbUrl, { useUnifiedTopology: true, useNewUrlParser: true }, fun
         limit.minimum = parseFloat(limit.minimum);
         limit.maximum = parseFloat(limit.maximum);
         const sellPost = new TradePost({
-            name: body.name,
             limit: limit,
             cryptoType: body.cryptoType,
             price: parseFloat(body.price),

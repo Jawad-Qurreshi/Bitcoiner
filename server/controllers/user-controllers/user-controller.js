@@ -108,7 +108,7 @@ module.exports.logIn = async (req, res) => {
             if (!err) {
                 if (isMatched) {
                     id = result._id;
-                    token = jwt.sign({ userid: result._id }, config.secret.USER, { expiresIn: 1000 * 60 * 60, algorithm: 'HS256' });
+                    token = jwt.sign({ userid: result._id }, config.secret.USER, { expiresIn: 1000 * 60 * 15, algorithm: 'HS256' });
                     res.status(200).json({
                         id: id,
                         token: token,
