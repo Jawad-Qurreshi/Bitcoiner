@@ -195,9 +195,10 @@ module.exports.requestWithDraw = (req, res) => {
     const body = req.body;
     const minimum = config.min;
     body.amount = parseFloat(body.amount);
+    const deduction = body.amount + (body.amount * (config.profit.WITHDRAW / 100))
     Client.findOne({ _id: clientId }).exec()
         .then(client => {
-            if (client.dollar >= body.amount) {
+            if (client.dollar >= deduction) {
                 if (body.amount >= minimum) {
                     const withdrawRequest = new WithdrawRequest({
                         accountTitle: body.accountTitle,
@@ -209,8 +210,8 @@ module.exports.requestWithDraw = (req, res) => {
                         client: clientId,
                     });
                     // Reserving the dollars so the client could only perform transaction if the amount is more than requested 
-                    client.dollar -= body.amount;
-                    client.reservedDollar += body.amount;
+                    client.dollar -= deduction;
+                    client.reservedDollar += deduction;
                     client.save()
                         .then(stored => {
                             withdrawRequest.save();

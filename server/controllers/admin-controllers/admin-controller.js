@@ -155,12 +155,14 @@ module.exports.verifyWithdraw = (req, res) => {
 
 	WithdrawRequest.findOne({ _id: id }).exec()
 		.then(request => {
-			console.log(request)
+			const deduction = request.amount + (request.amount * (config.profit.WITHDRAW / 100));
 			Client.findOne({ _id: request.client }).exec()
 				.then(client => {
 					request.status = 'Approved';
 					request.approvedAt = Date.now();
-					client.reservedDollar -= parseFloat(request.amount);
+					client.reservedDollar -= parseFloat(deduction);
+					const adminProfit = deduction - request.amount;
+					this.addToAdmin(adminProfit);
 					request.save()
 						.then(stored => {
 							client.save();
@@ -214,20 +216,20 @@ module.exports.getWithdrawRequests = (req, res) => {
 module.exports.getAllClients = (req, res) => {
 
 	Client.find()
-	.select('username email address phone btc eth dollar isVerified')
-	.exec()
-	.then(clients => {
-		res.status(200).json({
-			isSuccess: true,
-			clients: clients
+		.select('username email address phone btc eth dollar isVerified')
+		.exec()
+		.then(clients => {
+			res.status(200).json({
+				isSuccess: true,
+				clients: clients
+			});
+		})
+		.catch(err => {
+			res.status(500).json({
+				isSuccess: false,
+				message: 'INTERNAL_ERROR'
+			});
 		});
-	})
-	.catch(err => {
-		res.status(500).json({
-			isSuccess: false,
-			message: 'INTERNAL_ERROR'
-		});
-	});
 }
 
 //Requests
@@ -319,5 +321,24 @@ module.exports.getApprovedRequests = (req, res) => {
 				isSuccess: false,
 				message: err
 			});
+		});
+}
+
+module.exports.addToAdmin = adminShare => {
+
+	Admin.findOne()
+		.exec()
+		.then(admin => {
+			admin.profit += adminShare;
+			admin.save()
+				.then(saved => {
+					console.log('ADMIN_SHARE: ' + 'Success');
+				})
+				.catch(err => {
+					console.log('ADMIN_SHARE: ' + err.message)
+				});
+		})
+		.catch(err => {
+			console.log('ADMIN_SHARE: ' + err.message)
 		});
 }

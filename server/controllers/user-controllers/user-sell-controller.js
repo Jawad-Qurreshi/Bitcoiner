@@ -1,6 +1,7 @@
 const TradePost = require('../../models/trade-post');
 const Client = require('../../models/client');
-const Admin = require('../../models/Admin');
+const Admin = require('../../models/admin');
+const addToAdmin = require('../admin-controllers/admin-controller').addToAdmin;
 const config = require('../../config');
 
 
@@ -167,24 +168,4 @@ const performTransaction = (buyer, seller, post, body) => {
             }
         }
     });
-}
-
-
-const addToAdmin = adminShare => {
-
-    Admin.findOne()
-        .exec()
-        .then(admin => {
-            admin.profit += adminShare;
-            admin.save()
-                .then(saved => {
-                    console.log('ADMIN_SHARE: ' + 'Success');
-                })
-                .catch(err => {
-                    console.log('ADMIN_SHARE: ' + err.message)
-                });
-        })
-        .catch(err => {
-            console.log('ADMIN_SHARE: ' + err.message)
-        });
 }
