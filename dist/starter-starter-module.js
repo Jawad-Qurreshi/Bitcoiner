@@ -1,13 +1,15 @@
 (window["webpackJsonp"] = window["webpackJsonp"] || []).push([["starter-starter-module"],{
 
-/***/ "./node_modules/raw-loader/index.js!./src/app/starter/starter.component.html":
-/*!**************************************************************************!*\
-  !*** ./node_modules/raw-loader!./src/app/starter/starter.component.html ***!
-  \**************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/***/ "./node_modules/raw-loader/dist/cjs.js!./src/app/starter/starter.component.html":
+/*!**************************************************************************************!*\
+  !*** ./node_modules/raw-loader/dist/cjs.js!./src/app/starter/starter.component.html ***!
+  \**************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-module.exports = "<div class=\"row\">\r\n    <div class=\"col-12\">\r\n        <div class=\"card\">\r\n            <div class=\"card-body\">\r\n                {{subtitle}}\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>"
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"row\">\r\n    <div class=\"col-12\">\r\n        <div class=\"card\">\r\n            <div class=\"card-body\">\r\n                {{subtitle}}\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>");
 
 /***/ }),
 
@@ -31,6 +33,9 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __importDefault = (undefined && undefined.__importDefault) || function (mod) {
+  return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 
 var StarterComponent = /** @class */ (function () {
     function StarterComponent() {
@@ -39,7 +44,7 @@ var StarterComponent = /** @class */ (function () {
     StarterComponent.prototype.ngAfterViewInit = function () { };
     StarterComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
-            template: __webpack_require__(/*! raw-loader!./starter.component.html */ "./node_modules/raw-loader/index.js!./src/app/starter/starter.component.html")
+            template: __importDefault(__webpack_require__(/*! raw-loader!./starter.component.html */ "./node_modules/raw-loader/dist/cjs.js!./src/app/starter/starter.component.html")).default
         }),
         __metadata("design:paramtypes", [])
     ], StarterComponent);
@@ -70,6 +75,9 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __importDefault = (undefined && undefined.__importDefault) || function (mod) {
+  return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 
 

@@ -32,6 +32,7 @@ export class Dashboard2Component implements AfterViewInit {
           this.singleclient = response;
       },
       err => {
+        console.log("this the hammad bhai error"+err.error.message)
         if(err.status === 401 )
         this.message.error("Session expired please login again")
           localStorage.removeItem("token");

@@ -54,6 +54,7 @@ export class ProfileComponent implements OnInit {
   coinType = '';
   coinTypeSend = '';
 
+  copyaddress = '';
   amountReceive;
   amountSend;
   amountTrade;
@@ -62,12 +63,16 @@ export class ProfileComponent implements OnInit {
   addressToSend;
   descriptionSend;
 
+  cryptoExchange;
+  usdExchange
+
   optionValue;
   optionValue12;
 
   senderform: FormGroup;
   postTradeData: FormGroup;
   withdrawData: FormGroup;
+  exchangeData: FormGroup;
   usdAmount = 0;
   name: any;
   @Input() singleclient;
@@ -75,6 +80,7 @@ export class ProfileComponent implements OnInit {
   bitcurrent: any;
   saveReceivedLoading = false;
   saveSendLoading = false;
+  cryptoExchangeSelect
 
 
   constructor(
@@ -129,6 +135,12 @@ export class ProfileComponent implements OnInit {
       postalCode: ["", [Validators.required, Validators.maxLength(5), Validators.minLength(5)]],
       amountWithdraw: ["", [Validators.required, Validators.min(20)]]
     })
+
+    // this.exchangeData = this.fb.group({
+    //   cryptoExchange: ["", [Validators.required]],
+    //   usdExchange: ["",[Validators.required]]
+    // ]
+    // })
   }
 
   logout() {
@@ -243,7 +255,6 @@ export class ProfileComponent implements OnInit {
   saveReceieved(): void {
 
     this.saveReceivedLoading = true;
-    console.log("this is receiving side", this.addressFrom);
     const body = {
       username: this.singleclient.username,
       email: this.singleclient.email,
@@ -257,13 +268,11 @@ export class ProfileComponent implements OnInit {
 
     this.userService.addToRequest(body).subscribe(
       data => {
-        console.log("got response from server", data);
         this.message.success("Payment receiving request sent!");
         this.is2ndVisible = false;
         this.resetData();
       },
       error => {
-        console.log(error.message);
         this.saveReceivedLoading = false;
         this.is2ndVisible = false;
         this.message.error("Unable to pay");
@@ -282,7 +291,6 @@ export class ProfileComponent implements OnInit {
       let receiverAddress;
       if (this.coinTypeSend === 'BTC') {
         receiverAddress = this.singleclient.btcAddress;
-        console.log('this is btc add from' + receiverAddress);
       } else if (this.coinTypeSend === 'ETH') {
         receiverAddress = this.singleclient.ethAddress;
 
@@ -390,6 +398,25 @@ export class ProfileComponent implements OnInit {
       }
 
     )
+  }
+
+  copyText(): void {
+    var copyaddress = document.getElementById("walletAddress") as HTMLInputElement;
+    copyaddress.select();
+    copyaddress.setSelectionRange(0, 99999)
+    document.execCommand("copy");
+    alert("Copied the text: " + copyaddress);
+  }
+
+  exchangeCalc() {
+    const crypto = this.cryptoExchange;
+    console.log("This is "+this.cryptoExchangeSelect)
+    if (this.cryptoExchangeSelect === "btc") {
+      this.usdExchange = crypto * this.bitcurrent;
+    } else {
+      this.usdExchange = crypto * this.ethcurrent;
+    }
+
   }
 
   resetData() {

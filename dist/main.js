@@ -1,35 +1,118 @@
 (window["webpackJsonp"] = window["webpackJsonp"] || []).push([["main"],{
 
-/***/ "./node_modules/raw-loader/index.js!./src/app/app.component.html":
-/*!**************************************************************!*\
-  !*** ./node_modules/raw-loader!./src/app/app.component.html ***!
-  \**************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/***/ "./node_modules/raw-loader/dist/cjs.js!./src/app/app.component.html":
+/*!**************************************************************************!*\
+  !*** ./node_modules/raw-loader/dist/cjs.js!./src/app/app.component.html ***!
+  \**************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-module.exports = "<ng2-slim-loading-bar></ng2-slim-loading-bar>\r\n<router-outlet>\r\n    <app-spinner></app-spinner>\r\n</router-outlet>"
-
-/***/ }),
-
-/***/ "./node_modules/raw-loader/index.js!./src/app/shared/breadcrumb/breadcrumb.component.html":
-/*!***************************************************************************************!*\
-  !*** ./node_modules/raw-loader!./src/app/shared/breadcrumb/breadcrumb.component.html ***!
-  \***************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "<!-- ============================================================== -->\r\n<!-- Bread crumb and right sidebar toggle -->\r\n<!-- ============================================================== -->\r\n<!-- <div class=\"page-breadcrumb\">\r\n    <div class=\"row\">\r\n        <div class=\"col-5 align-self-center\">\r\n            <h4 class=\"page-title\">{{pageInfo?.title}}</h4>\r\n            <div class=\"d-flex align-items-center\">\r\n\r\n            </div>\r\n        </div>\r\n        <div class=\"col-7 align-self-center\">\r\n            <div class=\"d-flex no-block justify-content-end align-items-center\">\r\n                <nav aria-label=\"breadcrumb\">\r\n                    <ol class=\"breadcrumb\">\r\n                        <ng-template ngFor let-url [ngForOf]=\"pageInfo?.urls\" let-last=\"last\">\r\n                            <li class=\"breadcrumb-item\" *ngIf=\"!last\" [routerLink]=\"url.url\">\r\n                                <a href='javascript:void(0)'>{{url.title}}</a>\r\n                            </li>\r\n                            <li class=\"breadcrumb-item active\" *ngIf=\"last\">{{url.title}}</li>\r\n                        </ng-template>\r\n                    </ol>\r\n                </nav>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div> -->\r\n<!-- ============================================================== -->\r\n<!-- End Bread crumb and right sidebar toggle -->\r\n<!-- ============================================================== -->"
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ("<ng2-slim-loading-bar></ng2-slim-loading-bar>\r\n<router-outlet>\r\n    <app-spinner></app-spinner>\r\n</router-outlet>");
 
 /***/ }),
 
-/***/ "./node_modules/raw-loader/index.js!./src/app/shared/sidebar/sidebar.component.html":
-/*!*********************************************************************************!*\
-  !*** ./node_modules/raw-loader!./src/app/shared/sidebar/sidebar.component.html ***!
-  \*********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/***/ "./sdk/guard.service.ts":
+/*!******************************!*\
+  !*** ./sdk/guard.service.ts ***!
+  \******************************/
+/*! exports provided: GuardService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-module.exports = "<!-- <nav class=\"sidebar-nav\">\r\n    <ul id=\"sidebarnav\">\r\n        \r\n        <li class=\"sidebar-item\" [ngClass]=\"[sidebarnavItem.ddclass]\" [class.active]=\"showMenu === sidebarnavItem.title\" *ngFor=\"let sidebarnavItem of sidebarnavItems\"\r\n            [routerLinkActive]=\"sidebarnavItem.submenu.length != 0 ? '' : 'active'\">\r\n            <div class=\"nav-small-cap\" *ngIf=\"sidebarnavItem.extralink === true\">{{sidebarnavItem.title}}</div>\r\n            <a class=\"sidebar-link waves-effect waves-dark\" [routerLink]=\"sidebarnavItem.class === '' ? [sidebarnavItem.path] : null\"\r\n                [ngClass]=\"[sidebarnavItem.class]\" *ngIf=\"!sidebarnavItem.extralink;\" (click)=\"addExpandClass(sidebarnavItem.title)\"\r\n                [routerLinkActive]=\"sidebarnavItem.submenu.length != 0 ? '' : 'active'\">\r\n                <i [ngClass]=\"[sidebarnavItem.icon]\"></i>\r\n                <span class=\"hide-menu\">{{sidebarnavItem.title}}</span>\r\n            </a>\r\n        \r\n            <ul aria-expanded=\"false\" class=\"collapse first-level\" *ngIf=\"sidebarnavItem.submenu.length > 0\" [ngClass]=\"{'in' : showMenu === sidebarnavItem.title }\">\r\n                <li class=\"sidebar-item\" *ngFor=\"let sidebarnavSubItem of sidebarnavItem.submenu\" [class.active]=\"showSubMenu === sidebarnavSubItem.title\"\r\n                    [routerLinkActive]=\"sidebarnavSubItem.submenu.length > 0 ? '' : 'active'\">\r\n                    <a class=\"sidebar-link\" [routerLink]=\"sidebarnavSubItem.submenu.length > 0 ? null : [sidebarnavSubItem.path]\" [routerLinkActive]=\"sidebarnavSubItem.submenu.length > 0 ? '' : 'router-link-active'\"\r\n                        [ngClass]=\"[sidebarnavSubItem.class]\" *ngIf=\"!sidebarnavSubItem.extralink;\" (click)=\"addActiveClass(sidebarnavSubItem.title)\">\r\n                        <i [ngClass]=\"[sidebarnavSubItem.icon]\"></i>\r\n                        <span class=\"hide-menu\">{{sidebarnavSubItem.title}}</span>\r\n                    </a>\r\n                    \r\n                    <ul aria-expanded=\"false\" class=\"collapse second-level\" *ngIf=\"sidebarnavSubItem.submenu.length > 0\" [ngClass]=\"{'in' : showSubMenu === sidebarnavSubItem.title }\">\r\n                        <li class=\"sidebar-item\" *ngFor=\"let sidebarnavSubsubItem of sidebarnavSubItem.submenu\" routerLinkActive=\"active\" [ngClass]=\"[sidebarnavSubsubItem.class]\">\r\n                            <a class=\"sidebar-link\" [routerLink]=\"[sidebarnavSubsubItem.path]\" *ngIf=\"!sidebarnavSubsubItem.extralink;\" [routerLinkActive]=\"sidebarnavSubsubItem.submenu.length > 0 ? '' : 'router-link-active'\">\r\n                                <i [ngClass]=\"[sidebarnavSubsubItem.icon]\"></i>\r\n                                <span class=\"hide-menu\">{{sidebarnavSubsubItem.title}}</span>\r\n                            </a>\r\n                        </li>\r\n                    </ul>\r\n                </li>\r\n            </ul>\r\n        </li>\r\n    </ul>\r\n</nav> -->"
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GuardService", function() { return GuardService; });
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var ng_zorro_antd__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ng-zorro-antd */ "./node_modules/ng-zorro-antd/fesm5/ng-zorro-antd.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (undefined && undefined.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
+var __importDefault = (undefined && undefined.__importDefault) || function (mod) {
+  return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+
+
+
+var GuardService = /** @class */ (function () {
+    function GuardService(router, message) {
+        this.router = router;
+        this.message = message;
+    }
+    GuardService.prototype.canActivate = function () {
+        var token = localStorage.getItem('token');
+        if (token) {
+            return true;
+        }
+        else {
+            this.router.navigate(['authentication/login']);
+            this.presentAlertConfirm();
+        }
+    };
+    GuardService.prototype.presentAlertConfirm = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                this.message.error("Please Login first");
+                return [2 /*return*/];
+            });
+        });
+    };
+    GuardService.ctorParameters = function () { return [
+        { type: _angular_router__WEBPACK_IMPORTED_MODULE_0__["Router"] },
+        { type: ng_zorro_antd__WEBPACK_IMPORTED_MODULE_1__["NzMessageService"] }
+    ]; };
+    GuardService = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["Injectable"])({
+            providedIn: 'root'
+        }),
+        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_0__["Router"], ng_zorro_antd__WEBPACK_IMPORTED_MODULE_1__["NzMessageService"]])
+    ], GuardService);
+    return GuardService;
+}());
+
+
 
 /***/ }),
 
@@ -41,29 +124,10 @@ module.exports = "<!-- <nav class=\"sidebar-nav\">\r\n    <ul id=\"sidebarnav\">
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
-	"./apps/apps.module": [
-		"./src/app/apps/apps.module.ts",
-		"default~apps-apps-module~dashboards-dashboard-module",
-		"default~apps-apps-module~extra-component-extra-component-module",
-		"apps-apps-module"
-	],
-	"./apps/email/mail.module": [
-		"./src/app/apps/email/mail.module.ts",
-		"apps-email-mail-module"
-	],
 	"./authentication/authentication.module": [
 		"./src/app/authentication/authentication.module.ts",
-		"common",
+		"default~authentication-authentication-module~dashboards-dashboard-module",
 		"authentication-authentication-module"
-	],
-	"./cards/cards.module": [
-		"./src/app/cards/cards.module.ts",
-		"cards-cards-module"
-	],
-	"./charts/charts.module": [
-		"./src/app/charts/charts.module.ts",
-		"default~charts-charts-module~dashboards-dashboard-module",
-		"charts-charts-module"
 	],
 	"./component/component.module": [
 		"./src/app/component/component.module.ts",
@@ -71,58 +135,12 @@ var map = {
 	],
 	"./dashboards/dashboard.module": [
 		"./src/app/dashboards/dashboard.module.ts",
-		"default~charts-charts-module~dashboards-dashboard-module",
-		"default~apps-apps-module~dashboards-dashboard-module",
-		"default~dashboards-dashboard-module~table-tables-module",
-		"common",
+		"default~authentication-authentication-module~dashboards-dashboard-module",
 		"dashboards-dashboard-module"
-	],
-	"./ecommerce/ecom.module": [
-		"./src/app/ecommerce/ecom.module.ts",
-		"ecommerce-ecom-module"
-	],
-	"./extra-component/extra-component.module": [
-		"./src/app/extra-component/extra-component.module.ts",
-		"default~apps-apps-module~extra-component-extra-component-module",
-		"extra-component-extra-component-module"
-	],
-	"./form/forms.module": [
-		"./src/app/form/forms.module.ts",
-		"default~form-forms-module~ngx-wizard-ngx-wizard-module",
-		"form-forms-module"
-	],
-	"./icons/icons.module": [
-		"./src/app/icons/icons.module.ts",
-		"icons-icons-module"
-	],
-	"./maps/maps.module": [
-		"./src/app/maps/maps.module.ts",
-		"maps-maps-module"
-	],
-	"./ngx-wizard/ngx-wizard.module": [
-		"./src/app/form/ngx-wizard/ngx-wizard.module.ts",
-		"default~form-forms-module~ngx-wizard-ngx-wizard-module"
-	],
-	"./sample-pages/sample-pages.module": [
-		"./src/app/sample-pages/sample-pages.module.ts",
-		"sample-pages-sample-pages-module"
 	],
 	"./starter/starter.module": [
 		"./src/app/starter/starter.module.ts",
 		"starter-starter-module"
-	],
-	"./table/tables.module": [
-		"./src/app/table/tables.module.ts",
-		"default~dashboards-dashboard-module~table-tables-module",
-		"table-tables-module"
-	],
-	"./timeline/timeline.module": [
-		"./src/app/timeline/timeline.module.ts",
-		"timeline-timeline-module"
-	],
-	"./widgets/widgets.module": [
-		"./src/app/widgets/widgets.module.ts",
-		"widgets-widgets-module"
 	]
 };
 function webpackAsyncContext(req) {
@@ -157,6 +175,11 @@ module.exports = webpackAsyncContext;
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Approutes", function() { return Approutes; });
+/* harmony import */ var _sdk_guard_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../sdk/guard.service */ "./sdk/guard.service.ts");
+var __importDefault = (undefined && undefined.__importDefault) || function (mod) {
+  return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+
 var Approutes = [
     {
         path: "",
@@ -165,7 +188,8 @@ var Approutes = [
     {
         path: "dashboard1",
         redirectTo: "/dashboard/dashboard1",
-        pathMatch: "full"
+        pathMatch: "full",
+        canActivate: [_sdk_guard_service__WEBPACK_IMPORTED_MODULE_0__["GuardService"]]
     },
     {
         path: "dashboard",
@@ -175,41 +199,13 @@ var Approutes = [
         path: "component",
         loadChildren: "./component/component.module#ComponentsModule"
     },
-    { path: "cards", loadChildren: "./cards/cards.module#CardsModule" },
-    { path: "icons", loadChildren: "./icons/icons.module#IconsModule" },
-    { path: "forms", loadChildren: "./form/forms.module#FormModule" },
-    { path: "tables", loadChildren: "./table/tables.module#TablesModule" },
-    { path: "charts", loadChildren: "./charts/charts.module#ChartModule" },
-    {
-        path: "widgets",
-        loadChildren: "./widgets/widgets.module#WidgetsModule"
-    },
-    { path: "ecom", loadChildren: "./ecommerce/ecom.module#EcomModule" },
-    {
-        path: "timeline",
-        loadChildren: "./timeline/timeline.module#TimelineModule"
-    },
-    {
-        path: "extra-component",
-        loadChildren: "./extra-component/extra-component.module#ExtraComponentModule"
-    },
-    { path: "apps", loadChildren: "./apps/apps.module#AppsModule" },
-    {
-        path: "apps/email",
-        loadChildren: "./apps/email/mail.module#MailModule"
-    },
-    { path: "maps", loadChildren: "./maps/maps.module#MapsModule" },
-    {
-        path: "sample-pages",
-        loadChildren: "./sample-pages/sample-pages.module#SamplePagesModule"
-    },
     {
         path: "authentication",
         loadChildren: "./authentication/authentication.module#AuthenticationModule"
     },
     {
         path: "**",
-        redirectTo: "/dashboard/dashboard1"
+        redirectTo: "./starter/starter.module#StarterModule"
     }
 ];
 
@@ -220,10 +216,12 @@ var Approutes = [
 /*!***********************************!*\
   !*** ./src/app/app.component.css ***!
   \***********************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2FwcC5jb21wb25lbnQuY3NzIn0= */"
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ("\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2FwcC5jb21wb25lbnQuY3NzIn0= */");
 
 /***/ }),
 
@@ -248,6 +246,9 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 };
 var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __importDefault = (undefined && undefined.__importDefault) || function (mod) {
+  return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 
 
@@ -281,8 +282,8 @@ var AppComponent = /** @class */ (function () {
     AppComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-root',
-            template: __webpack_require__(/*! raw-loader!./app.component.html */ "./node_modules/raw-loader/index.js!./src/app/app.component.html"),
-            styles: [__webpack_require__(/*! ./app.component.css */ "./src/app/app.component.css")]
+            template: __importDefault(__webpack_require__(/*! raw-loader!./app.component.html */ "./node_modules/raw-loader/dist/cjs.js!./src/app/app.component.html")).default,
+            styles: [__importDefault(__webpack_require__(/*! ./app.component.css */ "./src/app/app.component.css")).default]
         }),
         __metadata("design:paramtypes", [ng2_slim_loading_bar__WEBPACK_IMPORTED_MODULE_2__["SlimLoadingBarService"], _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"]])
     ], AppComponent);
@@ -311,20 +312,24 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 /* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ "./node_modules/@ng-bootstrap/ng-bootstrap/fesm5/ng-bootstrap.js");
-/* harmony import */ var _agm_core__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @agm/core */ "./node_modules/@agm/core/index.js");
+/* harmony import */ var _agm_core__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @agm/core */ "./node_modules/@agm/core/fesm5/agm-core.js");
 /* harmony import */ var ng2_slim_loading_bar__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ng2-slim-loading-bar */ "./node_modules/ng2-slim-loading-bar/index.js");
 /* harmony import */ var ng_multiselect_dropdown__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ng-multiselect-dropdown */ "./node_modules/ng-multiselect-dropdown/fesm5/ng-multiselect-dropdown.js");
-/* harmony import */ var _shared_sidebar_sidebar_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./shared/sidebar/sidebar.component */ "./src/app/shared/sidebar/sidebar.component.ts");
-/* harmony import */ var _shared_breadcrumb_breadcrumb_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./shared/breadcrumb/breadcrumb.component */ "./src/app/shared/breadcrumb/breadcrumb.component.ts");
-/* harmony import */ var _app_routing_module__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./app-routing.module */ "./src/app/app-routing.module.ts");
-/* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
-/* harmony import */ var _shared_spinner_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./shared/spinner.component */ "./src/app/shared/spinner.component.ts");
-/* harmony import */ var ngx_perfect_scrollbar__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ngx-perfect-scrollbar */ "./node_modules/ngx-perfect-scrollbar/dist/ngx-perfect-scrollbar.es5.js");
+/* harmony import */ var _app_routing_module__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./app-routing.module */ "./src/app/app-routing.module.ts");
+/* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
+/* harmony import */ var _shared_spinner_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./shared/spinner.component */ "./src/app/shared/spinner.component.ts");
+/* harmony import */ var ngx_perfect_scrollbar__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ngx-perfect-scrollbar */ "./node_modules/ngx-perfect-scrollbar/dist/ngx-perfect-scrollbar.es5.js");
+/* harmony import */ var _angular_common_locales_en__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @angular/common/locales/en */ "./node_modules/@angular/common/locales/en.js");
+/* harmony import */ var _angular_common_locales_en__WEBPACK_IMPORTED_MODULE_15___default = /*#__PURE__*/__webpack_require__.n(_angular_common_locales_en__WEBPACK_IMPORTED_MODULE_15__);
+/* harmony import */ var ng_zorro_antd__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ng-zorro-antd */ "./node_modules/ng-zorro-antd/fesm5/ng-zorro-antd.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __importDefault = (undefined && undefined.__importDefault) || function (mod) {
+  return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 
 
@@ -337,6 +342,8 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 
+//import { SidebarComponent } from './shared/sidebar/sidebar.component';
+//import { BreadcrumbComponent } from './shared/breadcrumb/breadcrumb.component';
 
 
 
@@ -344,6 +351,8 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 
+
+Object(_angular_common__WEBPACK_IMPORTED_MODULE_2__["registerLocaleData"])(_angular_common_locales_en__WEBPACK_IMPORTED_MODULE_15___default.a);
 var DEFAULT_PERFECT_SCROLLBAR_CONFIG = {
     suppressScrollX: true,
     wheelSpeed: 1,
@@ -356,1116 +365,42 @@ var AppModule = /** @class */ (function () {
     AppModule = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_3__["NgModule"])({
             declarations: [
-                _app_component__WEBPACK_IMPORTED_MODULE_14__["AppComponent"],
-                _shared_spinner_component__WEBPACK_IMPORTED_MODULE_15__["SpinnerComponent"],
-                _shared_breadcrumb_breadcrumb_component__WEBPACK_IMPORTED_MODULE_12__["BreadcrumbComponent"],
-                _shared_sidebar_sidebar_component__WEBPACK_IMPORTED_MODULE_11__["SidebarComponent"]
+                _app_component__WEBPACK_IMPORTED_MODULE_12__["AppComponent"],
+                _shared_spinner_component__WEBPACK_IMPORTED_MODULE_13__["SpinnerComponent"],
             ],
             imports: [
                 _angular_common__WEBPACK_IMPORTED_MODULE_2__["CommonModule"],
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"],
                 _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_1__["BrowserAnimationsModule"],
+                ng_zorro_antd__WEBPACK_IMPORTED_MODULE_16__["NgZorroAntdModule"],
                 _angular_forms__WEBPACK_IMPORTED_MODULE_4__["FormsModule"],
                 _angular_common_http__WEBPACK_IMPORTED_MODULE_5__["HttpClientModule"],
+                _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_1__["BrowserAnimationsModule"],
                 _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_7__["NgbModule"].forRoot(),
                 ng2_slim_loading_bar__WEBPACK_IMPORTED_MODULE_9__["SlimLoadingBarModule"].forRoot(),
-                _angular_router__WEBPACK_IMPORTED_MODULE_6__["RouterModule"].forRoot(_app_routing_module__WEBPACK_IMPORTED_MODULE_13__["Approutes"], { useHash: false }),
-                ngx_perfect_scrollbar__WEBPACK_IMPORTED_MODULE_16__["PerfectScrollbarModule"],
+                _angular_router__WEBPACK_IMPORTED_MODULE_6__["RouterModule"].forRoot(_app_routing_module__WEBPACK_IMPORTED_MODULE_11__["Approutes"], { useHash: false }),
+                ngx_perfect_scrollbar__WEBPACK_IMPORTED_MODULE_14__["PerfectScrollbarModule"],
                 ng_multiselect_dropdown__WEBPACK_IMPORTED_MODULE_10__["NgMultiSelectDropDownModule"].forRoot(),
                 _agm_core__WEBPACK_IMPORTED_MODULE_8__["AgmCoreModule"].forRoot({ apiKey: 'AIzaSyBUb3jDWJQ28vDJhuQZxkC0NXr_zycm8D0' })
             ],
             providers: [
                 {
-                    provide: ngx_perfect_scrollbar__WEBPACK_IMPORTED_MODULE_16__["PERFECT_SCROLLBAR_CONFIG"],
-                    useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
+                    provide: ngx_perfect_scrollbar__WEBPACK_IMPORTED_MODULE_14__["PERFECT_SCROLLBAR_CONFIG"],
+                    useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG,
+                },
+                {
+                    provide: ng_zorro_antd__WEBPACK_IMPORTED_MODULE_16__["NZ_I18N"],
+                    useValue: ng_zorro_antd__WEBPACK_IMPORTED_MODULE_16__["en_US"]
                 },
                 {
                     provide: _angular_common__WEBPACK_IMPORTED_MODULE_2__["LocationStrategy"],
                     useClass: _angular_common__WEBPACK_IMPORTED_MODULE_2__["HashLocationStrategy"]
                 }
             ],
-            bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_14__["AppComponent"]]
+            bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_12__["AppComponent"]]
         })
     ], AppModule);
     return AppModule;
-}());
-
-
-
-/***/ }),
-
-/***/ "./src/app/shared/breadcrumb/breadcrumb.component.ts":
-/*!***********************************************************!*\
-  !*** ./src/app/shared/breadcrumb/breadcrumb.component.ts ***!
-  \***********************************************************/
-/*! exports provided: BreadcrumbComponent */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BreadcrumbComponent", function() { return BreadcrumbComponent; });
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm5/platform-browser.js");
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
-/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
-var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (undefined && undefined.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-
-var BreadcrumbComponent = /** @class */ (function () {
-    function BreadcrumbComponent(router, activatedRoute, titleService) {
-        var _this = this;
-        this.router = router;
-        this.activatedRoute = activatedRoute;
-        this.titleService = titleService;
-        this.router.events
-            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["filter"])(function (event) { return event instanceof _angular_router__WEBPACK_IMPORTED_MODULE_2__["NavigationEnd"]; }))
-            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["map"])(function () { return _this.activatedRoute; }))
-            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["map"])(function (route) {
-            while (route.firstChild) {
-                route = route.firstChild;
-            }
-            return route;
-        }))
-            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["filter"])(function (route) { return route.outlet === 'primary'; }))
-            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["mergeMap"])(function (route) { return route.data; }))
-            .subscribe(function (event) {
-            _this.titleService.setTitle(event['title']);
-            _this.pageInfo = event;
-        });
-    }
-    BreadcrumbComponent.prototype.ngOnInit = function () { };
-    BreadcrumbComponent.ctorParameters = function () { return [
-        { type: _angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"] },
-        { type: _angular_router__WEBPACK_IMPORTED_MODULE_2__["ActivatedRoute"] },
-        { type: _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["Title"] }
-    ]; };
-    __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
-        __metadata("design:type", Object)
-    ], BreadcrumbComponent.prototype, "layout", void 0);
-    BreadcrumbComponent = __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
-            selector: 'app-breadcrumb',
-            template: __webpack_require__(/*! raw-loader!./breadcrumb.component.html */ "./node_modules/raw-loader/index.js!./src/app/shared/breadcrumb/breadcrumb.component.html")
-        }),
-        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"],
-            _angular_router__WEBPACK_IMPORTED_MODULE_2__["ActivatedRoute"],
-            _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["Title"]])
-    ], BreadcrumbComponent);
-    return BreadcrumbComponent;
-}());
-
-
-
-/***/ }),
-
-/***/ "./src/app/shared/sidebar/menu-items.ts":
-/*!**********************************************!*\
-  !*** ./src/app/shared/sidebar/menu-items.ts ***!
-  \**********************************************/
-/*! exports provided: ROUTES */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ROUTES", function() { return ROUTES; });
-var ROUTES = [
-    {
-        path: '',
-        title: 'Dashboard',
-        icon: 'icon-Car-Wheel',
-        class: 'has-arrow',
-        ddclass: '',
-        extralink: false,
-        submenu: [
-            {
-                path: '/dashboard/dashboard1',
-                title: 'Dashboard 1',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/dashboard/dashboard2',
-                title: 'Dashboard 2',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/dashboard/dashboard3',
-                title: 'Dashboard 3',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            }
-        ]
-    },
-    {
-        path: '',
-        title: 'Apps',
-        icon: 'icon-Box-withFolders',
-        class: 'has-arrow',
-        ddclass: '',
-        extralink: false,
-        submenu: [
-            {
-                path: '/apps/email',
-                title: 'Email',
-                icon: 'icon-Mailbox-Empty',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/apps/ticketlist',
-                title: 'Ticket List',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/apps/ticketdetails',
-                title: 'Ticket Details',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/apps/chat',
-                title: 'Chat App',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/apps/fullcalendar',
-                title: 'Calendar',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/apps/taskboard',
-                title: 'Taskboard',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            }
-        ]
-    },
-    {
-        path: '',
-        title: 'UI',
-        icon: 'icon-Duplicate-Window',
-        class: 'has-arrow',
-        ddclass: 'mega-dropdown',
-        extralink: false,
-        submenu: [
-            {
-                path: '/component/accordion',
-                title: 'Accordion',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/component/alert',
-                title: 'Alert',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/component/carousel',
-                title: 'Carousel',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/component/dropdown',
-                title: 'Dropdown',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/component/modal',
-                title: 'Modal',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/component/pagination',
-                title: 'Pagination',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/component/poptool',
-                title: 'Popover & Tooltip',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/component/progressbar',
-                title: 'Progressbar',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/component/rating',
-                title: 'Ratings',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/component/tabs',
-                title: 'Tabs',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/component/timepicker',
-                title: 'Timepicker',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/component/buttons',
-                title: 'Button',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/component/notifier',
-                title: 'Notifier',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/cards/basiccards',
-                title: 'Basic Cards',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/cards/customcards',
-                title: 'Custom Cards',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/cards/weathercards',
-                title: 'Weather Cards',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/extra-component/toastr',
-                title: 'Toastr',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/extra-component/upload',
-                title: 'File Upload',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/extra-component/editor',
-                title: 'Editor',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/extra-component/dragndrop',
-                title: 'Drag n Drop',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/widgets/apps',
-                title: 'Widget Apps',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/widgets/data',
-                title: 'Widget Data',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            }
-        ]
-    },
-    {
-        path: '',
-        title: 'Forms',
-        icon: 'icon-File-HorizontalText',
-        class: 'has-arrow',
-        ddclass: 'two-column',
-        extralink: false,
-        submenu: [
-            {
-                path: '/forms/forminputs',
-                title: 'Form Inputs',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/forms/inputgroups',
-                title: 'Input Groups',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/forms/inputgrid',
-                title: 'Input Grid',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/forms/checkboxandradio',
-                title: 'Checkbox & Radio',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/forms/formbasic',
-                title: 'Basic Forms',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/forms/formhorizontal',
-                title: 'Horizontal Forms',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/forms/formactions',
-                title: 'Form Actions',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/forms/formrowseparator',
-                title: 'Row Separator',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/forms/formstripedrows',
-                title: 'Striped Rows',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/forms/formdetail',
-                title: 'Detail Forms',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/forms/formbasic',
-                title: 'Basic Forms',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/forms/formhorizontal',
-                title: 'Horizontal Forms',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/forms/formactions',
-                title: 'Form Actions',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/forms/formrowseparator',
-                title: 'Row Separator',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/forms/formstripedrows',
-                title: 'Striped Rows',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/forms/formdetail',
-                title: 'Detail Forms',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/forms/formvalidation',
-                title: 'Form Validation',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/forms/ngx',
-                title: 'Form Wizard / Steps',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/component/typehead',
-                title: 'Form Typehead',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/component/datepicker',
-                title: 'Datepicker',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/component/language-datepicker',
-                title: 'Language Datepicker',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/forms/multiselect',
-                title: 'Multiselect',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            }
-        ]
-    },
-    {
-        path: '',
-        title: 'Tables',
-        icon: 'icon-Navigation-LeftWindow',
-        class: 'has-arrow',
-        ddclass: '',
-        extralink: false,
-        submenu: [
-            {
-                path: '',
-                title: 'Bootstrap Tables',
-                icon: 'mdi mdi-border-none',
-                class: 'has-arrow',
-                ddclass: '',
-                extralink: false,
-                submenu: [
-                    {
-                        path: '/tables/basictables',
-                        title: 'Basic Tables',
-                        icon: 'mdi mdi-border-all',
-                        class: '',
-                        ddclass: '',
-                        extralink: false,
-                        submenu: []
-                    },
-                    {
-                        path: '/tables/darktables',
-                        title: 'Dark Basic Tables',
-                        icon: 'mdi mdi-border-all',
-                        class: '',
-                        ddclass: '',
-                        extralink: false,
-                        submenu: []
-                    },
-                    {
-                        path: '/tables/colortables',
-                        title: 'Colored Tables',
-                        icon: 'mdi mdi-border-all',
-                        class: '',
-                        ddclass: '',
-                        extralink: false,
-                        submenu: []
-                    },
-                    {
-                        path: '/tables/tablesizing',
-                        title: 'Table Sizing',
-                        icon: 'mdi mdi-border-all',
-                        class: '',
-                        ddclass: '',
-                        extralink: false,
-                        submenu: []
-                    }
-                ]
-            },
-            {
-                path: '/tables/smarttable',
-                title: 'Smart Tables',
-                icon: 'mdi mdi-border-left',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/tables/datatable',
-                title: 'Data Tables',
-                icon: 'mdi mdi-border-vertical',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            }
-        ]
-    },
-    {
-        path: '',
-        title: 'Charts',
-        icon: 'icon-Neutron',
-        class: 'has-arrow',
-        ddclass: '',
-        extralink: false,
-        submenu: [
-            {
-                path: '/charts/chartjs',
-                title: 'Chart Js',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/charts/chartistjs',
-                title: 'Chartist Js',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/charts/ngxchart',
-                title: 'Ngx Charts',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            }
-        ]
-    },
-    {
-        path: '',
-        title: 'Pages',
-        icon: 'icon-File-Hide',
-        class: 'has-arrow',
-        ddclass: 'mega-dropdown',
-        extralink: false,
-        submenu: [
-            {
-                path: '/ecom/products',
-                title: 'Products',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/ecom/cart',
-                title: 'Cart',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/ecom/edit',
-                title: 'Edit Products',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/ecom/details',
-                title: 'Product Details',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/ecom/orders',
-                title: 'Orders',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/ecom/checkout',
-                title: 'Checkout',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/maps/google',
-                title: 'Google Maps',
-                icon: 'icon-Location-2',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/authentication/login',
-                title: 'Login',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/authentication/login2',
-                title: 'Login 2',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/authentication/signup',
-                title: 'Register',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/authentication/signup2',
-                title: 'Register 2',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/authentication/404',
-                title: '404',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/authentication/lock',
-                title: 'Lockscreen',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/sample-pages/profile',
-                title: 'Profile',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/sample-pages/pricing',
-                title: 'Pricing',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/sample-pages/invoice',
-                title: 'Invoice',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/sample-pages/helperclasses',
-                title: 'Helper Classes',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/starter',
-                title: 'Starter Page',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/timeline/left',
-                title: 'Left Timeline',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/timeline/right',
-                title: 'Right Timeline',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/timeline/center',
-                title: 'Center Timeline',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/icons/fontawesome',
-                title: 'Fontawesome',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/icons/simpleline',
-                title: 'Simple Line Icons',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/icons/material',
-                title: 'Material Icons',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            },
-            {
-                path: '/icons/iconmind',
-                title: 'Iconmind Icons',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: false,
-                submenu: []
-            }
-        ]
-    },
-    {
-        path: '',
-        title: 'DD',
-        icon: 'icon-Increase-Inedit',
-        class: 'has-arrow',
-        ddclass: '',
-        extralink: false,
-        submenu: [
-            {
-                path: '',
-                title: 'Second Level',
-                icon: '',
-                class: '',
-                ddclass: '',
-                extralink: true,
-                submenu: []
-            },
-            {
-                path: '',
-                title: 'Second Child',
-                icon: '',
-                class: 'has-arrow',
-                ddclass: '',
-                extralink: false,
-                submenu: [
-                    {
-                        path: '',
-                        title: 'Third 1.1',
-                        icon: '',
-                        class: '',
-                        ddclass: '',
-                        extralink: false,
-                        submenu: []
-                    },
-                    {
-                        path: '',
-                        title: 'Third 1.2',
-                        icon: '',
-                        class: '',
-                        ddclass: '',
-                        extralink: false,
-                        submenu: []
-                    }
-                ]
-            }
-        ]
-    }
-];
-
-
-/***/ }),
-
-/***/ "./src/app/shared/sidebar/sidebar.component.ts":
-/*!*****************************************************!*\
-  !*** ./src/app/shared/sidebar/sidebar.component.ts ***!
-  \*****************************************************/
-/*! exports provided: SidebarComponent */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SidebarComponent", function() { return SidebarComponent; });
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _menu_items__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./menu-items */ "./src/app/shared/sidebar/menu-items.ts");
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
-/* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ "./node_modules/@ng-bootstrap/ng-bootstrap/fesm5/ng-bootstrap.js");
-var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (undefined && undefined.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-
-var SidebarComponent = /** @class */ (function () {
-    function SidebarComponent(modalService, router, route) {
-        this.modalService = modalService;
-        this.router = router;
-        this.route = route;
-        this.showMenu = '';
-        this.showSubMenu = '';
-    }
-    // this is for the open close
-    SidebarComponent.prototype.addExpandClass = function (element) {
-        if (element === this.showMenu) {
-            this.showMenu = '0';
-        }
-        else {
-            this.showMenu = element;
-        }
-    };
-    SidebarComponent.prototype.addActiveClass = function (element) {
-        if (element === this.showSubMenu) {
-            this.showSubMenu = '0';
-        }
-        else {
-            this.showSubMenu = element;
-        }
-    };
-    // End open close
-    SidebarComponent.prototype.ngOnInit = function () {
-        this.sidebarnavItems = _menu_items__WEBPACK_IMPORTED_MODULE_1__["ROUTES"].filter(function (sidebarnavItem) { return sidebarnavItem; });
-    };
-    SidebarComponent.ctorParameters = function () { return [
-        { type: _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_3__["NgbModal"] },
-        { type: _angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"] },
-        { type: _angular_router__WEBPACK_IMPORTED_MODULE_2__["ActivatedRoute"] }
-    ]; };
-    SidebarComponent = __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
-            selector: 'app-sidebar',
-            template: __webpack_require__(/*! raw-loader!./sidebar.component.html */ "./node_modules/raw-loader/index.js!./src/app/shared/sidebar/sidebar.component.html")
-        }),
-        __metadata("design:paramtypes", [_ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_3__["NgbModal"],
-            _angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"],
-            _angular_router__WEBPACK_IMPORTED_MODULE_2__["ActivatedRoute"]])
-    ], SidebarComponent);
-    return SidebarComponent;
 }());
 
 
@@ -1496,6 +431,9 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 };
 var __param = (undefined && undefined.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
+};
+var __importDefault = (undefined && undefined.__importDefault) || function (mod) {
+  return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 
 
@@ -1561,6 +499,9 @@ __webpack_require__.r(__webpack_exports__);
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build ---prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
+var __importDefault = (undefined && undefined.__importDefault) || function (mod) {
+  return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 var environment = {
     production: false
 };
@@ -1588,6 +529,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/platform-browser-dynamic */ "./node_modules/@angular/platform-browser-dynamic/fesm5/platform-browser-dynamic.js");
 /* harmony import */ var _app_app_module__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./app/app.module */ "./src/app/app.module.ts");
 /* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./environments/environment */ "./src/environments/environment.ts");
+var __importDefault = (undefined && undefined.__importDefault) || function (mod) {
+  return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 
 
 

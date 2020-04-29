@@ -1,6 +1,6 @@
 const TradePost = require('../../models/trade-post');
 const Client = require('../../models/client');
-const Admin = require('../../models/Admin');
+const Admin = require('../../models/admin');
 const config = require('../../config');
 
 

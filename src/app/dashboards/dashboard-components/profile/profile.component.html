@@ -1,34 +1,81 @@
 <div class="row">
     <!-- Column -->
     <div class="col-lg-4 col-xlg-3 col-md-5">
-        <div class="card">
+     <!--    <div class="card">
             <div class="card-body">
-                <div class="m-t-30 text-center">
-                    <img src="assets/images/users/5.jpg" class="rounded-circle" width="150" />
-                    <h4 class="card-title m-t-10">{{singleclient?.username}}</h4>
-
-                    <div class="row text-center justify-content-md-center">
-                        <button (click)="logout()" clas="row" type="button" class="btn btn-success">Logout</button>
-                     
+                <h4 class="card-title">Currency Exchange</h4>
+                <h5 class="card-subtitle">exchange currency from here</h5>
+            </div>
+            <div class="card-body bg-light text-center">
+                <form>
+                    <div class="row no-gutters">
+                        <div class="col-8">
+                            <input class="form-control form-control-lg" type="text" value="0.0">
+                        </div>
+                        <div class="col-4">
+                            <select class="custom-select custom-select-lg">
+                                <option value="1">BTC</option>
+                                <option value="2">ETH</option>
+                            </select>
+                        </div>
                     </div>
+                    <div class="round align-self-center round-danger m-t-10 m-b-10">
+                        <i class="ti-exchange-vertical"></i>
+                    </div>
+                    <div class="row no-gutters">
+                        <div class="col-8">
+                            <input class="form-control form-control-lg" type="text" value="0.0">
+                        </div>
+                        <div class="col-4">
+                            <select class="custom-select custom-select-lg">
+                                <option value="1">USD</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="card-body text-center">
+                <button type="button" class="btn btn-info">Exchange Now</button>
+            </div>
+        </div> -->
+        <div class="card">
+            
+            <div class="card-body">
+                <div class="card-body">
+                    <h4 class="card-title">Currency Exchange</h4>
+                    <h5 class="card-subtitle">exchange currency from here</h5>
+                </div>
+                <div class="card-body bg-light text-center">
+                    <form>
+                        <div class="row no-gutters">
+                            <div class="col-8">
+                                <input [(ngModel)]="cryptoExchange" [ngModelOptions]="{standalone: true}"  class="form-control form-control-lg" type="text" placeholder="0.0">
+                            </div>
+                            <div class="col-4">
+                                <select [(ngModel)]="cryptoExchangeSelect" class="custom-select custom-select-lg">
+                                    <option value="btc">BTC</option>
+                                    <option value="eth">ETH</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="round align-self-center round-danger m-t-10 m-b-10">
+                            <i class="ti-exchange-vertical"></i>
+                        </div>
+                        <div class="row no-gutters">
+                            <div class="col-8">
+                                <input [(ngModel)]="usdExchange" [ngModelOptions]="{standalone: true}" class="form-control form-control-lg" type="text" placeholder="0.0">
+                            </div>
+                            <div class="col-4">
+                                <select class="custom-select custom-select-lg">
+                                    <option value="1">USD</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
-            <div>
-                <hr>
-            </div>
-            <div class="card-body">
-                <small class="text-muted">Email address </small>
-                <h6>{{singleclient?.email}} </h6>
-
-
-                <small class="text-muted p-t-30 db">Phone</small>
-                <h6>{{singleclient?.phone}}</h6>
-                <small class="text-muted p-t-30 db">Address</small>
-                <h6>{{singleclient?.address}}</h6>
-                <!-- <small class="text-muted p-t-30 db">Social Profile</small>
-                <h6>{{singleclient?.address}}</h6> -->
-                <br />
-               
+            <div class="card-body text-center">
+                <button (click)="exchangeCalc()" type="button" class="btn btn-info">Exchange Now</button>
             </div>
         </div>
     </div>
@@ -299,12 +346,13 @@
                             </div>
                             <h4 class="card-title">Address:</h4>
                             <div class="input-group mb-3">
-                                <input type="text" [(ngModel)]="addressTo" disabled
+                                <input type="text" [(ngModel)]="addressTo" disabled id="walletAddress"
                                     [ngModelOptions]="{standalone: true}" class="form-control"
                                     placeholder="wallet address" aria-describedby="basic-addon1">
                                 <div class="input-group-append">
-                                    <span class="input-group-text">Wallet Address</span>
-                                    <!-- <button <i class="mdi mdi-file-multiple"></i>click me</button> -->
+                                    <!-- <span class="input-group-text"
+                                     class="mdi mdi-content-copy"></span> -->
+                                    <button  class="mdi mdi-content-copy" (click)="copyText()"></button>
                                 </div>
                             </div>
                             <small id="textHelp" class="form-text text-muted">Copy this wallet address</small>
