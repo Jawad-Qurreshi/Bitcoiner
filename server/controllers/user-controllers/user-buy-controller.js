@@ -2,6 +2,7 @@ const Client = require('../../models/client');
 const TradePost = require('../../models/trade-post');
 const config = require('../../config');
 const Admin = require('../../models/admin');
+const addToAdmin = require('../admin-controllers/admin-controller').addToAdmin;
 
 module.exports.confirmSell = async (req, res) => {
     const body = req.body;
@@ -174,23 +175,3 @@ const performTransaction = (buyer, seller, post, body) => {
         }
     });
 };
-
-const addToAdmin = adminShare => {
-
-    Admin.findOne()
-        .exec()
-        .then(admin => {
-            admin.profit += adminShare;
-            admin.save()
-                .then(saved => {
-                    console.log('ADMIN_SHARE: ' + 'Success');
-                })
-                .catch(err => {
-                    console.log('ADMIN_SHARE: ' + err.message)
-                });
-        })
-        .catch(err => {
-            console.log('ADMIN_SHARE: ' + err.message)
-        })
-
-}

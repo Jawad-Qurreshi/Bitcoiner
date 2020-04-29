@@ -18,7 +18,7 @@ module.exports = {
         USER: 'moviecon3327@gmail.com',
         PASS: '03105593105'
     },
-    min: 0,
+    min: 20,
     profit: {
         TRADE: 1,
         WITHDRAW: 0.9,

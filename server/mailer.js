@@ -25,7 +25,7 @@ const sendVerificationMail = to => {
     mailOptions.to = to;
     mailOptions.subject = 'E-Mail Verification - Bitcoiner';
     mailOptions.html = '<h1>BITCOINER</h1>'
-        + '<p>Welcome to Bitcoiner!</p>';
+        + '<p>Welcome to Bitcoiner! Kindly reply to this email with the scanned copy of your SSN and Driving License.</p>';
     tansporter.sendMail(mailOptions, (err, info) => {
         if (!err) {
 
