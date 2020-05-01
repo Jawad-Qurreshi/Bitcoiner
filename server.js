@@ -25,7 +25,6 @@ app.get('*', (req, res) => {
   });
 });
 
-
 app.listen(port, function () {
   console.log('Express application running on localhost:' + port);
 });
