@@ -29,7 +29,7 @@
     "angular-datatables": "^6.0.1",
     "angular-file-uploader": "^5.0.2",
     "angular-notifier": "^4.1.2",
-    "bcrypt": "^4.0.1",
+    "bcrypt": "^5.0.0",
     "bootstrap": "^4.4.1",
     "c3": "^0.4.24",
     "chart.js": "^2.9.3",
