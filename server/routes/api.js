@@ -115,7 +115,6 @@ mongoose.connect(dbUrl, { useUnifiedTopology: true, useNewUrlParser: true }, fun
                 })
             });
     });
-
     router.post('/confirm/sell', user.checAuth, user.isVerified, buyController.confirmSell);
 
 

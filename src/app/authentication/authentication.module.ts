@@ -21,7 +21,11 @@ import { AdminLockComponent } from './Admin-lock/lock.component'
     NgbModule,
     NgZorroAntdModule
   ],
-  declarations: [NotfoundComponent,AdminLockComponent, LockComponent, LoginComponent, SignupComponent]
+  declarations: [NotfoundComponent,
+    AdminLockComponent, 
+    LockComponent,
+    LoginComponent,
+     SignupComponent]
 })
 export class AuthenticationModule {}
 
