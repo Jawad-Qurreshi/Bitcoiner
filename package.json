@@ -37,7 +37,7 @@
     "core-js": "^2.6.11",
     "cors": "^2.8.5",
     "d3": "^4.8.0",
-    "datatables.net": "^1.10.20",
+    "datatables.net": "^1.10.22",
     "datatables.net-dt": "^1.10.20",
     "express": "^4.17.1",
     "jquery": "^3.4.1",
